@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.springframework.social.oauth1;
 
-rootProject.name = 'spring-social'
 
-include 'docs'
-include 'spring-social-core'
-include 'spring-social-facebook'
-include 'spring-social-linkedin'
-include 'spring-social-oauth'
-include 'spring-social-tripit'
-include 'spring-social-twitter'
+/**
+ * @author Craig Walls
+ */
+public class ScribeOAuth1RequestSignerTest extends AbstractOAuth1RequestSignerTest {
+	public OAuth1ClientRequestSigner getSigner() {
+		return new ScribeOAuth1RequestSigner("API_KEY", "API_SECRET", "TOKEN_VALUE", "TOKEN_SECRET");
+	}
+}

@@ -13,13 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.springframework.social.facebook;
 
-rootProject.name = 'spring-social'
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-include 'docs'
-include 'spring-social-core'
-include 'spring-social-facebook'
-include 'spring-social-linkedin'
-include 'spring-social-oauth'
-include 'spring-social-tripit'
-include 'spring-social-twitter'
+/**
+ * Annotation that indicates to {@link FacebookWebArgumentResolver} that a
+ * controller method parameter should be bound to the user's Facebook ID,
+ * assuming that user has signed in with Facebook.
+ * 
+ * @author Craig Walls
+ */
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface FacebookUserId {
+
+}

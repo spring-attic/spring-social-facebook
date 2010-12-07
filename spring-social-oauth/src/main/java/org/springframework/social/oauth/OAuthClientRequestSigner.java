@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.springframework.social.oauth;
 
-rootProject.name = 'spring-social'
+import java.util.Map;
 
-include 'docs'
-include 'spring-social-core'
-include 'spring-social-facebook'
-include 'spring-social-linkedin'
-include 'spring-social-oauth'
-include 'spring-social-tripit'
-include 'spring-social-twitter'
+import org.springframework.http.client.ClientHttpRequest;
+
+/**
+ * Strategy interface for signing a client request with the necessary
+ * information for it to be OAuth-authenticated. Implementations of this
+ * interface will vary for different versions of OAuth.
+ * 
+ * @author Craig Walls
+ */
+public interface OAuthClientRequestSigner {
+	void sign(ClientHttpRequest request, Map<String, String> bodyParameters);
+}
