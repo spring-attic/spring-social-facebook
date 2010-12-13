@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.springframework.social.oauth1;
 
-rootProject.name = 'spring-social'
+import org.springframework.social.core.SocialException;
 
-include 'docs'
-include 'spring-social-connect'
-include 'spring-social-core'
-include 'spring-social-facebook'
-include 'spring-social-linkedin'
-include 'spring-social-oauth'
-include 'spring-social-tripit'
-include 'spring-social-twitter'
+/**
+ * @author Craig Walls
+ */
+public class MissingOAuthLibraryException extends SocialException {
+    private static final long serialVersionUID = 1L;
+	
+	public MissingOAuthLibraryException(String message) {
+		super(message);
+	}
+}
