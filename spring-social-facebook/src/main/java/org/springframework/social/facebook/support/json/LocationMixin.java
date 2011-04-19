@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +15,33 @@
  */
 package org.springframework.social.facebook.support.json;
 
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.springframework.social.facebook.types.Comment;
 
 /**
- * Holder class to hold a typed list of Comments, pulled from the "data" field of the JSON object structure.
- * This helps Jackson know what type to deserialize list data into. 
+ * Annotated mixin to add Jackson annotations to Location. 
  * @author Craig Walls
  */
-@JsonIgnoreProperties("count")
-public class CommentList {
-	private final List<Comment> list;
-
+abstract class LocationMixin {
+	
 	@JsonCreator
-	public CommentList(@JsonProperty("data") List<Comment> list) {
-		this.list = list;
-	}
+	LocationMixin(
+			@JsonProperty("latitude") double latitude, 
+			@JsonProperty("longitude") double longitude) {}
+	
+	@JsonProperty("street")
+	String street;
 
-	public List<Comment> getList() {
-		return list;
-	}
+	@JsonProperty("city")
+	String city;
+
+	@JsonProperty("state")
+	String state;
+
+	@JsonProperty("country")
+	String country;
+
+	@JsonProperty("zip")
+	String zip;
+
 }

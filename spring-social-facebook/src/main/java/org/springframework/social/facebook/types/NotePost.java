@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2010 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.support.json;
+package org.springframework.social.facebook.types;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.springframework.social.facebook.types.Location;
+import java.util.Date;
 
 /**
- * Annotated mixin to add Jackson annotations to Place. 
+ * Model class representing a note Post to a user's wall.
  * @author Craig Walls
  */
-abstract class PlaceMixin {
-
-	@JsonCreator
-	PlaceMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("location") Location location) {}
+public class NotePost extends Post {
 	
+	private String subject;
+	
+	public NotePost(String id, Reference from, Date createdTime, Date updatedTime) {
+		super(id, from, createdTime, updatedTime);
+	}
+	
+	public String getSubject() {
+		return subject;
+	}
 }

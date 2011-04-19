@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2010 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,47 +16,30 @@
 package org.springframework.social.facebook.types;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.social.facebook.support.json.TagList;
 
 /**
- * Model class representing a tagged user in a video, photo, or checkin. 
+ * Model class representing a Post announcing a Video to a feed. This is not the Video itself.
+ * To get the Video object, get the video's ID by calling getVideoId() then pass it to MediaOperations.getVideo(videoId).
  * @author Craig Walls
  */
-public class Tag {
-	private final String id;
-
-	private final String name;
+public class VideoPost extends Post {
 	
-	private final Integer x;
+	private String videoId;
 	
-	private final Integer y;
+	private TagList tags;
 	
-	private final Date createdTime;
+	public VideoPost(String id, Reference from, Date createdTime, Date updatedTime) {
+		super(id, from, createdTime, updatedTime);
+	}
 	
-	public String getId() {
-		return id;
+	public String getVideoId() {
+		return videoId;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Integer getX() {
-		return x;
-	}
-
-	public Integer getY() {
-		return y;
-	}
-
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public Tag(String id, String name, Integer x, Integer y, Date createdTime) {
-		this.id = id;
-		this.name = name;
-		this.x = x;
-		this.y = y;
-		this.createdTime = createdTime;			
+	
+	public List<Tag> getTags() {
+		return tags.getList();
 	}
 }
