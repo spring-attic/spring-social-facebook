@@ -3,9 +3,9 @@
     xmlns:xi="http://www.w3.org/2001/XInclude"
     xmlns:xlink="http://www.w3.org/1999/xlink">
   <bookinfo>
-    <title>Spring Social Reference Manual</title>
-    <titleabbrev>Spring Social ${version}</titleabbrev>
-    <productname>Spring Social</productname>
+    <title>Spring Social Facebook Reference Manual</title>
+    <titleabbrev>Spring Social Facebook ${version}</titleabbrev>
+    <productname>Spring Social Facebook</productname>
     <releaseinfo>${version}</releaseinfo>
 
     <!-- TODO: this isn't showing up. -->
@@ -37,9 +37,5 @@
   <toc></toc>
   
     <xi:include href="./overview.xml"/>
-    <xi:include href="./serviceprovider.xml"/>
-    <xi:include href="./implementing.xml"/>
-    <xi:include href="./connecting.xml"/>
-    <xi:include href="./signin.xml" />
     <xi:include href="./apis.xml" />
 </book>
