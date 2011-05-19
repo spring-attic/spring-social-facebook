@@ -18,3 +18,4 @@ rootProject.name = 'spring-social-facebook'
 
 include 'docs'
 include 'spring-social-facebook'
+include 'spring-social-facebook-web'

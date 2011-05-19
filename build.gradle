@@ -140,9 +140,16 @@ project('spring-social-facebook') {
     dependencies {
         compile "org.springframework.social:spring-social-core:$springSocialVersion"
         compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
+        testCompile "org.springframework.social:spring-social-test:$springSocialVersion"
+    }
+}
+
+project('spring-social-facebook-web') {
+    description = 'Facebook Web'
+    dependencies {
+        compile ("org.springframework:spring-web:$springVersion")
         compile ("javax.servlet:servlet-api:$servletApiVersion") { provided = true }
         compile ("javax.servlet.jsp:jsp-api:$jspApiVersion") { provided = true }
-        testCompile "org.springframework.social:spring-social-test:$springSocialVersion"
     }
 }
 
