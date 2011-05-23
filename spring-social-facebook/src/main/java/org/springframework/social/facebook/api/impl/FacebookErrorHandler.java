@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.http.HttpStatus;
@@ -87,13 +88,21 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		
 	}
 
+	/*
+	 * Attempts to extract Facebook error details from the response.
+	 * Returns null if the response doesn't match the expected JSON error response.
+	 */
 	@SuppressWarnings("unchecked")
 	private Map<String, String> extractErrorDetailsFromResponse(ClientHttpResponse response) throws IOException {
-		ObjectMapper mapper = new ObjectMapper(new JsonFactory());
-	    Map<String, Object> responseMap = mapper.<Map<String, Object>>readValue(response.getBody(), new TypeReference<Map<String, Object>>() {});
-	    if(responseMap.containsKey("error")) {
-	    	return (Map<String, String>) responseMap.get("error");
-	    }
+		ObjectMapper mapper = new ObjectMapper(new JsonFactory());		
+		try {
+		    Map<String, Object> responseMap = mapper.<Map<String, Object>>readValue(response.getBody(), new TypeReference<Map<String, Object>>() {});
+		    if(responseMap.containsKey("error")) {
+		    	return (Map<String, String>) responseMap.get("error");
+		    }
+		} catch (JsonParseException e) {
+			return null;
+		}
 	    return null;
 	}
 }

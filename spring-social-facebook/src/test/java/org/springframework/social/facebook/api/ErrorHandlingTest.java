@@ -26,6 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.social.BadCredentialsException;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.test.client.MockRestServiceServer;
+import org.springframework.web.client.HttpClientErrorException;
 
 public class ErrorHandlingTest extends AbstractFacebookApiTest {
 
@@ -115,6 +116,16 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		} catch (BadCredentialsException e) {
 			assertEquals("An active access token must be used to query information about the current user.", e.getMessage());
 		}						
+	}
+	
+	@Test(expected=HttpClientErrorException.class)
+	public void htmlErrorResponse() {
+		FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
+		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+		mockServer.expect(requestTo("https://graph.facebook.com/me/picture?type=normal"))
+			.andExpect(method(GET))
+			.andRespond(withResponse(new ClassPathResource("testdata/error-not-json.html", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.userOperations().getUserProfileImage();
 	}
 	
 }
