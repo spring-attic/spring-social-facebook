@@ -36,7 +36,9 @@ class CommentListDeserializer extends JsonDeserializer<List<Comment>> {
 		jp.setCodec(mapper);
 		if(jp.hasCurrentToken()) {
 			JsonNode dataNode = jp.readValueAsTree().get("data");
-			return (List<Comment>) mapper.readValue(dataNode, new TypeReference<List<Comment>>() {});
+			if(dataNode != null) {
+				return (List<Comment>) mapper.readValue(dataNode, new TypeReference<List<Comment>>() {});
+			}
 		}
 		
 		return null;

@@ -94,7 +94,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse(new ClassPathResource("testdata/user-statuses.json", getClass()), responseHeaders));		
 		assertStatuses(facebook.feedOperations().getStatuses("24680"));
 	}
-
+	
 	private void assertStatuses(List<StatusPost> statuses) {
 		assertEquals(3, statuses.size());
 		assertEquals("161195833936659", statuses.get(0).getId());
