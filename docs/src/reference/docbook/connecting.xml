@@ -3,16 +3,17 @@
 		xmlns:xlink="http://www.w3.org/1999/xlink">
 	<title>Configuring Facebook Connectivity</title>		
 
-		<para>
-			Spring Social's <classname>ConnectController</classname> works with one or more provider-specific <classname>ConnectionFactory</classname>s to exchange authorization details with the provider and to create connections. 
-			Spring Social Facebook provides <classname>FacebookConnectionFactory</classname>, a <classname>ConnectionFactory</classname> for creating connections with Facebook.
-        </para>
+	<para>
+		Spring Social's <classname>ConnectController</classname> works with one or more provider-specific <classname>ConnectionFactory</classname>s to exchange authorization details with the provider and to create connections. 
+		Spring Social Facebook provides <classname>FacebookConnectionFactory</classname>, a <classname>ConnectionFactory</classname> for creating connections with Facebook.
+	</para>
 
-		<para>
-			So that <classname>ConnectController</classname> can find <classname>FacebookConnectionFactory</classname>, it must be registered with a <classname>ConnectionFactoryRegistry</classname>.
-			The following class constructs a <classname>ConnectionFactoryRegistry</classname> containing a <interfacename>ConnectionFactory</interfacename> for Facebook using Spring's Java configuration style: 		
-		</para>
-		<programlisting language="java"><![CDATA[
+	<para>
+		So that <classname>ConnectController</classname> can find <classname>FacebookConnectionFactory</classname>, it must be registered with a <classname>ConnectionFactoryRegistry</classname>.
+		The following class constructs a <classname>ConnectionFactoryRegistry</classname> containing a <interfacename>ConnectionFactory</interfacename> for Facebook using Spring's Java configuration style: 		
+	</para>
+	
+	<programlisting language="java"><![CDATA[
 @Configuration
 public class ConnectionFactoryConfig {
 	
@@ -31,18 +32,19 @@ public class ConnectionFactoryConfig {
 	
 }
 ]]></programlisting>
-		<para>
-			Here, a Facebook connection factory is registered with <classname>ConnectionFactoryRegistry</classname> via the <methodname>addConnectionFactory()</methodname> method.
-			If we wanted to add support for connecting to other providers, we would simply register their connection factories here in the same way as <classname>FacebookConnectionFactory</classname>.
-			Because consumer keys and secrets may be different across environments (e.g., test, production, etc) it is recommended that these values be externalized.
-			Therefore, they are wired in with <code>@Value</code> as property placeholder values to be resolved by Spring's property placeholder support.
-		</para>	
-
-		<para>
-			Optionally, you may also configure <classname>ConnectionFactoryRegistry</classname> and <classname>FacebookConnectionFactory</classname> in XML:
-		</para>
 		
-		<programlisting language="xml"><![CDATA[
+	<para>
+		Here, a Facebook connection factory is registered with <classname>ConnectionFactoryRegistry</classname> via the <methodname>addConnectionFactory()</methodname> method.
+		If we wanted to add support for connecting to other providers, we would simply register their connection factories here in the same way as <classname>FacebookConnectionFactory</classname>.
+		Because consumer keys and secrets may be different across environments (e.g., test, production, etc) it is recommended that these values be externalized.
+		Therefore, they are wired in with <code>@Value</code> as property placeholder values to be resolved by Spring's property placeholder support.
+	</para>	
+
+	<para>
+		Optionally, you may also configure <classname>ConnectionFactoryRegistry</classname> and <classname>FacebookConnectionFactory</classname> in XML:
+	</para>
+		
+	<programlisting language="xml"><![CDATA[
 <bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
     <property name="connectionFactories">
         <list>
@@ -53,15 +55,15 @@ public class ConnectionFactoryConfig {
         </list>
     </property>
 </bean>]]>
-		</programlisting>	
+	</programlisting>	
 
-		<para>
-			This is functionally equivalent to the Java-based configuration of <classname>ConnectionFactoryRegistry</classname> shown before.
-			The only casual difference is that the connection factories are injected as a list into the <code>connectionFactories</code> property rather than with the <methodname>addConnectionFactory()</methodname> method.
-		</para>	
+	<para>
+		This is functionally equivalent to the Java-based configuration of <classname>ConnectionFactoryRegistry</classname> shown before.
+		The only casual difference is that the connection factories are injected as a list into the <code>connectionFactories</code> property rather than with the <methodname>addConnectionFactory()</methodname> method.
+	</para>	
 		
-        <para>
-            Refer to <ulink url="http://static.springsource.org/spring-social/docs/1.0.x/reference/html/connecting.html">Spring Social's reference documentation</ulink> for complete details on configuring <classname>ConnectController</classname> and its dependencies.
-        </para>
+	<para>
+		Refer to <ulink url="http://static.springsource.org/spring-social/docs/1.0.x/reference/html/connecting.html">Spring Social's reference documentation</ulink> for complete details on configuring <classname>ConnectController</classname> and its dependencies.
+	</para>
 		
 </chapter>

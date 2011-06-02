@@ -38,5 +38,5 @@
   
     <xi:include href="./overview.xml"/>
     <xi:include href="./connecting.xml"/>
-    <xi:include href="./apis.xml" />
+    <xi:include href="./api.xml" />
 </book>

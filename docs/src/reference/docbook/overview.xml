@@ -1,52 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="overview"
     xmlns:xlink="http://www.w3.org/1999/xlink">
-  <title>Spring Social Facebook Overview</title>
+	
+	<title>Spring Social Facebook Overview</title>
 
-  <section id="overview-introduction">
-    <title>Introduction</title>
+	<section id="overview-introduction">
+		<title>Introduction</title>
 
-    <para>
-	    The Spring Social Facebook project is an extension to <ulink url="http://www.springframework.org/spring-social">Spring Social</ulink> that enables integration with Facebook.
-	</para>
-  </section>
+		<para>
+			The Spring Social Facebook project is an extension to <ulink url="http://www.springframework.org/spring-social">Spring Social</ulink> that enables integration with Facebook.
+		</para>
+		
+		<para>
+			With over 700 million users (and growing), <ulink url="http://www.facebook.com">Facebook</ulink> is the largest online social network.
+			While bringing together friends and family, Facebook also offers a rich platform on which to develop applications.
+		</para>
+		
+		<para>
+			Spring Social Facebook enables integration with Facebook with <classname>FacebookConnectionFactory</classname>, a connection factory that can be plugged into Spring Social's service provider connection framework, and with an API binding to Facebook's REST API.
+		</para>
+		
+	</section>
 
-  <section id="overview-howtoget">
-    <title>How to get</title>
+	<section id="overview-howtoget">
+		<title>How to get</title>
 
-    <para>
-        The following Maven dependency will add Spring Social Facebook to your project:
-	</para>
+		<para>
+			The following Maven dependency will add Spring Social Facebook to your project:
+		</para>
 
-    <programlisting language="xml"><![CDATA[
+		<programlisting language="xml"><![CDATA[
 <dependency>
   <groupId>org.springframework.social</groupId>
   <artifactId>spring-social-facebook</artifactId>
   <version>${org.springframework.social-facebook-version}</version>
 </dependency>]]>
-    </programlisting>
+		</programlisting>
 
-    <para>
-	    As an extension to Spring Social, Spring Social Facebook depends on Spring Social. 
-	    Spring Social's core module will be transitively resolved from the Spring Social Facebook dependency.
-        If you'll be using Spring Social's web module, you'll need to add that dependency yourself:
-	</para>
+		<para>
+			As an extension to Spring Social, Spring Social Facebook depends on Spring Social. 
+			Spring Social's core module will be transitively resolved from the Spring Social Facebook dependency.
+			If you'll be using Spring Social's web module, you'll need to add that dependency yourself:
+		</para>
 
-    <programlisting language="xml"><![CDATA[
+		<programlisting language="xml"><![CDATA[
 <dependency>
   <groupId>org.springframework.social</groupId>
   <artifactId>spring-social-web</artifactId>
   <version>${org.springframework.social-version}</version>
 </dependency>]]>
-    </programlisting>
+		</programlisting>
 
-    <para>
-	    Note that Spring Social Facebook may release on a different schedule than Spring Social.
-	    Consequently, Spring Social's version may differ from that of Spring Social Facebook.
-	</para>
+		<para>
+			Note that Spring Social Facebook may release on a different schedule than Spring Social.
+			Consequently, Spring Social's version may differ from that of Spring Social Facebook.
+		</para>
 
-	<para>
-		Consult <ulink url="http://static.springsource.org/spring-social/docs/1.0.x/reference/html/overview.html#overview-howtoget">Spring Social's reference documentation</ulink> for more information on Spring Social dependencies.
-	</para>
-  </section>
+		<para>
+			Consult <ulink url="http://static.springsource.org/spring-social/docs/1.0.x/reference/html/overview.html#overview-howtoget">Spring Social's reference documentation</ulink> for more information on Spring Social dependencies.
+		</para>
+	</section>
+	
 </chapter>
