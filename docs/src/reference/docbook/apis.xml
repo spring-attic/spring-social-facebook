@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="apis" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<title>Working with Service Provider APIs</title>
+	<title>Facebook API Binding</title>
   
-	<section xml:id="section_api_facebook">
-		<title>Facebook</title>
-
 		<para>
 			Spring Social's <interfacename>Facebook</interfacename> and its implementation, <classname>FacebookTemplate</classname> provide the operations needed to interact with Facebook on behalf of a user.
 			Creating an instance of <classname>FacebookTemplate</classname> is as simple as constructing it by passing in an authorized access token to the constructor:
@@ -16,7 +13,7 @@ Facebook facebook = new FacebookTemplate(accessToken);]]>
       </programlisting>
 
 		<para>
-			If you are using Spring Social's service provider framework, as described in <xref linkend="serviceprovider"/>, you can get an instance of <interfacename>Facebook</interfacename> via a <interfacename>Connection</interfacename>. 
+			If you are using Spring Social's <ulink url="http://static.springsource.org/spring-social/docs/1.0.x/reference/html/serviceprovider.html">service provider framework</ulink> you can get an instance of <interfacename>Facebook</interfacename> from a <interfacename>Connection</interfacename>. 
 			For example, the following snippet calls <methodname>getApi()</methodname> on a connection to retrieve a <interfacename>Facebook</interfacename>:
 		</para>				
 		
@@ -312,7 +309,6 @@ List<Post> feed = facebook.feedOperations().getFeed("habuma");]]>
 			<para>
 				The <classname>Post</classname>'s <methodname>getType()</methodname> method identifies the type of <classname>Post</classname>.
 			</para>			
-		</section>		
 	</section>
 
 </chapter>

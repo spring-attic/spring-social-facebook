@@ -37,5 +37,6 @@
   <toc></toc>
   
     <xi:include href="./overview.xml"/>
+    <xi:include href="./connecting.xml"/>
     <xi:include href="./apis.xml" />
 </book>
