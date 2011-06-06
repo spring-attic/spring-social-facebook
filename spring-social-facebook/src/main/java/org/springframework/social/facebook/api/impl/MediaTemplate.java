@@ -56,12 +56,6 @@ class MediaTemplate implements MediaOperations {
 		return createAlbum("me", name, description);
 	}
 	
-	// TODO: Expose this method once we figure out how to use alternate access tokens.
-	//       That is, this method only makes sense when creating albums for something
-	//       other than the authenticated user (a group, for example). To do that, you'd
-	//       need to use an access token for that group...not the access token for the user.
-	//       You can get those tokens via the /{user}/accounts...but the question is
-	//       how to best design the API to use these.
 	public String createAlbum(String ownerId, String name, String description) {
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("name", name);

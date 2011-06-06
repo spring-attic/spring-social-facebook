@@ -17,8 +17,6 @@ package org.springframework.social.facebook.api;
 
 import org.springframework.social.SocialException;
 
-// TODO: Consider a better name for this exception
-
 /**
  * Exception thrown when attempting to perform operation on a resource that must be owned by the authenticated user,
  * but is not. For example, attempting to delete someone else's friendlist.
