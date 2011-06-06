@@ -1,9 +1,11 @@
-Spring Social Facebook 1.0.0 RC1 (May ??, 2011)
+Spring Social Facebook 1.0.0 RC1 (June 7, 2011)
 ===============================================
   * Spring Social Facebook extracted into a standalone project that can
-    evolve and release independent of Spring Social releases.
+    progress and release independent of Spring Social releases.
   * More API bindings:
     * Upload photos and videos
     * Fan pages, including posting to a page's feed as the page
       administrator.
 
+Refer to Spring Social's changelog for a history of the Facebook module
+prior to it being extracted into its own project.
