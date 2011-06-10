@@ -29,11 +29,12 @@ import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class PageTemplate implements PageOperations {
+class PageTemplate extends AbstractFacebookOperations implements PageOperations {
 
 	private final GraphApi graphApi;
 
-	public PageTemplate(GraphApi graphApi) {
+	public PageTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
 	}
 
@@ -42,10 +43,12 @@ class PageTemplate implements PageOperations {
 	}
 
 	public boolean isPageAdmin(String pageId) {
+		requireUserAuthorization();
 		return getAccount(pageId) != null;
 	}
 	
 	public String post(String pageId, String message) {
+		requireUserAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("message", message);
@@ -54,6 +57,7 @@ class PageTemplate implements PageOperations {
 	}
 	
 	public String post(String pageId, String message, FacebookLink link) {
+		requireUserAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("link", link.getLink());
@@ -70,6 +74,7 @@ class PageTemplate implements PageOperations {
 	}
 	
 	public String postPhoto(String pageId, String albumId, Resource photo, String caption) {
+		requireUserAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);

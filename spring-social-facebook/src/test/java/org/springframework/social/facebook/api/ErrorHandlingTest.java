@@ -114,7 +114,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			facebook.userOperations().getUserProfile();
 			fail("Expected BadCredentialsException when fetching an unknown object alias");
 		} catch (BadCredentialsException e) {
-			assertEquals("An active access token must be used to query information about the current user.", e.getMessage());
+			assertEquals("User authorization required: FacebookTemplate must be created with an access token to perform this operation.", e.getMessage());
 		}						
 	}
 	
@@ -122,10 +122,10 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	public void htmlErrorResponse() {
 		FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo("https://graph.facebook.com/me/picture?type=normal"))
+		mockServer.expect(requestTo("https://graph.facebook.com/123456/picture?type=normal"))
 			.andExpect(method(GET))
 			.andRespond(withResponse(new ClassPathResource("testdata/error-not-json.html", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
-		facebook.userOperations().getUserProfileImage();
+		facebook.userOperations().getUserProfileImage("123456");
 	}
 	
 }

@@ -17,6 +17,9 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
+import org.springframework.social.BadCredentialsException;
+import org.springframework.social.ProviderApiException;
+
 
 /**
  * Defines operations for retrieving data about groups and group members.
@@ -28,6 +31,7 @@ public interface GroupOperations {
 	 * Retrieve data for a specified group.
 	 * @param groupId the ID of the group
 	 * @return a {@link Group} object
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	Group getGroup(String groupId);
 	
@@ -35,6 +39,7 @@ public interface GroupOperations {
 	 * Retrieves a group's image as an array of bytes. Returns the image in Facebook's "normal" type.
 	 * @param groupId the group ID
 	 * @return an array of bytes containing the group's image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	byte[] getGroupImage(String groupId);
 
@@ -43,6 +48,7 @@ public interface GroupOperations {
 	 * @param groupId the group ID
 	 * @param imageType the image type (eg., small, normal, large. square)
 	 * @return an array of bytes containing the group's image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	byte[] getGroupImage(String groupId, ImageType imageType);
 	
@@ -50,6 +56,8 @@ public interface GroupOperations {
 	 * Retrieves the members of the specified group.
 	 * @param groupId the ID of the group
 	 * @return a list of {@link Reference}s, one for each member of the group.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<GroupMemberReference> getMembers(String groupId);
 
@@ -57,6 +65,8 @@ public interface GroupOperations {
 	 * Retrieves the profiles for the members of the specified group.
 	 * @param groupId the ID of the group
 	 * @return a list of {@link FacebookProfile}s, one for each member of the group.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<FacebookProfile> getMemberProfiles(String groupId);
 	
@@ -64,6 +74,7 @@ public interface GroupOperations {
 	 * Search for groups.
 	 * @param query the search query (e.g., "Spring User Group")
 	 * @return a list of {@link Group}s matching the search query
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	List<Group> search(String query);
 }

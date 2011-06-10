@@ -17,6 +17,9 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
+import org.springframework.social.BadCredentialsException;
+import org.springframework.social.ProviderApiException;
+
 
 /**
  * Defines operations for reading and posting comments to Facebook.
@@ -28,6 +31,7 @@ public interface CommentOperations {
 	 * Retrieves all comments for a given object.
 	 * @param objectId the objectId
 	 * @return a list of {@link Comment}s for the specified object
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	List<Comment> getComments(String objectId);
 	
@@ -35,6 +39,7 @@ public interface CommentOperations {
 	 * Retrieves a single comment
 	 * @param commentId the comment ID
 	 * @return the requested {@link Comment}
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	Comment getComment(String commentId);
 	
@@ -43,12 +48,16 @@ public interface CommentOperations {
 	 * @param objectId the object ID
 	 * @param message the comment message
 	 * @return the new comment's ID
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String addComment(String objectId, String message);
 
 	/**
 	 * Delete a comment
 	 * @param commentId the comment ID
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteComment(String commentId);
 
@@ -56,6 +65,7 @@ public interface CommentOperations {
 	 * Retrieve a list of references to users who have liked a given object.
 	 * @param objectId
 	 * @return a list of {@link Reference}s
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	List<Reference> getLikes(String objectId);
 

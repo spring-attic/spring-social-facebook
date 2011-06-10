@@ -17,6 +17,9 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
+import org.springframework.social.BadCredentialsException;
+import org.springframework.social.ProviderApiException;
+
 
 
 public interface UserOperations {
@@ -24,6 +27,8 @@ public interface UserOperations {
 	/**
 	 * Retrieves the profile for the authenticated user.
 	 * @return the user's profile information.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	FacebookProfile getUserProfile();
 	
@@ -31,12 +36,15 @@ public interface UserOperations {
 	 * Retrieves the profile for the specified user.
 	 * @param userId the Facebook user ID to retrieve profile data for.
 	 * @return the user's profile information.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	FacebookProfile getUserProfile(String userId);
 
 	/**
 	 * Retrieves the user's profile image. Returns the image in Facebook's "normal" type.
 	 * @return an array of bytes containing the user's profile image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getUserProfileImage();
 
@@ -44,6 +52,7 @@ public interface UserOperations {
 	 * Retrieves the user's profile image. Returns the image in Facebook's "normal" type.
 	 * @param userId the Facebook user ID.
 	 * @return an array of bytes containing the user's profile image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	byte[] getUserProfileImage(String userId);
 
@@ -51,6 +60,8 @@ public interface UserOperations {
 	 * Retrieves the user's profile image.
 	 * @param imageType the image type (eg., small, normal, large. square)
 	 * @return an array of bytes containing the user's profile image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getUserProfileImage(ImageType imageType);
 
@@ -59,12 +70,15 @@ public interface UserOperations {
 	 * @param userId the Facebook user ID.
 	 * @param imageType the image type (eg., small, normal, large. square)
 	 * @return an array of bytes containing the user's profile image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	byte[] getUserProfileImage(String userId, ImageType imageType);
 
 	/**
 	 * Retrieves a list of permissions that the application has been granted for the authenticated user.
 	 * @return the permissions granted for the user.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<String> getUserPermissions();
 	
@@ -72,6 +86,8 @@ public interface UserOperations {
 	 * Searches for users.
 	 * @param query the search query (e.g., "Michael Scott")
 	 * @return a list of {@link Reference}s, each representing a user who matched the given query.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<Reference> search(String query);
 }

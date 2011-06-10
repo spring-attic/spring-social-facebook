@@ -13,20 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.impl;
 
-import org.springframework.social.ProviderApiException;
+import org.springframework.social.BadCredentialsException;
 
-/**
- * Exception thrown when attempting to perform operation on a resource that must be owned by the authenticated user,
- * but is not. For example, attempting to delete someone else's friendlist.
- * @author Craig Walls
- */
-@SuppressWarnings("serial")
-public class OwnershipException extends ProviderApiException {
+class AbstractFacebookOperations {
+	
+	private final boolean isAuthorizedForUser;
 
-	public OwnershipException(String message) {
-		super(message);
+	public AbstractFacebookOperations(boolean isAuthorizedForUser) {
+		this.isAuthorizedForUser = isAuthorizedForUser;
 	}
-
+	
+	protected void requireUserAuthorization() {
+		if(!isAuthorizedForUser) {
+			throw new BadCredentialsException("User authorization required: FacebookTemplate must be created with an access token to perform this operation.");
+		}
+	}
+	
 }

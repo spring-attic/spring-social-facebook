@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.social.BadCredentialsException;
 
 
 public class GroupTemplateTest extends AbstractFacebookApiTest {
@@ -65,7 +66,22 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Chuck Wagon", members.get(2).getName());
 		assertTrue(members.get(2).isAdministrator());
 	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void getMembers_unauthorized() {
+		unauthorizedFacebook.groupOperations().getMembers("213106022036379");
+	}
 	
+	@Test
+	public void getMemberProfiles() {
+		mockServer.expect(requestTo("https://graph.facebook.com/213106022036379/members?fields=id%2Cusername%2Cname%2Cfirst_name%2Clast_name%2Cgender%2Clocale%2Ceducation%2Cwork%2Cemail%2Cthird_party_id%2Clink%2Ctimezone%2Cupdated_time%2Cverified%2Cabout%2Cbio%2Cbirthday%2Clocation%2Chometown%2Cinterested_in%2Creligion%2Cpolitical%2Cquotes%2Crelationship_status%2Csignificant_other%2Cwebsite"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(new ClassPathResource("testdata/group-members.json", getClass()), responseHeaders));
+		List<FacebookProfile> members = facebook.groupOperations().getMemberProfiles("213106022036379");
+		assertMembers(members);
+	}
+
 	@Test
 	public void search() {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion"))
@@ -102,4 +118,9 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(Group.Privacy.OPEN, results.get(2).getPrivacy());
 		assertEquals(toDate("2010-04-01T01:16:44+0000"), results.get(2).getUpdatedTime());
 	}	
+	
+	private void assertMembers(List<FacebookProfile> members) {
+		// TODO assert member details		
+	}
+
 }

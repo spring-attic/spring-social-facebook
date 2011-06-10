@@ -17,6 +17,9 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
+import org.springframework.social.BadCredentialsException;
+import org.springframework.social.ProviderApiException;
+
 
 /**
  * Defines operations for working with a user's likes and interests.
@@ -26,43 +29,47 @@ public interface LikeOperations {
 
 	/**
 	 * Retrieves a list of things that the authenticated user has liked.
-	 * Requires "user_likes" permission. Returns an empty list if permission
-	 * isn't granted.
-	 * 
+	 * Requires "user_likes" permission. Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getLikes();
 
 	/**
-	 * Retrieves a list of things that the given user has liked. Requires
-	 * "user_likes" permission for the authenticated user and "friends_likes"
-	 * for the authenticated user's friends. Returns an empty list if permission
-	 * isn't granted.
-	 * 
-	 * @param userId
-	 *            the ID of the user
+	 * Retrieves a list of things that the given user has liked. 
+	 * Requires "user_likes" permission for the authenticated user and "friends_likes" for the authenticated user's friends. 
+	 * Returns an empty list if permission isn't granted.
+	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getLikes(String userId);
 
 	/**
 	 * Like an object on behalf of the authenticated user.
 	 * @param objectId the object ID
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	void like(String objectId);
 
 	/**
 	 * Unlike an object on behalf of the authenticated user.
 	 * @param objectId the object ID
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	void unlike(String objectId);
 
 	/**
-	 * Retrieves a list of books that the authenticated user likes. Requires
-	 * "user_likes" permission. Returns an empty list if permission isn't
-	 * granted.
-	 * 
+	 * Retrieves a list of books that the authenticated user likes. 
+	 * Requires "user_likes" permission. 
+	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getBooks();
 
@@ -71,115 +78,115 @@ public interface LikeOperations {
 	 * "user_likes" permission for the authenticated user and "friends_likes"
 	 * for the authenticated user's friends. Returns an empty list if permission
 	 * isn't granted.
-	 * 
-	 * @param userId
-	 *            the ID of the user
+	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getBooks(String userId);
 
 	/**
-	 * Retrieves a list of movies that the authenticated user likes. Requires
-	 * "user_likes" permission. Returns an empty list if permission isn't
-	 * granted.
-	 * 
+	 * Retrieves a list of movies that the authenticated user likes. 
+	 * Requires "user_likes" permission. 
+	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMovies();
 
 	/**
-	 * Retrieves a list of movies that the given user has liked. Requires
-	 * "user_likes" permission for the authenticated user and "friends_likes"
-	 * for the authenticated user's friends. Returns an empty list if permission
-	 * isn't granted.
-	 * 
-	 * @param userId
-	 *            the ID of the user
+	 * Retrieves a list of movies that the given user has liked. 
+	 * Requires "user_likes" permission for the authenticated user and "friends_likes" for the authenticated user's friends. 
+	 * Returns an empty list if permission isn't granted.
+	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMovies(String userId);
 
 	/**
-	 * Retrieves a list of music that the authenticated user likes. Requires
-	 * "user_likes" permission. Returns an empty list if permission isn't
-	 * granted.
-	 * 
+	 * Retrieves a list of music that the authenticated user likes. 
+	 * Requires "user_likes" permission. 
+	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMusic();
 
 	/**
-	 * Retrieves a list of music that the given user has liked. Requires
-	 * "user_likes" permission for the authenticated user and "friends_likes"
-	 * for the authenticated user's friends. Returns an empty list if permission
-	 * isn't granted.
-	 * 
-	 * @param userId
-	 *            the ID of the user
+	 * Retrieves a list of music that the given user has liked. 
+	 * Requires "user_likes" permission for the authenticated user and "friends_likes" for the authenticated user's friends. 
+	 * Returns an empty list if permission isn't granted.
+	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMusic(String userId);
 
 	/**
 	 * Retrieves a list of television shows that the authenticated user likes.
-	 * Requires "user_likes" permission. Returns an empty list if permission
-	 * isn't granted.
-	 * 
+	 * Requires "user_likes" permission. 
+	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getTelevision();
 
 	/**
 	 * Retrieves a list of television shows that the given user has liked.
-	 * Requires "user_likes" permission for the authenticated user and
-	 * "friends_likes" for the authenticated user's friends. Returns an empty
-	 * list if permission isn't granted.
-	 * 
-	 * @param userId
-	 *            the ID of the user
+	 * Requires "user_likes" permission for the authenticated user and "friends_likes" for the authenticated user's friends. 
+	 * Returns an empty list if permission isn't granted.
+	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getTelevision(String userId);
 
 	/**
 	 * Retrieves a list of activities that the authenticated user likes.
-	 * Requires "user_activities" permission. Returns an empty list if
-	 * permission isn't granted.
-	 * 
+	 * Requires "user_activities" permission. 
+	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getActivities();
 
 	/**
-	 * Retrieves a list of activities that the given user likes. Requires
-	 * "user_activities" permission for the authenticated user and
-	 * "friends_activities" for the authenticated user's friends. Returns an
-	 * empty list if permission isn't granted.
-	 * 
-	 * @param userId
-	 *            the ID of the user
+	 * Retrieves a list of activities that the given user likes. 
+	 * Requires "user_activities" permission for the authenticated user and "friends_activities" for the authenticated user's friends. 
+	 * Returns an empty list if permission isn't granted.
+	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getActivities(String userId);
 
 	/**
-	 * Retrieves a list of interests that the authenticated user likes. Requires
-	 * "user_interests" permission. Returns an empty list if permission isn't
-	 * granted.
-	 * 
+	 * Retrieves a list of interests that the authenticated user likes. 
+	 * Requires "user_interests" permission. 
+	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getInterests();
 
 	/**
-	 * Retrieves a list of interests that the given user likes. Requires
-	 * "user_interests" permission for the authenticated user and
-	 * "friends_interests" for the authenticated user's friends. Returns an
-	 * empty list if permission isn't granted.
-	 * 
-	 * @param userId
-	 *            the ID of the user
+	 * Retrieves a list of interests that the given user likes. 
+	 * Requires "user_interests" permission for the authenticated user and "friends_interests" for the authenticated user's friends. 
+	 * Returns an empty list if permission isn't granted.
+	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getInterests(String userId);
 

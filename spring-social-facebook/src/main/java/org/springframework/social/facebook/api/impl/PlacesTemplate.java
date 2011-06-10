@@ -24,11 +24,12 @@ import org.springframework.social.facebook.api.PlacesOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class PlacesTemplate implements PlacesOperations {
+class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperations {
 	
 	private final GraphApi graphApi;
 
-	public PlacesTemplate(GraphApi graphApi) {
+	public PlacesTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
 	}
 	
@@ -37,10 +38,12 @@ class PlacesTemplate implements PlacesOperations {
 	}
 
 	public List<Checkin> getCheckins(String objectId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(objectId, "checkins", CheckinList.class).getList();
 	}
 
 	public Checkin getCheckin(String checkinId) {
+		requireUserAuthorization();
 		return graphApi.fetchObject(checkinId, Checkin.class);
 	}
 	
@@ -49,6 +52,7 @@ class PlacesTemplate implements PlacesOperations {
 	}
 	
 	public String checkin(String placeId, double latitude, double longitude, String message, String... tags) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("place", placeId);
 		data.set("coordinates", "{\"latitude\":\"" + latitude+"\",\"longitude\":\"" + longitude + "\"}");
@@ -67,6 +71,7 @@ class PlacesTemplate implements PlacesOperations {
 	}
 	
 	public List<Page> search(String query, double latitude, double longitude, long distance) {
+		requireUserAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "place");

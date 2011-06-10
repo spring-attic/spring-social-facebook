@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.social.BadCredentialsException;
 
 public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
@@ -37,6 +38,11 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertCheckins(checkins);
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void getCheckins_unauthorized() {
+		unauthorizedFacebook.placesOperations().getCheckins();
+	}
+	
 	@Test
 	public void getCheckins_forSpecificUser() {
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/checkins"))
@@ -47,6 +53,11 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertCheckins(checkins);
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getCheckins_forSpecificUser_unauthorized() {
+		unauthorizedFacebook.placesOperations().getCheckins("987654321");
+	}
+
 	@Test
 	public void getCheckin() {
 		mockServer.expect(requestTo("https://graph.facebook.com/10150431253050580"))
@@ -56,7 +67,12 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		Checkin checkin = facebook.placesOperations().getCheckin("10150431253050580");
 		assertSingleCheckin(checkin);		
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void getCheckin_unauthorized() {
+		unauthorizedFacebook.placesOperations().getCheckin("987654321");
+	}
+
 	@Test
 	public void checkin() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/checkins"))
@@ -66,7 +82,12 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse("{\"id\":\"10150431253050580\"}", responseHeaders));
 		assertEquals("10150431253050580", facebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755));
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void checkin_unauthorized() {
+		unauthorizedFacebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755);
+	}
+
 	@Test
 	public void checkin_withMessage() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/checkins"))
@@ -75,6 +96,11 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(body("place=123456789&coordinates=%7B%22latitude%22%3A%2232.943860253093%22%2C%22longitude%22%3A%22-96.648515652755%22%7D&message=My+favorite+place"))
 			.andRespond(withResponse("{\"id\":\"10150431253050580\"}", responseHeaders));
 		assertEquals("10150431253050580", facebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place"));
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void checkin_withMessage_unauthorized() {
+		unauthorizedFacebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place");
 	}
 
 	@Test
@@ -87,7 +113,12 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("10150431253050580", 
 				facebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place", "24680", "13579"));
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void checkin_withMessageAndTags_unauthorized() {
+		unauthorizedFacebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place", "24680", "13579");
+	}
+
 	@Test
 	public void search() {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=coffee&type=place&center=33.050278%2C-96.745833&distance=5280"))
@@ -117,7 +148,12 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(33.027734, places.get(1).getLocation().getLatitude(), 0.00001);
 		assertEquals(-96.795133, places.get(1).getLocation().getLongitude(), 0.00001);		
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void search_unauthorized() {
+		unauthorizedFacebook.placesOperations().search("coffee", 33.050278, -96.745833, 5280);
+	}
+
 	private void assertSingleCheckin(Checkin checkin) {
 		assertEquals("10150431253050580", checkin.getId());
 		assertEquals("738140579", checkin.getFrom().getId());

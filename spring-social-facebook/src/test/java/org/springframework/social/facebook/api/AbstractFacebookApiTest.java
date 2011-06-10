@@ -31,6 +31,7 @@ public class AbstractFacebookApiTest {
 	protected static final String ACCESS_TOKEN = "someAccessToken";
 
 	protected FacebookTemplate facebook;
+	protected FacebookTemplate unauthorizedFacebook;
 	protected MockRestServiceServer mockServer;
 	protected HttpHeaders responseHeaders;
 
@@ -40,6 +41,9 @@ public class AbstractFacebookApiTest {
 		mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		responseHeaders = new HttpHeaders();
 		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+		
+		unauthorizedFacebook = new FacebookTemplate();
+		MockRestServiceServer.createServer(unauthorizedFacebook.getRestTemplate());
 	}
 
 

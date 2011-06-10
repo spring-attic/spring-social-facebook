@@ -26,6 +26,7 @@ import java.util.Locale;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.social.BadCredentialsException;
 
 /**
  * @author Craig Walls
@@ -33,7 +34,7 @@ import org.springframework.http.MediaType;
 public class UserTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
-	public void getUserProfile_authenticatedUser() {
+	public void getUserProfile_currentUser() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -95,6 +96,11 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertWorkHistory(profile.getWork());
 		assertEducationHistory(profile.getEducation());
 	}
+	
+	@Test(expected = BadCredentialsException.class)
+	public void getUserProfile_currentUser_unauthorized() {
+		unauthorizedFacebook.userOperations().getUserProfile();
+	}
 
 	@Test
 	public void getUserProfile_specificUserByUserId() {
@@ -119,6 +125,11 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getUserProfileImage_currentUser_unauthorized() {
+		unauthorizedFacebook.userOperations().getUserProfileImage();
+	}
+
 	@Test
 	public void getUserProfileImage_specificUserByUserId() {
 		responseHeaders.setContentType(MediaType.IMAGE_JPEG);
@@ -132,6 +143,23 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 	}
 	
 	@Test
+	public void getUserProfileImage_specificUserAndType() {
+		responseHeaders.setContentType(MediaType.IMAGE_JPEG);
+		mockServer.expect(requestTo("https://graph.facebook.com/1234567/picture?type=large"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(new ClassPathResource("testdata/tinyrod.jpg", getClass()), responseHeaders));
+		facebook.userOperations().getUserProfileImage("1234567", ImageType.LARGE);
+		// TODO: Fix mock server handle binary data so we can test contents (or at least size) of image data.
+		mockServer.verify();
+	}
+	
+	@Test(expected = BadCredentialsException.class)
+	public void getUserProfileImage_currentUser_specificType_unauthorized() {
+		unauthorizedFacebook.userOperations().getUserProfileImage(ImageType.NORMAL);
+	}
+
+	@Test
 	public void getUserPermissions() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/permissions"))
 			.andExpect(method(GET))
@@ -143,6 +171,11 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertTrue(permissions.contains("offline_access"));
 		assertTrue(permissions.contains("read_stream"));
 		assertTrue(permissions.contains("publish_stream"));
+	}
+	
+	@Test(expected = BadCredentialsException.class)
+	public void getUserPermissions_unauthorized() {
+		unauthorizedFacebook.userOperations().getUserPermissions();
 	}
 	
 	@Test
@@ -161,6 +194,11 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Michael Scott", results.get(2).getName());
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void search_unauthorized() {
+		unauthorizedFacebook.userOperations().search("Michael Scott");
+	}
+
 	private void assertBasicProfileData(FacebookProfile profile) {
 		assertEquals("123456789", profile.getId());
 		assertEquals("Craig", profile.getFirstName());

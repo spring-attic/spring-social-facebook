@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.social.BadCredentialsException;
 
 /**
  * @author Craig Walls
@@ -64,13 +65,18 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	}
 	
 	@Test
-	public void postComment() {
+	public void addComment() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments"))
 			.andExpect(method(POST))
 			.andExpect(body("message=Cool+beans"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse("{\"id\":\"123456_543210\"}", responseHeaders));
 		assertEquals("123456_543210", facebook.commentOperations().addComment("123456", "Cool beans"));
+	}
+	
+	@Test(expected = BadCredentialsException.class)
+	public void addComment_unauthorized() {
+		unauthorizedFacebook.commentOperations().addComment("123456", "Cool beans");
 	}
 	
 	@Test
@@ -82,6 +88,11 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse("{}", responseHeaders));
 		facebook.commentOperations().deleteComment("1533260333_122829644452184_587062");
 		mockServer.verify();
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void deleteComment_unauthorized() {
+		unauthorizedFacebook.commentOperations().deleteComment("1533260333_122829644452184_587062");
 	}
 	
 	@Test

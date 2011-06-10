@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.social.BadCredentialsException;
 
 public class MediaTemplateTest extends AbstractFacebookApiTest {
 	@Test
@@ -37,7 +38,12 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		List<Album> albums = facebook.mediaOperations().getAlbums();
 		assertAlbums(albums);
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void getAlbums_unauthorized() {
+		unauthorizedFacebook.mediaOperations().getAlbums();
+	}
+
 	@Test
 	public void getAlbums_forSpecificUser() {
 		mockServer.expect(requestTo("https://graph.facebook.com/192837465/albums"))
@@ -48,6 +54,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertAlbums(albums);
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getAlbums_forSpecificUser_unauthorized() {
+		unauthorizedFacebook.mediaOperations().getAlbums("192837465");
+	}
+
 	@Test
 	public void getAlbum() {
 		mockServer.expect(requestTo("https://graph.facebook.com/10151447271460580"))
@@ -57,7 +68,12 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		Album album = facebook.mediaOperations().getAlbum("10151447271460580");
 		assertSingleAlbum(album);
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void getAlbum_unauthorized() {
+		unauthorizedFacebook.mediaOperations().getAlbum("192837465");
+	}
+
 	@Test
 	public void getPhotos() {
 		mockServer.expect(requestTo("https://graph.facebook.com/10151447271460580/photos"))
@@ -92,6 +108,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-24T21:37:43+0000"), photos.get(0).getUpdatedTime());
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void getPhotos_unauthorized() {
+		unauthorizedFacebook.mediaOperations().getPhotos("192837465");
+	}
+
 	@Test
 	public void getPhoto() {
 		mockServer.expect(requestTo("https://graph.facebook.com/10150447271355581"))
@@ -101,6 +122,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertSinglePhoto(facebook.mediaOperations().getPhoto("10150447271355581"));		
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getPhoto_unauthorized() {
+		unauthorizedFacebook.mediaOperations().getPhoto("192837465");
+	}
+
 	@Test
 	public void postPhoto_noCaption() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/photos"))
@@ -111,6 +137,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		Resource photo = getUploadResource("photo.jpg", "PHOTO DATA");
 		String photoId = facebook.mediaOperations().postPhoto(photo);
 		assertEquals("12345", photoId);
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void postPhoto_noCaption_unauthorized() {
+		unauthorizedFacebook.mediaOperations().postPhoto(null); // shouldn't matter that it's null
 	}
 
 	@Test
@@ -125,6 +156,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void postPhoto_withCaption_unauthorized() {
+		unauthorizedFacebook.mediaOperations().postPhoto(null, "Some caption"); // shouldn't matter that it's null
+	}
+
 	@Test
 	public void postPhoto_ToAlbumNoCaption() {
 		mockServer.expect(requestTo("https://graph.facebook.com/192837465/photos"))
@@ -135,6 +171,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		Resource photo = getUploadResource("photo.jpg", "PHOTO DATA");
 		String photoId = facebook.mediaOperations().postPhoto("192837465", photo);
 		assertEquals("12345", photoId);
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void postPhoto_ToAlbumNoCaption_unauthorized() {
+		unauthorizedFacebook.mediaOperations().postPhoto("12345678", null); // shouldn't matter that it's null
 	}
 
 	@Test
@@ -149,6 +190,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void postPhoto_ToAlbumWithCaption_unauthorized() {
+		unauthorizedFacebook.mediaOperations().postPhoto("12345678", null, "Some Caption"); // shouldn't matter that it's null
+	}
+
 	@Test
 	public void getVideos() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/videos"))
@@ -157,6 +203,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse(new ClassPathResource("testdata/videos.json", getClass()), responseHeaders));
 		List<Video> videos = facebook.mediaOperations().getVideos();
 		assertVideos(videos);
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void getVideos_unauthorized() {
+		unauthorizedFacebook.mediaOperations().getVideos();
 	}
 
 	@Test
@@ -169,6 +220,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertVideos(videos);
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getVideos_forSpecificOwner_unauthorized() {
+		unauthorizedFacebook.mediaOperations().getVideos("11223344");
+	}
+
 	@Test
 	public void getVideo() {
 		mockServer.expect(requestTo("https://graph.facebook.com/161500020572907"))
@@ -178,7 +234,12 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		Video video = facebook.mediaOperations().getVideo("161500020572907");
 		assertSingleVideo(video);
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void getVideo_unauthorized() {
+		unauthorizedFacebook.mediaOperations().getVideo("11223344");
+	}
+
 	@Test
 	public void postVideo_noTitleOrDescription() {
 		mockServer.expect(requestTo("https://graph-video.facebook.com/me/videos"))
@@ -191,6 +252,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void postVideo_unauthorized() {
+		unauthorizedFacebook.mediaOperations().postVideo(null);
+	}
+
 	@Test
 	public void postVideo_withTitleOrDescription() {
 		mockServer.expect(requestTo("https://graph-video.facebook.com/me/videos"))
@@ -201,6 +267,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		Resource video = getUploadResource("video.mov", "VIDEO DATA");
 		String photoId = facebook.mediaOperations().postVideo(video, "title", "description");
 		assertEquals("12345", photoId);
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void postVideo_withTitleOrDescription_unauthorized() {
+		unauthorizedFacebook.mediaOperations().postVideo(null, "title", "description");
 	}
 
 	private Resource getUploadResource(final String filename, String content) {

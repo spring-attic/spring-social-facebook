@@ -23,12 +23,24 @@ import org.springframework.social.facebook.api.UserLike;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class LikeTemplate implements LikeOperations {
+class LikeTemplate extends AbstractFacebookOperations implements LikeOperations {
 
 	private final GraphApi graphApi;
 
-	public LikeTemplate(GraphApi graphApi) {
+	public LikeTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
+	}
+
+	public void like(String objectId) {
+		requireUserAuthorization();
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+		graphApi.post(objectId, "likes", map);
+	}
+
+	public void unlike(String objectId) {
+		requireUserAuthorization();
+		graphApi.delete(objectId, "likes");
 	}
 
 	public List<UserLike> getLikes() {
@@ -36,23 +48,16 @@ class LikeTemplate implements LikeOperations {
 	}
 
 	public List<UserLike> getLikes(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "likes", UserLikeList.class).getList();
 	}
 	
-	public void like(String objectId) {
-		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		graphApi.post(objectId, "likes", map);
-	}
-
-	public void unlike(String objectId) {
-		graphApi.delete(objectId, "likes");
-	}
-
 	public List<UserLike> getBooks() {
-		return getMovies("me");
+		return getBooks("me");
 	}
 
 	public List<UserLike> getBooks(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "books", UserLikeList.class).getList();
 	}
 
@@ -61,22 +66,25 @@ class LikeTemplate implements LikeOperations {
 	}
 
 	public List<UserLike> getMovies(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "movies", UserLikeList.class).getList();
 	}
 
 	public List<UserLike> getMusic() {
-		return getMovies("me");
+		return getMusic("me");
 	}
 
 	public List<UserLike> getMusic(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "music", UserLikeList.class).getList();
 	}
 
 	public List<UserLike> getTelevision() {
-		return getMovies("me");
+		return getTelevision("me");
 	}
 
 	public List<UserLike> getTelevision(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "television", UserLikeList.class).getList();
 	}
 
@@ -85,6 +93,7 @@ class LikeTemplate implements LikeOperations {
 	}
 
 	public List<UserLike> getActivities(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "activities", UserLikeList.class).getList();
 	}
 
@@ -93,6 +102,7 @@ class LikeTemplate implements LikeOperations {
 	}
 
 	public List<UserLike> getInterests(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "interests", UserLikeList.class).getList();
 	}
 }

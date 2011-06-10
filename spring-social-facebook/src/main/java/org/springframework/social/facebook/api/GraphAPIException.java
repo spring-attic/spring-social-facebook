@@ -15,14 +15,14 @@
  */
 package org.springframework.social.facebook.api;
 
-import org.springframework.social.SocialException;
+import org.springframework.social.ProviderApiException;
 
 /**
  * Exception thrown when a Graph API usage error (such as an unknown connection path) occurs.
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class GraphAPIException extends SocialException {
+public class GraphAPIException extends ProviderApiException {
 
 	public GraphAPIException(String message) {
 		super(message);

@@ -49,10 +49,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * This is the central class for interacting with Facebook.
+ * <p>This is the central class for interacting with Facebook.</p>
  * <p>
- * All operations through Facebook require OAuth 2-based authentication.
- * Therefore, FacebookTemplate must be given an access token at construction time.
+ * There are some operations, such as searching, that do not require OAuth
+ * authentication. In those cases, you may use a {@link FacebookTemplate} that is
+ * created through the default constructor and without any OAuth details.
+ * Attempts to perform secured operations through such an instance, however,
+ * will result in {@link BadCredentialsException} being thrown.
  * </p>
  * @author Craig Walls
  */
@@ -101,16 +104,16 @@ public class FacebookTemplate extends AbstractOAuth2ApiTemplate implements Faceb
 	}
 
 	private void initSubApis() {
-		userOperations = new UserTemplate(this);
-		placesOperations = new PlacesTemplate(this);
-		friendOperations = new FriendTemplate(this, getRestTemplate());
-		feedOperations = new FeedTemplate(this);
-		commentOperations = new CommentTemplate(this);
-		likeOperations = new LikeTemplate(this);
-		eventOperations = new EventTemplate(this);
-		mediaOperations = new MediaTemplate(this, getRestTemplate());
-		groupOperations = new GroupTemplate(this);
-		pageOperations = new PageTemplate(this);
+		userOperations = new UserTemplate(this, isAuthorizedForUser());
+		placesOperations = new PlacesTemplate(this, isAuthorizedForUser());
+		friendOperations = new FriendTemplate(this, getRestTemplate(), isAuthorizedForUser());
+		feedOperations = new FeedTemplate(this, isAuthorizedForUser());
+		commentOperations = new CommentTemplate(this, isAuthorizedForUser());
+		likeOperations = new LikeTemplate(this, isAuthorizedForUser());
+		eventOperations = new EventTemplate(this, isAuthorizedForUser());
+		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorizedForUser());
+		groupOperations = new GroupTemplate(this, isAuthorizedForUser());
+		pageOperations = new PageTemplate(this, isAuthorizedForUser());
 	}
 	
 	@Override

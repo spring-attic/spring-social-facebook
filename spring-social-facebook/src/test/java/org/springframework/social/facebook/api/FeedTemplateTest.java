@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.social.BadCredentialsException;
 
 /**
  * @author Craig Walls
@@ -44,6 +45,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getFeed_unauthorized() {
+		unauthorizedFacebook.feedOperations().getFeed();
+	}
+
 	@Test
 	public void getFeed_forOwnerId() {
 		mockServer.expect(requestTo("https://graph.facebook.com/12345678/feed"))
@@ -55,6 +61,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}	
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getFeed_forOwnerId_unauthorized() {
+		unauthorizedFacebook.feedOperations().getFeed("12345678");
+	}
+
 	@Test
 	public void getHomeFeed() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/home"))
@@ -66,6 +77,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(homeFeed);
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getHomeFeed_unauthorized() {
+		unauthorizedFacebook.feedOperations().getHomeFeed();
+	}
+
 	@Test
 	public void getHomeFeed_forSpecificUser() {
 		mockServer.expect(requestTo("https://graph.facebook.com/223311/home"))
@@ -77,6 +93,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(homeFeed);
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void getHomeFeed_forSpecificUser_unauthorized() {
+		unauthorizedFacebook.feedOperations().getHomeFeed("12345678");
+	}
+
 	@Test
 	public void getStatuses() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/statuses"))
@@ -84,6 +105,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(new ClassPathResource("testdata/user-statuses.json", getClass()), responseHeaders));		
 		assertStatuses(facebook.feedOperations().getStatuses());
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void getStatuses_unauthorized() {
+		unauthorizedFacebook.feedOperations().getStatuses();
 	}
 
 	@Test
@@ -95,23 +121,9 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertStatuses(facebook.feedOperations().getStatuses("24680"));
 	}
 	
-	private void assertStatuses(List<StatusPost> statuses) {
-		assertEquals(3, statuses.size());
-		assertEquals("161195833936659", statuses.get(0).getId());
-		assertEquals("100001387295207", statuses.get(0).getFrom().getId());
-		assertEquals("Art Names", statuses.get(0).getFrom().getName());
-		assertEquals("One more...just for fun", statuses.get(0).getMessage());
-		assertEquals(toDate("2011-03-28T14:54:07+0000"), statuses.get(0).getUpdatedTime());
-		assertEquals("161195783936664", statuses.get(1).getId());
-		assertEquals("100001387295207", statuses.get(1).getFrom().getId());
-		assertEquals("Art Names", statuses.get(1).getFrom().getName());
-		assertEquals("Just another status.", statuses.get(1).getMessage());
-		assertEquals(toDate("2011-03-28T14:53:57+0000"), statuses.get(1).getUpdatedTime());
-		assertEquals("161195107270065", statuses.get(2).getId());
-		assertEquals("100001387295207", statuses.get(2).getFrom().getId());
-		assertEquals("Art Names", statuses.get(2).getFrom().getName());
-		assertEquals("Good morning Monday!", statuses.get(2).getMessage());
-		assertEquals(toDate("2011-03-28T14:50:27+0000"), statuses.get(2).getUpdatedTime());
+	@Test(expected = BadCredentialsException.class)
+	public void getStatuses_forSpecificUser_unauthorized() {
+		unauthorizedFacebook.feedOperations().getStatuses("12345678");
 	}
 
 	@Test
@@ -123,6 +135,10 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertLinks(facebook.feedOperations().getLinks());
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getLinks_unauthorized() {
+		unauthorizedFacebook.feedOperations().getLinks();
+	}
 
 	@Test
 	public void getLinks_forSpecificUser() {
@@ -133,6 +149,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertLinks(facebook.feedOperations().getLinks("13579"));
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getLinks_forSpecificUser_unauthorized() {
+		unauthorizedFacebook.feedOperations().getLinks("12345678");
+	}
+
 	@Test
 	public void getNotes() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/notes"))
@@ -143,24 +164,24 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertNotes(notes);
 	}
 
-	private void assertNotes(List<NotePost> notes) {
-		assertEquals(2, notes.size());
-		assertEquals("161200187269557", notes.get(0).getId());
-		assertEquals("100001387295207", notes.get(0).getFrom().getId());
-		assertEquals("Art Names", notes.get(0).getFrom().getName());
-		assertEquals("Just a note", notes.get(0).getSubject());
-		assertEquals("<p>This is just a test note. Nothing special to see here.</p>", notes.get(0).getMessage());
-		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yY/r/1gBp2bDGEuh.gif", notes.get(0).getIcon());
-		assertEquals(toDate("2011-03-28T15:17:41+0000"), notes.get(0).getCreatedTime());
-		assertEquals(toDate("2011-03-28T15:17:41+0000"), notes.get(0).getUpdatedTime());
-		assertEquals("160546394001603", notes.get(1).getId());
-		assertEquals("100001387295207", notes.get(1).getFrom().getId());
-		assertEquals("Art Names", notes.get(1).getFrom().getName());
-		assertEquals("Test Note", notes.get(1).getSubject());
-		assertEquals("<p>Just a <strong>test</strong> note...nothing to see here.</p>", notes.get(1).getMessage());
-		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yY/r/1gBp2bDGEuh.gif", notes.get(1).getIcon());
-		assertEquals(toDate("2011-03-25T18:25:01+0000"), notes.get(1).getCreatedTime());
-		assertEquals(toDate("2011-03-25T20:08:27+0000"), notes.get(1).getUpdatedTime());
+	@Test(expected = BadCredentialsException.class)
+	public void getNotes_unauthorized() {
+		unauthorizedFacebook.feedOperations().getNotes();
+	}
+
+	@Test
+	public void getNotes_forSpecificUser() {
+		mockServer.expect(requestTo("https://graph.facebook.com/12345/notes"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(new ClassPathResource("testdata/user-notes.json", getClass()), responseHeaders));		
+		List<NotePost> notes = facebook.feedOperations().getNotes("12345");
+		assertNotes(notes);
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void getNotes_unauthorized_forSpecificUser() {
+		unauthorizedFacebook.feedOperations().getNotes("12345");
 	}
 	
 	@Test
@@ -174,6 +195,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void getPosts_unauthorized() {
+		unauthorizedFacebook.feedOperations().getPosts();
+	}
+
 	@Test
 	public void getPosts_forOwnerId() {
 		mockServer.expect(requestTo("https://graph.facebook.com/12345678/posts"))
@@ -185,7 +211,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}	
 
-	
+	@Test(expected = BadCredentialsException.class)
+	public void getPosts_unauthorized_forSpecificUser() {
+		unauthorizedFacebook.feedOperations().getPosts("12345");
+	}
+
 	@Test 
 	public void getFeedEntry() {
 		mockServer.expect(requestTo("https://graph.facebook.com/100001387295207_123939024341978"))
@@ -207,6 +237,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(3, feedEntry.getComments().get(1).getLikesCount());
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void getFeedEntry_unauthorized() {
+		unauthorizedFacebook.feedOperations().getFeedEntry("12345");
+	}
+
 	@Test
 	public void updateStatus() throws Exception {
 		String requestBody = "message=Hello+Facebook+World";
@@ -217,6 +252,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andRespond(withResponse("{\"id\":\"123456_78901234\"}", responseHeaders));
 		assertEquals("123456_78901234", facebook.feedOperations().updateStatus("Hello Facebook World"));
 		mockServer.verify();
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void updateStatus_unauthorized() {
+		unauthorizedFacebook.feedOperations().updateStatus("Hello");
 	}
 
 	@Test
@@ -231,6 +271,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void postMessage_unauthorized() {
+		unauthorizedFacebook.feedOperations().post("123456789", "Hello Facebook World");
+	}
+
 	@Test
 	public void post_link() throws Exception {
 		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World";
@@ -241,6 +286,12 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		assertEquals("123456_78901234", facebook.feedOperations().postLink("Hello Facebook World", link));
 		mockServer.verify();
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void postLink_unauthorized() {
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		unauthorizedFacebook.feedOperations().postLink("Hello Facebook World", link);
 	}
 
 	@Test
@@ -255,6 +306,12 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void postLink_toAnotherFeed_unauthorized() {
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		unauthorizedFacebook.feedOperations().postLink("123456789", "Hello Facebook World", link);
+	}
+
 	@Test
 	public void deleteFeedEntry() {
 		String requestBody = "method=delete";
@@ -265,7 +322,12 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		facebook.feedOperations().deleteFeedEntry("123456_78901234");
 		mockServer.verify();
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void deleteFeedEntry_unauthorized() {
+		unauthorizedFacebook.feedOperations().deleteFeedEntry("123456_78901234");
+	}
+
 	@Test
 	public void searchPublicFeed() {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Dr+Seuss&type=post"))
@@ -285,7 +347,12 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		List<Post> posts = facebook.feedOperations().searchHomeFeed("Dr Seuss");
 		assertPostList(posts);
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void searchHomeFeed_unauthorized() {
+		unauthorizedFacebook.feedOperations().searchHomeFeed("Dr Seuss");
+	}
+
 	@Test 
 	public void searchUserFeed_currentUser() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed?q=Football"))
@@ -300,6 +367,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void searchUserFeed_currentUser_unauthorized() {
+		unauthorizedFacebook.feedOperations().searchUserFeed("Football");
+	}
+	
 	@Test 
 	public void searchUserFeed_specificUser() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed?q=Football"))
@@ -312,6 +384,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertTrue(feed.get(1) instanceof PhotoPost);
 		assertTrue(feed.get(2) instanceof StatusPost);
 		assertFeedEntries(feed);
+	}
+
+	@Test(expected = BadCredentialsException.class)
+	public void searchUserFeed_specificUser_unauthorized() {
+		unauthorizedFacebook.feedOperations().searchUserFeed("123456789", "Football");
 	}
 	
 	private void assertPostList(List<Post> posts) {
@@ -381,6 +458,45 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Competition Beatdown Fail", feed.get(1).getName());
 		assertEquals("What was this guy thinking?", feed.get(1).getDescription());
 		assertEquals("http://www.youtube.com/watch?v=QSLT2N-Ome8", feed.get(1).getLink());
+	}
+
+	private void assertNotes(List<NotePost> notes) {
+		assertEquals(2, notes.size());
+		assertEquals("161200187269557", notes.get(0).getId());
+		assertEquals("100001387295207", notes.get(0).getFrom().getId());
+		assertEquals("Art Names", notes.get(0).getFrom().getName());
+		assertEquals("Just a note", notes.get(0).getSubject());
+		assertEquals("<p>This is just a test note. Nothing special to see here.</p>", notes.get(0).getMessage());
+		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yY/r/1gBp2bDGEuh.gif", notes.get(0).getIcon());
+		assertEquals(toDate("2011-03-28T15:17:41+0000"), notes.get(0).getCreatedTime());
+		assertEquals(toDate("2011-03-28T15:17:41+0000"), notes.get(0).getUpdatedTime());
+		assertEquals("160546394001603", notes.get(1).getId());
+		assertEquals("100001387295207", notes.get(1).getFrom().getId());
+		assertEquals("Art Names", notes.get(1).getFrom().getName());
+		assertEquals("Test Note", notes.get(1).getSubject());
+		assertEquals("<p>Just a <strong>test</strong> note...nothing to see here.</p>", notes.get(1).getMessage());
+		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yY/r/1gBp2bDGEuh.gif", notes.get(1).getIcon());
+		assertEquals(toDate("2011-03-25T18:25:01+0000"), notes.get(1).getCreatedTime());
+		assertEquals(toDate("2011-03-25T20:08:27+0000"), notes.get(1).getUpdatedTime());
+	}
+	
+	private void assertStatuses(List<StatusPost> statuses) {
+		assertEquals(3, statuses.size());
+		assertEquals("161195833936659", statuses.get(0).getId());
+		assertEquals("100001387295207", statuses.get(0).getFrom().getId());
+		assertEquals("Art Names", statuses.get(0).getFrom().getName());
+		assertEquals("One more...just for fun", statuses.get(0).getMessage());
+		assertEquals(toDate("2011-03-28T14:54:07+0000"), statuses.get(0).getUpdatedTime());
+		assertEquals("161195783936664", statuses.get(1).getId());
+		assertEquals("100001387295207", statuses.get(1).getFrom().getId());
+		assertEquals("Art Names", statuses.get(1).getFrom().getName());
+		assertEquals("Just another status.", statuses.get(1).getMessage());
+		assertEquals(toDate("2011-03-28T14:53:57+0000"), statuses.get(1).getUpdatedTime());
+		assertEquals("161195107270065", statuses.get(2).getId());
+		assertEquals("100001387295207", statuses.get(2).getFrom().getId());
+		assertEquals("Art Names", statuses.get(2).getFrom().getName());
+		assertEquals("Good morning Monday!", statuses.get(2).getMessage());
+		assertEquals(toDate("2011-03-28T14:50:27+0000"), statuses.get(2).getUpdatedTime());
 	}
 
 }

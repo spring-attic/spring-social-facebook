@@ -29,13 +29,14 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-class MediaTemplate implements MediaOperations {
+class MediaTemplate extends AbstractFacebookOperations implements MediaOperations {
 
 	private final GraphApi graphApi;
 	
 	private final RestTemplate restTemplate;
 
-	public MediaTemplate(GraphApi graphApi, RestTemplate restTemplate) {
+	public MediaTemplate(GraphApi graphApi, RestTemplate restTemplate, boolean isAuthorizedForUser) {
+		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
 		this.restTemplate = restTemplate;
 	}
@@ -45,18 +46,22 @@ class MediaTemplate implements MediaOperations {
 	}
 
 	public List<Album> getAlbums(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "albums", AlbumList.class).getList();
 	}
 
 	public Album getAlbum(String albumId) {
+		requireUserAuthorization();
 		return graphApi.fetchObject(albumId, Album.class);
 	}
 	
 	public String createAlbum(String name, String description) {
+		requireUserAuthorization();
 		return createAlbum("me", name, description);
 	}
 	
 	public String createAlbum(String ownerId, String name, String description) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("name", name);
 		data.set("message", description);
@@ -68,14 +73,17 @@ class MediaTemplate implements MediaOperations {
 	}
 	
 	public byte[] getAlbumImage(String albumId, ImageType imageType) {
+		requireUserAuthorization();
 		return graphApi.fetchImage(albumId, "picture", imageType);
 	}
 	
 	public List<Photo> getPhotos(String albumId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(albumId, "photos", PhotoList.class).getList();
 	}
 	
 	public Photo getPhoto(String photoId) {
+		requireUserAuthorization();
 		return graphApi.fetchObject(photoId, Photo.class);
 	}
 	
@@ -84,16 +92,19 @@ class MediaTemplate implements MediaOperations {
 	}
 	
 	public byte[] getPhotoImage(String photoId, ImageType imageType) {
+		requireUserAuthorization();
 		return graphApi.fetchImage(photoId, "picture", imageType);
 	}
 
 	public String postPhoto(Resource photo) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
 		return graphApi.publish("me", "photos", parts);
 	}
 	
 	public String postPhoto(Resource photo, String caption) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
 		parts.set("message", caption);
@@ -101,12 +112,14 @@ class MediaTemplate implements MediaOperations {
 	}
 	
 	public String postPhoto(String albumId, Resource photo) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
 		return graphApi.publish(albumId, "photos", parts);
 	}
 	
 	public String postPhoto(String albumId, Resource photo, String caption) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
 		parts.set("message", caption);
@@ -114,14 +127,17 @@ class MediaTemplate implements MediaOperations {
 	}
 	
 	public List<Video> getVideos() {
+		requireUserAuthorization();
 		return getVideos("me");
 	}
 	
 	public List<Video> getVideos(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "videos", VideoList.class).getList();
 	}
 	
 	public Video getVideo(String videoId) {
+		requireUserAuthorization();
 		return graphApi.fetchObject(videoId, Video.class);
 	}
 	
@@ -130,11 +146,13 @@ class MediaTemplate implements MediaOperations {
 	}
 	
 	public byte[] getVideoImage(String videoId, ImageType imageType) {
+		requireUserAuthorization();
 		return graphApi.fetchImage(videoId, "picture", imageType);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public String postVideo(Resource video) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("file", video);
 		Map<String, Object> response = restTemplate.postForObject("https://graph-video.facebook.com/me/videos", parts, Map.class);
@@ -143,6 +161,7 @@ class MediaTemplate implements MediaOperations {
 	
 	@SuppressWarnings("unchecked")
 	public String postVideo(Resource video, String title, String description) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("file", video);
 		parts.set("title", title);

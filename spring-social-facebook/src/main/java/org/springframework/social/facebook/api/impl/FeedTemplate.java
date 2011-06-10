@@ -27,11 +27,12 @@ import org.springframework.social.facebook.api.StatusPost;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class FeedTemplate implements FeedOperations {
+class FeedTemplate extends AbstractFacebookOperations implements FeedOperations {
 
 	private final GraphApi graphApi;
 
-	public FeedTemplate(GraphApi graphApi) {
+	public FeedTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
 	}
 
@@ -40,6 +41,7 @@ class FeedTemplate implements FeedOperations {
 	}
 
 	public List<Post> getFeed(String ownerId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(ownerId, "feed", PostList.class).getList();
 	}
 
@@ -48,6 +50,7 @@ class FeedTemplate implements FeedOperations {
 	}
 
 	public List<Post> getHomeFeed(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "home", PostList.class).getList();
 	}
 	
@@ -56,6 +59,7 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public List<StatusPost> getStatuses(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "statuses", StatusPostList.class).getList();
 	}
 	
@@ -64,6 +68,7 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public List<LinkPost> getLinks(String ownerId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(ownerId, "links", LinkPostList.class).getList();
 	}
 
@@ -72,17 +77,21 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public List<NotePost> getNotes(String ownerId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(ownerId, "notes", NotePostList.class).getList();
 	}
 	
 	public List<Post> getPosts() {
 		return getPosts("me");
 	}
+	
 	public List<Post> getPosts(String ownerId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(ownerId, "posts", PostList.class).getList();
 	}
 	
 	public Post getFeedEntry(String entryId) {
+		requireUserAuthorization();
 		return graphApi.fetchObject(entryId, Post.class);
 	}
 
@@ -95,6 +104,7 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public String postLink(String ownerId, String message, FacebookLink link) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("link", link.getLink());
 		map.set("name", link.getName());
@@ -105,12 +115,14 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public String post(String ownerId, String message) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("message", message);
 		return graphApi.publish(ownerId, "feed", map);
 	}
 
 	public void deleteFeedEntry(String id) {
+		requireUserAuthorization();
 		graphApi.delete(id);
 	}
 
@@ -122,16 +134,19 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public List<Post> searchHomeFeed(String query) {
+		requireUserAuthorization();
 		MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
 		queryParameters.add("q", query);
 		return graphApi.fetchConnections("me", "home", PostList.class, queryParameters).getList();
 	}
 	
 	public List<Post> searchUserFeed(String query) {
+		requireUserAuthorization();
 		return searchUserFeed("me", query);
 	}
 	
 	public List<Post> searchUserFeed(String userId, String query) {
+		requireUserAuthorization();
 		MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
 		queryParameters.add("q", query);
 		return graphApi.fetchConnections(userId, "feed", PostList.class, queryParameters).getList();

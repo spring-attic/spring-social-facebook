@@ -26,11 +26,12 @@ import org.springframework.social.facebook.api.ImageType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class GroupTemplate implements GroupOperations {
+class GroupTemplate extends AbstractFacebookOperations implements GroupOperations {
 	
 	private final GraphApi graphApi;
 
-	public GroupTemplate(GraphApi graphApi) {
+	public GroupTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
 	}
 	
@@ -47,10 +48,12 @@ class GroupTemplate implements GroupOperations {
 	}
 	
 	public List<GroupMemberReference> getMembers(String groupId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(groupId, "members", GroupMemberReferenceList.class).getList();
 	}
 
 	public List<FacebookProfile> getMemberProfiles(String groupId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(groupId, "members", FacebookProfileList.class, FULL_PROFILE_FIELDS).getList();
 	}
 

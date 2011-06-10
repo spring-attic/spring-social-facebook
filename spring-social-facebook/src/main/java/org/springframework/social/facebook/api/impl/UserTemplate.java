@@ -25,15 +25,17 @@ import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class UserTemplate implements UserOperations {
+class UserTemplate extends AbstractFacebookOperations implements UserOperations {
 
 	private final GraphApi graphApi;
 
-	public UserTemplate(GraphApi graphApi) {
+	public UserTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
 	}
 
 	public FacebookProfile getUserProfile() {
+		requireUserAuthorization();
 		return getUserProfile("me");
 	}
 
@@ -42,6 +44,7 @@ class UserTemplate implements UserOperations {
 	}
 	
 	public byte[] getUserProfileImage() {
+		requireUserAuthorization();
 		return getUserProfileImage("me", ImageType.NORMAL);
 	}
 	
@@ -50,6 +53,7 @@ class UserTemplate implements UserOperations {
 	}
 
 	public byte[] getUserProfileImage(ImageType imageType) {
+		requireUserAuthorization();
 		return getUserProfileImage("me", imageType);
 	}
 	
@@ -58,10 +62,12 @@ class UserTemplate implements UserOperations {
 	}
 
 	public List<String> getUserPermissions() {
+		requireUserAuthorization();
 		return graphApi.fetchConnections("me", "permissions", UserPermissionsList.class).getList();
 	}
 
 	public List<Reference> search(String query) {
+		requireUserAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "user");

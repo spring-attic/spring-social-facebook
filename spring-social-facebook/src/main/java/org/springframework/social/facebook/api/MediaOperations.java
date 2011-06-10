@@ -20,6 +20,8 @@ import java.util.List;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.social.BadCredentialsException;
+import org.springframework.social.ProviderApiException;
 
 
 /**
@@ -32,6 +34,8 @@ public interface MediaOperations {
 	 * Retrieves a list of albums belonging to the authenticated user.
 	 * Requires "user_photos" or "friends_photos" permission.
 	 * @return a list {@link Album}s for the user, or an empty list if not available.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<Album> getAlbums();
 
@@ -40,6 +44,8 @@ public interface MediaOperations {
 	 * Requires "user_photos" or "friends_photos" permission.
 	 * @param ownerId the album owner's ID
 	 * @return a list {@link Album}s for the user, or an empty list if not available.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<Album> getAlbums(String ownerId);
 
@@ -47,6 +53,8 @@ public interface MediaOperations {
 	 * Retrieves data for a specific album.
 	 * @param albumId the album ID
 	 * @return the requested {@link Album} object.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	Album getAlbum(String albumId);
 	
@@ -55,6 +63,8 @@ public interface MediaOperations {
 	 * @param name the name of the album.
 	 * @param description the album's description.
 	 * @return the ID of the newly created album.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String createAlbum(String name, String description);
 
@@ -62,6 +72,7 @@ public interface MediaOperations {
 	 * Retrieves an album's image as an array of bytes. Returns the image in Facebook's "normal" type.
 	 * @param albumId the album ID
 	 * @return an array of bytes containing the album's image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
 	 */
 	byte[] getAlbumImage(String albumId);
 
@@ -70,6 +81,8 @@ public interface MediaOperations {
 	 * @param albumId the album ID
 	 * @param imageType the image type (eg., small, normal, large. square)
 	 * @return an array of bytes containing the album's image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getAlbumImage(String albumId, ImageType imageType);
 
@@ -77,6 +90,8 @@ public interface MediaOperations {
 	 * Retrieves photo data from a specific album.
 	 * @param albumId the album's ID
 	 * @return a list of {@link Photo}s in the specified album.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<Photo> getPhotos(String albumId);
 	
@@ -84,6 +99,8 @@ public interface MediaOperations {
 	 * Retrieve data for a specified photo.
 	 * @param photoId the photo's ID
 	 * @return the requested {@link Photo}
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	Photo getPhoto(String photoId);
 	
@@ -91,6 +108,8 @@ public interface MediaOperations {
 	 * Retrieves a photo's image as an array of bytes. Returns the image in Facebook's "normal" type.
 	 * @param photoId the photo ID
 	 * @return an array of bytes containing the photo's image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getPhotoImage(String photoId);
 
@@ -99,6 +118,8 @@ public interface MediaOperations {
 	 * @param photoId the photo ID
 	 * @param imageType the image type (eg., small, normal, large. square)
 	 * @return an array of bytes containing the photo's image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getPhotoImage(String photoId, ImageType imageType);
 	
@@ -107,6 +128,8 @@ public interface MediaOperations {
 	 * If no album exists for the application, it will be created.
 	 * @param photo A {@link Resource} for the photo data. The given Resource must implement the getFilename() method (such as {@link FileSystemResource} or {@link ClassPathResource}).
 	 * @return the ID of the photo.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(Resource photo);
 	
@@ -116,6 +139,8 @@ public interface MediaOperations {
 	 * @param photo A {@link Resource} for the photo data. The given Resource must implement the getFilename() method (such as {@link FileSystemResource} or {@link ClassPathResource}).
 	 * @param caption A caption describing the photo.
 	 * @return the ID of the photo.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(Resource photo, String caption);
 	
@@ -124,6 +149,8 @@ public interface MediaOperations {
 	 * @param albumId the ID of the album to upload the photo to.
 	 * @param photo A {@link Resource} for the photo data. The given Resource must implement the getFilename() method (such as {@link FileSystemResource} or {@link ClassPathResource}).
 	 * @return the ID of the photo.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(String albumId, Resource photo);
 	
@@ -133,12 +160,16 @@ public interface MediaOperations {
 	 * @param photo A {@link Resource} for the photo data. The given Resource must implement the getFilename() method (such as {@link FileSystemResource} or {@link ClassPathResource}).
 	 * @param caption A caption describing the photo.
 	 * @return the ID of the photo.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(String albumId, Resource photo, String caption);
 	
 	/**
 	 * Retrieves a list of videos that the authenticated user is tagged in.
 	 * @return a list of {@link Video} belonging to the authenticated user.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<Video> getVideos();
 
@@ -146,6 +177,8 @@ public interface MediaOperations {
 	 * Retrieves a list of videos that a specified user is tagged in.
 	 * @param userId the ID of the user who is tagged in the videos
 	 * @return a list of {@link Video} which the specified user is tagged in.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<Video> getVideos(String userId);
 	
@@ -153,6 +186,8 @@ public interface MediaOperations {
 	 * Retrieves data for a specific video.
 	 * @param videoId the ID of the video.
 	 * @return the requested {@link Video} data.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	Video getVideo(String videoId);
 	
@@ -160,6 +195,8 @@ public interface MediaOperations {
 	 * Retrieves a video's image as an array of bytes. Returns the image in Facebook's "normal" type.
 	 * @param videoId the video ID
 	 * @return an array of bytes containing the video's image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getVideoImage(String videoId);
 
@@ -168,6 +205,8 @@ public interface MediaOperations {
 	 * @param videoId the video ID
 	 * @param imageType the image type (eg., small, normal, large. square)
 	 * @return an array of bytes containing the video's image.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getVideoImage(String videoId, ImageType imageType);
 	
@@ -176,6 +215,8 @@ public interface MediaOperations {
 	 * Note that the video will not be immediately available after uploading, as Facebook performs some post-upload processing on the video.
 	 * @param video A {@link Resource} for the video data. The given Resource must implement the getFilename() method (such as {@link FileSystemResource} or {@link ClassPathResource}).
 	 * @return the ID of the video.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String postVideo(Resource video);
 	
@@ -184,6 +225,8 @@ public interface MediaOperations {
 	 * Note that the video will not be immediately available after uploading, as Facebook performs some post-upload processing on the video.
 	 * @param video A {@link Resource} for the video data. The given Resource must implement the getFilename() method (such as {@link FileSystemResource} or {@link ClassPathResource}).
 	 * @return the ID of the video.
+	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String postVideo(Resource video, String title, String description);
 

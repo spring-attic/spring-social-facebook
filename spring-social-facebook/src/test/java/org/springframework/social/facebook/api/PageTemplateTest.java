@@ -110,6 +110,12 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertTrue(facebook.pageOperations().isPageAdmin("987654321"));
 	}
 	
+
+	@Test(expected = BadCredentialsException.class)
+	public void isPageAdmin_unauthorized() {
+		unauthorizedFacebook.pageOperations().isPageAdmin("2468013579");
+	}
+
 	@Test
 	public void post_message() throws Exception {
 		expectFetchAccounts();
@@ -124,13 +130,18 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test(expected = BadCredentialsException.class)
-	public void post_message_notAdmin() throws Exception {
+	public void postMessage_notAdmin() throws Exception {
 		expectFetchAccounts();
 		facebook.pageOperations().post("2468013579", "Hello Facebook World");
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void postMessage_unauthorized() {
+		unauthorizedFacebook.pageOperations().post("2468013579", "Hello Facebook World");
+	}
+
 	@Test
-	public void post_link() throws Exception {
+	public void postLink() throws Exception {
 		expectFetchAccounts();
 		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World&access_token=pageAccessToken";
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/feed")).andExpect(method(POST))
@@ -143,12 +154,18 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test(expected = BadCredentialsException.class)
-	public void post_link_notAdmin() throws Exception {
+	public void postLink_notAdmin() throws Exception {
 		expectFetchAccounts();
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		facebook.pageOperations().post("2468013579", "Hello Facebook World", link);
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void postLink_unauthorized() {
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
+		unauthorizedFacebook.pageOperations().post("2468013579", "Hello Facebook World", link);
+	}
+
 	@Test
 	public void postPhoto_noCaption() {
 		expectFetchAccounts();
@@ -162,6 +179,11 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
+	@Test(expected = BadCredentialsException.class)
+	public void postPhoto_noCaption_unauthorized() {
+		unauthorizedFacebook.pageOperations().postPhoto("987654321", "192837465", null);
+	}
+	
 	@Test
 	public void postPhoto_withCaption() {
 		expectFetchAccounts();
@@ -175,6 +197,11 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void postPhoto_withCaption_unauthorized() {
+		unauthorizedFacebook.pageOperations().postPhoto("987654321", "192837465", null, "Some caption");
+	}
+
 	// private helpers
 	
 	private void expectFetchAccounts() {

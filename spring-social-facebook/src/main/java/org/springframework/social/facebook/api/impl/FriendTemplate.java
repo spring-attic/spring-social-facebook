@@ -25,13 +25,14 @@ import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.web.client.RestTemplate;
 
-class FriendTemplate implements FriendOperations {
+class FriendTemplate extends AbstractFacebookOperations implements FriendOperations {
 	
 	private final GraphApi graphApi;
 
 	private final RestTemplate restTemplate;
 
-	public FriendTemplate(GraphApi graphApi, RestTemplate restTemplate) {
+	public FriendTemplate(GraphApi graphApi, RestTemplate restTemplate, boolean isAuthorizedForUser) {
+		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
 		this.restTemplate = restTemplate;
 	}
@@ -41,14 +42,17 @@ class FriendTemplate implements FriendOperations {
 	}
 
 	public List<Reference> getFriendLists(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "friendlists", ReferenceList.class).getList();
 	}
 	
 	public Reference getFriendList(String friendListId) {
+		requireUserAuthorization();
 		return graphApi.fetchObject(friendListId, Reference.class);
 	}
 	
 	public List<Reference> getFriendListMembers(String friendListId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(friendListId, "members", ReferenceList.class).getList();
 	}
 
@@ -57,20 +61,24 @@ class FriendTemplate implements FriendOperations {
 	}
 	
 	public Reference createFriendList(String userId, String name) {
+		requireUserAuthorization();
 		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userId + "/friendlists").queryParam("name", name).build();
 		return restTemplate.postForObject(uri, "", Reference.class);
 	}
 	
 	public void deleteFriendList(String friendListId) {
+		requireUserAuthorization();
 		graphApi.delete(friendListId);
 	}
 
 	public void addToFriendList(String friendListId, String friendId) {
+		requireUserAuthorization();
 		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + friendListId + "/members/" + friendId).build();
 		restTemplate.postForObject(uri, "", String.class);
 	}
 	
 	public void removeFromFriendList(String friendListId, String friendId) {
+		requireUserAuthorization();
 		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + friendListId + "/members/" + friendId).build();
 		restTemplate.delete(uri);
 	}
@@ -88,14 +96,17 @@ class FriendTemplate implements FriendOperations {
 	}
 
 	public List<Reference> getFriends(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "friends", ReferenceList.class).getList();
 	}
 	
 	public List<String> getFriendIds(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "friends", FriendIdList.class, "id").getList();
 	}
 	
 	public List<FacebookProfile> getFriendProfiles(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "friends", FacebookProfileList.class, FULL_PROFILE_FIELDS).getList();
 	}
 

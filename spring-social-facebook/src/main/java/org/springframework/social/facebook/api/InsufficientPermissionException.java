@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
-import org.springframework.social.SocialException;
+import org.springframework.social.ProviderApiException;
 
 /**
  * Exception thrown when attempting an operation that requires a permission not granted to the caller.
@@ -23,7 +23,7 @@ import org.springframework.social.SocialException;
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class InsufficientPermissionException extends SocialException {
+public class InsufficientPermissionException extends ProviderApiException {
 	
 	private final String requiredPermission;
 

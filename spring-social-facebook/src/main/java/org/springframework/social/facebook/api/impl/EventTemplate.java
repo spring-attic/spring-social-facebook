@@ -26,19 +26,22 @@ import org.springframework.social.facebook.api.Invitation;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class EventTemplate implements EventOperations {
+class EventTemplate extends AbstractFacebookOperations implements EventOperations {
 			
 	private final GraphApi graphApi;
 
-	public EventTemplate(GraphApi graphApi) {
+	public EventTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
 	}
 
 	public List<Invitation> getInvitations() {
+		requireUserAuthorization();
 		return getInvitations("me");
 	}
 
 	public List<Invitation> getInvitations(String userId) {
+		requireUserAuthorization();
 		return graphApi.fetchConnections(userId, "events", InvitationList.class).getList();
 	}
 	
@@ -55,6 +58,7 @@ class EventTemplate implements EventOperations {
 	}
 	
 	public String createEvent(String name, String startTime, String endTime) {
+		requireUserAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("name", name);
 		data.set("start_time", startTime);
@@ -63,6 +67,7 @@ class EventTemplate implements EventOperations {
 	}
 	
 	public void deleteEvent(String eventId) {
+		requireUserAuthorization();
 		graphApi.delete(eventId);
 	}
 
@@ -87,14 +92,17 @@ class EventTemplate implements EventOperations {
 	}
 	
 	public void acceptInvitation(String eventId) {
+		requireUserAuthorization();
 		graphApi.post(eventId, "attending", new LinkedMultiValueMap<String, String>());
 	}
 
 	public void maybeInvitation(String eventId) {
+		requireUserAuthorization();
 		graphApi.post(eventId, "maybe", new LinkedMultiValueMap<String, String>());
 	}
 
 	public void declineInvitation(String eventId) {
+		requireUserAuthorization();
 		graphApi.post(eventId, "declined", new LinkedMultiValueMap<String, String>());
 	}
 	

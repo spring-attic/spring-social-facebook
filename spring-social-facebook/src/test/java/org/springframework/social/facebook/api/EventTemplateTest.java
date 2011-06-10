@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.social.BadCredentialsException;
 
 public class EventTemplateTest extends AbstractFacebookApiTest {
 
@@ -36,7 +37,12 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		List<Invitation> events = facebook.eventOperations().getInvitations();
 		assertInvitations(events);
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void getInvitations_unauthorized() {
+		unauthorizedFacebook.eventOperations().getInvitations();
+	}
+
 	@Test
 	public void getInvitations_forSpecificUser() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789/events"))
@@ -46,7 +52,12 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		List<Invitation> events = facebook.eventOperations().getInvitations("123456789");
 		assertInvitations(events);
 	}
-	
+
+	@Test(expected = BadCredentialsException.class)
+	public void getInvitations_forSpecificUser_unauthorized() {
+		unauthorizedFacebook.eventOperations().getInvitations("123456789");
+	}
+
 	@Test
 	public void getEvent() {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832"))
@@ -94,6 +105,26 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse("{\"id\":\"193482145020832\"}", responseHeaders));
 		String eventId = facebook.eventOperations().createEvent("Test Event", "2011-04-01T15:30:00", "2011-04-01T18:30:00");
 		assertEquals("193482145020832", eventId);
+	}
+	
+	@Test(expected = BadCredentialsException.class)
+	public void createEvent_unauthorized() {
+		unauthorizedFacebook.eventOperations().createEvent("Test Event", "2011-04-01T15:30:00", "2011-04-01T18:30:00");
+	}
+	
+	@Test
+	public void deleteEvent() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
+			.andExpect(method(POST))
+			.andExpect(body("method=delete"))
+			.andRespond(withResponse("", responseHeaders));
+		facebook.eventOperations().deleteEvent("123456789");
+		mockServer.verify();
+	}
+	
+	@Test(expected = BadCredentialsException.class)
+	public void deleteEvent_unauthorized() {
+		unauthorizedFacebook.eventOperations().deleteEvent("123456789");
 	}
 	
 	@Test
@@ -162,7 +193,37 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
-	public void decline() {
+	public void acceptInvitation() {
+		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/attending"))
+			.andExpect(method(POST))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse("true", responseHeaders));
+		facebook.eventOperations().acceptInvitation("193482154020832");
+		mockServer.verify();
+	}
+	
+	@Test(expected = BadCredentialsException.class)
+	public void acceptInvitation_unauthorized() {
+		unauthorizedFacebook.eventOperations().acceptInvitation("123456789");
+	}
+
+	@Test
+	public void maybeInvitation() {
+		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/maybe"))
+			.andExpect(method(POST))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse("true", responseHeaders));
+		facebook.eventOperations().maybeInvitation("193482154020832");
+		mockServer.verify();
+	}
+	
+	@Test(expected = BadCredentialsException.class)
+	public void maybeInvitation_unauthorized() {
+		unauthorizedFacebook.eventOperations().maybeInvitation("123456789");
+	}
+	
+	@Test
+	public void declineInvitation() {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/declined"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -171,6 +232,11 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
+	@Test(expected = BadCredentialsException.class)
+	public void declineInvitation_unauthorized() {
+		unauthorizedFacebook.eventOperations().declineInvitation("123456789");
+	}
+
 	@Test
 	public void search() {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=event"))
