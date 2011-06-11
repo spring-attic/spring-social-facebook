@@ -40,7 +40,7 @@ import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PlacesOperations;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.social.facebook.api.impl.json.FacebookModule;
-import org.springframework.social.oauth2.AbstractOAuth2ApiTemplate;
+import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.OAuth2Version;
 import org.springframework.social.support.ClientHttpRequestFactorySelector;
 import org.springframework.social.support.URIBuilder;
@@ -59,7 +59,7 @@ import org.springframework.web.client.RestTemplate;
  * </p>
  * @author Craig Walls
  */
-public class FacebookTemplate extends AbstractOAuth2ApiTemplate implements Facebook {
+public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebook {
 
 	private UserOperations userOperations;
 	
@@ -104,16 +104,16 @@ public class FacebookTemplate extends AbstractOAuth2ApiTemplate implements Faceb
 	}
 
 	private void initSubApis() {
-		userOperations = new UserTemplate(this, isAuthorizedForUser());
-		placesOperations = new PlacesTemplate(this, isAuthorizedForUser());
-		friendOperations = new FriendTemplate(this, getRestTemplate(), isAuthorizedForUser());
-		feedOperations = new FeedTemplate(this, isAuthorizedForUser());
-		commentOperations = new CommentTemplate(this, isAuthorizedForUser());
-		likeOperations = new LikeTemplate(this, isAuthorizedForUser());
-		eventOperations = new EventTemplate(this, isAuthorizedForUser());
-		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorizedForUser());
-		groupOperations = new GroupTemplate(this, isAuthorizedForUser());
-		pageOperations = new PageTemplate(this, isAuthorizedForUser());
+		userOperations = new UserTemplate(this, isAuthorized());
+		placesOperations = new PlacesTemplate(this, isAuthorized());
+		friendOperations = new FriendTemplate(this, getRestTemplate(), isAuthorized());
+		feedOperations = new FeedTemplate(this, isAuthorized());
+		commentOperations = new CommentTemplate(this, isAuthorized());
+		likeOperations = new LikeTemplate(this, isAuthorized());
+		eventOperations = new EventTemplate(this, isAuthorized());
+		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorized());
+		groupOperations = new GroupTemplate(this, isAuthorized());
+		pageOperations = new PageTemplate(this, isAuthorized());
 	}
 	
 	@Override

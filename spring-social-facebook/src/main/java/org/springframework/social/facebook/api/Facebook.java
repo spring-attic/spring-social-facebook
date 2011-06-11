@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
+import org.springframework.social.ApiBinding;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
 
@@ -23,7 +24,7 @@ import org.springframework.social.facebook.api.impl.FacebookTemplate;
  * Implemented by {@link FacebookTemplate}.
  * @author Craig Walls
  */
-public interface Facebook extends GraphApi {
+public interface Facebook extends GraphApi, ApiBinding {
 	
 	/**
 	 * API for reading and posting comments.
