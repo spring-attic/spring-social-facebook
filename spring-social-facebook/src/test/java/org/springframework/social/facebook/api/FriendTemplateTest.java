@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 
 public class FriendTemplateTest extends AbstractFacebookApiTest {
 
@@ -38,7 +38,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendLists(friendLists);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriendLists_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendLists();
 	}
@@ -53,7 +53,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendLists(friendLists);
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriendLists_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendLists("11223344");
 	}
@@ -69,7 +69,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("High School Friends", friendList.getName());
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriendList_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendList("11929590579");
 	}
@@ -84,7 +84,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriends(members);
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriendListMembers_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendListMembers("192837465");
 	}
@@ -101,7 +101,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void createFriendList_unauthorized() {
 		unauthorizedFacebook.friendOperations().createFriendList("My List");
 	}
@@ -117,7 +117,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void deleteFriendList_unauthorized() {
 		unauthorizedFacebook.friendOperations().deleteFriendList("123456");
 	}
@@ -132,7 +132,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void addToFriendList_unauthorized() {
 		unauthorizedFacebook.friendOperations().addToFriendList("123456", "7890123");
 	}
@@ -147,7 +147,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();		
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void removeFromFriendList_unauthorized() {
 		unauthorizedFacebook.friendOperations().removeFromFriendList("123456", "7890123");
 	}
@@ -162,7 +162,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriends(friends);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriends_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriends();
 	}
@@ -177,7 +177,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriends(friends);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriends_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriends("912873465");
 	}
@@ -192,7 +192,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendIds(friendIds);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriendIds_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendIds();
 	}
@@ -208,7 +208,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendIds(friendIds);
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriendIds_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendIds("912873465");
 	}
@@ -223,7 +223,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendProfiles(friends);
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriendProfiles_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendProfiles();
 	}
@@ -238,7 +238,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendProfiles(friends);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getFriendProfiles_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendProfiles("912873465");
 	}

@@ -17,7 +17,7 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 import org.springframework.social.ProviderApiException;
 
 
@@ -32,7 +32,7 @@ public interface LikeOperations {
 	 * Requires "user_likes" permission. Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getLikes();
 
@@ -43,7 +43,7 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getLikes(String userId);
 
@@ -51,7 +51,7 @@ public interface LikeOperations {
 	 * Like an object on behalf of the authenticated user.
 	 * @param objectId the object ID
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	void like(String objectId);
 
@@ -59,7 +59,7 @@ public interface LikeOperations {
 	 * Unlike an object on behalf of the authenticated user.
 	 * @param objectId the object ID
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	void unlike(String objectId);
 
@@ -69,7 +69,7 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getBooks();
 
@@ -81,7 +81,7 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getBooks(String userId);
 
@@ -91,7 +91,7 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMovies();
 
@@ -102,7 +102,7 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMovies(String userId);
 
@@ -112,7 +112,7 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMusic();
 
@@ -123,7 +123,7 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMusic(String userId);
 
@@ -133,7 +133,7 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getTelevision();
 
@@ -144,7 +144,7 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getTelevision(String userId);
 
@@ -154,7 +154,7 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getActivities();
 
@@ -165,7 +165,7 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getActivities(String userId);
 
@@ -175,7 +175,7 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getInterests();
 
@@ -186,7 +186,7 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getInterests(String userId);
 

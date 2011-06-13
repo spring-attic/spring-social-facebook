@@ -17,7 +17,7 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 import org.springframework.social.ProviderApiException;
 
 
@@ -28,7 +28,7 @@ public interface UserOperations {
 	 * Retrieves the profile for the authenticated user.
 	 * @return the user's profile information.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	FacebookProfile getUserProfile();
 	
@@ -44,7 +44,7 @@ public interface UserOperations {
 	 * Retrieves the user's profile image. Returns the image in Facebook's "normal" type.
 	 * @return an array of bytes containing the user's profile image.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getUserProfileImage();
 
@@ -61,7 +61,7 @@ public interface UserOperations {
 	 * @param imageType the image type (eg., small, normal, large. square)
 	 * @return an array of bytes containing the user's profile image.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getUserProfileImage(ImageType imageType);
 
@@ -78,7 +78,7 @@ public interface UserOperations {
 	 * Retrieves a list of permissions that the application has been granted for the authenticated user.
 	 * @return the permissions granted for the user.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<String> getUserPermissions();
 	
@@ -87,7 +87,7 @@ public interface UserOperations {
 	 * @param query the search query (e.g., "Michael Scott")
 	 * @return a list of {@link Reference}s, each representing a user who matched the given query.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<Reference> search(String query);
 }

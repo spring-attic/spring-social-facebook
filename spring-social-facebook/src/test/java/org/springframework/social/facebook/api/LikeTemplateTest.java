@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 
 public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
@@ -38,7 +38,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void like_unauthorized() {
 		unauthorizedFacebook.likeOperations().like("123456");
 	}
@@ -54,7 +54,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void unlike_unauthorized() {
 		unauthorizedFacebook.likeOperations().unlike("123456");
 	}
@@ -68,7 +68,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getLikes_unauthorized() {
 		unauthorizedFacebook.likeOperations().getLikes();
 	}
@@ -82,7 +82,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getLikes_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getLikes("123456789");
 	}
@@ -96,7 +96,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getBooks_unauthorized() {
 		unauthorizedFacebook.likeOperations().getBooks();
 	}
@@ -110,7 +110,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}	
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getBooks_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getBooks("123456789");
 	}
@@ -124,7 +124,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getMovies_unauthorized() {
 		unauthorizedFacebook.likeOperations().getMovies();
 	}
@@ -138,7 +138,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getMovies_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getMovies("123456789");
 	}
@@ -152,7 +152,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getMusic_unauthorized() {
 		unauthorizedFacebook.likeOperations().getMusic();
 	}
@@ -166,7 +166,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getMusic_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getMusic("123456789");
 	}
@@ -180,7 +180,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getTelevision_unauthorized() {
 		unauthorizedFacebook.likeOperations().getTelevision();
 	}
@@ -194,7 +194,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 		
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getTelevision_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getTelevision("123456789");
 	}
@@ -208,7 +208,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getActivities_unauthorized() {
 		unauthorizedFacebook.likeOperations().getActivities();
 	}
@@ -222,7 +222,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getActivities_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getActivities("123456789");
 	}
@@ -236,7 +236,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getInterests_unauthorized() {
 		unauthorizedFacebook.likeOperations().getInterests();
 	}
@@ -250,7 +250,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getInterests_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getInterests("123456789");
 	}

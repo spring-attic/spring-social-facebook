@@ -17,7 +17,7 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 import org.springframework.social.ProviderApiException;
 
 
@@ -49,7 +49,7 @@ public interface CommentOperations {
 	 * @param message the comment message
 	 * @return the new comment's ID
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	String addComment(String objectId, String message);
 
@@ -57,7 +57,7 @@ public interface CommentOperations {
 	 * Delete a comment
 	 * @param commentId the comment ID
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteComment(String commentId);
 

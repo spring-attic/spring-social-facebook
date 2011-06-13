@@ -17,7 +17,7 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 import org.springframework.social.ProviderApiException;
 
 
@@ -32,7 +32,7 @@ public interface PlacesOperations {
 	 * Requires "user_checkins" or "friends_checkins" permission.
 	 * @return a list {@link Checkin}s for the user, or an empty list if not available.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<Checkin> getCheckins();
 
@@ -44,7 +44,7 @@ public interface PlacesOperations {
 	 * @param objectId either a Facebook user ID or page ID
 	 * @return a list {@link Checkin}s, or an empty list if not available.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<Checkin> getCheckins(String objectId);
 
@@ -53,7 +53,7 @@ public interface PlacesOperations {
 	 * @param checkinId the checkin ID
 	 * @return a {@link Checkin}
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	Checkin getCheckin(String checkinId);
 	
@@ -64,7 +64,7 @@ public interface PlacesOperations {
 	 * @param longitude the longitude of the place.
 	 * @return the ID of the checkin.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	String checkin(String placeId, double latitude, double longitude);
 
@@ -77,7 +77,7 @@ public interface PlacesOperations {
 	 * @param tags a varargs list of user IDs to tag on the checkin.
 	 * @return the ID of the checkin.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	String checkin(String placeId, double latitude, double longitude, String message, String... tags);
 	
@@ -89,7 +89,7 @@ public interface PlacesOperations {
 	 * @param distance the radius to search within (in feet)
 	 * @return a list of {@link Page}s matching the search
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<Page> search(String query, double latitude, double longitude, long distance);
 }

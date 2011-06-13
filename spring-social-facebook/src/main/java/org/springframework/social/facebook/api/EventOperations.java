@@ -17,7 +17,7 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 import org.springframework.social.ProviderApiException;
 
 
@@ -32,7 +32,7 @@ public interface EventOperations {
 	 * Requires "user_events" or "friends_events" permission.
 	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<Invitation> getInvitations();
 
@@ -42,7 +42,7 @@ public interface EventOperations {
 	 * @param userId the user's ID
 	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<Invitation> getInvitations(String userId);
 	
@@ -89,7 +89,7 @@ public interface EventOperations {
 	 * @param endTime the end time of the event.
 	 * @return the newly created event's ID
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	String createEvent(String name, String startTime, String endTime);
 	
@@ -97,7 +97,7 @@ public interface EventOperations {
 	 * Deletes an event.
 	 * @param eventId the ID of the event
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteEvent(String eventId);
 	
@@ -146,7 +146,7 @@ public interface EventOperations {
 	 * Requires "rsvp_event" permission.
 	 * @param eventId the event ID
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	void acceptInvitation(String eventId);
 	
@@ -155,7 +155,7 @@ public interface EventOperations {
 	 * Requires "rsvp_event" permission.
 	 * @param eventId the event ID
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	void maybeInvitation(String eventId);
 	
@@ -164,7 +164,7 @@ public interface EventOperations {
 	 * Requires "rsvp_event" permission.
 	 * @param eventId the event ID
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	void declineInvitation(String eventId);
 

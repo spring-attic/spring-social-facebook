@@ -17,7 +17,7 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 import org.springframework.social.ProviderApiException;
 
 
@@ -57,7 +57,7 @@ public interface GroupOperations {
 	 * @param groupId the ID of the group
 	 * @return a list of {@link Reference}s, one for each member of the group.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<GroupMemberReference> getMembers(String groupId);
 
@@ -66,7 +66,7 @@ public interface GroupOperations {
 	 * @param groupId the ID of the group
 	 * @return a list of {@link FacebookProfile}s, one for each member of the group.
 	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws BadCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
 	 */
 	List<FacebookProfile> getMemberProfiles(String groupId);
 	

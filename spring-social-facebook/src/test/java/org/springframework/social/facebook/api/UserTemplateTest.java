@@ -26,7 +26,7 @@ import java.util.Locale;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 
 /**
  * @author Craig Walls
@@ -97,7 +97,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEducationHistory(profile.getEducation());
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getUserProfile_currentUser_unauthorized() {
 		unauthorizedFacebook.userOperations().getUserProfile();
 	}
@@ -125,7 +125,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getUserProfileImage_currentUser_unauthorized() {
 		unauthorizedFacebook.userOperations().getUserProfileImage();
 	}
@@ -154,7 +154,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getUserProfileImage_currentUser_specificType_unauthorized() {
 		unauthorizedFacebook.userOperations().getUserProfileImage(ImageType.NORMAL);
 	}
@@ -173,7 +173,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertTrue(permissions.contains("publish_stream"));
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void getUserPermissions_unauthorized() {
 		unauthorizedFacebook.userOperations().getUserPermissions();
 	}
@@ -194,7 +194,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Michael Scott", results.get(2).getName());
 	}
 	
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = AuthorizationRequiredException.class)
 	public void search_unauthorized() {
 		unauthorizedFacebook.userOperations().search("Michael Scott");
 	}

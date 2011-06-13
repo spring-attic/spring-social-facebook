@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.AuthorizationRequiredException;
 
 class AbstractFacebookOperations {
 	
@@ -27,7 +27,7 @@ class AbstractFacebookOperations {
 	
 	protected void requireUserAuthorization() {
 		if(!isAuthorizedForUser) {
-			throw new BadCredentialsException("User authorization required: FacebookTemplate must be created with an access token to perform this operation.");
+			throw new AuthorizationRequiredException("User authorization required: FacebookTemplate must be created with an access token to perform this operation.");
 		}
 	}
 	
