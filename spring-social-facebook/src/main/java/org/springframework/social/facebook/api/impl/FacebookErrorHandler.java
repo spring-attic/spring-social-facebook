@@ -26,9 +26,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.GraphAPIException;
-import org.springframework.social.facebook.api.InsufficientPermissionException;
 import org.springframework.social.facebook.api.NotAFriendException;
 import org.springframework.social.facebook.api.OwnershipException;
 import org.springframework.web.client.DefaultResponseErrorHandler;
@@ -43,18 +44,25 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 	@Override
 	public void handleError(ClientHttpResponse response) throws IOException {				
 		Map<String, String> errorDetails = extractErrorDetailsFromResponse(response);
-		if(errorDetails == null) {
+		if (errorDetails == null) {
 			// body does not contain the known Facebook error structure...use default handling
 			super.handleError(response);			
 		}
 
 		// 401 is the only status code we can trust from Facebook. 
 		// Facebook is very inconsistent in use of error codes in most other cases.
-		if(response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+		if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 			throw new NotAuthorizedException(errorDetails.get("message"));
 		}
 
 		handleFacebookError(errorDetails);
+		
+		// if not otherwise handled, do default handling and wrap with UncategorizedApiException
+		try {
+			super.handleError(response);
+		} catch (Exception e) {
+			throw new UncategorizedApiException(errorDetails.get("message"), e);
+		}			
 	}
 	
 	@Override 
@@ -71,19 +79,18 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		// Can't trust the type to be useful. It's often OAuthException, even for things not OAuth-related.
 		// Can rely only on the message (which itself isn't very consistent).
 		String message = errorDetails.get("message");
-		if(message.contains("Requires extended permission")) {
+		if (message.contains("Requires extended permission")) {
 			String requiredPermission = message.split(": ")[1];
 			throw new InsufficientPermissionException(message, requiredPermission);
-		} else if(message.equals("The member must be a friend of the current user.")) {
+		} else if (message.equals("The member must be a friend of the current user.")) {
 			throw new NotAFriendException(message);
-		} else if(message.contains("Unknown path components")) {
+		} else if (message.contains("Unknown path components")) {
 			throw new GraphAPIException(message);
-		} else if(message.equals("User must be an owner of the friendlist")) { // watch for pattern in similar message in other resources
+		} else if (message.equals("User must be an owner of the friendlist")) { // watch for pattern in similar message in other resources
 			throw new OwnershipException(message);
-		} else if(message.contains("Some of the aliases you requested do not exist")) {
+		} else if (message.contains("Some of the aliases you requested do not exist")) {
 			throw new GraphAPIException(message);
 		}
-		
 	}
 
 	/*
@@ -95,7 +102,7 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		ObjectMapper mapper = new ObjectMapper(new JsonFactory());		
 		try {
 		    Map<String, Object> responseMap = mapper.<Map<String, Object>>readValue(response.getBody(), new TypeReference<Map<String, Object>>() {});
-		    if(responseMap.containsKey("error")) {
+		    if (responseMap.containsKey("error")) {
 		    	return (Map<String, String>) responseMap.get("error");
 		    }
 		} catch (JsonParseException e) {

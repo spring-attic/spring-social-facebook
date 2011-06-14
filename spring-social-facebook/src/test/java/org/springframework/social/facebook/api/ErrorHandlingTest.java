@@ -23,6 +23,7 @@ import static org.springframework.social.test.client.ResponseCreators.*;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.test.client.MockRestServiceServer;
