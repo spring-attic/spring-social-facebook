@@ -17,8 +17,8 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
-import org.springframework.social.AuthorizationRequiredException;
-import org.springframework.social.ProviderApiException;
+import org.springframework.social.ApiException;
+import org.springframework.social.NotAuthorizedException;
 
 
 /**
@@ -31,8 +31,8 @@ public interface FriendOperations {
 	 * Retrieves a list of custom friend lists belonging to the authenticated user.
 	 * Requires "read_friendlists" permission.
 	 * @return a list {@link Reference}s, each representing a friends list for the user, or an empty list if not available.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Reference> getFriendLists();
 
@@ -41,8 +41,8 @@ public interface FriendOperations {
 	 * Requires "read_friendlists" permission.
 	 * @param userId the user's ID
 	 * @return a list {@link Reference}s, each representing a friends list for the user, or an empty list if not available.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Reference> getFriendLists(String userId);
 
@@ -50,8 +50,8 @@ public interface FriendOperations {
 	 * Retrieves a reference to the specified friend list.
 	 * @param friendListId the friend list ID.
 	 * @return a {@link Reference} to the requested friend list.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	Reference getFriendList(String friendListId);
 	
@@ -59,8 +59,8 @@ public interface FriendOperations {
 	 * Retrieves references for all users who are members of the specified friend list.
 	 * @param friendListId the friend list ID.
 	 * @return a list of {@link Reference}, each representing a member of the friend list.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Reference> getFriendListMembers(String friendListId);
 
@@ -68,8 +68,8 @@ public interface FriendOperations {
 	 * Creates a new friend list for the authenticated user.
 	 * @param name the name of the friend list.
 	 * @return a {@link Reference} to the newly created friend list.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	Reference createFriendList(String name);
 
@@ -78,16 +78,16 @@ public interface FriendOperations {
 	 * @param userId the user ID to create the friend list for.
 	 * @param name the name of the friend list.
 	 * @return a {@link Reference} to the newly created friend list.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	Reference createFriendList(String userId, String name);
 	
 	/**
 	 * Deletes a friend list.
 	 * @param friendListId the ID of the friend list to remove.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteFriendList(String friendListId);
 
@@ -95,8 +95,8 @@ public interface FriendOperations {
 	 * Adds a friend to a friend list.
 	 * @param friendListId the friend list ID
 	 * @param friendId The ID of the user to add to the list. The user must be a friend of the list's owner.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	void addToFriendList(String friendListId, String friendId);
 	
@@ -104,32 +104,32 @@ public interface FriendOperations {
 	 * Removes a friend from a friend list.
 	 * @param friendListId the friend list ID
 	 * @param friendId The ID of the user to add to the list.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	void removeFromFriendList(String friendListId, String friendId);
 	
 	/**
 	 * Retrieves a list of user references for the authenticated user's friends.
 	 * @return a list {@link Reference}s, each representing a friend of the user, or an empty list if not available.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Reference> getFriends();
 	
 	/**
 	 * Retrieves a list of the authenticating user's friends' IDs.
 	 * @return a list of Strings, where each entry is the ID of one of the user's friends.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<String> getFriendIds();
 	
 	/**
 	 * Retrieves profile data for the authenticated user's friends.
 	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<FacebookProfile> getFriendProfiles();
 
@@ -137,8 +137,8 @@ public interface FriendOperations {
 	 * Retrieves a list of user references for the specified user's friends.
 	 * @param userId the user's ID
 	 * @return a list {@link Reference}s, each representing a friend of the user, or an empty list if not available.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Reference> getFriends(String userId);
 
@@ -146,8 +146,8 @@ public interface FriendOperations {
 	 * Retrieves a list of the authenticating user's friends' IDs.
 	 * @param userId the user's ID
 	 * @return a list of Strings, where each entry is the ID of one of the user's friends.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<String> getFriendIds(String userId);
 	
@@ -155,8 +155,8 @@ public interface FriendOperations {
 	 * Retrieves profile data for the specified user's friends.
 	 * @param userId the user's ID
 	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<FacebookProfile> getFriendProfiles(String userId);
 }

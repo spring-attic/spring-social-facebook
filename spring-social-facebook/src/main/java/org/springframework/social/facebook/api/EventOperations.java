@@ -17,8 +17,8 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
-import org.springframework.social.AuthorizationRequiredException;
-import org.springframework.social.ProviderApiException;
+import org.springframework.social.ApiException;
+import org.springframework.social.NotAuthorizedException;
 
 
 /**
@@ -31,8 +31,8 @@ public interface EventOperations {
 	 * Retrieves a list of events that the authenticated user has been invited to.
 	 * Requires "user_events" or "friends_events" permission.
 	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Invitation> getInvitations();
 
@@ -41,8 +41,8 @@ public interface EventOperations {
 	 * Requires "user_events" or "friends_events" permission.
 	 * @param userId the user's ID
 	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Invitation> getInvitations(String userId);
 	
@@ -50,7 +50,7 @@ public interface EventOperations {
 	 * Retrieves event data for a specified event.
 	 * @param eventId the event ID
 	 * @return an {@link Event} object
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	Event getEvent(String eventId);
 	
@@ -58,7 +58,7 @@ public interface EventOperations {
 	 * Retrieves an event's image as an array of bytes. Returns the image in Facebook's "normal" type.
 	 * @param eventId the event ID
 	 * @return an array of bytes containing the event's image.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	byte[] getEventImage(String eventId);
 
@@ -67,7 +67,7 @@ public interface EventOperations {
 	 * @param eventId the event ID
 	 * @param imageType the image type (eg., small, normal, large. square)
 	 * @return an array of bytes containing the event's image.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	byte[] getEventImage(String eventId, ImageType imageType);
 	
@@ -88,16 +88,16 @@ public interface EventOperations {
 	 * @param startTime the start time of the event.
 	 * @param endTime the end time of the event.
 	 * @return the newly created event's ID
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	String createEvent(String name, String startTime, String endTime);
 	
 	/**
 	 * Deletes an event.
 	 * @param eventId the ID of the event
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteEvent(String eventId);
 	
@@ -105,7 +105,7 @@ public interface EventOperations {
 	 * Retrieves the list of an event's invitees.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<EventInvitee> getInvited(String eventId);
 	
@@ -113,7 +113,7 @@ public interface EventOperations {
 	 * Retrieves the list of an event's invitees who have accepted the invitation.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<EventInvitee> getAttending(String eventId);
 	
@@ -121,7 +121,7 @@ public interface EventOperations {
 	 * Retrieves the list of an event's invitees who have indicated that they may attend the event.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<EventInvitee> getMaybeAttending(String eventId);
 	
@@ -129,7 +129,7 @@ public interface EventOperations {
 	 * Retrieves the list of an event's invitees who have not yet RSVP'd.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<EventInvitee> getNoReplies(String eventId);
 	
@@ -137,7 +137,7 @@ public interface EventOperations {
 	 * Retrieves the list of an event's invitees who have declined the invitation.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<EventInvitee> getDeclined(String eventId);
 
@@ -145,8 +145,8 @@ public interface EventOperations {
 	 * Accepts an invitation to an event.
 	 * Requires "rsvp_event" permission.
 	 * @param eventId the event ID
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	void acceptInvitation(String eventId);
 	
@@ -154,8 +154,8 @@ public interface EventOperations {
 	 * RSVPs to an event with a maybe.
 	 * Requires "rsvp_event" permission.
 	 * @param eventId the event ID
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	void maybeInvitation(String eventId);
 	
@@ -163,8 +163,8 @@ public interface EventOperations {
 	 * Declines an invitation to an event.
 	 * Requires "rsvp_event" permission.
 	 * @param eventId the event ID
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	void declineInvitation(String eventId);
 
@@ -172,7 +172,7 @@ public interface EventOperations {
 	 * Search for events.
 	 * @param query the search query (e.g., "Spring User Group")
 	 * @return a list of {@link Event}s matching the search query
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<Event> search(String query);
 }

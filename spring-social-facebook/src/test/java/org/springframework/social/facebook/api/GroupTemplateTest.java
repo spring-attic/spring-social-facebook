@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.social.AuthorizationRequiredException;
+import org.springframework.social.NotAuthorizedException;
 
 
 public class GroupTemplateTest extends AbstractFacebookApiTest {
@@ -67,7 +67,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertTrue(members.get(2).isAdministrator());
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getMembers_unauthorized() {
 		unauthorizedFacebook.groupOperations().getMembers("213106022036379");
 	}

@@ -26,7 +26,7 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
-import org.springframework.social.AuthorizationRequiredException;
+import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.CommentOperations;
 import org.springframework.social.facebook.api.EventOperations;
 import org.springframework.social.facebook.api.Facebook;
@@ -55,7 +55,7 @@ import org.springframework.web.client.RestTemplate;
  * authentication. In those cases, you may use a {@link FacebookTemplate} that is
  * created through the default constructor and without any OAuth details.
  * Attempts to perform secured operations through such an instance, however,
- * will result in {@link AuthorizationRequiredException} being thrown.
+ * will result in {@link NotAuthorizedException} being thrown.
  * </p>
  * @author Craig Walls
  */
@@ -87,7 +87,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	 * Some operations do not require OAuth authentication. 
 	 * For example, retrieving a specified user's profile or feed does not require authentication (although the data returned will be limited to what is publicly available). 
 	 * A FacebookTemplate created with this constructor will support those operations.
-	 * Those operations requiring authentication will throw {@link AuthorizationRequiredException}.
+	 * Those operations requiring authentication will throw {@link NotAuthorizedException}.
 	 */
 	public FacebookTemplate() {
 		initialize();		

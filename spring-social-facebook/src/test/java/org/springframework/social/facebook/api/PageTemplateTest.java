@@ -24,8 +24,7 @@ import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.social.AuthorizationRequiredException;
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.NotAuthorizedException;
 
 /**
  * @author Craig Walls
@@ -112,7 +111,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	}
 	
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void isPageAdmin_unauthorized() {
 		unauthorizedFacebook.pageOperations().isPageAdmin("2468013579");
 	}
@@ -130,13 +129,13 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postMessage_notAdmin() throws Exception {
 		expectFetchAccounts();
 		facebook.pageOperations().post("2468013579", "Hello Facebook World");
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postMessage_unauthorized() {
 		unauthorizedFacebook.pageOperations().post("2468013579", "Hello Facebook World");
 	}
@@ -154,14 +153,14 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = BadCredentialsException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postLink_notAdmin() throws Exception {
 		expectFetchAccounts();
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		facebook.pageOperations().post("2468013579", "Hello Facebook World", link);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postLink_unauthorized() {
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		unauthorizedFacebook.pageOperations().post("2468013579", "Hello Facebook World", link);
@@ -180,7 +179,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postPhoto_noCaption_unauthorized() {
 		unauthorizedFacebook.pageOperations().postPhoto("987654321", "192837465", null);
 	}
@@ -198,7 +197,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postPhoto_withCaption_unauthorized() {
 		unauthorizedFacebook.pageOperations().postPhoto("987654321", "192837465", null, "Some caption");
 	}

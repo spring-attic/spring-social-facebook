@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.social.AuthorizationRequiredException;
+import org.springframework.social.NotAuthorizedException;
 
 /**
  * @author Craig Walls
@@ -45,7 +45,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getFeed_unauthorized() {
 		unauthorizedFacebook.feedOperations().getFeed();
 	}
@@ -61,7 +61,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}	
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getFeed_forOwnerId_unauthorized() {
 		unauthorizedFacebook.feedOperations().getFeed("12345678");
 	}
@@ -77,7 +77,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(homeFeed);
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getHomeFeed_unauthorized() {
 		unauthorizedFacebook.feedOperations().getHomeFeed();
 	}
@@ -93,7 +93,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(homeFeed);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getHomeFeed_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.feedOperations().getHomeFeed("12345678");
 	}
@@ -107,7 +107,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertStatuses(facebook.feedOperations().getStatuses());
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getStatuses_unauthorized() {
 		unauthorizedFacebook.feedOperations().getStatuses();
 	}
@@ -121,7 +121,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertStatuses(facebook.feedOperations().getStatuses("24680"));
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getStatuses_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.feedOperations().getStatuses("12345678");
 	}
@@ -135,7 +135,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertLinks(facebook.feedOperations().getLinks());
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getLinks_unauthorized() {
 		unauthorizedFacebook.feedOperations().getLinks();
 	}
@@ -149,7 +149,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertLinks(facebook.feedOperations().getLinks("13579"));
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getLinks_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.feedOperations().getLinks("12345678");
 	}
@@ -164,7 +164,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertNotes(notes);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getNotes_unauthorized() {
 		unauthorizedFacebook.feedOperations().getNotes();
 	}
@@ -179,7 +179,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertNotes(notes);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getNotes_unauthorized_forSpecificUser() {
 		unauthorizedFacebook.feedOperations().getNotes("12345");
 	}
@@ -195,7 +195,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getPosts_unauthorized() {
 		unauthorizedFacebook.feedOperations().getPosts();
 	}
@@ -211,7 +211,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}	
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getPosts_unauthorized_forSpecificUser() {
 		unauthorizedFacebook.feedOperations().getPosts("12345");
 	}
@@ -237,7 +237,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(3, feedEntry.getComments().get(1).getLikesCount());
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getFeedEntry_unauthorized() {
 		unauthorizedFacebook.feedOperations().getFeedEntry("12345");
 	}
@@ -254,7 +254,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void updateStatus_unauthorized() {
 		unauthorizedFacebook.feedOperations().updateStatus("Hello");
 	}
@@ -271,7 +271,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postMessage_unauthorized() {
 		unauthorizedFacebook.feedOperations().post("123456789", "Hello Facebook World");
 	}
@@ -288,7 +288,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postLink_unauthorized() {
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		unauthorizedFacebook.feedOperations().postLink("Hello Facebook World", link);
@@ -306,7 +306,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postLink_toAnotherFeed_unauthorized() {
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		unauthorizedFacebook.feedOperations().postLink("123456789", "Hello Facebook World", link);
@@ -323,7 +323,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void deleteFeedEntry_unauthorized() {
 		unauthorizedFacebook.feedOperations().deleteFeedEntry("123456_78901234");
 	}
@@ -348,7 +348,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertPostList(posts);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void searchHomeFeed_unauthorized() {
 		unauthorizedFacebook.feedOperations().searchHomeFeed("Dr Seuss");
 	}
@@ -367,7 +367,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void searchUserFeed_currentUser_unauthorized() {
 		unauthorizedFacebook.feedOperations().searchUserFeed("Football");
 	}
@@ -386,7 +386,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertFeedEntries(feed);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void searchUserFeed_specificUser_unauthorized() {
 		unauthorizedFacebook.feedOperations().searchUserFeed("123456789", "Football");
 	}

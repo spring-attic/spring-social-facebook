@@ -23,7 +23,7 @@ import static org.springframework.social.test.client.ResponseCreators.*;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.social.AuthorizationRequiredException;
+import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.test.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
@@ -113,7 +113,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 				.andRespond(withResponse(new ClassPathResource("testdata/error-current-user-no-token.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 			facebook.userOperations().getUserProfile();
 			fail("Expected BadCredentialsException when fetching an unknown object alias");
-		} catch (AuthorizationRequiredException e) {
+		} catch (NotAuthorizedException e) {
 			assertEquals("User authorization required: FacebookTemplate must be created with an access token to perform this operation.", e.getMessage());
 		}						
 	}

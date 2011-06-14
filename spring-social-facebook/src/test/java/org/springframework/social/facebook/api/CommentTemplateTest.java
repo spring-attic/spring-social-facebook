@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.social.AuthorizationRequiredException;
+import org.springframework.social.NotAuthorizedException;
 
 /**
  * @author Craig Walls
@@ -74,7 +74,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("123456_543210", facebook.commentOperations().addComment("123456", "Cool beans"));
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void addComment_unauthorized() {
 		unauthorizedFacebook.commentOperations().addComment("123456", "Cool beans");
 	}
@@ -90,7 +90,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void deleteComment_unauthorized() {
 		unauthorizedFacebook.commentOperations().deleteComment("1533260333_122829644452184_587062");
 	}

@@ -17,8 +17,8 @@ package org.springframework.social.facebook.api;
 
 import java.util.List;
 
-import org.springframework.social.AuthorizationRequiredException;
-import org.springframework.social.ProviderApiException;
+import org.springframework.social.ApiException;
+import org.springframework.social.NotAuthorizedException;
 
 /**
  * Interface defining operations that can be performed on a Facebook feed.
@@ -30,8 +30,8 @@ public interface FeedOperations {
 	 * Retrieves recent feed entries for the authenticated user. 
 	 * Returns up to 50 entries or 30 days worth of entries, whichever is greatest.
 	 * @return a list of {@link Post}s for the authenticated user. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getFeed();
 
@@ -40,16 +40,16 @@ public interface FeedOperations {
 	 * Returns up to 50 entries or 30 days worth of entries, whichever is greatest.
 	 * @param ownerId the Facebook ID or alias for the owner (user, group, event, page, etc) of the feed.
 	 * @return a list of {@link Post}s for the specified user. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getFeed(String ownerId);
 
 	/**
 	 * Retrieves the user's home feed. This includes entries from the user's friends.
 	 * @return a list of {@link Post}s from the authenticated user's home feed.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getHomeFeed();
 
@@ -57,7 +57,7 @@ public interface FeedOperations {
 	 * Retrieves the user's home feed. This includes entries from the user's friends.
 	 * @param userId the user ID.
 	 * @return a list of {@link Post}s from the specified user's home feed.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<Post> getHomeFeed(String userId);
 
@@ -65,15 +65,15 @@ public interface FeedOperations {
 	 * Retrieves a single feed entry.
 	 * @param entryId the entry ID
 	 * @return the requested {@link Post}
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	Post getFeedEntry(String entryId);
 	
 	/**
 	 * Retrieves the status entries from the authenticated user's feed.
 	 * @return a list of status {@link Post}s. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<StatusPost> getStatuses();
 	
@@ -81,16 +81,16 @@ public interface FeedOperations {
 	 * Retrieves the status entries from the specified user's feed.
 	 * @param userId the user's ID
 	 * @return a list of status {@link Post}s. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<StatusPost> getStatuses(String userId);
 	
 	/**
 	 * Retrieves the link entries from the authenticated user's feed.
 	 * @return a list of link {@link Post}s. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<LinkPost> getLinks();
 	
@@ -98,16 +98,16 @@ public interface FeedOperations {
 	 * Retrieves the link entries from the specified owner's feed.
 	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
 	 * @return a list of link {@link Post}s. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<LinkPost> getLinks(String ownerId);
 	
 	/**
 	 * Retrieves the note entries from the authenticated user's feed.
 	 * @return a list of note {@link Post}s. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<NotePost> getNotes();
 	
@@ -115,16 +115,16 @@ public interface FeedOperations {
 	 * Retrieves the note entries from the specified owner's feed.
 	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
 	 * @return a list of note {@link Post}s. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<NotePost> getNotes(String ownerId);
 	
 	/**
 	 * Retrieves the post entries from the authenticated user's feed.
 	 * @return a list of post {@link Post}s. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getPosts();
 	
@@ -132,8 +132,8 @@ public interface FeedOperations {
 	 * Retrieves the post entries from the specified owner's feed.
 	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
 	 * @return a list of post {@link Post}s. 
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getPosts(String ownerId);
 	
@@ -141,8 +141,8 @@ public interface FeedOperations {
 	 * Posts a status update to the authenticated user's feed.
 	 * @param message the message to post.
 	 * @return the ID of the new feed entry.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	String updateStatus(String message);
 
@@ -150,8 +150,8 @@ public interface FeedOperations {
 	 * Posts a link to the authenticated user's feed.
 	 * @param message a message to send with the link.
 	 * @return the ID of the new feed entry.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	String postLink(String message, FacebookLink link);
 
@@ -160,8 +160,8 @@ public interface FeedOperations {
 	 * @param ownerId the feed owner ID. Could be a user ID or a page ID.
 	 * @param message the message to post.
 	 * @return the id of the new feed entry.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	String post(String ownerId, String message);
 	
@@ -170,16 +170,16 @@ public interface FeedOperations {
 	 * @param ownerId the feed owner ID. Could be a user ID or a page ID.
 	 * @param message a message to send with the link.
 	 * @return the ID of the new feed entry.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	String postLink(String ownerId, String message, FacebookLink link);
 
 	/**
 	 * Deletes a feed entry
 	 * @param id the feed entry ID
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteFeedEntry(String id);
 
@@ -187,7 +187,7 @@ public interface FeedOperations {
 	 * Searches Facebook's public feed.
 	 * @param query the search query (e.g., "Dr Seuss")
 	 * @return a list of {@link Post}s that match the search query
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<Post> searchPublicFeed(String query);
 
@@ -195,8 +195,8 @@ public interface FeedOperations {
 	 * Searches the authenticated user's home feed.
 	 * @param query the search query (e.g., "Dr Seuss")
 	 * @return a list of {@link Post}s that match the search query
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> searchHomeFeed(String query);
 	
@@ -204,8 +204,8 @@ public interface FeedOperations {
 	 * Searches the authenticated user's feed.
 	 * @param query the search query (e.g., "football")
 	 * @return a list of {@link Post}s that match the search query
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> searchUserFeed(String query);
 	
@@ -214,8 +214,8 @@ public interface FeedOperations {
 	 * @param userId the ID of the user whose feed is to be searched
 	 * @param query the search query (e.g., "football")
 	 * @return a list of {@link Post}s that match the search query
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> searchUserFeed(String userId, String query);
 	

@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.social.AuthorizationRequiredException;
+import org.springframework.social.NotAuthorizedException;
 
 public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
@@ -38,7 +38,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertCheckins(checkins);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getCheckins_unauthorized() {
 		unauthorizedFacebook.placesOperations().getCheckins();
 	}
@@ -53,7 +53,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertCheckins(checkins);
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getCheckins_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.placesOperations().getCheckins("987654321");
 	}
@@ -68,7 +68,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertSingleCheckin(checkin);		
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getCheckin_unauthorized() {
 		unauthorizedFacebook.placesOperations().getCheckin("987654321");
 	}
@@ -83,7 +83,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("10150431253050580", facebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755));
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void checkin_unauthorized() {
 		unauthorizedFacebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755);
 	}
@@ -98,7 +98,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("10150431253050580", facebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place"));
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void checkin_withMessage_unauthorized() {
 		unauthorizedFacebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place");
 	}
@@ -114,7 +114,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 				facebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place", "24680", "13579"));
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void checkin_withMessageAndTags_unauthorized() {
 		unauthorizedFacebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place", "24680", "13579");
 	}
@@ -149,7 +149,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(-96.795133, places.get(1).getLocation().getLongitude(), 0.00001);		
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void search_unauthorized() {
 		unauthorizedFacebook.placesOperations().search("coffee", 33.050278, -96.745833, 5280);
 	}

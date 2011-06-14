@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.social.AuthorizationRequiredException;
+import org.springframework.social.NotAuthorizedException;
 
 public class MediaTemplateTest extends AbstractFacebookApiTest {
 	@Test
@@ -39,7 +39,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertAlbums(albums);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getAlbums_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getAlbums();
 	}
@@ -54,7 +54,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertAlbums(albums);
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getAlbums_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getAlbums("192837465");
 	}
@@ -69,7 +69,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertSingleAlbum(album);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getAlbum_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getAlbum("192837465");
 	}
@@ -108,7 +108,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-24T21:37:43+0000"), photos.get(0).getUpdatedTime());
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getPhotos_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getPhotos("192837465");
 	}
@@ -122,7 +122,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertSinglePhoto(facebook.mediaOperations().getPhoto("10150447271355581"));		
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getPhoto_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getPhoto("192837465");
 	}
@@ -139,7 +139,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postPhoto_noCaption_unauthorized() {
 		unauthorizedFacebook.mediaOperations().postPhoto(null); // shouldn't matter that it's null
 	}
@@ -156,7 +156,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postPhoto_withCaption_unauthorized() {
 		unauthorizedFacebook.mediaOperations().postPhoto(null, "Some caption"); // shouldn't matter that it's null
 	}
@@ -173,7 +173,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postPhoto_ToAlbumNoCaption_unauthorized() {
 		unauthorizedFacebook.mediaOperations().postPhoto("12345678", null); // shouldn't matter that it's null
 	}
@@ -190,7 +190,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postPhoto_ToAlbumWithCaption_unauthorized() {
 		unauthorizedFacebook.mediaOperations().postPhoto("12345678", null, "Some Caption"); // shouldn't matter that it's null
 	}
@@ -205,7 +205,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertVideos(videos);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getVideos_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getVideos();
 	}
@@ -220,7 +220,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertVideos(videos);
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getVideos_forSpecificOwner_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getVideos("11223344");
 	}
@@ -235,7 +235,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertSingleVideo(video);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getVideo_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getVideo("11223344");
 	}
@@ -252,7 +252,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postVideo_unauthorized() {
 		unauthorizedFacebook.mediaOperations().postVideo(null);
 	}
@@ -269,7 +269,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void postVideo_withTitleOrDescription_unauthorized() {
 		unauthorizedFacebook.mediaOperations().postVideo(null, "title", "description");
 	}

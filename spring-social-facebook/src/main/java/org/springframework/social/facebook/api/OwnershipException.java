@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
-import org.springframework.social.ProviderApiException;
+import org.springframework.social.ApiException;
 
 /**
  * Exception thrown when attempting to perform operation on a resource that must be owned by the authenticated user,
@@ -23,7 +23,7 @@ import org.springframework.social.ProviderApiException;
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class OwnershipException extends ProviderApiException {
+public class OwnershipException extends ApiException {
 
 	public OwnershipException(String message) {
 		super(message);

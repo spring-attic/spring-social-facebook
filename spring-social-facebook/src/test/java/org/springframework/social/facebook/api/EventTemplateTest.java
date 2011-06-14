@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.social.AuthorizationRequiredException;
+import org.springframework.social.NotAuthorizedException;
 
 public class EventTemplateTest extends AbstractFacebookApiTest {
 
@@ -38,7 +38,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertInvitations(events);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getInvitations_unauthorized() {
 		unauthorizedFacebook.eventOperations().getInvitations();
 	}
@@ -53,7 +53,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertInvitations(events);
 	}
 
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void getInvitations_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.eventOperations().getInvitations("123456789");
 	}
@@ -107,7 +107,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("193482145020832", eventId);
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void createEvent_unauthorized() {
 		unauthorizedFacebook.eventOperations().createEvent("Test Event", "2011-04-01T15:30:00", "2011-04-01T18:30:00");
 	}
@@ -122,7 +122,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void deleteEvent_unauthorized() {
 		unauthorizedFacebook.eventOperations().deleteEvent("123456789");
 	}
@@ -202,7 +202,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void acceptInvitation_unauthorized() {
 		unauthorizedFacebook.eventOperations().acceptInvitation("123456789");
 	}
@@ -217,7 +217,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void maybeInvitation_unauthorized() {
 		unauthorizedFacebook.eventOperations().maybeInvitation("123456789");
 	}
@@ -232,7 +232,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = AuthorizationRequiredException.class)
+	@Test(expected = NotAuthorizedException.class)
 	public void declineInvitation_unauthorized() {
 		unauthorizedFacebook.eventOperations().declineInvitation("123456789");
 	}

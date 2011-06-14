@@ -18,9 +18,8 @@ package org.springframework.social.facebook.api;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.social.AuthorizationRequiredException;
-import org.springframework.social.BadCredentialsException;
-import org.springframework.social.ProviderApiException;
+import org.springframework.social.ApiException;
+import org.springframework.social.NotAuthorizedException;
 
 /**
  * Interface defining operations that can be performed on a Facebook pages.
@@ -39,8 +38,8 @@ public interface PageOperations {
 	 * Checks whether the logged-in user for this session is an admin of the page with the given page ID.
 	 * @param pageId the page ID
 	 * @return true if the authenticated user is an admin of the specified page.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */	
 	boolean isPageAdmin(String pageId);
 	
@@ -51,9 +50,9 @@ public interface PageOperations {
 	 * @param pageId the page ID
 	 * @param message the message to post
 	 * @return the ID of the new feed entry
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws BadCredentialsException if the user is not a page administrator.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	String post(String pageId, String message);
 	
@@ -65,9 +64,9 @@ public interface PageOperations {
 	 * @param message a message to send with the link.
 	 * @param link the link details
 	 * @return the ID of the new feed entry.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws BadCredentialsException if the user is not a page administrator.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	String post(String pageId, String message, FacebookLink link);
 
@@ -78,9 +77,9 @@ public interface PageOperations {
 	 * @param albumId the album ID
 	 * @param photo A {@link Resource} for the photo data. The given Resource must implement the getFilename() method (such as {@link FileSystemResource} or {@link ClassPathResource}).
 	 * @return the ID of the photo.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws BadCredentialsException if the user is not a page administrator.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(String pageId, String albumId, Resource photo);
 
@@ -92,9 +91,9 @@ public interface PageOperations {
 	 * @param photo A {@link Resource} for the photo data. The given Resource must implement the getFilename() method (such as {@link FileSystemResource} or {@link ClassPathResource}).
 	 * @param caption A caption describing the photo.
 	 * @return the ID of the photo.
-	 * @throws ProviderApiException if there is an error while communicating with Facebook.
+	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws BadCredentialsException if the user is not a page administrator.
-	 * @throws AuthorizationRequiredException if FacebookTemplate was not created with an access token.
+	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(String pageId, String albumId, Resource photo, String caption);
 	
