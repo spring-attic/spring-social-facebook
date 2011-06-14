@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.core.io.Resource;
-import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.Account;
 import org.springframework.social.facebook.api.FacebookLink;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Page;
+import org.springframework.social.facebook.api.PageAdministrationException;
 import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -92,7 +92,7 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	private String getPageAccessToken(String pageId) {
 		Account account = getAccount(pageId);
 		if(account == null) {
-			throw new NotAuthorizedException("The user is not an admin of the page " + pageId);
+			throw new PageAdministrationException(pageId);
 		}
 		return account.getAccessToken();
 	}

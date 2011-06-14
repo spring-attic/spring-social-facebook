@@ -15,21 +15,18 @@
  */
 package org.springframework.social.facebook.api;
 
-import org.springframework.social.ApiException;
+import org.springframework.social.OperationNotPermittedException;
 
 /**
- * Exception thrown when a Graph API usage error (such as an unknown connection path) occurs.
+ * Exception thrown when attempting to perform operation on a resource that must be owned by the authenticated user,
+ * but is not. For example, attempting to delete someone else's friendlist.
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class GraphAPIException extends ApiException {
+public class ResourceOwnershipException extends OperationNotPermittedException {
 
-	public GraphAPIException(String message) {
+	public ResourceOwnershipException(String message) {
 		super(message);
-	}
-
-	public GraphAPIException(String message, Throwable e) {
-		super(message, e);
 	}
 
 }

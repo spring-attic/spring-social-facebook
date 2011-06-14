@@ -27,11 +27,11 @@ import org.codehaus.jackson.type.TypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.InvalidCredentialsException;
+import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.UncategorizedApiException;
-import org.springframework.social.facebook.api.GraphAPIException;
 import org.springframework.social.facebook.api.NotAFriendException;
-import org.springframework.social.facebook.api.OwnershipException;
+import org.springframework.social.facebook.api.ResourceOwnershipException;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 /**
@@ -45,24 +45,31 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 	public void handleError(ClientHttpResponse response) throws IOException {				
 		Map<String, String> errorDetails = extractErrorDetailsFromResponse(response);
 		if (errorDetails == null) {
-			// body does not contain the known Facebook error structure...use default handling
-			super.handleError(response);			
+			handleUncategorizedError(response, errorDetails);
 		}
 
 		// 401 is the only status code we can trust from Facebook. 
 		// Facebook is very inconsistent in use of error codes in most other cases.
 		if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-			throw new NotAuthorizedException(errorDetails.get("message"));
+			throw new InvalidCredentialsException(); // TODO: could the message help us choose an ExpiredCredentialsException instead?
 		}
 
 		handleFacebookError(errorDetails);
 		
 		// if not otherwise handled, do default handling and wrap with UncategorizedApiException
+		handleUncategorizedError(response, errorDetails);			
+	}
+
+	private void handleUncategorizedError(ClientHttpResponse response, Map<String, String> errorDetails) {
 		try {
 			super.handleError(response);
 		} catch (Exception e) {
-			throw new UncategorizedApiException(errorDetails.get("message"), e);
-		}			
+			if (errorDetails != null) {
+				throw new UncategorizedApiException(errorDetails.get("message"), e);
+			} else {
+				throw new UncategorizedApiException("No error details from Facebook", e);
+			}
+		}
 	}
 	
 	@Override 
@@ -81,15 +88,15 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		String message = errorDetails.get("message");
 		if (message.contains("Requires extended permission")) {
 			String requiredPermission = message.split(": ")[1];
-			throw new InsufficientPermissionException(message, requiredPermission);
+			throw new InsufficientPermissionException(requiredPermission);
 		} else if (message.equals("The member must be a friend of the current user.")) {
 			throw new NotAFriendException(message);
 		} else if (message.contains("Unknown path components")) {
-			throw new GraphAPIException(message);
+			throw new ResourceNotFoundException(message);
 		} else if (message.equals("User must be an owner of the friendlist")) { // watch for pattern in similar message in other resources
-			throw new OwnershipException(message);
+			throw new ResourceOwnershipException(message);
 		} else if (message.contains("Some of the aliases you requested do not exist")) {
-			throw new GraphAPIException(message);
+			throw new ResourceNotFoundException(message);
 		}
 	}
 

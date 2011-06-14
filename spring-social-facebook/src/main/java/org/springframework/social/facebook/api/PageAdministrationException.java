@@ -15,18 +15,17 @@
  */
 package org.springframework.social.facebook.api;
 
-import org.springframework.social.ApiException;
+import org.springframework.social.OperationNotPermittedException;
 
 /**
- * Exception thrown when attempting to perform operation on a resource that must be owned by the authenticated user,
- * but is not. For example, attempting to delete someone else's friendlist.
+ * Exception thrown when attempting to perform an operation on a page by a user who is not a page administrator.
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class OwnershipException extends ApiException {
+public class PageAdministrationException extends OperationNotPermittedException {
 
-	public OwnershipException(String message) {
-		super(message);
+	public PageAdministrationException(String pageId) {
+		super("The user is not an administrator of the page with ID " + pageId);
 	}
-
+	
 }

@@ -24,7 +24,9 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.MissingCredentialsException;
+import org.springframework.social.ResourceNotFoundException;
+import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.test.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
@@ -41,7 +43,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			facebook.eventOperations().declineInvitation("193482154020832");
 			fail();
 		} catch (InsufficientPermissionException e) {
-			assertEquals("(#299) Requires extended permission: rsvp_event", e.getMessage());
+			assertEquals("The operation requires 'rsvp_event' permission.", e.getMessage());
 			assertEquals("rsvp_event", e.getRequiredPermission());
 		}
 	}
@@ -69,7 +71,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 				.andRespond(withResponse(new ClassPathResource("testdata/error-unknown-path.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 			facebook.fetchConnections("me", "boguspath", String.class);
 			fail();
-		} catch (GraphAPIException e) {
+		} catch (ResourceNotFoundException e) {
 			assertEquals("Unknown path components: /boguspath", e.getMessage());
 		}
 	}
@@ -84,7 +86,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 				.andRespond(withResponse(new ClassPathResource("testdata/error-not-the-owner.json", getClass()), responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR, ""));
 			facebook.friendOperations().deleteFriendList("1234567890");
 			fail();
-		} catch (OwnershipException e) {
+		} catch (ResourceOwnershipException e) {
 			assertEquals("User must be an owner of the friendlist", e.getMessage());
 		}		
 	}
@@ -99,34 +101,35 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 				.andRespond(withResponse(new ClassPathResource("testdata/error-unknown-alias.json", getClass()), responseHeaders, HttpStatus.OK, ""));
 			facebook.fetchObject("dummyalias", FacebookProfile.class);
 			fail("Expected GraphAPIException when fetching an unknown object alias");
-		} catch (GraphAPIException e) {
+		} catch (ResourceNotFoundException e) {
 			assertEquals("(#803) Some of the aliases you requested do not exist: dummyalias", e.getMessage());
 		}				
 	}
 	
-	@Test
+	@Test(expected = MissingCredentialsException.class)
 	public void currentUser_noAccessToken() {
 		FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		try {
-			mockServer.expect(requestTo("https://graph.facebook.com/me"))
-				.andExpect(method(GET))
-				.andRespond(withResponse(new ClassPathResource("testdata/error-current-user-no-token.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
-			facebook.userOperations().getUserProfile();
-			fail("Expected BadCredentialsException when fetching an unknown object alias");
-		} catch (NotAuthorizedException e) {
-			assertEquals("User authorization required: FacebookTemplate must be created with an access token to perform this operation.", e.getMessage());
-		}						
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andRespond(withResponse(new ClassPathResource("testdata/error-current-user-no-token.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.userOperations().getUserProfile();
 	}
 	
-	@Test(expected=HttpClientErrorException.class)
+	@Test(expected=UncategorizedApiException.class)
 	public void htmlErrorResponse() {
-		FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo("https://graph.facebook.com/123456/picture?type=normal"))
-			.andExpect(method(GET))
-			.andRespond(withResponse(new ClassPathResource("testdata/error-not-json.html", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
-		facebook.userOperations().getUserProfileImage("123456");
+		try {
+			FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
+			MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+			mockServer.expect(requestTo("https://graph.facebook.com/123456/picture?type=normal"))
+				.andExpect(method(GET))
+				.andRespond(withResponse(new ClassPathResource("testdata/error-not-json.html", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+			facebook.userOperations().getUserProfileImage("123456");
+			fail("Expected UncategorizedApiException");
+		} catch (UncategorizedApiException e) {
+			assertTrue(e.getCause() instanceof HttpClientErrorException);
+			throw e;
+		}
 	}
 	
 }

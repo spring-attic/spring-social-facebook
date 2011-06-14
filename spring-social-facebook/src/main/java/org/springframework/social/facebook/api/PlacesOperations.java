@@ -18,7 +18,8 @@ package org.springframework.social.facebook.api;
 import java.util.List;
 
 import org.springframework.social.ApiException;
-import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.InsufficientPermissionException;
+import org.springframework.social.MissingCredentialsException;
 
 
 /**
@@ -32,7 +33,8 @@ public interface PlacesOperations {
 	 * Requires "user_checkins" or "friends_checkins" permission.
 	 * @return a list {@link Checkin}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<Checkin> getCheckins();
 
@@ -44,7 +46,8 @@ public interface PlacesOperations {
 	 * @param objectId either a Facebook user ID or page ID
 	 * @return a list {@link Checkin}s, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<Checkin> getCheckins(String objectId);
 
@@ -53,23 +56,26 @@ public interface PlacesOperations {
 	 * @param checkinId the checkin ID
 	 * @return a {@link Checkin}
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	Checkin getCheckin(String checkinId);
 	
 	/**
 	 * Checks the authenticated user into the specified location.
+	 * Requires "publish_checkins" permission.
 	 * @param placeId the ID of the place to check into.
 	 * @param latitude the latitude of the place.
 	 * @param longitude the longitude of the place.
 	 * @return the ID of the checkin.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_checkins" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String checkin(String placeId, double latitude, double longitude);
 
 	/**
 	 * Checks the authenticated user into the specified location.
+	 * Requires "publish_checkins" permission.
 	 * @param placeId the ID of the place to check into.
 	 * @param latitude the latitude of the place.
 	 * @param longitude the longitude of the place.
@@ -77,7 +83,8 @@ public interface PlacesOperations {
 	 * @param tags a varargs list of user IDs to tag on the checkin.
 	 * @return the ID of the checkin.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_checkins" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	String checkin(String placeId, double latitude, double longitude, String message, String... tags);
 	
@@ -89,7 +96,7 @@ public interface PlacesOperations {
 	 * @param distance the radius to search within (in feet)
 	 * @return a list of {@link Page}s matching the search
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<Page> search(String query, double latitude, double longitude, long distance);
 }

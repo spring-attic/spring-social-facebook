@@ -129,7 +129,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = NotAuthorizedException.class)
+	@Test(expected = PageAdministrationException.class)
 	public void postMessage_notAdmin() throws Exception {
 		expectFetchAccounts();
 		facebook.pageOperations().post("2468013579", "Hello Facebook World");
@@ -153,7 +153,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = NotAuthorizedException.class)
+	@Test(expected = PageAdministrationException.class)
 	public void postLink_notAdmin() throws Exception {
 		expectFetchAccounts();
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");

@@ -18,7 +18,8 @@ package org.springframework.social.facebook.api;
 import java.util.List;
 
 import org.springframework.social.ApiException;
-import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.InsufficientPermissionException;
+import org.springframework.social.MissingCredentialsException;
 
 
 /**
@@ -32,7 +33,8 @@ public interface LikeOperations {
 	 * Requires "user_likes" permission. Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getLikes();
 
@@ -43,23 +45,28 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" or "friends_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getLikes(String userId);
 
 	/**
 	 * Like an object on behalf of the authenticated user.
+	 * Requires "publish_stream" permission.
 	 * @param objectId the object ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	void like(String objectId);
 
 	/**
 	 * Unlike an object on behalf of the authenticated user.
+	 * Requires "publish_stream" permission.
 	 * @param objectId the object ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	void unlike(String objectId);
 
@@ -69,7 +76,8 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getBooks();
 
@@ -81,7 +89,8 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getBooks(String userId);
 
@@ -91,7 +100,8 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMovies();
 
@@ -102,7 +112,8 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMovies(String userId);
 
@@ -112,7 +123,8 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMusic();
 
@@ -123,7 +135,8 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getMusic(String userId);
 
@@ -133,7 +146,8 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getTelevision();
 
@@ -144,7 +158,8 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" or "friends_likes" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getTelevision(String userId);
 
@@ -154,7 +169,8 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_activities" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getActivities();
 
@@ -165,7 +181,8 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_activities" or "friends_activities" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getActivities(String userId);
 
@@ -175,7 +192,8 @@ public interface LikeOperations {
 	 * Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_interests" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getInterests();
 
@@ -186,7 +204,8 @@ public interface LikeOperations {
 	 * @param userId the ID of the user
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws NotAuthorizedException if FacebookTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "user_interests" or "friends_interests" permission.
+	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
 	 */
 	List<UserLike> getInterests(String userId);
 

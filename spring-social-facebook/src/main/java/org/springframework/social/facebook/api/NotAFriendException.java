@@ -15,14 +15,14 @@
  */
 package org.springframework.social.facebook.api;
 
-import org.springframework.social.ApiException;
+import org.springframework.social.OperationNotPermittedException;
 
 /**
  * Exception thrown when attempting an operation that requires a target user to be a friend of the authenticated user.
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class NotAFriendException extends ApiException {
+public class NotAFriendException extends OperationNotPermittedException {
 
 	public NotAFriendException(String message) {
 		super(message);
