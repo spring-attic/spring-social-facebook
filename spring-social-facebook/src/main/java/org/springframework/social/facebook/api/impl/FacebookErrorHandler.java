@@ -26,6 +26,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.InvalidAuthorizationException;
 import org.springframework.social.ResourceNotFoundException;
@@ -97,6 +98,14 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 			throw new ResourceOwnershipException(message);
 		} else if (message.contains("Some of the aliases you requested do not exist")) {
 			throw new ResourceNotFoundException(message);
+		} else if (message.contains("Session has expired")) {
+			throw new ExpiredAuthorizationException();
+		} else if (message.equals("The session has been invalidated because the user has changed the password.")) {
+			throw new InvalidAuthorizationException();
+		} else if (message.contains("has not authorized application")) {
+			throw new InvalidAuthorizationException();
+		} else if (message.equals("Error validating access token: The session is invalid because the user logged out.")) {
+			throw new InvalidAuthorizationException();
 		}
 	}
 

@@ -23,7 +23,9 @@ import static org.springframework.social.test.client.ResponseCreators.*;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InsufficientPermissionException;
+import org.springframework.social.InvalidAuthorizationException;
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.UncategorizedApiException;
@@ -132,4 +134,40 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		}
 	}
 	
+	@Test(expected = ExpiredAuthorizationException.class)
+	public void tokenInvalid_tokenExpired() {
+		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andRespond(withResponse(new ClassPathResource("testdata/error-expired-token.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.userOperations().getUserProfile();
+	}
+	
+	@Test(expected = InvalidAuthorizationException.class)
+	public void tokenInvalid_passwordChanged() {
+		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andRespond(withResponse(new ClassPathResource("testdata/error-invalid-token-password.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.userOperations().getUserProfile();
+	}
+	
+	@Test(expected = InvalidAuthorizationException.class)
+	public void tokenInvalid_applicationDeauthorized() {
+		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andRespond(withResponse(new ClassPathResource("testdata/error-invalid-token-deauth.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.userOperations().getUserProfile();
+	}
+
+	@Test(expected = InvalidAuthorizationException.class)
+	public void tokenInvalid_signedOutOfFacebook() {
+		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andRespond(withResponse(new ClassPathResource("testdata/error-invalid-token-signout.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.userOperations().getUserProfile();
+	}
+
 }
