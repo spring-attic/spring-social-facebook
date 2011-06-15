@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.MissingCredentialsException;
+import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
@@ -106,7 +106,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		}				
 	}
 	
-	@Test(expected = MissingCredentialsException.class)
+	@Test(expected = MissingAuthorizationException.class)
 	public void currentUser_noAccessToken() {
 		FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());

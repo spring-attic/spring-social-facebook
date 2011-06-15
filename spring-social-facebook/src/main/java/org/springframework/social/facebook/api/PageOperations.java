@@ -20,7 +20,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.MissingCredentialsException;
+import org.springframework.social.MissingAuthorizationException;
 
 /**
  * Interface defining operations that can be performed on a Facebook pages.
@@ -42,7 +42,7 @@ public interface PageOperations {
 	 * @return true if the authenticated user is an admin of the specified page.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "manage_pages" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */	
 	boolean isPageAdmin(String pageId);
 	
@@ -56,7 +56,7 @@ public interface PageOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "manage_pages" permission.
 	 * @throws PageAdministrationException if the user is not a page administrator.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String post(String pageId, String message);
 	
@@ -71,7 +71,7 @@ public interface PageOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "manage_pages" permission.
 	 * @throws PageAdministrationException if the user is not a page administrator.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String post(String pageId, String message, FacebookLink link);
 
@@ -85,7 +85,7 @@ public interface PageOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "manage_pages" permission.
 	 * @throws PageAdministrationException if the user is not a page administrator.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(String pageId, String albumId, Resource photo);
 
@@ -100,7 +100,7 @@ public interface PageOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "manage_pages" permission.
 	 * @throws PageAdministrationException if the user is not a page administrator.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(String pageId, String albumId, Resource photo, String caption);
 	

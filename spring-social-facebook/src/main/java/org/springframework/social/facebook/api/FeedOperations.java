@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.MissingCredentialsException;
+import org.springframework.social.MissingAuthorizationException;
 
 /**
  * Interface defining operations that can be performed on a Facebook feed.
@@ -33,7 +33,7 @@ public interface FeedOperations {
 	 * Returns up to 50 entries or 30 days worth of entries, whichever is greatest.
 	 * @return a list of {@link Post}s for the authenticated user. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getFeed();
 
@@ -44,7 +44,7 @@ public interface FeedOperations {
 	 * @param ownerId the Facebook ID or alias for the owner (user, group, event, page, etc) of the feed.
 	 * @return a list of {@link Post}s for the specified user. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getFeed(String ownerId);
 
@@ -54,7 +54,7 @@ public interface FeedOperations {
 	 * @return a list of {@link Post}s from the authenticated user's home feed.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getHomeFeed();
 
@@ -70,7 +70,7 @@ public interface FeedOperations {
 	 * Retrieves the status entries from the authenticated user's feed.
 	 * @return a list of status {@link Post}s. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<StatusPost> getStatuses();
 	
@@ -81,7 +81,7 @@ public interface FeedOperations {
 	 * @return a list of status {@link Post}s. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<StatusPost> getStatuses(String userId);
 	
@@ -91,7 +91,7 @@ public interface FeedOperations {
 	 * @return a list of link {@link Post}s. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<LinkPost> getLinks();
 	
@@ -102,7 +102,7 @@ public interface FeedOperations {
 	 * @return a list of link {@link Post}s. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<LinkPost> getLinks(String ownerId);
 	
@@ -112,7 +112,7 @@ public interface FeedOperations {
 	 * @return a list of note {@link Post}s. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<NotePost> getNotes();
 	
@@ -123,7 +123,7 @@ public interface FeedOperations {
 	 * @return a list of note {@link Post}s. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<NotePost> getNotes(String ownerId);
 	
@@ -133,7 +133,7 @@ public interface FeedOperations {
 	 * @return a list of post {@link Post}s. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getPosts();
 	
@@ -144,7 +144,7 @@ public interface FeedOperations {
 	 * @return a list of post {@link Post}s. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getPosts(String ownerId);
 	
@@ -155,7 +155,7 @@ public interface FeedOperations {
 	 * @return the ID of the new feed entry.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String updateStatus(String message);
 
@@ -166,7 +166,7 @@ public interface FeedOperations {
 	 * @return the ID of the new feed entry.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postLink(String message, FacebookLink link);
 
@@ -178,7 +178,7 @@ public interface FeedOperations {
 	 * @return the id of the new feed entry.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String post(String ownerId, String message);
 	
@@ -190,7 +190,7 @@ public interface FeedOperations {
 	 * @return the ID of the new feed entry.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postLink(String ownerId, String message, FacebookLink link);
 
@@ -200,7 +200,7 @@ public interface FeedOperations {
 	 * @param id the feed entry ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteFeedEntry(String id);
 
@@ -217,7 +217,7 @@ public interface FeedOperations {
 	 * @param query the search query (e.g., "Dr Seuss")
 	 * @return a list of {@link Post}s that match the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> searchHomeFeed(String query);
 	
@@ -226,7 +226,7 @@ public interface FeedOperations {
 	 * @param query the search query (e.g., "football")
 	 * @return a list of {@link Post}s that match the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> searchUserFeed(String query);
 	
@@ -236,7 +236,7 @@ public interface FeedOperations {
 	 * @param query the search query (e.g., "football")
 	 * @return a list of {@link Post}s that match the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> searchUserFeed(String userId, String query);
 	

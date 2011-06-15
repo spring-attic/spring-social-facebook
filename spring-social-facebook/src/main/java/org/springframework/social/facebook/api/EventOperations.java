@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.MissingCredentialsException;
+import org.springframework.social.MissingAuthorizationException;
 
 
 /**
@@ -34,7 +34,7 @@ public interface EventOperations {
 	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Invitation> getInvitations();
 
@@ -45,7 +45,7 @@ public interface EventOperations {
 	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Invitation> getInvitations(String userId);
 	
@@ -94,7 +94,7 @@ public interface EventOperations {
 	 * @return the newly created event's ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "create_event" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String createEvent(String name, String startTime, String endTime);
 	
@@ -104,7 +104,7 @@ public interface EventOperations {
 	 * @param eventId the ID of the event
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "create_event" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteEvent(String eventId);
 	
@@ -154,7 +154,7 @@ public interface EventOperations {
 	 * @param eventId the event ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "rsvp_event" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void acceptInvitation(String eventId);
 	
@@ -164,7 +164,7 @@ public interface EventOperations {
 	 * @param eventId the event ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "rsvp_event" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void maybeInvitation(String eventId);
 	
@@ -174,7 +174,7 @@ public interface EventOperations {
 	 * @param eventId the event ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "rsvp_event" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void declineInvitation(String eventId);
 

@@ -27,7 +27,7 @@ import org.codehaus.jackson.type.TypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.InvalidCredentialsException;
+import org.springframework.social.InvalidAuthorizationException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.NotAFriendException;
@@ -51,7 +51,7 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		// 401 is the only status code we can trust from Facebook. 
 		// Facebook is very inconsistent in use of error codes in most other cases.
 		if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-			throw new InvalidCredentialsException(); // TODO: could the message help us choose an ExpiredCredentialsException instead?
+			throw new InvalidAuthorizationException(); // TODO: could the message help us choose an ExpiredCredentialsException instead?
 		}
 
 		handleFacebookError(errorDetails);

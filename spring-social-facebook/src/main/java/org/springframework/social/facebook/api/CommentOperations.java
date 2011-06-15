@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.MissingCredentialsException;
+import org.springframework.social.MissingAuthorizationException;
 
 
 /**
@@ -52,7 +52,7 @@ public interface CommentOperations {
 	 * @return the new comment's ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String addComment(String objectId, String message);
 
@@ -62,7 +62,7 @@ public interface CommentOperations {
 	 * @param commentId the comment ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteComment(String commentId);
 

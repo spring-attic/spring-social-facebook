@@ -22,7 +22,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.MissingCredentialsException;
+import org.springframework.social.MissingAuthorizationException;
 
 
 /**
@@ -37,7 +37,7 @@ public interface MediaOperations {
 	 * @return a list {@link Album}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Album> getAlbums();
 
@@ -48,7 +48,7 @@ public interface MediaOperations {
 	 * @return a list {@link Album}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Album> getAlbums(String ownerId);
 
@@ -59,7 +59,7 @@ public interface MediaOperations {
 	 * @return the requested {@link Album} object.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	Album getAlbum(String albumId);
 	
@@ -71,7 +71,7 @@ public interface MediaOperations {
 	 * @return the ID of the newly created album.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String createAlbum(String name, String description);
 
@@ -93,7 +93,7 @@ public interface MediaOperations {
 	 * @return an array of bytes containing the album's image.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getAlbumImage(String albumId, ImageType imageType);
 
@@ -104,7 +104,7 @@ public interface MediaOperations {
 	 * @return a list of {@link Photo}s in the specified album.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Photo> getPhotos(String albumId);
 	
@@ -115,7 +115,7 @@ public interface MediaOperations {
 	 * @return the requested {@link Photo}
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the photo is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	Photo getPhoto(String photoId);
 	
@@ -126,7 +126,7 @@ public interface MediaOperations {
 	 * @return an array of bytes containing the photo's image.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the photo is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getPhotoImage(String photoId);
 
@@ -138,7 +138,7 @@ public interface MediaOperations {
 	 * @return an array of bytes containing the photo's image.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the photo is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getPhotoImage(String photoId, ImageType imageType);
 	
@@ -150,7 +150,7 @@ public interface MediaOperations {
 	 * @return the ID of the photo.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(Resource photo);
 	
@@ -163,7 +163,7 @@ public interface MediaOperations {
 	 * @return the ID of the photo.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(Resource photo, String caption);
 	
@@ -175,7 +175,7 @@ public interface MediaOperations {
 	 * @return the ID of the photo.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(String albumId, Resource photo);
 	
@@ -188,7 +188,7 @@ public interface MediaOperations {
 	 * @return the ID of the photo.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postPhoto(String albumId, Resource photo, String caption);
 	
@@ -198,7 +198,7 @@ public interface MediaOperations {
 	 * @return a list of {@link Video} belonging to the authenticated user.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Video> getVideos();
 
@@ -209,7 +209,7 @@ public interface MediaOperations {
 	 * @return a list of {@link Video} which the specified user is tagged in.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" or "friends_videos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Video> getVideos(String userId);
 	
@@ -220,7 +220,7 @@ public interface MediaOperations {
 	 * @return the requested {@link Video} data.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" or "friends_videos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	Video getVideo(String videoId);
 	
@@ -231,7 +231,7 @@ public interface MediaOperations {
 	 * @return an array of bytes containing the video's image.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" or "friends_videos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getVideoImage(String videoId);
 
@@ -243,7 +243,7 @@ public interface MediaOperations {
 	 * @return an array of bytes containing the video's image.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" or "friends_videos" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getVideoImage(String videoId, ImageType imageType);
 	
@@ -255,7 +255,7 @@ public interface MediaOperations {
 	 * @return the ID of the video.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postVideo(Resource video);
 	
@@ -267,7 +267,7 @@ public interface MediaOperations {
 	 * @return the ID of the video.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
-	 * @throws MissingCredentialsException if FacebookTemplate was not created with an access token.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postVideo(Resource video, String title, String description);
 

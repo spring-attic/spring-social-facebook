@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import org.springframework.social.MissingCredentialsException;
+import org.springframework.social.MissingAuthorizationException;
 
 class AbstractFacebookOperations {
 	
@@ -27,7 +27,7 @@ class AbstractFacebookOperations {
 	
 	protected void requireUserAuthorization() {
 		if(!isAuthorizedForUser) {
-			throw new MissingCredentialsException();
+			throw new MissingAuthorizationException();
 		}
 	}
 	
