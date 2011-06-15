@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.connect;
 
-import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.ApiException;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
@@ -33,7 +33,7 @@ public class FacebookAdapter implements ApiAdapter<Facebook> {
 		try {
 			facebook.userOperations().getUserProfile();
 			return true;
-		} catch (NotAuthorizedException e) {
+		} catch (ApiException e) {
 			return false;
 		}
 	}
