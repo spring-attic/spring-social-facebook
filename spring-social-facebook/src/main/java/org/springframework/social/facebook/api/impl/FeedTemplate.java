@@ -46,14 +46,10 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 	}
 
 	public List<Post> getHomeFeed() {
-		return getHomeFeed("me");
+		requireUserAuthorization();
+		return graphApi.fetchConnections("me", "home", PostList.class).getList();
 	}
 
-	public List<Post> getHomeFeed(String userId) {
-		requireUserAuthorization();
-		return graphApi.fetchConnections(userId, "home", PostList.class).getList();
-	}
-	
 	public List<StatusPost> getStatuses() {
 		return getStatuses("me");
 	}

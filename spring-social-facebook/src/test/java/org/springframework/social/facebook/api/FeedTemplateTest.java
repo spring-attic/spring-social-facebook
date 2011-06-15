@@ -83,22 +83,6 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
-	public void getHomeFeed_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/223311/home"))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/feed.json", getClass()), responseHeaders));
-		List<Post> homeFeed = facebook.feedOperations().getHomeFeed("223311");
-		assertEquals(3, homeFeed.size());
-		assertFeedEntries(homeFeed);
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getHomeFeed_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.feedOperations().getHomeFeed("12345678");
-	}
-
-	@Test
 	public void getStatuses() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/statuses"))
 			.andExpect(method(GET))
