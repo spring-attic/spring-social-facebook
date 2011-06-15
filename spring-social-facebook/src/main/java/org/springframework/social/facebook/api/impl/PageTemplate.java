@@ -43,12 +43,12 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	}
 
 	public boolean isPageAdmin(String pageId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return getAccount(pageId) != null;
 	}
 	
 	public String post(String pageId, String message) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("message", message);
@@ -57,7 +57,7 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	}
 	
 	public String post(String pageId, String message, FacebookLink link) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("link", link.getLink());
@@ -74,7 +74,7 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	}
 	
 	public String postPhoto(String pageId, String albumId, Resource photo, String caption) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);

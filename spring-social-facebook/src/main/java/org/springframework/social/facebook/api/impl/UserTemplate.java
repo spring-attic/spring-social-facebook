@@ -35,7 +35,7 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 	}
 
 	public FacebookProfile getUserProfile() {
-		requireUserAuthorization();
+		requireAuthorization();
 		return getUserProfile("me");
 	}
 
@@ -44,7 +44,7 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 	}
 	
 	public byte[] getUserProfileImage() {
-		requireUserAuthorization();
+		requireAuthorization();
 		return getUserProfileImage("me", ImageType.NORMAL);
 	}
 	
@@ -53,7 +53,7 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 	}
 
 	public byte[] getUserProfileImage(ImageType imageType) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return getUserProfileImage("me", imageType);
 	}
 	
@@ -62,12 +62,12 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 	}
 
 	public List<String> getUserPermissions() {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections("me", "permissions", UserPermissionsList.class).getList();
 	}
 
 	public List<Reference> search(String query) {
-		requireUserAuthorization();
+		requireAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "user");

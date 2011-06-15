@@ -33,13 +33,13 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public void like(String objectId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		graphApi.post(objectId, "likes", map);
 	}
 
 	public void unlike(String objectId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		graphApi.delete(objectId, "likes");
 	}
 
@@ -48,7 +48,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public List<UserLike> getLikes(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "likes", UserLikeList.class).getList();
 	}
 	
@@ -57,7 +57,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public List<UserLike> getBooks(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "books", UserLikeList.class).getList();
 	}
 
@@ -66,7 +66,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public List<UserLike> getMovies(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "movies", UserLikeList.class).getList();
 	}
 
@@ -75,7 +75,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public List<UserLike> getMusic(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "music", UserLikeList.class).getList();
 	}
 
@@ -84,7 +84,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public List<UserLike> getTelevision(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "television", UserLikeList.class).getList();
 	}
 
@@ -93,7 +93,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public List<UserLike> getActivities(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "activities", UserLikeList.class).getList();
 	}
 
@@ -102,7 +102,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public List<UserLike> getInterests(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "interests", UserLikeList.class).getList();
 	}
 }

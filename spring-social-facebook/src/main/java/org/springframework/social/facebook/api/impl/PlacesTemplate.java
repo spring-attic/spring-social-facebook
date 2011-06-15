@@ -38,12 +38,12 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 	}
 
 	public List<Checkin> getCheckins(String objectId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(objectId, "checkins", CheckinList.class).getList();
 	}
 
 	public Checkin getCheckin(String checkinId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchObject(checkinId, Checkin.class);
 	}
 	
@@ -52,7 +52,7 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 	}
 	
 	public String checkin(String placeId, double latitude, double longitude, String message, String... tags) {
-		requireUserAuthorization();
+		requireAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("place", placeId);
 		data.set("coordinates", "{\"latitude\":\"" + latitude+"\",\"longitude\":\"" + longitude + "\"}");
@@ -71,7 +71,7 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 	}
 	
 	public List<Page> search(String query, double latitude, double longitude, long distance) {
-		requireUserAuthorization();
+		requireAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "place");

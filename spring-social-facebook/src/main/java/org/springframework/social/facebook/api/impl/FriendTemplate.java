@@ -42,17 +42,17 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 
 	public List<Reference> getFriendLists(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "friendlists", ReferenceList.class).getList();
 	}
 	
 	public Reference getFriendList(String friendListId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchObject(friendListId, Reference.class);
 	}
 	
 	public List<Reference> getFriendListMembers(String friendListId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(friendListId, "members", ReferenceList.class).getList();
 	}
 
@@ -61,24 +61,24 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public Reference createFriendList(String userId, String name) {
-		requireUserAuthorization();
+		requireAuthorization();
 		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userId + "/friendlists").queryParam("name", name).build();
 		return restTemplate.postForObject(uri, "", Reference.class);
 	}
 	
 	public void deleteFriendList(String friendListId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		graphApi.delete(friendListId);
 	}
 
 	public void addToFriendList(String friendListId, String friendId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + friendListId + "/members/" + friendId).build();
 		restTemplate.postForObject(uri, "", String.class);
 	}
 	
 	public void removeFromFriendList(String friendListId, String friendId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + friendListId + "/members/" + friendId).build();
 		restTemplate.delete(uri);
 	}
@@ -96,17 +96,17 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 
 	public List<Reference> getFriends(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "friends", ReferenceList.class).getList();
 	}
 	
 	public List<String> getFriendIds(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "friends", FriendIdList.class, "id").getList();
 	}
 	
 	public List<FacebookProfile> getFriendProfiles(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "friends", FacebookProfileList.class, FULL_PROFILE_FIELDS).getList();
 	}
 

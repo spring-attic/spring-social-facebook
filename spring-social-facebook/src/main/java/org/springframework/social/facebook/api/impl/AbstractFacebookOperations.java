@@ -19,14 +19,14 @@ import org.springframework.social.MissingAuthorizationException;
 
 class AbstractFacebookOperations {
 	
-	private final boolean isAuthorizedForUser;
+	private final boolean isAuthorized;
 
-	public AbstractFacebookOperations(boolean isAuthorizedForUser) {
-		this.isAuthorizedForUser = isAuthorizedForUser;
+	public AbstractFacebookOperations(boolean isAuthorized) {
+		this.isAuthorized = isAuthorized;
 	}
 	
-	protected void requireUserAuthorization() {
-		if(!isAuthorizedForUser) {
+	protected void requireAuthorization() {
+		if (!isAuthorized) {
 			throw new MissingAuthorizationException();
 		}
 	}

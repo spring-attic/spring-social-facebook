@@ -48,12 +48,12 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 	}
 	
 	public List<GroupMemberReference> getMembers(String groupId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(groupId, "members", GroupMemberReferenceList.class).getList();
 	}
 
 	public List<FacebookProfile> getMemberProfiles(String groupId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(groupId, "members", FacebookProfileList.class, FULL_PROFILE_FIELDS).getList();
 	}
 

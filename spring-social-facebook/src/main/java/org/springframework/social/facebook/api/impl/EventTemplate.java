@@ -36,12 +36,12 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 
 	public List<Invitation> getInvitations() {
-		requireUserAuthorization();
+		requireAuthorization();
 		return getInvitations("me");
 	}
 
 	public List<Invitation> getInvitations(String userId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		return graphApi.fetchConnections(userId, "events", InvitationList.class).getList();
 	}
 	
@@ -58,7 +58,7 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public String createEvent(String name, String startTime, String endTime) {
-		requireUserAuthorization();
+		requireAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("name", name);
 		data.set("start_time", startTime);
@@ -67,7 +67,7 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public void deleteEvent(String eventId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		graphApi.delete(eventId);
 	}
 
@@ -92,17 +92,17 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public void acceptInvitation(String eventId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		graphApi.post(eventId, "attending", new LinkedMultiValueMap<String, String>());
 	}
 
 	public void maybeInvitation(String eventId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		graphApi.post(eventId, "maybe", new LinkedMultiValueMap<String, String>());
 	}
 
 	public void declineInvitation(String eventId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		graphApi.post(eventId, "declined", new LinkedMultiValueMap<String, String>());
 	}
 	

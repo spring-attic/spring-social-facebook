@@ -42,14 +42,14 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 	}
 
 	public String addComment(String objectId, String message) {
-		requireUserAuthorization();
+		requireAuthorization();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("message", message);
 		return graphApi.publish(objectId, "comments", map);
 	}
 
 	public void deleteComment(String objectId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		graphApi.delete(objectId);
 	}
 
