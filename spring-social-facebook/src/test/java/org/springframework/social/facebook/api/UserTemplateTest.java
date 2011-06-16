@@ -215,11 +215,18 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("New Mexico", educationHistory.get(0).getSchool().getName());
 		assertEquals("117348274968344", educationHistory.get(0).getYear().getId());
 		assertEquals("1994", educationHistory.get(0).getYear().getName());
+		List<Reference> concentration = educationHistory.get(0).getConcentration();
+		assertEquals(2, concentration.size());
+		assertEquals("192578844099494", concentration.get(0).getId());
+		assertEquals("Computer Science", concentration.get(0).getName());
+		assertEquals("146136662113078", concentration.get(1).getId());
+		assertEquals("Mathematics", concentration.get(1).getName());
 		assertEquals("High School", educationHistory.get(1).getType());
 		assertEquals("115157218496067", educationHistory.get(1).getSchool().getId());
 		assertEquals("Jal High School", educationHistory.get(1).getSchool().getName());
 		assertEquals("127132740657422", educationHistory.get(1).getYear().getId());
 		assertEquals("1989", educationHistory.get(1).getYear().getName());
+		assertNull(educationHistory.get(1).getConcentration());
 	}
 
 	private void assertWorkHistory(List<WorkEntry> workHistory) {

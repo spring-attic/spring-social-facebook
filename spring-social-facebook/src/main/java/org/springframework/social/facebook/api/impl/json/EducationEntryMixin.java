@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -31,6 +33,7 @@ abstract class EducationEntryMixin {
 	EducationEntryMixin(
 			@JsonProperty("school") Reference school, 
 			@JsonProperty("year") Reference year, 
+			@JsonProperty("concentration") List<Reference> concentration,
 			@JsonProperty("type") String type) {}
 	
 }

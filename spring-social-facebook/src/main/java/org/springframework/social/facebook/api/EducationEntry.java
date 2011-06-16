@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.List;
+
 
 /**
  * Model class representing an entry in a user's education history.
@@ -26,11 +28,14 @@ public class EducationEntry {
 
 	private final Reference year;
 
+	private final List<Reference> concentration;
+	
 	private final String type;
 
-	public EducationEntry(Reference school, Reference year, String type) {
+	public EducationEntry(Reference school, Reference year, List<Reference> concentration, String type) {
 		this.school = school;
 		this.year = year;
+		this.concentration = concentration;
 		this.type = type;
 	}
 
@@ -40,6 +45,10 @@ public class EducationEntry {
 
 	public Reference getYear() {
 		return year;
+	}
+
+	public List<Reference> getConcentration() {
+		return concentration;
 	}
 
 	public String getType() {
