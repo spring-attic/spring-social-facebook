@@ -28,8 +28,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InsufficientPermissionException;
+import org.springframework.social.InternalServerErrorException;
 import org.springframework.social.InvalidAuthorizationException;
+import org.springframework.social.MissingAuthorizationException;
+import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.OperationNotPermittedException;
 import org.springframework.social.ResourceNotFoundException;
+import org.springframework.social.RevokedAuthorizationException;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.NotAFriendException;
 import org.springframework.social.facebook.api.ResourceOwnershipException;
@@ -49,28 +54,10 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 			handleUncategorizedError(response, errorDetails);
 		}
 
-		// 401 is the only status code we can trust from Facebook. 
-		// Facebook is very inconsistent in use of error codes in most other cases.
-		if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-			throw new InvalidAuthorizationException(); // TODO: could the message help us choose an ExpiredCredentialsException instead?
-		}
-
-		handleFacebookError(errorDetails);
+		handleFacebookError(response.getStatusCode(), errorDetails);
 		
 		// if not otherwise handled, do default handling and wrap with UncategorizedApiException
 		handleUncategorizedError(response, errorDetails);			
-	}
-
-	private void handleUncategorizedError(ClientHttpResponse response, Map<String, String> errorDetails) {
-		try {
-			super.handleError(response);
-		} catch (Exception e) {
-			if (errorDetails != null) {
-				throw new UncategorizedApiException(errorDetails.get("message"), e);
-			} else {
-				throw new UncategorizedApiException("No error details from Facebook", e);
-			}
-		}
 	}
 	
 	@Override 
@@ -83,29 +70,71 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 	 * Examines the error data returned from Facebook and throws the most applicable exception.
 	 * @param errorDetails a Map containing a "type" and a "message" corresponding to the Graph API's error response structure.
 	 */
-	void handleFacebookError(Map<String, String> errorDetails) {
-		// Can't trust the type to be useful. It's often OAuthException, even for things not OAuth-related.
+	void handleFacebookError(HttpStatus statusCode, Map<String, String> errorDetails) {
+		// Can't trust the type to be useful. It's often OAuthException, even for things not OAuth-related. 
 		// Can rely only on the message (which itself isn't very consistent).
 		String message = errorDetails.get("message");
-		if (message.contains("Requires extended permission")) {
-			String requiredPermission = message.split(": ")[1];
-			throw new InsufficientPermissionException(requiredPermission);
-		} else if (message.equals("The member must be a friend of the current user.")) {
-			throw new NotAFriendException(message);
-		} else if (message.contains("Unknown path components")) {
-			throw new ResourceNotFoundException(message);
-		} else if (message.equals("User must be an owner of the friendlist")) { // watch for pattern in similar message in other resources
-			throw new ResourceOwnershipException(message);
-		} else if (message.contains("Some of the aliases you requested do not exist")) {
-			throw new ResourceNotFoundException(message);
-		} else if (message.contains("Session has expired")) {
-			throw new ExpiredAuthorizationException();
-		} else if (message.equals("The session has been invalidated because the user has changed the password.")) {
-			throw new InvalidAuthorizationException();
-		} else if (message.contains("has not authorized application")) {
-			throw new InvalidAuthorizationException();
-		} else if (message.equals("Error validating access token: The session is invalid because the user logged out.")) {
-			throw new InvalidAuthorizationException();
+
+		if (statusCode == HttpStatus.OK) {
+			if (message.contains("Some of the aliases you requested do not exist")) {
+				throw new ResourceNotFoundException(message);
+			}
+		} else if (statusCode == HttpStatus.BAD_REQUEST) {
+			if (message.contains("Unknown path components")) {
+				throw new ResourceNotFoundException(message);
+			} else if (message.equals("An access token is required to request this resource.")) {
+				throw new MissingAuthorizationException();
+			} else if (message.equals("An active access token must be used to query information about the current user.")) {
+				throw new MissingAuthorizationException();				
+			} else if (message.startsWith("Error validating access token")) {
+				if (message.contains("Session has expired at unix time")) {
+					throw new ExpiredAuthorizationException();
+				} else if (message.contains("The session has been invalidated because the user has changed the password.")) {
+					throw new RevokedAuthorizationException();
+				} else if (message.contains("The session is invalid because the user logged out.")) {
+					throw new RevokedAuthorizationException();
+				} else if (message.contains("has not authorized application")) {
+					// Per https://developers.facebook.com/blog/post/500/, this could be in the message when the user removes the application.
+					// In reality, "The session has been invalidated because the user has changed the password." is what you get in that case.
+					// Leaving this check in place in case there FB does return this message (could be a bug in FB?)
+					throw new RevokedAuthorizationException();
+				} else {
+					throw new InvalidAuthorizationException(message);				
+				}
+			} else if (message.equals("Error validating application.")) { // Access token with incorrect app ID
+				throw new InvalidAuthorizationException(message);
+			} else if (message.equals("Invalid access token signature.")) { // Access token that fails signature validation
+				throw new InvalidAuthorizationException(message);				
+			}
+		} else if (statusCode == HttpStatus.UNAUTHORIZED) {
+			throw new NotAuthorizedException(message);
+		} else if (statusCode == HttpStatus.FORBIDDEN) {
+			if (message.contains("Requires extended permission")) {
+				String requiredPermission = message.split(": ")[1];
+				throw new InsufficientPermissionException(requiredPermission);
+			} else {
+				throw new OperationNotPermittedException(message);
+			}
+		} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR) {
+			if (message.equals("User must be an owner of the friendlist")) { // watch for pattern in similar message in other resources
+				throw new ResourceOwnershipException(message);
+			} else if (message.equals("The member must be a friend of the current user.")) {
+				throw new NotAFriendException(message);
+			} else {
+				throw new InternalServerErrorException(message);
+			}
+		}
+	}
+
+	private void handleUncategorizedError(ClientHttpResponse response, Map<String, String> errorDetails) {
+		try {
+			super.handleError(response);
+		} catch (Exception e) {
+			if (errorDetails != null) {
+				throw new UncategorizedApiException(errorDetails.get("message"), e);
+			} else {
+				throw new UncategorizedApiException("No error details from Facebook", e);
+			}
 		}
 	}
 

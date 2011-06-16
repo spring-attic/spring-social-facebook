@@ -25,9 +25,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.InvalidAuthorizationException;
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.ResourceNotFoundException;
+import org.springframework.social.RevokedAuthorizationException;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.test.client.MockRestServiceServer;
@@ -143,7 +143,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		facebook.userOperations().getUserProfile();
 	}
 	
-	@Test(expected = InvalidAuthorizationException.class)
+	@Test(expected = RevokedAuthorizationException.class)
 	public void tokenInvalid_passwordChanged() {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
@@ -152,7 +152,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		facebook.userOperations().getUserProfile();
 	}
 	
-	@Test(expected = InvalidAuthorizationException.class)
+	@Test(expected = RevokedAuthorizationException.class)
 	public void tokenInvalid_applicationDeauthorized() {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
@@ -161,7 +161,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		facebook.userOperations().getUserProfile();
 	}
 
-	@Test(expected = InvalidAuthorizationException.class)
+	@Test(expected = RevokedAuthorizationException.class)
 	public void tokenInvalid_signedOutOfFacebook() {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
