@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 public @interface FacebookCookieValue {
 	
 	/**
-	 * The specific element of the cookie to be bound (e.g., "uid", "access_token", etc)
+	 * The specific element of the cookie to be bound (e.g., "uid", "expires", etc)
 	 */
 	public String value() default "";
 
