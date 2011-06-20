@@ -23,7 +23,6 @@ import static org.springframework.social.test.client.ResponseCreators.*;
 import java.util.List;
 
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.social.NotAuthorizedException;
 
 public class PlacesTemplateTest extends AbstractFacebookApiTest {
@@ -33,7 +32,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/checkins"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/checkins.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins();
 		assertCheckins(checkins);
 	}
@@ -48,7 +47,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/checkins"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/checkins.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins("987654321");
 		assertCheckins(checkins);
 	}
@@ -63,7 +62,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/10150431253050580"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/checkin.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/checkin"), responseHeaders));
 		Checkin checkin = facebook.placesOperations().getCheckin("10150431253050580");
 		assertSingleCheckin(checkin);		
 	}
@@ -124,7 +123,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=coffee&type=place&center=33.050278%2C-96.745833&distance=5280"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/places-list.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/places-list"), responseHeaders));
 		List<Page> places = facebook.placesOperations().search("coffee", 33.050278, -96.745833, 5280);
 		assertEquals(2, places.size());
 		assertEquals("117723491586638", places.get(0).getId());

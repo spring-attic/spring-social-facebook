@@ -23,7 +23,6 @@ import static org.springframework.social.test.client.ResponseCreators.*;
 import java.util.List;
 
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.social.NotAuthorizedException;
 
 /**
@@ -36,7 +35,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/comments.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/comments"), responseHeaders));
 		
 		List<Comment> comments = facebook.commentOperations().getComments("123456");
 		assertEquals(2, comments.size());
@@ -55,7 +54,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/comment.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/comment"), responseHeaders));
 		Comment comment = facebook.commentOperations().getComment("1533260333_122829644452184_587062");
 		assertEquals("1533260333", comment.getFrom().getId());
 		assertEquals("Art Names", comment.getFrom().getName());
@@ -99,7 +98,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	public void getLikes() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withResponse(new ClassPathResource("testdata/likes.json", getClass()), responseHeaders));
+				.andRespond(withResponse(jsonResource("testdata/likes"), responseHeaders));
 		List<Reference> likes = facebook.commentOperations().getLikes("123456");
 		assertEquals(3, likes.size());
 		Reference like1 = likes.get(0);

@@ -41,7 +41,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/declined"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withResponse(new ClassPathResource("testdata/error-insufficient-privilege.json", getClass()), responseHeaders, HttpStatus.FORBIDDEN, ""));
+				.andRespond(withResponse(jsonResource("testdata/error-insufficient-privilege"), responseHeaders, HttpStatus.FORBIDDEN, ""));
 			facebook.eventOperations().declineInvitation("193482154020832");
 			fail();
 		} catch (InsufficientPermissionException e) {
@@ -56,7 +56,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			mockServer.expect(requestTo("https://graph.facebook.com/119297590579/members/100001387295207"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withResponse(new ClassPathResource("testdata/error-not-a-friend.json", getClass()), responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR, ""));
+				.andRespond(withResponse(jsonResource("testdata/error-not-a-friend"), responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR, ""));
 			facebook.friendOperations().addToFriendList("119297590579", "100001387295207");
 			fail();
 		} catch (NotAFriendException e) {
@@ -70,7 +70,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			mockServer.expect(requestTo("https://graph.facebook.com/me/boguspath"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withResponse(new ClassPathResource("testdata/error-unknown-path.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+				.andRespond(withResponse(jsonResource("testdata/error-unknown-path"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 			facebook.fetchConnections("me", "boguspath", String.class);
 			fail();
 		} catch (ResourceNotFoundException e) {
@@ -85,7 +85,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(body("method=delete"))
-				.andRespond(withResponse(new ClassPathResource("testdata/error-not-the-owner.json", getClass()), responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR, ""));
+				.andRespond(withResponse(jsonResource("testdata/error-not-the-owner"), responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR, ""));
 			facebook.friendOperations().deleteFriendList("1234567890");
 			fail();
 		} catch (ResourceOwnershipException e) {
@@ -100,7 +100,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			mockServer.expect(requestTo("https://graph.facebook.com/dummyalias"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withResponse(new ClassPathResource("testdata/error-unknown-alias.json", getClass()), responseHeaders, HttpStatus.OK, ""));
+				.andRespond(withResponse(jsonResource("testdata/error-unknown-alias"), responseHeaders, HttpStatus.OK, ""));
 			facebook.fetchObject("dummyalias", FacebookProfile.class);
 			fail("Expected GraphAPIException when fetching an unknown object alias");
 		} catch (ResourceNotFoundException e) {
@@ -114,7 +114,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
-			.andRespond(withResponse(new ClassPathResource("testdata/error-current-user-no-token.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+			.andRespond(withResponse(jsonResource("testdata/error-current-user-no-token"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 		facebook.userOperations().getUserProfile();
 	}
 	
@@ -139,7 +139,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
-			.andRespond(withResponse(new ClassPathResource("testdata/error-expired-token.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+			.andRespond(withResponse(jsonResource("testdata/error-expired-token"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 		facebook.userOperations().getUserProfile();
 	}
 	
@@ -148,7 +148,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
-			.andRespond(withResponse(new ClassPathResource("testdata/error-invalid-token-password.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+			.andRespond(withResponse(jsonResource("testdata/error-invalid-token-password"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 		facebook.userOperations().getUserProfile();
 	}
 	
@@ -157,7 +157,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
-			.andRespond(withResponse(new ClassPathResource("testdata/error-invalid-token-deauth.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+			.andRespond(withResponse(jsonResource("testdata/error-invalid-token-deauth"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 		facebook.userOperations().getUserProfile();
 	}
 
@@ -166,7 +166,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
-			.andRespond(withResponse(new ClassPathResource("testdata/error-invalid-token-signout.json", getClass()), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+			.andRespond(withResponse(jsonResource("testdata/error-invalid-token-signout"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 		facebook.userOperations().getUserProfile();
 	}
 

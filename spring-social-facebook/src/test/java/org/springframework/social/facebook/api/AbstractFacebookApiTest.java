@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.junit.Before;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
@@ -46,8 +48,9 @@ public class AbstractFacebookApiTest {
 		MockRestServiceServer.createServer(unauthorizedFacebook.getRestTemplate());
 	}
 
-
-	private static final DateFormat FB_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
+	protected Resource jsonResource(String filename) {
+		return new ClassPathResource(filename + ".json", getClass());
+	}
 
 	protected Date toDate(String dateString) {
 		try {
@@ -56,5 +59,7 @@ public class AbstractFacebookApiTest {
 			return null;
 		}
 	}
+
+	private static final DateFormat FB_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
 
 }

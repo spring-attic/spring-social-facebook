@@ -23,7 +23,6 @@ import static org.springframework.social.test.client.ResponseCreators.*;
 import java.util.List;
 
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.social.NotAuthorizedException;
 
 public class EventTemplateTest extends AbstractFacebookApiTest {
@@ -33,7 +32,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/events"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/user-events.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/user-events"), responseHeaders));
 		List<Invitation> events = facebook.eventOperations().getInvitations();
 		assertInvitations(events);
 	}
@@ -48,7 +47,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789/events"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/user-events.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/user-events"), responseHeaders));
 		List<Invitation> events = facebook.eventOperations().getInvitations("123456789");
 		assertInvitations(events);
 	}
@@ -63,7 +62,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/simple-event.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/simple-event"), responseHeaders));
 		Event event = facebook.eventOperations().getEvent("193482154020832");
 		assertEquals("193482154020832", event.getId());
 		assertEquals("100001387295207", event.getOwner().getId());
@@ -82,7 +81,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/full-event.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/full-event"), responseHeaders));
 		Event event = facebook.eventOperations().getEvent("193482154020832");
 		assertEquals("193482154020832", event.getId());
 		assertEquals("100001387295207", event.getOwner().getId());
@@ -132,7 +131,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/invited"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/invited.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/invited"), responseHeaders));
 		List<EventInvitee> invited = facebook.eventOperations().getInvited("193482154020832");
 		assertEquals(3, invited.size());
 		assertInvitee(invited.get(0), "100001387295207", "Art Names", RsvpStatus.ATTENDING);
@@ -145,7 +144,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/attending"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/attending.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/attending"), responseHeaders));
 		List<EventInvitee> invited = facebook.eventOperations().getAttending("193482154020832");
 		assertEquals(3, invited.size());
 		assertInvitee(invited.get(0), "100001387295207", "Art Names", RsvpStatus.ATTENDING);
@@ -158,7 +157,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/maybe"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/maybe-attending.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/maybe-attending"), responseHeaders));
 		List<EventInvitee> invited = facebook.eventOperations().getMaybeAttending("193482154020832");
 		assertEquals(3, invited.size());
 		assertInvitee(invited.get(0), "100001387295207", "Art Names", RsvpStatus.UNSURE);
@@ -171,7 +170,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/noreply"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/no-replies.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/no-replies"), responseHeaders));
 		List<EventInvitee> invited = facebook.eventOperations().getNoReplies("193482154020832");
 		assertEquals(3, invited.size());
 		assertInvitee(invited.get(0), "100001387295207", "Art Names", RsvpStatus.NOT_REPLIED);
@@ -184,7 +183,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/declined"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/declined.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/declined"), responseHeaders));
 		List<EventInvitee> invited = facebook.eventOperations().getDeclined("193482154020832");
 		assertEquals(3, invited.size());
 		assertInvitee(invited.get(0), "100001387295207", "Art Names", RsvpStatus.DECLINED);
@@ -242,7 +241,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=event"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/event-list.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/event-list"), responseHeaders));
 		List<Event> results = facebook.eventOperations().search("Spring User Group");
 		assertEquals(1, results.size());
 		assertEquals("196119297091135", results.get(0).getId());

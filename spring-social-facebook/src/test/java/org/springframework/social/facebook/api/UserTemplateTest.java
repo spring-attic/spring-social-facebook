@@ -38,7 +38,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withResponse(new ClassPathResource("testdata/full-profile.json", getClass()), responseHeaders));
+				.andRespond(withResponse(jsonResource("testdata/full-profile"), responseHeaders));
 
 		FacebookProfile profile = facebook.userOperations().getUserProfile();
 		assertBasicProfileData(profile);
@@ -107,7 +107,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withResponse(new ClassPathResource("testdata/minimal-profile.json", getClass()), responseHeaders));
+				.andRespond(withResponse(jsonResource("testdata/minimal-profile"), responseHeaders));
 
 		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
 		assertBasicProfileData(profile);
@@ -164,7 +164,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/permissions"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/user-permissions.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/user-permissions"), responseHeaders));
 		List<String> permissions = facebook.userOperations().getUserPermissions();
 		assertEquals(4, permissions.size());
 		assertTrue(permissions.contains("status_update"));
@@ -183,7 +183,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Michael+Scott&type=user"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(new ClassPathResource("testdata/user-references.json", getClass()), responseHeaders));
+			.andRespond(withResponse(jsonResource("testdata/user-references"), responseHeaders));
 		List<Reference> results = facebook.userOperations().search("Michael Scott");
 		assertEquals(3, results.size());
 		assertEquals("100000737708615", results.get(0).getId());
