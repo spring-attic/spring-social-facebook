@@ -14,20 +14,34 @@ Facebook facebook = new FacebookTemplate(accessToken);]]>
 	</programlisting>
 
 	<para>
+		In addition, <classname>FacebookTemplate</classname> has a default constructor that creates an instance without any OAuth credentials:
+	</para>
+
+	<programlisting language="java"><![CDATA[
+Facebook facebook = new FacebookTemplate();]]>
+	</programlisting>
+
+	<para>
+		When constructed with the default constructor, <classname>FacebookTemplate</classname> will allow a few simple operations that do not require authorization, such as retrieving a specific user's profile. 
+		Attempting other operations, such as posting a status update will fail with an <classname>MissingAuthorizationException</classname> being thrown.
+	</para>
+
+	<para>
 		If you are using Spring Social's <ulink url="http://static.springsource.org/spring-social/docs/1.0.x/reference/html/serviceprovider.html">service provider framework</ulink>, you can get an instance of <interfacename>Facebook</interfacename> from a <interfacename>Connection</interfacename>. 
 		For example, the following snippet calls <methodname>getApi()</methodname> on a connection to retrieve a <interfacename>Facebook</interfacename>:
 	</para>				
-		
-	<programlisting language="java"><![CDATA[
-Connection<Facebook> connection = connectionRepository.findPrimaryConnectionToApi(Facebook.class);
-Facebook facebook = connection.getApi();]]>
-	</programlisting>
-		
-	<para>
-		Here, <interfacename>ConnectionRepository</interfacename> is being asked for the primary connections that the current user has with Facebook.
-		From that connection, it retrieves a <interfacename>Facebook</interfacename> instance that is configured with the connection details received when the connection was first established.
-	</para>
 
+	<programlisting language="java"><![CDATA[
+Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
+Facebook facebook = connection != null ? connection.getApi() : new FacebookTemplate();]]>
+	</programlisting>
+
+	<para>
+		Here, <interfacename>ConnectionRepository</interfacename> is being asked for the primary connection that the current user has with Facebook.
+		If a connection to Facebook is found, a call to <methodname>getApi()</methodname> retrieves a <interfacename>Facebook</interfacename> instance that is configured with the connection details received when the connection was first established.
+		If there is no connection, a default instance of <classname>FacebookTemplate</classname> is created.
+	</para>
+		
 	<para>
 		With a <interfacename>Facebook</interfacename> in hand, there are several ways you can use it to interact with Facebook on behalf of the user.
 		Spring Social's Facebook API binding is divided into 9 sub-APIs exposes through the methods of <interfacename>Facebook</interfacename>:
