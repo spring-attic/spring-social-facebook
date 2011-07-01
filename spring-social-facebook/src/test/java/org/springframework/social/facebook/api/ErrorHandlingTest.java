@@ -144,7 +144,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	}
 	
 	@Test(expected = RevokedAuthorizationException.class)
-	public void tokenInvalid_passwordChanged() {
+	public void tokenInvalid_passwordChanged_badRequest() {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
@@ -153,7 +153,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	}
 	
 	@Test(expected = RevokedAuthorizationException.class)
-	public void tokenInvalid_applicationDeauthorized() {
+	public void tokenInvalid_applicationDeauthorized_badRequest() {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
@@ -162,11 +162,38 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	}
 
 	@Test(expected = RevokedAuthorizationException.class)
-	public void tokenInvalid_signedOutOfFacebook() {
+	public void tokenInvalid_signedOutOfFacebook_badRequest() {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
 			.andRespond(withResponse(jsonResource("testdata/error-invalid-token-signout"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.userOperations().getUserProfile();
+	}
+
+	@Test(expected = RevokedAuthorizationException.class)
+	public void tokenInvalid_passwordChanged_unauthorized() {
+		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andRespond(withResponse(jsonResource("testdata/error-invalid-token-password"), responseHeaders, HttpStatus.UNAUTHORIZED, ""));
+		facebook.userOperations().getUserProfile();
+	}
+	
+	@Test(expected = RevokedAuthorizationException.class)
+	public void tokenInvalid_applicationDeauthorized_unauthorized() {
+		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andRespond(withResponse(jsonResource("testdata/error-invalid-token-deauth"), responseHeaders, HttpStatus.UNAUTHORIZED, ""));
+		facebook.userOperations().getUserProfile();
+	}
+
+	@Test(expected = RevokedAuthorizationException.class)
+	public void tokenInvalid_signedOutOfFacebook_unauthorized() {
+		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andRespond(withResponse(jsonResource("testdata/error-invalid-token-signout"), responseHeaders, HttpStatus.UNAUTHORIZED, ""));
 		facebook.userOperations().getUserProfile();
 	}
 

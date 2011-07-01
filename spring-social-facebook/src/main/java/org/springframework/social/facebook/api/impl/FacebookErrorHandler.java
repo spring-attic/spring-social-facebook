@@ -62,8 +62,12 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 	
 	@Override 
 	public boolean hasError(ClientHttpResponse response) throws IOException {
+		if(super.hasError(response)) {
+			return true;
+		}
+		// only bother checking the body for errors if we get past the default error check
 		BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody()));
-		return super.hasError(response) || (reader.ready() && reader.readLine().startsWith("{\"error\":"));
+		return reader.ready() && reader.readLine().startsWith("{\"error\":");
 	}
 
 	/**
@@ -87,26 +91,16 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 			} else if (message.equals("An active access token must be used to query information about the current user.")) {
 				throw new MissingAuthorizationException();				
 			} else if (message.startsWith("Error validating access token")) {
-				if (message.contains("Session has expired at unix time")) {
-					throw new ExpiredAuthorizationException();
-				} else if (message.contains("The session has been invalidated because the user has changed the password.")) {
-					throw new RevokedAuthorizationException();
-				} else if (message.contains("The session is invalid because the user logged out.")) {
-					throw new RevokedAuthorizationException();
-				} else if (message.contains("has not authorized application")) {
-					// Per https://developers.facebook.com/blog/post/500/, this could be in the message when the user removes the application.
-					// In reality, "The session has been invalidated because the user has changed the password." is what you get in that case.
-					// Leaving this check in place in case there FB does return this message (could be a bug in FB?)
-					throw new RevokedAuthorizationException();
-				} else {
-					throw new InvalidAuthorizationException(message);				
-				}
+				handleInvalidAccessToken(message);
 			} else if (message.equals("Error validating application.")) { // Access token with incorrect app ID
 				throw new InvalidAuthorizationException(message);
 			} else if (message.equals("Invalid access token signature.")) { // Access token that fails signature validation
 				throw new InvalidAuthorizationException(message);				
 			}
 		} else if (statusCode == HttpStatus.UNAUTHORIZED) {
+			if (message.startsWith("Error validating access token")) {
+				handleInvalidAccessToken(message);
+			}
 			throw new NotAuthorizedException(message);
 		} else if (statusCode == HttpStatus.FORBIDDEN) {
 			if (message.contains("Requires extended permission")) {
@@ -123,6 +117,23 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 			} else {
 				throw new InternalServerErrorException(message);
 			}
+		}
+	}
+
+	private void handleInvalidAccessToken(String message) {
+		if (message.contains("Session has expired at unix time")) {
+			throw new ExpiredAuthorizationException();
+		} else if (message.contains("The session has been invalidated because the user has changed the password.")) {
+			throw new RevokedAuthorizationException();
+		} else if (message.contains("The session is invalid because the user logged out.")) {
+			throw new RevokedAuthorizationException();
+		} else if (message.contains("has not authorized application")) {
+			// Per https://developers.facebook.com/blog/post/500/, this could be in the message when the user removes the application.
+			// In reality, "The session has been invalidated because the user has changed the password." is what you get in that case.
+			// Leaving this check in place in case there FB does return this message (could be a bug in FB?)
+			throw new RevokedAuthorizationException();
+		} else {
+			throw new InvalidAuthorizationException(message);				
 		}
 	}
 
