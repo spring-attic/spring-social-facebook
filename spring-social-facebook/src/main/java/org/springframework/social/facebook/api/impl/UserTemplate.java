@@ -15,8 +15,11 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.codehaus.jackson.JsonNode;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
@@ -24,14 +27,18 @@ import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 class UserTemplate extends AbstractFacebookOperations implements UserOperations {
 
 	private final GraphApi graphApi;
+	
+	private final RestTemplate restTemplate;
 
-	public UserTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+	public UserTemplate(GraphApi graphApi, RestTemplate restTemplate, boolean isAuthorizedForUser) {
 		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
+		this.restTemplate = restTemplate;
 	}
 
 	public FacebookProfile getUserProfile() {
@@ -63,7 +70,8 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 
 	public List<String> getUserPermissions() {
 		requireAuthorization();
-		return graphApi.fetchConnections("me", "permissions", UserPermissionsList.class).getList();
+		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/me/permissions", JsonNode.class);		
+		return deserializePermissionsNodeToList(responseNode);
 	}
 
 	public List<Reference> search(String query) {
@@ -71,7 +79,18 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "user");
-		return graphApi.fetchObject("search", ReferenceList.class, queryMap).getList();
+		return graphApi.fetchConnections("search", null, Reference.class, queryMap);
 	}
 
+	private List<String> deserializePermissionsNodeToList(JsonNode jsonNode) {
+		JsonNode dataNode = jsonNode.get("data");			
+		List<String> permissions = new ArrayList<String>();
+		for (Iterator<JsonNode> elementIt = dataNode.getElements(); elementIt.hasNext(); ) {
+			JsonNode permissionsElement = elementIt.next();
+			for (Iterator<String> fieldNamesIt = permissionsElement.getFieldNames(); fieldNamesIt.hasNext(); ) {
+				permissions.add(fieldNamesIt.next());
+			}
+		}			
+		return permissions;
+	}
 }

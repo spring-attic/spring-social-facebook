@@ -34,7 +34,7 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 	}
 
 	public List<Comment> getComments(String objectId) {
-		return graphApi.fetchConnections(objectId, "comments", CommentList.class).getList();
+		return graphApi.fetchConnections(objectId, "comments", Comment.class);
 	}
 
 	public Comment getComment(String commentId) {
@@ -54,7 +54,7 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 	}
 
 	public List<Reference> getLikes(String objectId) {
-		return graphApi.fetchConnections(objectId, "likes", ReferenceList.class).getList();
+		return graphApi.fetchConnections(objectId, "likes", Reference.class);
 	}
 
 }

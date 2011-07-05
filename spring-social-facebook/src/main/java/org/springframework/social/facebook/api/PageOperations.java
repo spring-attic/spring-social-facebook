@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.List;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -45,6 +47,12 @@ public interface PageOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */	
 	boolean isPageAdmin(String pageId);
+	
+	/**
+	 * Retrieves a list of Account objects for the pages that the authenticated user is an administrator.
+	 * Requires "manage_pages" permission.
+	 */
+	List<Account> getAccounts();
 	
 	/**
 	 * Posts a message to a page's feed as a page administrator.

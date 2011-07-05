@@ -16,7 +16,9 @@
 package org.springframework.social.facebook.api.impl;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.FriendOperations;
@@ -43,7 +45,7 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 
 	public List<Reference> getFriendLists(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "friendlists", ReferenceList.class).getList();
+		return graphApi.fetchConnections(userId, "friendlists", Reference.class);
 	}
 	
 	public Reference getFriendList(String friendListId) {
@@ -53,7 +55,7 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	
 	public List<Reference> getFriendListMembers(String friendListId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(friendListId, "members", ReferenceList.class).getList();
+		return graphApi.fetchConnections(friendListId, "members", Reference.class);
 	}
 
 	public Reference createFriendList(String name) {
@@ -97,19 +99,27 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 
 	public List<Reference> getFriends(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "friends", ReferenceList.class).getList();
+		return graphApi.fetchConnections(userId, "friends", Reference.class);
 	}
 	
 	public List<String> getFriendIds(String userId) {
-		requireAuthorization();
-		return graphApi.fetchConnections(userId, "friends", FriendIdList.class, "id").getList();
+		requireAuthorization();		
+		URI uri = URIBuilder.fromUri("https://graph.facebook.com/" + userId + "/friends").queryParam("fields", "id").build();
+		@SuppressWarnings("unchecked")
+		Map<String,List<Map<String, String>>> response = restTemplate.getForObject(uri, Map.class);
+		List<Map<String,String>> entryList = response.get("data");
+		List<String> idList = new ArrayList<String>(entryList.size());
+		for (Map<String, String> entry : entryList) {
+			idList.add(entry.get("id"));
+		}	
+		return idList;
 	}
 	
 	public List<FacebookProfile> getFriendProfiles(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "friends", FacebookProfileList.class, FULL_PROFILE_FIELDS).getList();
+		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, FULL_PROFILE_FIELDS);
 	}
 
 	private static final String[] FULL_PROFILE_FIELDS = {"id", "username", "name", "first_name", "last_name", "gender", "locale", "education", "work", "email", "third_party_id", "link", "timezone", "updated_time", "verified", "about", "bio", "birthday", "location", "hometown", "interested_in", "religion", "political", "quotes", "relationship_status", "significant_other", "website"};
-	
+
 }

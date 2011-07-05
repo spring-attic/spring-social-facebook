@@ -47,6 +47,11 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 		return getAccount(pageId) != null;
 	}
 	
+	public List<Account> getAccounts() {
+		requireAuthorization();
+		return graphApi.fetchConnections("me", "accounts", Account.class);
+	}
+
 	public String post(String pageId, String message) {
 		requireAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
@@ -100,7 +105,7 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	private Account getAccount(String pageId) {
 		if(!accountCache.containsKey(pageId)) {
 			// only bother fetching the account data in the event of a cache miss
-			List<Account> accounts = graphApi.fetchConnections("me", "accounts", AccountList.class).getList();
+			List<Account> accounts = getAccounts();
 			for (Account account : accounts) {
 				accountCache.put(account.getId(), account);
 			}

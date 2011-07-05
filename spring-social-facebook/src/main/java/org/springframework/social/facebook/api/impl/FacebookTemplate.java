@@ -15,11 +15,15 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.type.CollectionType;
+import org.codehaus.jackson.map.type.TypeFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -27,6 +31,7 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.CommentOperations;
 import org.springframework.social.facebook.api.EventOperations;
 import org.springframework.social.facebook.api.Facebook;
@@ -81,6 +86,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	private PageOperations pageOperations;
 
+	private ObjectMapper objectMapper;
+
 	/**
 	 * Create a new instance of FacebookTemplate.
 	 * This constructor creates a new FacebookTemplate able to perform unauthenticated operations against Facebook's Graph API.
@@ -104,10 +111,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 
 	private void initSubApis() {
-		userOperations = new UserTemplate(this, isAuthorized());
+		userOperations = new UserTemplate(this, getRestTemplate(), isAuthorized());
 		placesOperations = new PlacesTemplate(this, isAuthorized());
 		friendOperations = new FriendTemplate(this, getRestTemplate(), isAuthorized());
-		feedOperations = new FeedTemplate(this, isAuthorized());
+		feedOperations = new FeedTemplate(this, getRestTemplate(), objectMapper, isAuthorized());
 		commentOperations = new CommentTemplate(this, isAuthorized());
 		likeOperations = new LikeTemplate(this, isAuthorized());
 		eventOperations = new EventTemplate(this, isAuthorized());
@@ -178,7 +185,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return getRestTemplate().getForObject(uri, type);
 	}
 
-	public <T> T fetchConnections(String objectId, String connectionType, Class<T> type, String... fields) {
+	public <T> List<T> fetchConnections(String objectId, String connectionType, Class<T> type, String... fields) {
 		MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
 		if(fields.length > 0) {
 			String joinedFields = join(fields);
@@ -186,12 +193,14 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		}		
 		return fetchConnections(objectId, connectionType, type, queryParameters);
 	}
-	
-	public <T> T fetchConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters) {
-		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType).queryParams(queryParameters);
-		return getRestTemplate().getForObject(uriBuilder.build(), type);
+
+	public <T> List<T> fetchConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters) {
+		String connectionPath = connectionType != null && !connectionType.isEmpty() ? "/" + connectionType : "";
+		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).queryParams(queryParameters);		
+		JsonNode dataNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
+		return deserializeDataList(dataNode.get("data"), type);
 	}
-	
+
 	public byte[] fetchImage(String objectId, String connectionType, ImageType type) {
 		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType + "?type=" + type.toString().toLowerCase()).build();
 		ResponseEntity<byte[]> response = getRestTemplate().getForEntity(uri, byte[].class);
@@ -247,17 +256,27 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 		
 	private void registerFacebookJsonModule(RestTemplate restTemplate2) {
+		objectMapper = new ObjectMapper();				
+		objectMapper.registerModule(new FacebookModule());
 		List<HttpMessageConverter<?>> converters = getRestTemplate().getMessageConverters();
 		for (HttpMessageConverter<?> converter : converters) {
 			if(converter instanceof MappingJacksonHttpMessageConverter) {
 				MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
-				ObjectMapper objectMapper = new ObjectMapper();				
-				objectMapper.registerModule(new FacebookModule());
 				jsonConverter.setObjectMapper(objectMapper);
 			}
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	private <T> List<T> deserializeDataList(JsonNode jsonNode, final Class<T> elementType) {
+		try {
+			CollectionType listType = TypeFactory.defaultInstance().constructCollectionType(List.class, elementType);
+			return (List<T>) objectMapper.readValue(jsonNode, listType);
+		} catch (IOException e) {
+			throw new UncategorizedApiException("Error deserializing data from Facebook: " + e.getMessage(), e);
+		}
+	}
+	
 	private String join(String[] strings) {
 		StringBuilder builder = new StringBuilder();
 		if(strings.length > 0) {

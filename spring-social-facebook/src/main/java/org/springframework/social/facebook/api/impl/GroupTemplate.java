@@ -49,12 +49,12 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 	
 	public List<GroupMemberReference> getMembers(String groupId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(groupId, "members", GroupMemberReferenceList.class).getList();
+		return graphApi.fetchConnections(groupId, "members", GroupMemberReference.class);
 	}
 
 	public List<FacebookProfile> getMemberProfiles(String groupId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(groupId, "members", FacebookProfileList.class, FULL_PROFILE_FIELDS).getList();
+		return graphApi.fetchConnections(groupId, "members", FacebookProfile.class, FULL_PROFILE_FIELDS);
 	}
 
 	public List<Group> search(String query) {
@@ -62,7 +62,7 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 		queryMap.add("q", query);
 		queryMap.add("type", "group");
 		queryMap.add("fields", "owner,name,description,privacy,icon,updated_time,email,version");
-		return graphApi.fetchObject("search", GroupList.class, queryMap).getList();
+		return graphApi.fetchConnections("search", "", Group.class, queryMap);
 	}	
 	
 	private static final String[] FULL_PROFILE_FIELDS = {"id", "username", "name", "first_name", "last_name", "gender", "locale", "education", "work", "email", "third_party_id", "link", "timezone", "updated_time", "verified", "about", "bio", "birthday", "location", "hometown", "interested_in", "religion", "political", "quotes", "relationship_status", "significant_other", "website"};

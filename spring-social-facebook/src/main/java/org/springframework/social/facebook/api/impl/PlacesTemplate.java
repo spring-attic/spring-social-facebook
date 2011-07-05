@@ -39,7 +39,7 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 
 	public List<Checkin> getCheckins(String objectId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(objectId, "checkins", CheckinList.class).getList();
+		return graphApi.fetchConnections(objectId, "checkins", Checkin.class);
 	}
 
 	public Checkin getCheckin(String checkinId) {
@@ -77,7 +77,7 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 		queryMap.add("type", "place");
 		queryMap.add("center", latitude + "," + longitude);
 		queryMap.add("distance", String.valueOf(distance));
-		return graphApi.fetchObject("search", PageList.class, queryMap).getList();
+		return graphApi.fetchConnections("search", null, Page.class, queryMap);
 	}
 
 }

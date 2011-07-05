@@ -20,6 +20,8 @@ import static org.springframework.http.HttpMethod.*;
 import static org.springframework.social.test.client.RequestMatchers.*;
 import static org.springframework.social.test.client.ResponseCreators.*;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -107,12 +109,28 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		expectFetchAccounts();
 		assertFalse(facebook.pageOperations().isPageAdmin("2468013579"));
 		assertTrue(facebook.pageOperations().isPageAdmin("987654321"));
+		assertTrue(facebook.pageOperations().isPageAdmin("1212121212"));
 	}
 	
 
 	@Test(expected = NotAuthorizedException.class)
 	public void isPageAdmin_unauthorized() {
 		unauthorizedFacebook.pageOperations().isPageAdmin("2468013579");
+	}
+	
+	@Test
+	public void getAccounts() {
+		expectFetchAccounts();
+		List<Account> accounts = facebook.pageOperations().getAccounts();
+		assertEquals(2, accounts.size());
+		assertEquals("987654321", accounts.get(0).getId());
+		assertEquals("Test Page", accounts.get(0).getName());
+		assertEquals("Page", accounts.get(0).getCategory());
+		assertEquals("pageAccessToken", accounts.get(0).getAccessToken());
+		assertEquals("1212121212", accounts.get(1).getId());
+		assertEquals("Test Page 2", accounts.get(1).getName());
+		assertEquals("Page", accounts.get(1).getCategory());
+		assertEquals("page2AccessToken", accounts.get(1).getAccessToken());
 	}
 
 	@Test

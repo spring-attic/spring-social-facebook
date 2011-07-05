@@ -49,7 +49,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<UserLike> getLikes(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "likes", UserLikeList.class).getList();
+		return graphApi.fetchConnections(userId, "likes", UserLike.class);
 	}
 	
 	public List<UserLike> getBooks() {
@@ -58,7 +58,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<UserLike> getBooks(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "books", UserLikeList.class).getList();
+		return graphApi.fetchConnections(userId, "books", UserLike.class);
 	}
 
 	public List<UserLike> getMovies() {
@@ -67,7 +67,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<UserLike> getMovies(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "movies", UserLikeList.class).getList();
+		return graphApi.fetchConnections(userId, "movies", UserLike.class);
 	}
 
 	public List<UserLike> getMusic() {
@@ -76,7 +76,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<UserLike> getMusic(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "music", UserLikeList.class).getList();
+		return graphApi.fetchConnections(userId, "music", UserLike.class);
 	}
 
 	public List<UserLike> getTelevision() {
@@ -85,7 +85,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<UserLike> getTelevision(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "television", UserLikeList.class).getList();
+		return graphApi.fetchConnections(userId, "television", UserLike.class);
 	}
 
 	public List<UserLike> getActivities() {
@@ -94,7 +94,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<UserLike> getActivities(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "activities", UserLikeList.class).getList();
+		return graphApi.fetchConnections(userId, "activities", UserLike.class);
 	}
 
 	public List<UserLike> getInterests() {
@@ -103,6 +103,6 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<UserLike> getInterests(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "interests", UserLikeList.class).getList();
+		return graphApi.fetchConnections(userId, "interests", UserLike.class);
 	}
 }

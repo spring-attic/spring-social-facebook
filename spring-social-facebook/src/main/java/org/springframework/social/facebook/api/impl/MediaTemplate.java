@@ -47,7 +47,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 
 	public List<Album> getAlbums(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "albums", AlbumList.class).getList();
+		return graphApi.fetchConnections(userId, "albums", Album.class);
 	}
 
 	public Album getAlbum(String albumId) {
@@ -79,7 +79,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	
 	public List<Photo> getPhotos(String albumId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(albumId, "photos", PhotoList.class).getList();
+		return graphApi.fetchConnections(albumId, "photos", Photo.class);
 	}
 	
 	public Photo getPhoto(String photoId) {
@@ -133,7 +133,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	
 	public List<Video> getVideos(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "videos", VideoList.class).getList();
+		return graphApi.fetchConnections(userId, "videos", Video.class);
 	}
 	
 	public Video getVideo(String videoId) {

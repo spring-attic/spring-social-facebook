@@ -17,24 +17,14 @@ package org.springframework.social.facebook.api.impl;
 
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.springframework.social.facebook.api.FacebookProfile;
+import org.codehaus.jackson.JsonNode;
 
 /**
- * Holder class to hold a typed list of FacebookProfiles, pulled from the "data" field of the JSON object structure.
- * This helps Jackson know what type to deserialize list data into. 
+ * Strategy interface for deserializing lists of data returned from Facebook as JSON.
  * @author Craig Walls
  */
-class FacebookProfileList {
-	private final List<FacebookProfile> list;
+interface ListDeserializer {
 
-	@JsonCreator
-	public FacebookProfileList(@JsonProperty("data") List<FacebookProfile> list) {
-		this.list = list;
-	}
+	<T> List<T> deserializeList(JsonNode jsonNode, Class<T> type);
 
-	public List<FacebookProfile> getList() {
-		return list;
-	}
 }

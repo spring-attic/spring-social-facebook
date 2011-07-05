@@ -42,7 +42,7 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 
 	public List<Invitation> getInvitations(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "events", InvitationList.class).getList();
+		return graphApi.fetchConnections(userId, "events", Invitation.class);
 	}
 	
 	public Event getEvent(String eventId) {
@@ -72,23 +72,23 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 
 	public List<EventInvitee> getInvited(String eventId) {
-		return graphApi.fetchConnections(eventId, "invited", EventInviteeList.class).getList();
+		return graphApi.fetchConnections(eventId, "invited", EventInvitee.class);
 	}
 
 	public List<EventInvitee> getAttending(String eventId) {
-		return graphApi.fetchConnections(eventId, "attending", EventInviteeList.class).getList();
+		return graphApi.fetchConnections(eventId, "attending", EventInvitee.class);
 	}
 	
 	public List<EventInvitee> getMaybeAttending(String eventId) {
-		return graphApi.fetchConnections(eventId, "maybe", EventInviteeList.class).getList();
+		return graphApi.fetchConnections(eventId, "maybe", EventInvitee.class);
 	}
 	
 	public List<EventInvitee> getNoReplies(String eventId) {
-		return graphApi.fetchConnections(eventId, "noreply", EventInviteeList.class).getList();
+		return graphApi.fetchConnections(eventId, "noreply", EventInvitee.class);
 	}
 
 	public List<EventInvitee> getDeclined(String eventId) {
-		return graphApi.fetchConnections(eventId, "declined", EventInviteeList.class).getList();
+		return graphApi.fetchConnections(eventId, "declined", EventInvitee.class);
 	}
 	
 	public void acceptInvitation(String eventId) {
@@ -110,7 +110,7 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "event");
-		return graphApi.fetchObject("search", EventList.class, queryMap).getList();
+		return graphApi.fetchConnections("search", null, Event.class, queryMap);
 	}
 	
 }
