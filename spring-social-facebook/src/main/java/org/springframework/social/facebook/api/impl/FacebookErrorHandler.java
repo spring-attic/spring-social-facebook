@@ -96,6 +96,10 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 				throw new InvalidAuthorizationException(message);
 			} else if (message.equals("Invalid access token signature.")) { // Access token that fails signature validation
 				throw new InvalidAuthorizationException(message);				
+			} else if (message.contains("Application does not have the capability to make this API call.") || message.contains("App must be on whitelist")) {
+				throw new OperationNotPermittedException(message);
+			} else if (message.contains("Invalid fbid") || message.contains("The parameter url is required")) { 
+				throw new OperationNotPermittedException("Invalid object for this operation");
 			}
 		} else if (statusCode == HttpStatus.UNAUTHORIZED) {
 			if (message.startsWith("Error validating access token")) {
@@ -106,6 +110,8 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 			if (message.contains("Requires extended permission")) {
 				String requiredPermission = message.split(": ")[1];
 				throw new InsufficientPermissionException(requiredPermission);
+			} else if (message.contains("Permissions error")) {
+				throw new InsufficientPermissionException();
 			} else {
 				throw new OperationNotPermittedException(message);
 			}

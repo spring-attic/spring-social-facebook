@@ -26,6 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
+import org.springframework.social.OperationNotPermittedException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.RevokedAuthorizationException;
 import org.springframework.social.UncategorizedApiException;
@@ -196,5 +197,41 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse(jsonResource("testdata/error-invalid-token-signout"), responseHeaders, HttpStatus.UNAUTHORIZED, ""));
 		facebook.userOperations().getUserProfile();
 	}
+	
+	@Test(expected = OperationNotPermittedException.class)
+	public void appDoesNotHaveCapability() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes"))
+			.andExpect(method(POST))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/error-app-capability"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.likeOperations().like("123456");
+	}
 
+	@Test(expected = OperationNotPermittedException.class)
+	public void appMustBeOnWhitelist() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes"))
+			.andExpect(method(POST))
+			.andExpect(body("method=delete"))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/error-whitelist"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.likeOperations().unlike("123456");
+	}
+	
+	@Test(expected = OperationNotPermittedException.class)
+	public void invalidObject_urlParameterError() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes"))
+			.andExpect(method(POST))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/error-url-parameter"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.likeOperations().like("123456");
+	}
+
+	@Test(expected = OperationNotPermittedException.class)
+	public void invalidObject_invalidFbidError() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes"))
+			.andExpect(method(POST))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/error-invalid-fbid"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.likeOperations().like("123456");
+	}
 }

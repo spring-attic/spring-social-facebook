@@ -29,7 +29,7 @@ import org.springframework.social.MissingAuthorizationException;
 public interface LikeOperations {
 
 	/**
-	 * Retrieves a list of things that the authenticated user has liked.
+	 * Retrieves a list of pages that the authenticated user has liked.
 	 * Requires "user_likes" permission. Returns an empty list if permission isn't granted.
 	 * @return a list of {@link UserLike} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -39,7 +39,7 @@ public interface LikeOperations {
 	List<UserLike> getLikes();
 
 	/**
-	 * Retrieves a list of things that the given user has liked. 
+	 * Retrieves a list of pages that the given user has liked. 
 	 * Requires "user_likes" permission for the authenticated user and "friends_likes" for the authenticated user's friends. 
 	 * Returns an empty list if permission isn't granted.
 	 * @param userId the ID of the user
@@ -52,20 +52,24 @@ public interface LikeOperations {
 
 	/**
 	 * Like an object on behalf of the authenticated user.
-	 * Requires "publish_stream" permission.
+	 * The type of object to be liked is limited to Album, Checkin, Comment, Note, Photo, Post, or Video.
+	 * You cannot like a Facebook Page through this API.
+	 * Requires "publish_stream" permission and permission to access the object being liked.
 	 * @param objectId the object ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission or if the user does not have permission to access the object.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void like(String objectId);
 
 	/**
 	 * Unlike an object on behalf of the authenticated user.
-	 * Requires "publish_stream" permission.
+	 * The type of object to be liked is limited to Album, Checkin, Comment, Note, Photo, Post, or Video.
+	 * You cannot unlike a Facebook Page through this API.
+	 * Requires "publish_stream" permission and permission to access the object being liked.
 	 * @param objectId the object ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission or if the user does not have permission to access the object.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void unlike(String objectId);
