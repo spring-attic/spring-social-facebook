@@ -90,13 +90,13 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void createFriendList() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/friendlists?name=My+List"))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/friendlists"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/friend-list"), responseHeaders));
-		Reference friendList = facebook.friendOperations().createFriendList("My List");
-		assertEquals("11929590579", friendList.getId());
-		assertEquals("High School Friends", friendList.getName());
+			.andExpect(body("name=My+List"))
+			.andRespond(withResponse(jsonResource("testdata/create-friend-list"), responseHeaders));
+		String friendListId = facebook.friendOperations().createFriendList("My List");
+		assertEquals("11929590579", friendListId);
 		mockServer.verify();
 	}
 	

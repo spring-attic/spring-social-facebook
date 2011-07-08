@@ -71,24 +71,24 @@ public interface FriendOperations {
 	 * Creates a new friend list for the authenticated user.
 	 * Requires "manage_friendlists" permission.
 	 * @param name the name of the friend list.
-	 * @return a {@link Reference} to the newly created friend list.
+	 * @return the ID of the newly created friend list.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "manage_friendlists" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	Reference createFriendList(String name);
+	String createFriendList(String name);
 
 	/**
 	 * Creates a new friend list.
 	 * Requires "manage_friendlists" permission.
 	 * @param userId the user ID to create the friend list for.
 	 * @param name the name of the friend list.
-	 * @return a {@link Reference} to the newly created friend list.
+	 * @return the ID of the newly created friend list.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "manage_friendlists" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	Reference createFriendList(String userId, String name);
+	String createFriendList(String userId, String name);
 	
 	/**
 	 * Deletes a friend list.

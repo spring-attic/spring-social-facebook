@@ -21,7 +21,6 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.LikeOperations;
 import org.springframework.social.facebook.api.UserLike;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 class LikeTemplate extends AbstractFacebookOperations implements LikeOperations {
 
@@ -34,8 +33,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public void like(String objectId) {
 		requireAuthorization();
-		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		graphApi.post(objectId, "likes", map);
+		graphApi.post(objectId, "likes", new LinkedMultiValueMap<String, String>());
 	}
 
 	public void unlike(String objectId) {

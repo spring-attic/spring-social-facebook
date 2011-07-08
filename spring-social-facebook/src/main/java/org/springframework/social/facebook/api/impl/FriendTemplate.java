@@ -25,6 +25,8 @@ import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.support.URIBuilder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 class FriendTemplate extends AbstractFacebookOperations implements FriendOperations {
@@ -58,14 +60,15 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		return graphApi.fetchConnections(friendListId, "members", Reference.class);
 	}
 
-	public Reference createFriendList(String name) {
+	public String createFriendList(String name) {
 		return createFriendList("me", name);
 	}
 	
-	public Reference createFriendList(String userId, String name) {
+	public String createFriendList(String userId, String name) {
 		requireAuthorization();
-		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userId + "/friendlists").queryParam("name", name).build();
-		return restTemplate.postForObject(uri, "", Reference.class);
+		MultiValueMap<String, Object> request = new LinkedMultiValueMap<String, Object>();
+		request.set("name", name);
+		return graphApi.publish(userId, "friendlists", request);
 	}
 	
 	public void deleteFriendList(String friendListId) {
@@ -75,8 +78,7 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 
 	public void addToFriendList(String friendListId, String friendId) {
 		requireAuthorization();
-		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + friendListId + "/members/" + friendId).build();
-		restTemplate.postForObject(uri, "", String.class);
+		graphApi.post(friendListId, "members/" + friendId, new LinkedMultiValueMap<String, String>());
 	}
 	
 	public void removeFromFriendList(String friendListId, String friendId) {
