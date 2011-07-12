@@ -24,7 +24,7 @@ import java.util.List;
  * Model class representing an entry in a feed. 
  * @author Craig Walls
  */
-public abstract class Post {
+public class Post {
 	
 	private final String id;
 
@@ -129,6 +129,6 @@ public abstract class Post {
 		return comments;
 	}
 
-	public static enum PostType { CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO }
+	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO }
 	
 }

@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.facebook.api.Post.PostType;
 
 /**
  * @author Craig Walls
@@ -37,13 +38,30 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/feed"), responseHeaders));
 		List<Post> feed = facebook.feedOperations().getFeed();
-		assertEquals(3, feed.size());		
+		assertEquals(3, feed.size());
 		assertTrue(feed.get(0) instanceof StatusPost);
 		assertTrue(feed.get(1) instanceof PhotoPost);
 		assertTrue(feed.get(2) instanceof StatusPost);
 		assertFeedEntries(feed);
 	}
-	
+
+	@Test
+	public void getFeed_withUnknownType() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withResponse(jsonResource("testdata/feed-with-unknown-type"), responseHeaders));
+		List<Post> feed = facebook.feedOperations().getFeed();
+		assertEquals(1, feed.size());		
+		assertTrue(feed.get(0) instanceof Post);
+		assertEquals(PostType.POST, feed.get(0).getType());
+		assertEquals("100001387295207_160065090716400", feed.get(0).getId());
+		assertEquals("Just trying something", feed.get(0).getMessage());
+		assertEquals("100001387295207", feed.get(0).getFrom().getId());
+		assertEquals("Art Names", feed.get(0).getFrom().getName());
+		assertNull(feed.get(0).getApplication());
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getFeed_unauthorized() {
 		unauthorizedFacebook.feedOperations().getFeed();
@@ -206,6 +224,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/post"), responseHeaders));
 		Post feedEntry = facebook.feedOperations().getFeedEntry("100001387295207_123939024341978");
+		assertEquals(PostType.STATUS, feedEntry.getType());
 		assertEquals("100001387295207_123939024341978", feedEntry.getId());
 		assertEquals("Hello world!", feedEntry.getMessage());
 		assertEquals("100001387295207", feedEntry.getFrom().getId());
@@ -403,16 +422,19 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 	}
 	
 	private void assertFeedEntries(List<Post> feed) {
+		assertEquals(PostType.STATUS, feed.get(0).getType());
 		assertEquals("100001387295207_160065090716400", feed.get(0).getId());
 		assertEquals("Just trying something", feed.get(0).getMessage());
 		assertEquals("100001387295207", feed.get(0).getFrom().getId());
 		assertEquals("Art Names", feed.get(0).getFrom().getName());
 		assertNull(feed.get(0).getApplication());
+		assertEquals(PostType.PHOTO, feed.get(1).getType());
 		assertEquals("100001387295207_160064384049804", feed.get(1).getId());
 		assertEquals("Check out my ride", feed.get(1).getMessage());
 		assertEquals("100001387295207", feed.get(1).getFrom().getId());
 		assertEquals("Art Names", feed.get(1).getFrom().getName());
 		assertNull(feed.get(1).getApplication());
+		assertEquals(PostType.STATUS, feed.get(2).getType());
 		assertEquals("100001387295207_153453231377586", feed.get(2).getId());
 		assertEquals("Hello Facebook!", feed.get(2).getMessage());
 		assertEquals("100001387295207", feed.get(2).getFrom().getId());
@@ -423,6 +445,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 	
 	private void assertLinks(List<LinkPost> feed) {
 		assertEquals(2, feed.size());
+		assertEquals(PostType.LINK, feed.get(0).getType());
 		assertEquals("125736073702566", feed.get(0).getId());
 		assertEquals("Warning about Facebook Phishing: See http://www.facebook.com/group.php?gid=9874388706", feed.get(0).getMessage());
 		assertEquals("738140579", feed.get(0).getFrom().getId());
@@ -432,6 +455,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Facebook Phishing Scam Awareness", feed.get(0).getName());
 		assertNull(feed.get(0).getDescription());
 		assertNull(feed.get(0).getLink()); // sometimes links are in the message
+		assertEquals(PostType.LINK, feed.get(1).getType());
 		assertEquals("147264864601", feed.get(1).getId());
 		assertEquals("Hey, let's go buy some furniture from the guy who's off his meds.", feed.get(1).getMessage());
 		assertEquals("738140579", feed.get(1).getFrom().getId());
@@ -445,6 +469,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 
 	private void assertNotes(List<NotePost> notes) {
 		assertEquals(2, notes.size());
+		assertEquals(PostType.NOTE, notes.get(0).getType());
 		assertEquals("161200187269557", notes.get(0).getId());
 		assertEquals("100001387295207", notes.get(0).getFrom().getId());
 		assertEquals("Art Names", notes.get(0).getFrom().getName());
@@ -453,6 +478,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yY/r/1gBp2bDGEuh.gif", notes.get(0).getIcon());
 		assertEquals(toDate("2011-03-28T15:17:41+0000"), notes.get(0).getCreatedTime());
 		assertEquals(toDate("2011-03-28T15:17:41+0000"), notes.get(0).getUpdatedTime());
+		assertEquals(PostType.NOTE, notes.get(1).getType());
 		assertEquals("160546394001603", notes.get(1).getId());
 		assertEquals("100001387295207", notes.get(1).getFrom().getId());
 		assertEquals("Art Names", notes.get(1).getFrom().getName());
@@ -465,11 +491,13 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 	
 	private void assertStatuses(List<StatusPost> statuses) {
 		assertEquals(3, statuses.size());
+		assertEquals(PostType.STATUS, statuses.get(0).getType());
 		assertEquals("161195833936659", statuses.get(0).getId());
 		assertEquals("100001387295207", statuses.get(0).getFrom().getId());
 		assertEquals("Art Names", statuses.get(0).getFrom().getName());
 		assertEquals("One more...just for fun", statuses.get(0).getMessage());
 		assertEquals(toDate("2011-03-28T14:54:07+0000"), statuses.get(0).getUpdatedTime());
+		assertEquals(PostType.STATUS, statuses.get(1).getType());
 		assertEquals("161195783936664", statuses.get(1).getId());
 		assertEquals("100001387295207", statuses.get(1).getFrom().getId());
 		assertEquals("Art Names", statuses.get(1).getFrom().getName());

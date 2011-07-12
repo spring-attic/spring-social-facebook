@@ -37,6 +37,7 @@ import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.LinkPost;
 import org.springframework.social.facebook.api.NotePost;
 import org.springframework.social.facebook.api.PhotoPost;
+import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.StatusPost;
@@ -47,14 +48,15 @@ import org.springframework.social.facebook.api.VideoPost;
  * Also defines Post subtypes to deserialize into based on the "type" attribute. 
  * @author Craig Walls
  */
-@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="type")
+@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="postType")
 @JsonSubTypes({
 				@Type(name="checkin", value=CheckinPost.class),
 				@Type(name="link", value=LinkPost.class),
 				@Type(name="note", value=NotePost.class),
 				@Type(name="photo", value=PhotoPost.class),
 				@Type(name="status", value=StatusPost.class),
-				@Type(name="video", value=VideoPost.class)
+				@Type(name="video", value=VideoPost.class),
+				@Type(name="post", value=Post.class)
 				})
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class PostMixin {

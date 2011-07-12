@@ -30,7 +30,9 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.LinkPost;
 import org.springframework.social.facebook.api.NotePost;
 import org.springframework.social.facebook.api.Post;
+import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.StatusPost;
+import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -56,12 +58,14 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 
 	public List<Post> getFeed(String ownerId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(ownerId, "feed", Post.class);
+		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/" + ownerId + "/feed", JsonNode.class);
+		return deserializeList(responseNode, null, Post.class);
 	}
 
 	public List<Post> getHomeFeed() {
 		requireAuthorization();
-		return graphApi.fetchConnections("me", "home", Post.class);
+		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/me/home", JsonNode.class);
+		return deserializeList(responseNode, null, Post.class);
 	}
 
 	public List<StatusPost> getStatuses() {
@@ -100,12 +104,14 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 	
 	public List<Post> getPosts(String ownerId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(ownerId, "posts", Post.class);
+		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/" + ownerId + "/posts", JsonNode.class);
+		return deserializeList(responseNode, null, Post.class);
 	}
 	
 	public Post getFeedEntry(String entryId) {
 		requireAuthorization();
-		return graphApi.fetchObject(entryId, Post.class);
+		ObjectNode responseNode = (ObjectNode) restTemplate.getForObject("https://graph.facebook.com/" + entryId, JsonNode.class);
+		return deserializePost(null, Post.class, responseNode);
 	}
 
 	public String updateStatus(String message) {
@@ -140,17 +146,14 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 	}
 
 	public List<Post> searchPublicFeed(String query) {
-		MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
-		queryParameters.add("q", query);
-		queryParameters.add("type", "post");
-		return graphApi.fetchConnections("search", null, Post.class, queryParameters);
+		JsonNode responseNode = restTemplate.getForObject(URIBuilder.fromUri("https://graph.facebook.com/search").queryParam("q", query).queryParam("type", "post").build(), JsonNode.class);
+		return deserializeList(responseNode, null, Post.class);
 	}
 	
 	public List<Post> searchHomeFeed(String query) {
 		requireAuthorization();
-		MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
-		queryParameters.add("q", query);
-		return graphApi.fetchConnections("me", "home", Post.class, queryParameters);
+		JsonNode responseNode = restTemplate.getForObject(URIBuilder.fromUri("https://graph.facebook.com/me/home").queryParam("q", query).build(), JsonNode.class);
+		return deserializeList(responseNode, null, Post.class);
 	}
 	
 	public List<Post> searchUserFeed(String query) {
@@ -160,24 +163,45 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 	
 	public List<Post> searchUserFeed(String userId, String query) {
 		requireAuthorization();
-		MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
-		queryParameters.add("q", query);
-		return graphApi.fetchConnections(userId, "feed", Post.class, queryParameters);
+		JsonNode responseNode = restTemplate.getForObject(URIBuilder.fromUri("https://graph.facebook.com/" + userId + "/feed").queryParam("q", query).build(), JsonNode.class);
+		return deserializeList(responseNode, null, Post.class);
 	}
 	
-	private <T> List<T> deserializeList(JsonNode jsonNode, String nodeType, Class<T> type) {
-		try {
-			JsonNode dataNode = jsonNode.get("data");
-			List<T> posts = new ArrayList<T>();
-			for(Iterator<JsonNode> iterator = dataNode.iterator(); iterator.hasNext();) {
-				ObjectNode node = (ObjectNode) iterator.next();
-				node.put("type", nodeType);	
-				posts.add(objectMapper.readValue(node, type));
-			}
-			return posts;
-		} catch (IOException shouldntHappen) {
-			throw new UncategorizedApiException("Error deserializing list of " + nodeType + " posts", shouldntHappen);
+	private <T> List<T> deserializeList(JsonNode jsonNode, String postType, Class<T> type) {
+		JsonNode dataNode = jsonNode.get("data");
+		List<T> posts = new ArrayList<T>();
+		for (Iterator<JsonNode> iterator = dataNode.iterator(); iterator.hasNext();) {
+			posts.add(deserializePost(postType, type, (ObjectNode) iterator.next()));
 		}
+		return posts;
+	}
+
+	private <T> T deserializePost(String postType, Class<T> type, ObjectNode node) {
+		try {
+			if (postType == null) {
+				postType = determinePostType(node);
+			}
+			// Must have separate postType field for polymorphic deserialization. If we key off of the "type" field, then it will
+			// be null when trying to deserialize the type property.
+			node.put("postType", postType); // used for polymorphic deserialization
+			node.put("type", postType); // used to set Post's type property
+			return objectMapper.readValue(node, type);
+		} catch (IOException shouldntHappen) {
+			throw new UncategorizedApiException("Error deserializing " + postType + " post", shouldntHappen);
+		}
+	}
+
+	private String determinePostType(ObjectNode node) {
+		if (node.has("type")) {
+			try {
+				String type = node.get("type").getTextValue();
+				PostType.valueOf(type.toUpperCase());
+				return type;
+			} catch (IllegalArgumentException e) {
+				return "post";
+			}
+		}
+		return "post";
 	}
 
 }
