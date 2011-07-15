@@ -108,7 +108,7 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		return deserializeList(responseNode, null, Post.class);
 	}
 	
-	public Post getFeedEntry(String entryId) {
+	public Post getPost(String entryId) {
 		requireAuthorization();
 		ObjectNode responseNode = (ObjectNode) restTemplate.getForObject("https://graph.facebook.com/" + entryId, JsonNode.class);
 		return deserializePost(null, Post.class, responseNode);
@@ -140,7 +140,7 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		return graphApi.publish(ownerId, "feed", map);
 	}
 
-	public void deleteFeedEntry(String id) {
+	public void deletePost(String id) {
 		requireAuthorization();
 		graphApi.delete(id);
 	}

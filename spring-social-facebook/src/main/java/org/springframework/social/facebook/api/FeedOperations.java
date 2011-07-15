@@ -59,12 +59,12 @@ public interface FeedOperations {
 	List<Post> getHomeFeed();
 
 	/**
-	 * Retrieves a single feed entry.
+	 * Retrieves a single post.
 	 * @param entryId the entry ID
 	 * @return the requested {@link Post}
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	Post getFeedEntry(String entryId);
+	Post getPost(String entryId);
 	
 	/**
 	 * Retrieves the status entries from the authenticated user's feed.
@@ -195,14 +195,14 @@ public interface FeedOperations {
 	String postLink(String ownerId, String message, FacebookLink link);
 
 	/**
-	 * Deletes a feed entry
-	 * Requires "publish_stream" permission.
+	 * Deletes a post.
+	 * Requires "publish_stream" permission and the post must have been created by the same application.
 	 * @param id the feed entry ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	void deleteFeedEntry(String id);
+	void deletePost(String id);
 
 	/**
 	 * Searches Facebook's public feed.

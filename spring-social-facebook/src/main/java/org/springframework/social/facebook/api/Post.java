@@ -129,6 +129,6 @@ public class Post {
 		return comments;
 	}
 
-	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO }
+	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }
 	
 }

@@ -35,12 +35,14 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.CheckinPost;
 import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.LinkPost;
+import org.springframework.social.facebook.api.MusicPost;
 import org.springframework.social.facebook.api.NotePost;
 import org.springframework.social.facebook.api.PhotoPost;
 import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.StatusPost;
+import org.springframework.social.facebook.api.SwfPost;
 import org.springframework.social.facebook.api.VideoPost;
 
 /**
@@ -56,7 +58,9 @@ import org.springframework.social.facebook.api.VideoPost;
 				@Type(name="photo", value=PhotoPost.class),
 				@Type(name="status", value=StatusPost.class),
 				@Type(name="video", value=VideoPost.class),
-				@Type(name="post", value=Post.class)
+				@Type(name="post", value=Post.class),
+				@Type(name="swf", value=SwfPost.class),
+				@Type(name="music", value=MusicPost.class)
 				})
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class PostMixin {
