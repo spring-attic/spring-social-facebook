@@ -153,6 +153,7 @@ public interface FeedOperations {
 	 * Requires "publish_stream" permission.
 	 * @param message the message to post.
 	 * @return the ID of the new feed entry.
+	 * @throws DuplicateStatusException if the status message duplicates a previously posted status.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
@@ -164,6 +165,7 @@ public interface FeedOperations {
 	 * Requires "publish_stream" permission.
 	 * @param message a message to send with the link.
 	 * @return the ID of the new feed entry.
+	 * @throws DuplicateStatusException if the post duplicates a previous post.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
@@ -176,6 +178,7 @@ public interface FeedOperations {
 	 * @param ownerId the feed owner ID. Could be a user ID or a page ID.
 	 * @param message the message to post.
 	 * @return the id of the new feed entry.
+	 * @throws DuplicateStatusException if the post duplicates a previous post.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
@@ -188,6 +191,7 @@ public interface FeedOperations {
 	 * @param ownerId the feed owner ID. Could be a user ID or a page ID.
 	 * @param message a message to send with the link.
 	 * @return the ID of the new feed entry.
+	 * @throws DuplicateStatusException if the post duplicates a previous post.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.

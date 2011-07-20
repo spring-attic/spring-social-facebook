@@ -36,6 +36,7 @@ import org.springframework.social.OperationNotPermittedException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.RevokedAuthorizationException;
 import org.springframework.social.UncategorizedApiException;
+import org.springframework.social.facebook.api.DuplicateStatusException;
 import org.springframework.social.facebook.api.NotAFriendException;
 import org.springframework.social.facebook.api.ResourceOwnershipException;
 import org.springframework.web.client.DefaultResponseErrorHandler;
@@ -48,7 +49,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 class FacebookErrorHandler extends DefaultResponseErrorHandler {
 
 	@Override
-	public void handleError(ClientHttpResponse response) throws IOException {				
+	public void handleError(ClientHttpResponse response) throws IOException {
 		Map<String, String> errorDetails = extractErrorDetailsFromResponse(response);
 		if (errorDetails == null) {
 			handleUncategorizedError(response, errorDetails);
@@ -100,6 +101,8 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 				throw new OperationNotPermittedException(message);
 			} else if (message.contains("Invalid fbid") || message.contains("The parameter url is required")) { 
 				throw new OperationNotPermittedException("Invalid object for this operation");
+			} else if (message.contains("Duplicate status message") ) {
+				throw new DuplicateStatusException(message);
 			}
 		} else if (statusCode == HttpStatus.UNAUTHORIZED) {
 			if (message.startsWith("Error validating access token")) {

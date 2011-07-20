@@ -23,6 +23,7 @@ import static org.springframework.social.test.client.ResponseCreators.*;
 import java.util.List;
 
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.Post.PostType;
 
@@ -261,6 +262,17 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 	@Test(expected = NotAuthorizedException.class)
 	public void updateStatus_unauthorized() {
 		unauthorizedFacebook.feedOperations().updateStatus("Hello");
+	}
+
+	@Test(expected = DuplicateStatusException.class)
+	public void updateStatus_duplicate() {
+		String requestBody = "message=Duplicate";
+		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(body(requestBody))
+				.andRespond(withResponse(jsonResource("testdata/error-duplicate-status"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.feedOperations().updateStatus("Duplicate");
 	}
 
 	@Test
