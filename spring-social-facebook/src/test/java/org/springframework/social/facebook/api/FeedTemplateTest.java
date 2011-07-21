@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.social.DuplicateStatusException;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.Post.PostType;
 
