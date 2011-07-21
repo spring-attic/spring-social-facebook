@@ -1,5 +1,22 @@
-Spring Social Facebook 1.0.0 RC1 (June 7, 2011)
-===============================================
+Spring Social Facebook 1.0.0 RC2 (July 25, 2011)
+================================================
+Improvements
+  * Changed GraphApi.fetchConnections() to more intuitively work with 
+    list element type rather than a list wrapper. (SOCIALFB-9)
+  * Handle duplicate status errors from Facebook by thrown a
+    DuplicateStatusException. (SOCIALFB-12)
+
+Bug Fixes
+  * Added SwfPost and MusicPost types and change post deserialization
+    to fall back to generic Post type when the type is unrecognized.
+    (SOCIALFB-2)
+  * FacebookErrorHandler now does default error handling first and
+    only reads the body of the response if it gets past the default
+    handling to avoid IOExceptions when using SimpleClientHttpRequestFactory.
+    (SOCIALFB-13)
+
+Spring Social Facebook 1.0.0 RC1 (June 22, 2011)
+================================================
   * Spring Social Facebook extracted into a standalone project that can
     progress and release independent of Spring Social releases.
   * More API bindings:
