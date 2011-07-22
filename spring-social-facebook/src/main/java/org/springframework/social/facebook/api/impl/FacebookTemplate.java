@@ -195,7 +195,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 
 	public <T> List<T> fetchConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters) {
-		String connectionPath = connectionType != null && !connectionType.isEmpty() ? "/" + connectionType : "";
+		String connectionPath = connectionType != null && connectionType.length() > 0 ? "/" + connectionType : "";
 		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).queryParams(queryParameters);		
 		JsonNode dataNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
 		return deserializeDataList(dataNode.get("data"), type);
