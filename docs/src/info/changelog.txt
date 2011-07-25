@@ -5,6 +5,8 @@ Improvements
     list element type rather than a list wrapper. (SOCIALFB-9)
   * Handle duplicate status errors from Facebook by thrown a
     DuplicateStatusException. (SOCIALFB-12)
+  * Added offset and limit parameters to many API methods to support
+    paging through results. (SOCIALFB-14)
 
 Bug Fixes
   * Added SwfPost and MusicPost types and change post deserialization
