@@ -29,7 +29,7 @@ import org.springframework.social.MissingAuthorizationException;
 public interface EventOperations {
 
 	/**
-	 * Retrieves a list of events that the authenticated user has been invited to.
+	 * Retrieves a list of up to 25 events that the authenticated user has been invited to.
 	 * Requires "user_events" or "friends_events" permission.
 	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -37,6 +37,18 @@ public interface EventOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Invitation> getInvitations();
+
+	/**
+	 * Retrieves a list of events that the authenticated user has been invited to.
+	 * Requires "user_events" or "friends_events" permission.
+	 * @param offset the offset into the list of events
+	 * @param limit the maximum number of events to return
+	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Invitation> getInvitations(int offset, int limit);
 
 	/**
 	 * Retrieves a list of events that the specified user has been invited to.
@@ -48,7 +60,20 @@ public interface EventOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Invitation> getInvitations(String userId);
-	
+
+	/**
+	 * Retrieves a list of events that the specified user has been invited to.
+	 * Requires "user_events" or "friends_events" permission.
+	 * @param userId the user's ID
+	 * @param offset the offset into the list of events
+	 * @param limit the maximum number of events to return
+	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Invitation> getInvitations(String userId, int offset, int limit);
+
 	/**
 	 * Retrieves event data for a specified event.
 	 * @param eventId the event ID
@@ -185,4 +210,15 @@ public interface EventOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<Event> search(String query);
+
+	/**
+	 * Search for events.
+	 * @param query the search query (e.g., "Spring User Group")
+	 * @param offset the offset into the list of events
+	 * @param limit the maximum number of events to return
+	 * @return a list of {@link Event}s matching the search query
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	List<Event> search(String query, int offset, int limit);
+
 }

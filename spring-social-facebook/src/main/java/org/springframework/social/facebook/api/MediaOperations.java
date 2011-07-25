@@ -42,6 +42,18 @@ public interface MediaOperations {
 	List<Album> getAlbums();
 
 	/**
+	 * Retrieves a list of albums belonging to the authenticated user.
+	 * Requires "user_photos" or "friends_photos" permission.
+	 * @param offset the offset into the list of albums
+	 * @param limit the maximum number of albums to return
+	 * @return a list {@link Album}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Album> getAlbums(int offset, int limit);
+
+	/**
 	 * Retrieves a list of albums belonging to a specific owner (user, page, etc).
 	 * Requires "user_photos" or "friends_photos" permission.
 	 * @param ownerId the album owner's ID
@@ -51,6 +63,19 @@ public interface MediaOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Album> getAlbums(String ownerId);
+
+	/**
+	 * Retrieves a list of albums belonging to a specific owner (user, page, etc).
+	 * Requires "user_photos" or "friends_photos" permission.
+	 * @param ownerId the album owner's ID
+	 * @param offset the offset into the list of albums
+	 * @param limit the maximum number of albums to return
+	 * @return a list {@link Album}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Album> getAlbums(String ownerId, int offset, int limit);
 
 	/**
 	 * Retrieves data for a specific album.
@@ -98,16 +123,33 @@ public interface MediaOperations {
 	byte[] getAlbumImage(String albumId, ImageType imageType);
 
 	/**
-	 * Retrieves photo data from a specific album.
+	 * Retrieves data for up to 25 photos from a specific album or that a user is tagged in.
+	 * If the objectId parameter is the ID of an album, the photos returned are the photos from that album.
+	 * If the objectId parameter is the ID of a user, the photos returned are the photos that the user is tagged in.
 	 * Requires "user_photos" or "friends_photos" permission if the album is not public.
-	 * @param albumId the album's ID
+	 * @param objectId either an album ID or a user ID
 	 * @return a list of {@link Photo}s in the specified album.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Photo> getPhotos(String albumId);
-	
+	List<Photo> getPhotos(String objectId);
+
+	/**
+	 * Retrieves photo data from a specific album or that a user is tagged in.
+	 * If the objectId parameter is the ID of an album, the photos returned are the photos from that album.
+	 * If the objectId parameter is the ID of a user, the photos returned are the photos that the user is tagged in.
+	 * Requires "user_photos" or "friends_photos" permission if the album is not public.
+	 * @param objectId either an album ID or a user ID
+	 * @param offset the offset into the list of photos
+	 * @param limit the maximum number of photos to return
+	 * @return a list of {@link Photo}s in the specified album.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Photo> getPhotos(String objectId, int offset, int limit);
+
 	/**
 	 * Retrieve data for a specified photo.
 	 * Requires "user_photos" or "friends_photos" permission if the photo is not public.
@@ -193,7 +235,7 @@ public interface MediaOperations {
 	String postPhoto(String albumId, Resource photo, String caption);
 	
 	/**
-	 * Retrieves a list of videos that the authenticated user is tagged in.
+	 * Retrieves a list of up to 25 videos that the authenticated user is tagged in.
 	 * Requires "user_videos" permission.
 	 * @return a list of {@link Video} belonging to the authenticated user.
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -203,7 +245,19 @@ public interface MediaOperations {
 	List<Video> getVideos();
 
 	/**
-	 * Retrieves a list of videos that a specified user is tagged in.
+	 * Retrieves a list of videos that the authenticated user is tagged in.
+	 * Requires "user_videos" permission.
+	 * @param offset the offset into the list of videos
+	 * @param limit the maximum number of videos to return
+	 * @return a list of {@link Video} belonging to the authenticated user.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_videos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Video> getVideos(int offset, int limit);
+
+	/**
+	 * Retrieves a list of up to 25 videos that a specified user is tagged in.
 	 * Requires "user_videos" or "friends_videos" permission.
 	 * @param userId the ID of the user who is tagged in the videos
 	 * @return a list of {@link Video} which the specified user is tagged in.
@@ -212,7 +266,20 @@ public interface MediaOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Video> getVideos(String userId);
-	
+
+	/**
+	 * Retrieves a list of videos that a specified user is tagged in.
+	 * Requires "user_videos" or "friends_videos" permission.
+	 * @param userId the ID of the user who is tagged in the videos
+	 * @param offset the offset into the list of videos
+	 * @param limit the maximum number of videos to return
+	 * @return a list of {@link Video} which the specified user is tagged in.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_videos" or "friends_videos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Video> getVideos(String userId, int offset, int limit);
+
 	/**
 	 * Retrieves data for a specific video.
 	 * Requires "user_videos" or "friends_videos" permission.

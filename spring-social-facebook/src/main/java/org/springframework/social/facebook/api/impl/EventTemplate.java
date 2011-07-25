@@ -36,13 +36,23 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 
 	public List<Invitation> getInvitations() {
-		requireAuthorization();
-		return getInvitations("me");
+		return getInvitations("me", 0, 25);
+	}
+
+	public List<Invitation> getInvitations(int offset, int limit) {
+		return getInvitations("me", offset, limit);
 	}
 
 	public List<Invitation> getInvitations(String userId) {
+		return getInvitations(userId, 0, 25);
+	}
+	
+	public List<Invitation> getInvitations(String userId, int offset, int limit) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "events", Invitation.class);
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("offset", String.valueOf(offset));
+		parameters.set("limit", String.valueOf(limit));
+		return graphApi.fetchConnections(userId, "events", Invitation.class, parameters);
 	}
 	
 	public Event getEvent(String eventId) {
@@ -107,9 +117,15 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public List<Event> search(String query) {
+		return search(query, 0, 25);
+	}
+	
+	public List<Event> search(String query, int offset, int limit) {
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "event");
+		queryMap.add("offset", String.valueOf(offset));
+		queryMap.add("limit", String.valueOf(limit));
 		return graphApi.fetchConnections("search", null, Event.class, queryMap);
 	}
 	

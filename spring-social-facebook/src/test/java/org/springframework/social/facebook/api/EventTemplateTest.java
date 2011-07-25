@@ -29,11 +29,21 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getInvitations() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/events"))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/events?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/user-events"), responseHeaders));
 		List<Invitation> events = facebook.eventOperations().getInvitations();
+		assertInvitations(events);
+	}
+
+	@Test
+	public void getInvitations_withOffsetAndLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/events?offset=50&limit=25"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/user-events"), responseHeaders));
+		List<Invitation> events = facebook.eventOperations().getInvitations(50, 25);
 		assertInvitations(events);
 	}
 
@@ -44,11 +54,21 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getInvitations_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/123456789/events"))
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/events?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/user-events"), responseHeaders));
 		List<Invitation> events = facebook.eventOperations().getInvitations("123456789");
+		assertInvitations(events);
+	}
+
+	@Test
+	public void getInvitations_forSpecificUser_withOffsetAndLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/events?offset=60&limit=30"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/user-events"), responseHeaders));
+		List<Invitation> events = facebook.eventOperations().getInvitations("123456789", 60, 30);
 		assertInvitations(events);
 	}
 
@@ -238,7 +258,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=event"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=event&offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/event-list"), responseHeaders));
@@ -251,6 +271,20 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-06-03T16:00:00+0000"), results.get(0).getEndTime());
 	}
 
+	@Test
+	public void search_withOffsetAndLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=event&offset=30&limit=15"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/event-list"), responseHeaders));
+		List<Event> results = facebook.eventOperations().search("Spring User Group", 30, 15);
+		assertEquals(1, results.size());
+		assertEquals("196119297091135", results.get(0).getId());
+		assertEquals("FLUG (Florida Local Users Group) Spring User Conference", results.get(0).getName());
+		assertEquals("Radisson Resort at the Port", results.get(0).getLocation());
+		assertEquals(toDate("2011-06-01T08:00:00+0000"), results.get(0).getStartTime());
+		assertEquals(toDate("2011-06-03T16:00:00+0000"), results.get(0).getEndTime());
+	}
 	
 	private void assertInvitee(EventInvitee invitee, String id, String name, RsvpStatus rsvpStatus) {
 		assertEquals(id, invitee.getId());

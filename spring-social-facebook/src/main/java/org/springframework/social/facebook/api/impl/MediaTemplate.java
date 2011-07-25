@@ -42,12 +42,23 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 
 	public List<Album> getAlbums() {
-		return getAlbums("me");
+		return getAlbums("me", 0, 25);
+	}
+
+	public List<Album> getAlbums(int offset, int limit) {
+		return getAlbums("me", offset, limit);
 	}
 
 	public List<Album> getAlbums(String userId) {
+		return getAlbums(userId, 0, 25);
+	}
+	
+	public List<Album> getAlbums(String userId, int offset, int limit) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "albums", Album.class);
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("offset", String.valueOf(offset));
+		parameters.set("limit", String.valueOf(limit));
+		return graphApi.fetchConnections(userId, "albums", Album.class, parameters);
 	}
 
 	public Album getAlbum(String albumId) {
@@ -77,9 +88,16 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		return graphApi.fetchImage(albumId, "picture", imageType);
 	}
 	
-	public List<Photo> getPhotos(String albumId) {
+	public List<Photo> getPhotos(String objectId) {
+		return getPhotos(objectId, 0, 25);
+	}
+	
+	public List<Photo> getPhotos(String objectId, int offset, int limit) {
 		requireAuthorization();
-		return graphApi.fetchConnections(albumId, "photos", Photo.class);
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("offset", String.valueOf(offset));
+		parameters.set("limit", String.valueOf(limit));
+		return graphApi.fetchConnections(objectId, "photos", Photo.class, parameters);
 	}
 	
 	public Photo getPhoto(String photoId) {
@@ -127,13 +145,23 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public List<Video> getVideos() {
-		requireAuthorization();
-		return getVideos("me");
+		return getVideos("me", 0, 25);
+	}
+
+	public List<Video> getVideos(int offset, int limit) {
+		return getVideos("me", offset, limit);
+	}
+
+	public List<Video> getVideos(String userId) {
+		return getVideos(userId, 0, 25);
 	}
 	
-	public List<Video> getVideos(String userId) {
+	public List<Video> getVideos(String userId, int offset, int limit) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "videos", Video.class);
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("offset", String.valueOf(offset));
+		parameters.set("limit", String.valueOf(limit));
+		return graphApi.fetchConnections(userId, "videos", Video.class, parameters);
 	}
 	
 	public Video getVideo(String videoId) {

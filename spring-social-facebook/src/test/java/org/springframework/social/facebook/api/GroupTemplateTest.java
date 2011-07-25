@@ -83,11 +83,25 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion&offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/group-list"), responseHeaders));
 		List<Group> results = facebook.groupOperations().search("Spring User Group");
+		assertGroupSearchResults(results);
+	}
+
+	@Test
+	public void search_withOffsetAndLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion&offset=45&limit=15"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/group-list"), responseHeaders));
+		List<Group> results = facebook.groupOperations().search("Spring User Group", 45, 15);
+		assertGroupSearchResults(results);
+	}
+
+	private void assertGroupSearchResults(List<Group> results) {
 		assertEquals(3, results.size());
 		assertEquals("108286519250791", results.get(0).getId());
 		assertEquals("Spring User Group - Mauritius", results.get(0).getName());
