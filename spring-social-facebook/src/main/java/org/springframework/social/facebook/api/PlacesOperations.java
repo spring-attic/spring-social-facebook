@@ -29,7 +29,7 @@ import org.springframework.social.MissingAuthorizationException;
 public interface PlacesOperations {
 	
 	/**
-	 * Retrieves a list of checkins for the authenticated user.
+	 * Retrieves a list of up to 25 recent checkins for the authenticated user.
 	 * Requires "user_checkins" or "friends_checkins" permission.
 	 * @return a list {@link Checkin}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -39,7 +39,19 @@ public interface PlacesOperations {
 	List<Checkin> getCheckins();
 
 	/**
-	 * Retrieves a list of checkins for the specified object.
+	 * Retrieves a list of checkins for the authenticated user.
+	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * @param offset the offset into the list of checkins
+	 * @param limit the maximum number of checkins to return
+	 * @return a list {@link Checkin}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Checkin> getCheckins(int offset, int limit);
+
+	/**
+	 * Retrieves a list of up to 25 recent checkins for the specified object.
 	 * If the object is a user, this returns checkins for places the user has checked into.
 	 * If the object is a page, then this returns checkins that the user's friends has made to the location that the page represents.
 	 * Requires "user_checkins" or "friends_checkins" permission.
@@ -50,6 +62,21 @@ public interface PlacesOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Checkin> getCheckins(String objectId);
+
+	/**
+	 * Retrieves a list of checkins for the specified object.
+	 * If the object is a user, this returns checkins for places the user has checked into.
+	 * If the object is a page, then this returns checkins that the user's friends has made to the location that the page represents.
+	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * @param objectId either a Facebook user ID or page ID
+	 * @param offset the offset into the list of checkins
+	 * @param limit the maximum number of checkins to return
+	 * @return a list {@link Checkin}s, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Checkin> getCheckins(String objectId, int offset, int limit);
 
 	/**
 	 * Retrieves details for a single checkin.

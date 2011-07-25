@@ -29,11 +29,21 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getCheckins() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/checkins"))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/checkins?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins();
+		assertCheckins(checkins);
+	}
+
+	@Test
+	public void getCheckins_withOffsetAndLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/checkins?offset=50&limit=10"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
+		List<Checkin> checkins = facebook.placesOperations().getCheckins(50, 10);
 		assertCheckins(checkins);
 	}
 
@@ -44,14 +54,24 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getCheckins_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/987654321/checkins"))
+		mockServer.expect(requestTo("https://graph.facebook.com/987654321/checkins?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins("987654321");
 		assertCheckins(checkins);
 	}
-	
+
+	@Test
+	public void getCheckins_forSpecificUser_withOffsetAndLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/987654321/checkins?offset=50&limit=10"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
+		List<Checkin> checkins = facebook.placesOperations().getCheckins("987654321", 50, 10);
+		assertCheckins(checkins);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getCheckins_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.placesOperations().getCheckins("987654321");
