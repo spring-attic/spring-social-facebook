@@ -1,4 +1,4 @@
-Spring Social Facebook 1.0.0 RC2 (July 25, 2011)
+Spring Social Facebook 1.0.0 RC2 (July 26, 2011)
 ================================================
 Improvements
   * Changed GraphApi.fetchConnections() to more intuitively work with 
