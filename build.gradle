@@ -94,7 +94,7 @@ configure(javaprojects) {
     apply from: "$buildSrcDir/schema-publication.gradle"
 
     springSocialVersion = '1.0.0.BUILD-SNAPSHOT'
-    jacksonVersion = '1.8.3'
+    jacksonVersion = '1.8.4'
     jspApiVersion = '2.1'
     junitVersion = '4.8.2'
     mockitoVersion = '1.8.5'
