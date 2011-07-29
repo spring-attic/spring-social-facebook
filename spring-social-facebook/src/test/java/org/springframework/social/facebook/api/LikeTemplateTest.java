@@ -114,7 +114,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getBooks() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/books")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/books?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getBooks();
@@ -128,7 +128,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getBooks_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/123456789/books")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/books?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getBooks("123456789");
@@ -142,7 +142,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getMovies() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/movies")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/movies?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getMovies();
@@ -156,7 +156,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getMovies_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/123456789/movies")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/movies?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getMovies("123456789");
@@ -170,7 +170,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getMusic() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/music")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/music?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getMusic();
@@ -184,7 +184,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getMusic_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/123456789/music")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/music?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getMusic("123456789");
@@ -198,7 +198,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getTelevision() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/television")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/television?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getTelevision();
@@ -212,7 +212,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getTelevision_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/123456789/television")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/television?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getTelevision("123456789");
@@ -226,7 +226,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getActivities() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/activities")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/activities?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getActivities();
@@ -240,7 +240,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getActivities_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/123456789/activities")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/activities?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getActivities("123456789");
@@ -254,7 +254,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getInterests() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/interests")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/interests?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getInterests();
@@ -268,7 +268,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getInterests_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/123456789/interests")).andExpect(method(GET))
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/interests?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withResponse(jsonResource("testdata/user-likes"), responseHeaders));
 		List<Page> likes = facebook.likeOperations().getInterests("123456789");

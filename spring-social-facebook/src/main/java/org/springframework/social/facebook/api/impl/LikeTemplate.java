@@ -62,7 +62,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<Page> getBooks(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "books", Page.class);
+		return graphApi.fetchConnections(userId, "books", Page.class, PAGE_FIELDS);
 	}
 
 	public List<Page> getMovies() {
@@ -71,7 +71,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<Page> getMovies(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "movies", Page.class);
+		return graphApi.fetchConnections(userId, "movies", Page.class, PAGE_FIELDS);
 	}
 
 	public List<Page> getMusic() {
@@ -80,7 +80,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<Page> getMusic(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "music", Page.class);
+		return graphApi.fetchConnections(userId, "music", Page.class, PAGE_FIELDS);
 	}
 
 	public List<Page> getTelevision() {
@@ -89,7 +89,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<Page> getTelevision(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "television", Page.class);
+		return graphApi.fetchConnections(userId, "television", Page.class, PAGE_FIELDS);
 	}
 
 	public List<Page> getActivities() {
@@ -98,7 +98,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<Page> getActivities(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "activities", Page.class);
+		return graphApi.fetchConnections(userId, "activities", Page.class, PAGE_FIELDS);
 	}
 
 	public List<Page> getInterests() {
@@ -107,7 +107,7 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 
 	public List<Page> getInterests(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "interests", Page.class);
+		return graphApi.fetchConnections(userId, "interests", Page.class, PAGE_FIELDS);
 	}
 
 	private static final String PAGE_FIELDS = "id,name,category,description,location,website,picture,phone,affiliation,company_overview,likes,checkins";
