@@ -54,7 +54,7 @@ public class Post {
 	
 	private PostType type;
 	
-	private List<Reference> likes;
+	private int likeCount;
 
 	private List<Comment> comments;
 
@@ -121,8 +121,8 @@ public class Post {
 		return type;
 	}
 	
-	public List<Reference> getLikes() {
-		return likes;
+	public int getLikeCount() {
+		return likeCount;
 	}
 
 	public List<Comment> getComments() {

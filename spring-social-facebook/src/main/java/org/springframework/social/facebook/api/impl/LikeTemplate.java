@@ -19,7 +19,8 @@ import java.util.List;
 
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.LikeOperations;
-import org.springframework.social.facebook.api.UserLike;
+import org.springframework.social.facebook.api.Page;
+import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.LinkedMultiValueMap;
 
 class LikeTemplate extends AbstractFacebookOperations implements LikeOperations {
@@ -41,66 +42,73 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		graphApi.delete(objectId, "likes");
 	}
 
-	public List<UserLike> getLikes() {
-		return getLikes("me");
-	}
-
-	public List<UserLike> getLikes(String userId) {
+	public List<Reference> getLikes(String objectId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "likes", UserLike.class);
+		return graphApi.fetchConnections(objectId, "likes", Reference.class);
 	}
 	
-	public List<UserLike> getBooks() {
+	public List<Page> getPagesLiked() {
+		return getPagesLiked("me");
+	}
+
+	public List<Page> getPagesLiked(String userId) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "likes", Page.class, PAGE_FIELDS);
+	}
+	
+	public List<Page> getBooks() {
 		return getBooks("me");
 	}
 
-	public List<UserLike> getBooks(String userId) {
+	public List<Page> getBooks(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "books", UserLike.class);
+		return graphApi.fetchConnections(userId, "books", Page.class);
 	}
 
-	public List<UserLike> getMovies() {
+	public List<Page> getMovies() {
 		return getMovies("me");
 	}
 
-	public List<UserLike> getMovies(String userId) {
+	public List<Page> getMovies(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "movies", UserLike.class);
+		return graphApi.fetchConnections(userId, "movies", Page.class);
 	}
 
-	public List<UserLike> getMusic() {
+	public List<Page> getMusic() {
 		return getMusic("me");
 	}
 
-	public List<UserLike> getMusic(String userId) {
+	public List<Page> getMusic(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "music", UserLike.class);
+		return graphApi.fetchConnections(userId, "music", Page.class);
 	}
 
-	public List<UserLike> getTelevision() {
+	public List<Page> getTelevision() {
 		return getTelevision("me");
 	}
 
-	public List<UserLike> getTelevision(String userId) {
+	public List<Page> getTelevision(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "television", UserLike.class);
+		return graphApi.fetchConnections(userId, "television", Page.class);
 	}
 
-	public List<UserLike> getActivities() {
+	public List<Page> getActivities() {
 		return getActivities("me");
 	}
 
-	public List<UserLike> getActivities(String userId) {
+	public List<Page> getActivities(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "activities", UserLike.class);
+		return graphApi.fetchConnections(userId, "activities", Page.class);
 	}
 
-	public List<UserLike> getInterests() {
+	public List<Page> getInterests() {
 		return getInterests("me");
 	}
 
-	public List<UserLike> getInterests(String userId) {
+	public List<Page> getInterests(String userId) {
 		requireAuthorization();
-		return graphApi.fetchConnections(userId, "interests", UserLike.class);
+		return graphApi.fetchConnections(userId, "interests", Page.class);
 	}
+
+	private static final String PAGE_FIELDS = "id,name,category,description,location,website,picture,phone,affiliation,company_overview,likes,checkins";
 }

@@ -42,7 +42,6 @@ import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.StatusPost;
 import org.springframework.social.facebook.api.SwfPost;
 import org.springframework.social.facebook.api.Tag;
-import org.springframework.social.facebook.api.UserLike;
 import org.springframework.social.facebook.api.Video;
 import org.springframework.social.facebook.api.VideoPost;
 import org.springframework.social.facebook.api.WorkEntry;
@@ -67,7 +66,6 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(Reference.class, ReferenceMixin.class);
 		context.setMixInAnnotations(GroupMemberReference.class, GroupMemberReferenceMixin.class);
 		context.setMixInAnnotations(Album.class, AlbumMixin.class);
-		context.setMixInAnnotations(UserLike.class, UserLikeMixin.class);
 		context.setMixInAnnotations(Group.class, GroupMixin.class);
 		context.setMixInAnnotations(Event.class, EventMixin.class);
 		context.setMixInAnnotations(Invitation.class, InvitationMixin.class);

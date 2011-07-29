@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.annotate.JsonCreator;
@@ -108,8 +109,8 @@ abstract class PostMixin {
 	PostType type;
 
 	@JsonProperty("likes")
-	@JsonDeserialize(using = ReferenceListDeserializer.class)
-	List<Reference> likes;
+	@JsonDeserialize(using = LikesCountDeserializer.class)
+	int likeCount;
 
 	@JsonProperty("comments")
 	@JsonDeserialize(using = CommentListDeserializer.class)
@@ -119,6 +120,14 @@ abstract class PostMixin {
 		@Override
 		public PostType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			return PostType.valueOf(jp.getText().toUpperCase());
+		}
+	}
+	
+	private static class LikesCountDeserializer extends JsonDeserializer<Integer> {
+		@Override
+		public Integer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+			JsonNode tree = jp.readValueAsTree();
+			return tree.get("count").getIntValue();
 		}
 	}
 }

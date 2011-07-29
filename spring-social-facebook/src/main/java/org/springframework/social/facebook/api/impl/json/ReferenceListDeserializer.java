@@ -16,6 +16,7 @@
 package org.springframework.social.facebook.api.impl.json;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
@@ -34,11 +35,13 @@ class ReferenceListDeserializer extends JsonDeserializer<List<Reference>> {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setDeserializationConfig(ctxt.getConfig());
 		jp.setCodec(mapper);
-		if(jp.hasCurrentToken()) {
+		if (jp.hasCurrentToken()) {
 			JsonNode dataNode = jp.readValueAsTree().get("data");
-			return (List<Reference>) mapper.readValue(dataNode, new TypeReference<List<Reference>>() {});
+			if (dataNode != null) {
+				return (List<Reference>) mapper.readValue(dataNode, new TypeReference<List<Reference>>() {});
+			}
 		}
 		
-		return null;
+		return Collections.emptyList();
 	}
 }
