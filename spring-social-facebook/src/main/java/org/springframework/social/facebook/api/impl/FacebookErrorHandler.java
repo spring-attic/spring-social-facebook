@@ -17,6 +17,7 @@ package org.springframework.social.facebook.api.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
 
@@ -67,8 +68,8 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 			return true;
 		}
 		// only bother checking the body for errors if we get past the default error check
-		BufferedReader reader = new BufferedReader(new InputStreamReader(response.getBody()));
-		return reader.ready() && reader.readLine().startsWith("{\"error\":");
+		String content = readFully(response.getBody());		
+		return content.startsWith("{\"error\":") || content.equals("false");
 	}
 
 	/**
@@ -164,9 +165,16 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 	 */
 	@SuppressWarnings("unchecked")
 	private Map<String, String> extractErrorDetailsFromResponse(ClientHttpResponse response) throws IOException {
-		ObjectMapper mapper = new ObjectMapper(new JsonFactory());		
+		ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+		String json = readFully(response.getBody());
+
+		if (json.equals("false")) {
+			// Sometimes FB returns "false" when requesting an object that the access token doesn't have permission for.
+			throw new InsufficientPermissionException();
+		}
+				
 		try {
-		    Map<String, Object> responseMap = mapper.<Map<String, Object>>readValue(response.getBody(), new TypeReference<Map<String, Object>>() {});
+		    Map<String, Object> responseMap = mapper.<Map<String, Object>>readValue(json, new TypeReference<Map<String, Object>>() {});
 		    if (responseMap.containsKey("error")) {
 		    	return (Map<String, String>) responseMap.get("error");
 		    }
@@ -174,5 +182,14 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 			return null;
 		}
 	    return null;
+	}
+	
+	private String readFully(InputStream in) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		StringBuilder sb = new StringBuilder();
+		while (reader.ready()) {
+			sb.append(reader.readLine());
+		}
+		return sb.toString();
 	}
 }

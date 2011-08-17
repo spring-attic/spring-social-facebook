@@ -118,7 +118,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse(jsonResource("testdata/error-current-user-no-token"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 		facebook.userOperations().getUserProfile();
 	}
-	
+		
 	@Test(expected=UncategorizedApiException.class)
 	public void htmlErrorResponse() {
 		try {
@@ -234,4 +234,14 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse(jsonResource("testdata/error-invalid-fbid"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 		facebook.likeOperations().like("123456");
 	}
+	
+	@Test(expected = InsufficientPermissionException.class)
+	public void falseResponse() {
+		mockServer.expect(requestTo("https://graph.facebook.com/someobject"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse("false", responseHeaders, HttpStatus.OK, ""));
+		facebook.fetchObject("someobject", FacebookProfile.class);
+	}
+
 }
