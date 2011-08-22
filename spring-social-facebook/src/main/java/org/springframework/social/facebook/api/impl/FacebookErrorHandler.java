@@ -35,6 +35,7 @@ import org.springframework.social.InvalidAuthorizationException;
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.OperationNotPermittedException;
+import org.springframework.social.RateLimitExceededException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.RevokedAuthorizationException;
 import org.springframework.social.UncategorizedApiException;
@@ -104,6 +105,8 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 				throw new OperationNotPermittedException("Invalid object for this operation");
 			} else if (message.contains("Duplicate status message") ) {
 				throw new DuplicateStatusException(message);
+			} else if (message.contains("Feed action request limit reached")) {
+				throw new RateLimitExceededException();
 			}
 		} else if (statusCode == HttpStatus.UNAUTHORIZED) {
 			if (message.startsWith("Error validating access token")) {

@@ -21,6 +21,7 @@ import org.springframework.social.ApiException;
 import org.springframework.social.DuplicateStatusException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
+import org.springframework.social.RateLimitExceededException;
 
 /**
  * Interface defining operations that can be performed on a Facebook feed.
@@ -298,6 +299,7 @@ public interface FeedOperations {
 	 * @param message the message to post.
 	 * @return the ID of the new feed entry.
 	 * @throws DuplicateStatusException if the status message duplicates a previously posted status.
+	 * @throws RateLimitExceededException if the per-user/per-app rate limit is exceeded.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
@@ -310,6 +312,7 @@ public interface FeedOperations {
 	 * @param message a message to send with the link.
 	 * @return the ID of the new feed entry.
 	 * @throws DuplicateStatusException if the post duplicates a previous post.
+	 * @throws RateLimitExceededException if the per-user/per-app rate limit is exceeded.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
@@ -323,6 +326,7 @@ public interface FeedOperations {
 	 * @param message the message to post.
 	 * @return the id of the new feed entry.
 	 * @throws DuplicateStatusException if the post duplicates a previous post.
+	 * @throws RateLimitExceededException if the per-user/per-app rate limit is exceeded.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.

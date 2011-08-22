@@ -27,6 +27,7 @@ import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.OperationNotPermittedException;
+import org.springframework.social.RateLimitExceededException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.RevokedAuthorizationException;
 import org.springframework.social.UncategorizedApiException;
@@ -242,6 +243,16 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse("false", responseHeaders, HttpStatus.OK, ""));
 		facebook.fetchObject("someobject", FacebookProfile.class);
+	}
+
+	@Test(expected = RateLimitExceededException.class)
+	public void rateLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
+			.andExpect(method(POST))
+			.andExpect(body("message=Test+Message"))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/error-rate-limit"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.feedOperations().updateStatus("Test Message");
 	}
 
 }
