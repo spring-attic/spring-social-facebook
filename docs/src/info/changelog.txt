@@ -1,3 +1,16 @@
+Spring Social Facebook 1.0.0.RELEASE (August 25, 2011)
+======================================================
+Bug Fixes
+  * Treat false responses from Facebook's Graph API as errors indicating
+    insufficient privileges. This fixes a deserialization problem when
+    trying to deserialize "false" as an object. (SOCIALFB-18)
+  * Handle "Feed action request limit reached" errors by throwing
+    RateLimitExceededException. (SOCIALFB-19)
+
+Improvements
+  * New sample demonstrating how to use Spring Social in a Facebook
+    Canvas application. (SOCIALFB-20)
+
 Spring Social Facebook 1.0.0 RC2 (July 26, 2011)
 ================================================
 Improvements
