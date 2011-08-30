@@ -49,6 +49,7 @@ import org.springframework.social.support.ClientHttpRequestFactorySelector;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * <p>This is the central class for interacting with Facebook.</p>
@@ -234,6 +235,13 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType).build();
 		getRestTemplate().postForObject(uri, deleteRequest, String.class);
 	}
+	
+	// AbstractOAuth2ApiBinding hooks
+
+	@Override
+	protected void configureRestTemplate(RestTemplate restTemplate) {
+		restTemplate.setErrorHandler(new FacebookErrorHandler());
+	}
 
 	@Override
 	protected void configureJsonMessageConverter(MappingJacksonHttpMessageConverter converter) {
@@ -244,7 +252,6 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	// private helpers
 	private void initialize() {
-		getRestTemplate().setErrorHandler(new FacebookErrorHandler());
 		// Wrap the request factory with a BufferingClientHttpRequestFactory so that the error handler can do repeat reads on the response.getBody()
 		super.setRequestFactory(ClientHttpRequestFactorySelector.bufferRequests(getRestTemplate().getRequestFactory()));
 		initSubApis();
