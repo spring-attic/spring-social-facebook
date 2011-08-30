@@ -27,8 +27,6 @@ import org.codehaus.jackson.map.type.TypeFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.UncategorizedApiException;
@@ -51,7 +49,6 @@ import org.springframework.social.support.ClientHttpRequestFactorySelector;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * <p>This is the central class for interacting with Facebook.</p>
@@ -239,33 +236,20 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 
 	@Override
-	protected List<HttpMessageConverter<?>> getMessageConverters() {
-		List<HttpMessageConverter<?>> messageConverters = super.getMessageConverters();
-		messageConverters.add(new ByteArrayHttpMessageConverter());
-		return messageConverters;
+	protected void configureJsonMessageConverter(MappingJacksonHttpMessageConverter converter) {
+		objectMapper = new ObjectMapper();				
+		objectMapper.registerModule(new FacebookModule());
+		converter.setObjectMapper(objectMapper);
 	}
 	
 	// private helpers
 	private void initialize() {
-		registerFacebookJsonModule(getRestTemplate());
 		getRestTemplate().setErrorHandler(new FacebookErrorHandler());
 		// Wrap the request factory with a BufferingClientHttpRequestFactory so that the error handler can do repeat reads on the response.getBody()
 		super.setRequestFactory(ClientHttpRequestFactorySelector.bufferRequests(getRestTemplate().getRequestFactory()));
 		initSubApis();
 	}
 		
-	private void registerFacebookJsonModule(RestTemplate restTemplate2) {
-		objectMapper = new ObjectMapper();				
-		objectMapper.registerModule(new FacebookModule());
-		List<HttpMessageConverter<?>> converters = getRestTemplate().getMessageConverters();
-		for (HttpMessageConverter<?> converter : converters) {
-			if(converter instanceof MappingJacksonHttpMessageConverter) {
-				MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
-				jsonConverter.setObjectMapper(objectMapper);
-			}
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	private <T> List<T> deserializeDataList(JsonNode jsonNode, final Class<T> elementType) {
 		try {
