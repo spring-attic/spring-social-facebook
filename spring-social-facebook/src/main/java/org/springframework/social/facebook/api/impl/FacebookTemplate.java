@@ -108,30 +108,12 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		initialize();
 	}
 
-	private void initSubApis() {
-		userOperations = new UserTemplate(this, getRestTemplate(), isAuthorized());
-		placesOperations = new PlacesTemplate(this, isAuthorized());
-		friendOperations = new FriendTemplate(this, getRestTemplate(), isAuthorized());
-		feedOperations = new FeedTemplate(this, getRestTemplate(), objectMapper, isAuthorized());
-		commentOperations = new CommentTemplate(this, isAuthorized());
-		likeOperations = new LikeTemplate(this, isAuthorized());
-		eventOperations = new EventTemplate(this, isAuthorized());
-		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorized());
-		groupOperations = new GroupTemplate(this, isAuthorized());
-		pageOperations = new PageTemplate(this, isAuthorized());
-	}
-	
 	@Override
 	public void setRequestFactory(ClientHttpRequestFactory requestFactory) {
 		// Wrap the request factory with a BufferingClientHttpRequestFactory so that the error handler can do repeat reads on the response.getBody()
 		super.setRequestFactory(ClientHttpRequestFactorySelector.bufferRequests(requestFactory));
 	}
 
-	@Override
-	protected OAuth2Version getOAuth2Version() {
-		return OAuth2Version.DRAFT_10;
-	}
-	
 	public UserOperations userOperations() {
 		return userOperations;
 	}
@@ -237,6 +219,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 	
 	// AbstractOAuth2ApiBinding hooks
+	@Override
+	protected OAuth2Version getOAuth2Version() {
+		return OAuth2Version.DRAFT_10;
+	}
 
 	@Override
 	protected void configureRestTemplate(RestTemplate restTemplate) {
@@ -259,6 +245,19 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		initSubApis();
 	}
 		
+	private void initSubApis() {
+		userOperations = new UserTemplate(this, getRestTemplate(), isAuthorized());
+		placesOperations = new PlacesTemplate(this, isAuthorized());
+		friendOperations = new FriendTemplate(this, getRestTemplate(), isAuthorized());
+		feedOperations = new FeedTemplate(this, getRestTemplate(), objectMapper, isAuthorized());
+		commentOperations = new CommentTemplate(this, isAuthorized());
+		likeOperations = new LikeTemplate(this, isAuthorized());
+		eventOperations = new EventTemplate(this, isAuthorized());
+		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorized());
+		groupOperations = new GroupTemplate(this, isAuthorized());
+		pageOperations = new PageTemplate(this, isAuthorized());
+	}
+	
 	@SuppressWarnings("unchecked")
 	private <T> List<T> deserializeDataList(JsonNode jsonNode, final Class<T> elementType) {
 		try {
