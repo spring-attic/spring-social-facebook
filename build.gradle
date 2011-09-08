@@ -96,7 +96,7 @@ configure(javaprojects) {
     springSocialVersion = '1.0.0.BUILD-SNAPSHOT'
     jacksonVersion = '1.8.5'
     jspApiVersion = '2.1'
-    junitVersion = '4.8.2'
+    junitVersion = '4.9'
     mockitoVersion = '1.8.5'
     servletApiVersion = '2.5'
     springVersion = '3.1.0.M2'
