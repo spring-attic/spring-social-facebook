@@ -1,3 +1,8 @@
+Spring Social Facebook 1.0.0 (September 8, 2011)
+================================================
+ Misc:
+  * Updated FacebookTemplate to match changes in AbstractOAuth2ApiBinding.
+
 Spring Social Facebook 1.0.0.RC3 (August 25, 2011)
 ==================================================
 Bug Fixes
