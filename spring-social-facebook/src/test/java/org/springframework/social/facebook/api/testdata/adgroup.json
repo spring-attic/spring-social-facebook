@@ -1,0 +1,106 @@
+{
+  "adgroup_id": 1123456703,
+  "ad_id": 1123456703,
+  "campaign_id": 64819048213,
+  "name": "Test Ad",
+  "ad_status": 4,
+  "adgroup_status": 4,
+  "bid_type": 6,
+  "max_bid": "80",
+  "bid_info": {
+    "1": "80",
+    "37": "0",
+    "38": "0",
+    "44": "0",
+    "45": "0",
+    "46": "20"
+  },
+  "account_id": 636694801526,
+  "id": "1123456703",
+  "creative_ids": [
+    574017476042
+  ],
+  "targeting": {
+    "age_max": 64,
+    "age_min": 18,
+    "radius" : 50,
+    "regions": [
+      {
+        "id": "50",
+        "name": "Vermont"
+      },
+      {
+        "id": "6",
+        "name": "California"
+      }
+    ], 
+    "cities": [
+      {
+        "id": "2420467",
+        "name": "Manhattan Beach, CA"
+      },
+      {
+        "id": "2532970",
+        "name": "Burlington, VT"
+      }
+    ], 
+    "zips": [
+      "05401",
+      "05446",
+      "90210",
+      "90266",
+      "90267"
+    ], 
+    "countries": [
+      "US",
+      "CA"
+    ],
+    "user_adclusters": [
+      {
+        "id": "6002714398172",
+        "name": "Newlywed (<1 year)"
+      },
+      {
+        "id": "6002714398772",
+        "name": "Engaged (<6 months)"
+      },
+      {
+        "id": "6002714885172",
+        "name": "Cooking"
+      }
+    ],
+    "relationship_statuses": [
+      1,
+      2,
+      3
+    ],
+    "education_statuses": [
+      3
+    ], 
+    "excluded_connections": [
+      {
+        "id": "125614587505822",
+        "name": "Demo Motors"
+      }
+    ], 
+    "friends_of_connections": [
+      {
+        "id": "47190376042235",
+        "name": "Scuba Steve"
+      }
+    ],
+    "locales": [
+      "24",
+      "43",
+      "51",
+      "6"
+    ],
+    "broad_age": 1,
+    "keywords": [
+      "dirtbikes"
+    ]
+  },
+  "start_time": null,
+  "end_time": null,
+  "updated_time": "2011-09-09T12:58:18+0000"
+}

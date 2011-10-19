@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "account_group_id": 112233445566,
+      "name": "Test Account Group 2",
+      "status": 1,
+      "users": [
+        {
+          "uid": 12345667,
+          "role": 1001
+        }
+      ],
+      "accounts": [
+        {
+          "account_id": 2345678,
+          "status": 1
+        }
+      ],
+      "id": 112233445566
+    },
+    {
+      "account_group_id": 223344556677,
+      "name": "Test Account Group 1",
+      "status": 1,
+      "users": [
+        {
+          "uid": 12345667,
+          "role": 1001
+        }
+      ],
+      "accounts": [
+        {
+          "account_id": 1234567,
+          "status": 1
+        }
+      ],
+      "id": 223344556677
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "account_id": 234567,
+      "campaign_id": 123456,
+      "name": "My Ads",
+      "daily_budget": 500,
+      "campaign_status": 1,
+      "daily_imps": 0,
+      "id": "123456",
+      "start_time": "2011-10-31T22:00:00+0000",
+      "end_time": "2011-11-18T22:00:00+0000",
+      "updated_time": "2011-10-19T18:37:08+0000"
+    }
+  ],
+  "count": 1,
+  "limit": 100,
+  "offset": 0
+}

@@ -1,0 +1,18 @@
+{
+  "account_group_id": 112233445566,
+  "name": "Test Account Group 2",
+  "status": 1,
+  "users": [
+    {
+      "uid": 12345667,
+      "role": 1001
+    }
+  ],
+  "accounts": [
+    {
+      "account_id": 2345678,
+      "status": 1
+    }
+  ],
+  "id": "112233445566"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "act_123456",
+  "account_id": 123456,
+  "name": "Will's Test Account",
+  "account_status": 1,
+  "currency": "USD",
+  "timezone_id": 7,
+  "timezone_name": "America/New_York",
+  "vertical_id": 17,
+  "vertical_name": "Other Services",
+  "is_personal": 0,
+  "business_name": "Will Taylor",
+  "business_street": "123 Fake St",
+  "business_street2": "",
+  "business_city": "Springfield",
+  "business_state": "VT",
+  "business_zip": "12345",
+  "business_country_code": "US",
+  "vat_status": 1,
+  "daily_spend_limit": 25000,
+  "users": [
+    {
+      "uid": 234567,
+      "permissions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7
+      ],
+      "role": 1001
+    },
+    {
+      "uid": 345678,
+      "permissions": [
+        7
+      ],
+      "role": 1003
+    }
+  ],
+  "account_groups": [
+    {
+      "account_group_id": 987654,
+      "name": "Test Account Group 1",
+      "status": 1
+    }
+  ],
+  "capabilities": [
+  ]
+}

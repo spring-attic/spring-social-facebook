@@ -1,0 +1,93 @@
+{
+  "data": [
+    {
+      "view_tag": "",
+      "alt_view_tags": [
+      ],
+      "creative_id": 6003608508993,
+      "type": 2,
+      "title": "",
+      "body": "this is some ad copy",
+      "image_hash": "1b1134eae61cdd6d9be8499b8dcbe663",
+      "link_url": "http://www.facebook.com/demomotors?sk=wall",
+      "object_id": 125614587505822,
+      "name": "Demo Motors-00",
+      "run_status": 1,
+      "preview_url": "http://www.facebook.com/ads/api/creative_preview.php?cid=6003608508993",
+      "count_current_adgroups": 0,
+      "id": "6003608508993",
+      "image_url": "http://creative.ak.fbcdn.net/v41818/flyers/35/10/1315831679242172105_1_e0cee20a.jpg"
+    },
+    {
+      "view_tag": "",
+      "alt_view_tags": [
+      ],
+      "creative_id": 6003603579993,
+      "type": 2,
+      "title": "",
+      "body": "ad copy",
+      "image_hash": "c90fb45af2330064e6a9a0326cc40a40",
+      "link_url": "http://www.facebook.com/demomotors",
+      "object_id": 125614587505822,
+      "name": "Demo Motors",
+      "run_status": 1,
+      "preview_url": "http://www.facebook.com/ads/api/creative_preview.php?cid=6003603579993",
+      "count_current_adgroups": 0,
+      "id": "6003603579993",
+      "image_url": "http://creative.ak.fbcdn.net/v41818/flyers/76/23/1315572935724739266_1_75556589.jpg"
+    },
+    {
+      "view_tag": "",
+      "alt_view_tags": [
+      ],
+      "creative_id": 6003597629193,
+      "type": 9,
+      "object_id": "125614587505822",
+      "url_tags": "",
+      "name": "Page Like Story #6003597629193",
+      "run_status": 1,
+      "preview_url": "http://www.facebook.com/ads/api/creative_preview.php?cid=6003597629193",
+      "count_current_adgroups": 0,
+      "id": "6003597629193"
+    },
+    {
+      "view_tag": "",
+      "alt_view_tags": [
+      ],
+      "creative_id": 6003608511993,
+      "type": 2,
+      "title": "",
+      "body": "body!",
+      "image_hash": "c90fb45af2330064e6a9a0326cc40a40",
+      "link_url": "http://www.facebook.com/demomotors",
+      "object_id": 125614587505822,
+      "name": "Demo Motors-01",
+      "run_status": 1,
+      "preview_url": "http://www.facebook.com/ads/api/creative_preview.php?cid=6003608511993",
+      "count_current_adgroups": 0,
+      "id": "6003608511993",
+      "image_url": "http://creative.ak.fbcdn.net/v41818/flyers/76/23/1315572935724739266_1_75556589.jpg"
+    },
+    {
+      "view_tag": "",
+      "alt_view_tags": [
+      ],
+      "creative_id": 6003608514393,
+      "type": 3,
+      "title": "",
+      "body": "this party is totally awesome",
+      "image_hash": "1b1134eae61cdd6d9be8499b8dcbe663",
+      "link_url": "http://graph.facebook.com/event.php?eid=113783858725466",
+      "object_id": 113783858725466,
+      "name": "Awesome Party",
+      "run_status": 1,
+      "preview_url": "http://www.facebook.com/ads/api/creative_preview.php?cid=6003608514393",
+      "count_current_adgroups": 0,
+      "id": "6003608514393",
+      "image_url": "http://creative.ak.fbcdn.net/v41818/flyers/35/10/1315831679242172105_1_e0cee20a.jpg"
+    }
+  ],
+  "limit": 500,
+  "offset": 0,
+  "count": 5
+}
