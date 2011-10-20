@@ -1,0 +1,62 @@
+package org.springframework.social.facebook.api.ads.impl;
+
+import org.springframework.social.facebook.api.ads.AccountGroupOperations;
+import org.springframework.social.facebook.api.ads.AccountOperations;
+import org.springframework.social.facebook.api.ads.AdGroupOperations;
+import org.springframework.social.facebook.api.ads.CampaignOperations;
+import org.springframework.social.facebook.api.ads.CreativeOperations;
+import org.springframework.social.facebook.api.ads.FacebookAds;
+import org.springframework.social.facebook.api.impl.FacebookTemplate;
+
+public class FacebookAdsTemplate extends FacebookTemplate implements
+		FacebookAds {
+	private AccountOperations accountOperations;
+	private AccountGroupOperations accountGroupOperations;
+	private CampaignOperations campaignOperations;
+	private CreativeOperations creativeOperations;
+	private AdGroupOperations adGroupOperations;
+
+	public FacebookAdsTemplate() {
+		super();
+		initialize();
+	}
+
+	public FacebookAdsTemplate(String accessToken) {
+		super(accessToken);
+		initialize();
+	}
+
+	private void initialize() {
+		initSubApis();
+	}
+
+	private void initSubApis() {
+		accountOperations = new AccountTemplate(this, getRestTemplate(),
+				isAuthorized());
+		accountGroupOperations = new AccountGroupTemplate(this, isAuthorized());
+		campaignOperations = new CampaignTemplate(this, isAuthorized());
+		creativeOperations = new CreativeTemplate(this, isAuthorized());
+		adGroupOperations = new AdGroupTemplate(this, getRestTemplate(),
+				isAuthorized());
+	}
+
+	public AccountOperations accountOperations() {
+		return accountOperations;
+	}
+
+	public AccountGroupOperations accountGroupOperations() {
+		return accountGroupOperations;
+	}
+
+	public CampaignOperations campaignOperations() {
+		return campaignOperations;
+	}
+
+	public CreativeOperations creativeOperations() {
+		return creativeOperations;
+	}
+
+	public AdGroupOperations adGroupOperations() {
+		return adGroupOperations;
+	}
+}

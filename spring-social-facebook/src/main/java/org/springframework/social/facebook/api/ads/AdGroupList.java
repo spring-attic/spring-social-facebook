@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2010 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.impl;
+package org.springframework.social.facebook.api.ads;
 
-import org.springframework.social.MissingAuthorizationException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class AbstractFacebookOperations {
-	
-	private final boolean isAuthorized;
-
-	public AbstractFacebookOperations(boolean isAuthorized) {
-		this.isAuthorized = isAuthorized;
+/**
+ * @author Karthick Sankarachary
+ */
+@SuppressWarnings("serial")
+public class AdGroupList extends ArrayList<AdGroup> {
+	public AdGroupList() {
+		super();
 	}
-	
-	protected void requireAuthorization() {
-		if (!isAuthorized) {
-			throw new MissingAuthorizationException();
-		}
+
+	public AdGroupList(List<AdGroup> adGroups) {
+		super(adGroups);
 	}
-	
+
 }

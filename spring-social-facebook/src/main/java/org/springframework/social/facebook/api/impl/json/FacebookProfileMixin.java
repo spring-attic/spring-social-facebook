@@ -31,9 +31,10 @@ import org.springframework.social.facebook.api.WorkEntry;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class FacebookProfileMixin {
+public abstract class FacebookProfileMixin {
 
 	@JsonCreator
+	protected
 	FacebookProfileMixin(
 			@JsonProperty("id") String id, 
 			@JsonProperty("username") String username, 

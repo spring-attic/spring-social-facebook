@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2010 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.impl;
+package org.springframework.social.facebook.api.ads;
 
-import org.springframework.social.MissingAuthorizationException;
+/**
+ * @author Karthick Sankarachary
+ */
+public enum Permission {
+	ACCOUNT_ADMIN(1), ADMANAGER_READ(2), ADMANAGER_WRITE(3), BILLING_READ(4), BILLING_WRITE(
+			5), REPORTS(6), TBD(7), TBD2(8);
 
-public class AbstractFacebookOperations {
-	
-	private final boolean isAuthorized;
+	private int level;
 
-	public AbstractFacebookOperations(boolean isAuthorized) {
-		this.isAuthorized = isAuthorized;
+	Permission(int level) {
+		this.level = level;
 	}
-	
-	protected void requireAuthorization() {
-		if (!isAuthorized) {
-			throw new MissingAuthorizationException();
+
+	public int getLevel() {
+		return this.level;
+	}
+
+	public static Permission findByValue(int value) {
+		for (Permission status : values()) {
+			if (status.getLevel() == value) {
+				return status;
+			}
 		}
+		return null;
 	}
-	
 }

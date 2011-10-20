@@ -1,0 +1,57 @@
+package org.springframework.social.facebook.api.ads.impl;
+
+import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.ads.AccountGroupOperations;
+import org.springframework.social.facebook.api.ads.AdAccountGroup;
+import org.springframework.social.facebook.api.ads.Id;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+class AccountGroupTemplate extends AbstractAdsOperations implements
+		AccountGroupOperations {
+
+	public AccountGroupTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+		super(graphApi, isAuthorizedForUser);
+	}
+
+	@Override
+	public String[] getConnectionTypes() {
+		return new String[] { "adaccount", "user" };
+	}
+
+	public AdAccountGroup getAccountGroup(String accountGroupId) {
+		requireAuthorization();
+		return graphApi.fetchObject(accountGroupId, AdAccountGroup.class);
+	}
+
+	public Id createAccountGroup(AdAccountGroup accountGroup) {
+		requireAuthorization();
+		String id = graphApi.publish("me", "adaccountgroups",
+				getAccountGroupData(accountGroup));
+		return new Id(id);
+	}
+
+	public boolean updateAccountGroup(String accountGroupId,
+			AdAccountGroup accountGroup) {
+		requireAuthorization();
+		return graphApi.update(accountGroupId,
+				getAccountGroupData(accountGroup));
+	}
+
+	public boolean deleteAccountGroup(String accountGroupId) {
+		requireAuthorization();
+		String status = graphApi.delete(accountGroupId);
+		return Boolean.valueOf(status);
+	}
+
+	private MultiValueMap<String, Object> getAccountGroupData(
+			AdAccountGroup accountGroup) {
+		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
+		data.set("id", accountGroup.getId());
+		data.set("name", accountGroup.getName());
+		data.set("status", accountGroup.getStatus());
+		data.set("users", accountGroup.getUsers());
+		data.set("accounts", accountGroup.getAccounts());
+		return data;
+	}
+}

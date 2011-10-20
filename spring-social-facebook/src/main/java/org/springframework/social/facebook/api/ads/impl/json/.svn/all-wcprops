@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json
+END
+StatsMixin.java
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/StatsMixin.java
+END
+BidTypeDeserializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/BidTypeDeserializer.java
+END
+AccountStatusDeserializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 175
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/AccountStatusDeserializer.java
+END
+RoleDeserializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 166
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/RoleDeserializer.java
+END
+RegionsListDeserializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 173
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/RegionsListDeserializer.java
+END
+AdGroupMixin.java
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/AdGroupMixin.java
+END
+AdAccountMixin.java
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/AdAccountMixin.java
+END
+FacebookAdsModule.java
+K 25
+svn:wc:ra_dav:version-url
+V 167
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/FacebookAdsModule.java
+END
+AdGroupStatusDeserializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 175
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/AdGroupStatusDeserializer.java
+END
+AdCreativeMixin.java
+K 25
+svn:wc:ra_dav:version-url
+V 165
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/AdCreativeMixin.java
+END
+UserListDeserializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/UserListDeserializer.java
+END
+CitiesListDeserializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 172
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/CitiesListDeserializer.java
+END
+AdAccountGroupMixin.java
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/AdAccountGroupMixin.java
+END
+UserMixin.java
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/UserMixin.java
+END
+AdCampaignMixin.java
+K 25
+svn:wc:ra_dav:version-url
+V 165
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/AdCampaignMixin.java
+END
+TargetingMixin.java
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/TargetingMixin.java
+END
+PermissionDeserializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 172
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/PermissionDeserializer.java
+END
+AccountListDeserializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 173
+/svn/research/!svn/ver/8/trunk/spring-social-facebook/spring-social-facebook/src/main/java/org/springframework/social/facebook/api/ads/impl/json/AccountListDeserializer.java
+END

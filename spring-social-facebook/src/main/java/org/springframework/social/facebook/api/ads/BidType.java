@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2010 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.impl;
+package org.springframework.social.facebook.api.ads;
 
-import org.springframework.social.MissingAuthorizationException;
+/**
+ * @author Karthick Sankarachary
+ */
+public enum BidType {
+	CPC(1), CPM(2);
 
-public class AbstractFacebookOperations {
-	
-	private final boolean isAuthorized;
+	private int value;
 
-	public AbstractFacebookOperations(boolean isAuthorized) {
-		this.isAuthorized = isAuthorized;
+	BidType(int value) {
+		this.value = value;
 	}
-	
-	protected void requireAuthorization() {
-		if (!isAuthorized) {
-			throw new MissingAuthorizationException();
+
+	public int getValue() {
+		return this.value;
+	}
+
+	public static BidType findByValue(int value) {
+		for (BidType status : values()) {
+			if (status.getValue() == value) {
+				return status;
+			}
 		}
+		return null;
 	}
-	
 }
