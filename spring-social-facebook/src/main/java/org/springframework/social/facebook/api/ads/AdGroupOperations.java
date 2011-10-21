@@ -34,4 +34,11 @@ public interface AdGroupOperations {
 
 	public boolean deleteAdGroup(String adGroupId);
 
+	public Stats getAdGroupStats(String adGroupId, long startTime, long endTime);
+
+	public List<Stats> getAdGroupsStats(List<String> adGroupIds,
+			long startTime, long endTime);
+
+	public List<Stats> getAdGroupsStats(String accountId, long startTime,
+			long endTime);
 }

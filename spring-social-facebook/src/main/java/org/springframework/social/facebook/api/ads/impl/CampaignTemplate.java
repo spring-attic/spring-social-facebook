@@ -22,6 +22,7 @@ import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCampaignList;
 import org.springframework.social.facebook.api.ads.CampaignOperations;
 import org.springframework.social.facebook.api.ads.Id;
+import org.springframework.social.facebook.api.ads.ResultSet;
 import org.springframework.social.facebook.api.ads.Stats;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -50,19 +51,60 @@ class CampaignTemplate extends AbstractAdsOperations implements
 		return resultSet.getData();
 	}
 
+	public List<AdCampaign> getCampaigns(
+			List<String> campaignIds, MultiValueMap<String, String> vars) {
+		requireAuthorization();
+		vars.set("ids", join(campaignIds));
+		AdCampaignList resultSet = graphApi.fetchObject("", AdCampaignList.class, vars);
+		return resultSet.getData();
+	}
+	
+	public List<AdCampaign> getCampaigns(String accountId,
+			List<String> campaignIds, MultiValueMap<String, String> vars) {
+		requireAuthorization();
+		AdCampaignList resultSet = graphApi.fetchObject(getAccountId(accountId)
+				+ "/adcampaigns", AdCampaignList.class, vars);
+		return resultSet.getData();
+	}
+
 	public AdCampaign getCampaign(String campaignId) {
 		requireAuthorization();
 		return graphApi.fetchObject(campaignId, AdCampaign.class);
 	}
 
-	public Stats getCampaignStats(String accountId, long startTime, long endTime) {
+	public List<Stats> getCampaignsStats(String accountId, long startTime,
+			long endTime) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("start_time", String.valueOf(startTime));
 		parameters.set("end_time", String.valueOf(endTime));
-		return graphApi.fetchObject(
+		@SuppressWarnings("unchecked")
+		ResultSet<Stats> resultSet = graphApi.fetchObject(
 				getPath(getAccountId(accountId), "adcampaignstats"),
-				Stats.class);
+				ResultSet.class);
+		return resultSet.getData();
+	}
+
+	public List<Stats> getCampaignsStats(List<String> campaignIds,
+			long startTime, long endTime) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("start_time", String.valueOf(startTime));
+		parameters.set("end_time", String.valueOf(endTime));
+		parameters.set("ids", join(campaignIds));
+		parameters.set("stats", "");
+		@SuppressWarnings("unchecked")
+		ResultSet<Stats> resultSet = graphApi.fetchObject("", ResultSet.class);
+		return resultSet.getData();
+	}
+
+	public Stats getCampaignStats(String campaignId, long startTime,
+			long endTime) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("start_time", String.valueOf(startTime));
+		parameters.set("end_time", String.valueOf(endTime));
+		return graphApi.fetchObject(getPath(campaignId, "stats"), Stats.class);
 	}
 
 	public Id createCampaign(String accountId, AdCampaign campaign) {

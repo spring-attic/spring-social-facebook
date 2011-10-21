@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api.ads.impl;
 
+import java.util.List;
+
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.impl.ConnectionTemplate;
 
@@ -40,5 +42,25 @@ public abstract class AbstractAdsOperations extends ConnectionTemplate {
 			path.append(subPath);
 		}
 		return path.toString();
+	}
+
+	public String join(List<?> objects) {
+		return join(objects, ",");
+
+	}
+
+	public String join(List<?> objects, String separator) {
+		StringBuffer result = new StringBuffer();
+		for (Object object : objects) {
+			if (object == null) {
+				continue;
+			}
+			if (result.length() > 0) {
+				result.append(separator);
+			}
+			result.append(object.toString());
+		}
+		return result.toString();
+
 	}
 }

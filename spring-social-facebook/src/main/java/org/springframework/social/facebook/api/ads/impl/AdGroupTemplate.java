@@ -21,6 +21,8 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ads.AdGroup;
 import org.springframework.social.facebook.api.ads.AdGroupOperations;
 import org.springframework.social.facebook.api.ads.Id;
+import org.springframework.social.facebook.api.ads.ResultSet;
+import org.springframework.social.facebook.api.ads.Stats;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -72,6 +74,41 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 		requireAuthorization();
 		String status = graphApi.delete(adGroupId);
 		return Boolean.valueOf(status);
+	}
+
+	public Stats getAdGroupStats(String adGroupId, long startTime, long endTime) {
+		requireAuthorization();
+		MultiValueMap<String, String> vars = new LinkedMultiValueMap<String, String>();
+		vars.set("start_time", String.valueOf(startTime));
+		vars.set("end_time", String.valueOf(endTime));
+		return graphApi.fetchObject(getPath(adGroupId, "stats"), Stats.class,
+				vars);
+	}
+
+	public List<Stats> getAdGroupsStats(List<String> adGroupIds,
+			long startTime, long endTime) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("start_time", String.valueOf(startTime));
+		parameters.set("end_time", String.valueOf(endTime));
+		parameters.set("ids", join(adGroupIds));
+		parameters.set("stats", "");
+		@SuppressWarnings("unchecked")
+		ResultSet<Stats> resultSet = graphApi.fetchObject("", ResultSet.class);
+		return resultSet.getData();
+	}
+
+	public List<Stats> getAdGroupsStats(String accountId, long startTime,
+			long endTime) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("start_time", String.valueOf(startTime));
+		parameters.set("end_time", String.valueOf(endTime));
+		@SuppressWarnings("unchecked")
+		ResultSet<Stats> resultSet = graphApi.fetchObject(
+				getPath(getAccountId(accountId), "adgroupstats"),
+				ResultSet.class);
+		return resultSet.getData();
 	}
 
 	private MultiValueMap<String, Object> getAdGroupData(AdGroup adGroup) {

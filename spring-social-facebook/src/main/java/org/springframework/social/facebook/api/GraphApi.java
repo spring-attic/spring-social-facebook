@@ -85,7 +85,7 @@ public interface GraphApi {
 	 * @param connectionObject the connection object
 	 * @return an indicator of success
 	 */
-	<T> String addConnection(String objectId, String connectionType,
+	<T> String addConnection(String objectId, String connectionName,
 			Class<T> type, MultiValueMap<String, String> queryParameters, T connectionObject);
 	
 	/**
@@ -97,7 +97,7 @@ public interface GraphApi {
 	 * @param connectedObjectId the ID of the connection object to remove.
 	 * @return an indicator of success
 	 */
-	 String deleteConnection(String objectId, String connectionType,
+	 String deleteConnection(String objectId, String connectionName,
 			Class<?> type, String connectedObjectId);
 	
 	/**

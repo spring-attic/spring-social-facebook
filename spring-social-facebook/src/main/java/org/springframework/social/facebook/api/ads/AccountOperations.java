@@ -23,6 +23,8 @@ import org.springframework.social.facebook.api.ConnectionOperations;
  * @author Karthick Sankarachary
  */
 public interface AccountOperations extends ConnectionOperations {
+	public List<AdAccount> getAccounts(String userId);
+	
 	public AdAccount getAccount(String accountId);
 
 	public List<User> getAccountUsers(String accountId);

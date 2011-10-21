@@ -47,6 +47,12 @@ class AccountTemplate extends AbstractAdsOperations implements
 	public String[] getConnectionTypes() {
 		return new String[] { "adcampaign", "adcreative", "adgroup", "adimages"};
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<AdAccount> getAccounts(String userId) {
+		requireAuthorization();
+		return graphApi.fetchObject(userId + "/adaccounts", List.class);
+	}
 
 	public AdAccount getAccount(String accountId) {
 		requireAuthorization();
