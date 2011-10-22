@@ -13,27 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.ads;
+package org.springframework.social.facebook.api.ads.impl.json;
 
 import java.util.List;
 
-import org.springframework.social.facebook.api.ConnectionOperations;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.springframework.social.facebook.api.ads.Estimation;
 
 /**
  * @author Karthick Sankarachary
  */
-public interface AccountOperations extends ConnectionOperations {
-	public List<AdAccount> getAccounts(String userId);
-	
-	public AdAccount getAccount(String accountId);
+@JsonIgnoreProperties(ignoreUnknown = true)
+abstract class ReachEstimateMixin {
 
-	public List<User> getAccountUsers(String accountId);
+	@JsonCreator
+	ReachEstimateMixin() {
+	}
 
-	public Stats getAccountStats(String accountId);
+	@JsonProperty("bid_estimations")
+	List<Estimation> bidEstimations;
 
-	public <T> List<Stats> getAccountConnectionStats(String accountId,
-			Class<T> connectionType);
-
-	public ReachEstimate getReachEstimate(String accountId, String currency,
-			Targeting targetingSpec);
+	@JsonProperty("imp_estimates")
+	List<Estimation> impEstimates;
 }

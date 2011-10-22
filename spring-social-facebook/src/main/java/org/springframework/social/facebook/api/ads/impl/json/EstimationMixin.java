@@ -13,27 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.ads;
+package org.springframework.social.facebook.api.ads.impl.json;
 
-import java.util.List;
-
-import org.springframework.social.facebook.api.ConnectionOperations;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Karthick Sankarachary
  */
-public interface AccountOperations extends ConnectionOperations {
-	public List<AdAccount> getAccounts(String userId);
-	
-	public AdAccount getAccount(String accountId);
+@JsonIgnoreProperties(ignoreUnknown = true)
+abstract class EstimationMixin {
 
-	public List<User> getAccountUsers(String accountId);
+	@JsonCreator
+	EstimationMixin() {
+	}
 
-	public Stats getAccountStats(String accountId);
+	@JsonProperty("cpc_min")
+	int cpcMin;
 
-	public <T> List<Stats> getAccountConnectionStats(String accountId,
-			Class<T> connectionType);
+	@JsonProperty("cpc_median")
+	int cpcMedian;
 
-	public ReachEstimate getReachEstimate(String accountId, String currency,
-			Targeting targetingSpec);
+	@JsonProperty("cpc_max")
+	int cpcMax;
+
+	@JsonProperty("cpm_min")
+	int cpmMin;
+
+	@JsonProperty("cpm_median")
+	int cpmMedian;
+
+	@JsonProperty("cpm_max")
+	int cpmMax;
 }
