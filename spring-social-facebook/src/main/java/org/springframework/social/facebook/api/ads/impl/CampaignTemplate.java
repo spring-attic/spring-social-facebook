@@ -43,11 +43,8 @@ class CampaignTemplate extends AbstractAdsOperations implements
 
 	public List<AdCampaign> getCampaigns(String accountId) {
 		requireAuthorization();
-		System.out.println( graphApi.fetchObject(getAccountId(accountId) + "/adcampaigns",
-				String.class));
-	
-		AdCampaignList resultSet = graphApi.fetchObject(getAccountId(accountId) + "/adcampaigns",
-				AdCampaignList.class);
+		AdCampaignList resultSet = graphApi.fetchObject(getAccountId(accountId)
+				+ "/adcampaigns", AdCampaignList.class);
 		return resultSet.getData();
 	}
 

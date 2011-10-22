@@ -40,11 +40,12 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 
 	@Override
 	public String[] getConnectionTypes() {
-		return new String[] { "adaccount" };
+		return new String[] { "adaccount", "adgroup" };
 	}
 
 	public List<AdGroup> getAdGroups(String accountId) {
 		requireAuthorization();
+		System.out.println( getConnections(getAccountId(accountId), AdGroup.class));
 		return getConnections(getAccountId(accountId), AdGroup.class);
 	}
 

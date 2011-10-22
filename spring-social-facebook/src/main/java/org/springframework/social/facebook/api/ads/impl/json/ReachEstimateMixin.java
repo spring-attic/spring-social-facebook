@@ -20,48 +20,21 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.springframework.social.facebook.api.ads.BidType;
+import org.springframework.social.facebook.api.ads.Estimation;
 
+/**
+ * @author Karthick Sankarachary
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class AdGroupMixin {
+abstract class ReachEstimateMixin {
 
 	@JsonCreator
-	AdGroupMixin() {
+	ReachEstimateMixin() {
 	}
 
-	@JsonProperty("ad_id")
-	long adId;
-	
-	@JsonProperty("campaign_id")
-	long campaignId;
+	@JsonProperty("bid_estimations")
+	List<Estimation> bidEstimations;
 
-	@JsonProperty("adgroup_status")
-	int adGroupStatus;
-	
-	@JsonProperty("bid_type")
-	@JsonDeserialize(using=BidTypeDeserializer.class)
-	BidType bidType;
-	
-	@JsonProperty("max_bid")
-	String maxBid;
-	
-	@JsonProperty("adgroup_id")
-	long adGroupid;
-	
-	@JsonProperty("end_time")
-	int endTime;
-	
-	@JsonProperty("start_time")
-	int startTime;
-	
-	@JsonProperty("updated_time")
-	int updatedTime;
-	
-	@JsonProperty("bid_info")
-	List<String> bidInfo;
-	
-	@JsonProperty("disapprove_reason_descriptions")
-	List<String> disapproveReasonDescriptions;
-	
+	@JsonProperty("imp_estimates")
+	List<Estimation> impEstimates;
 }

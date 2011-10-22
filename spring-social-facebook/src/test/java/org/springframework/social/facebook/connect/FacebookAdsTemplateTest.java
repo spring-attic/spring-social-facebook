@@ -1,51 +1,116 @@
-/*
- * Copyright 2010 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */package org.springframework.social.facebook.connect;
+package org.springframework.social.facebook.connect;
 
 import java.io.IOException;
+import java.io.StringWriter;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
+import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.ads.AccountGroupOperations;
 import org.springframework.social.facebook.api.ads.AccountOperations;
+import org.springframework.social.facebook.api.ads.AdGroupOperations;
 import org.springframework.social.facebook.api.ads.CampaignOperations;
 import org.springframework.social.facebook.api.ads.CreativeOperations;
 import org.springframework.social.facebook.api.ads.impl.FacebookAdsTemplate;
+import org.springframework.web.client.RestClientException;
 
 /**
- * Need to plugin real account and campaign ids prior to enabling tests.
- *
  * @author Karthick Sankarachary
  */
 public class FacebookAdsTemplateTest {
-	private String accessToken;
-	private String accountId;
-	private String campaignId;
-	private String creativeId;
-	private String accountGroupId;
+	private String accessToken = "<YOUR ACCESS TOKEN>";
+	private String accountId = "<YOUR ADS ACCOUNT ID>";
+	private String campaignId = "<YOUR CAMPAING ID>";
+	private String creativeId = "<YOUR CREATIVE ID>";
+	private String accountGroupId = "<YOUR ACCOUNT GROUP ID>";
+	private String pageId = "DisneyUniverse";
 
 	private FacebookAdsTemplate template;
 
 	private ObjectMapper mapper;
 
-	public FacebookAdsTemplateTest() {
+	@Before
+	public void setUp() {
+		this.template = new FacebookAdsTemplate(accessToken);
+		this.mapper = new ObjectMapper();
+		this.mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+	}
+
+	@Test
+        @Ignore
+	public void testAccountOperations() throws JsonGenerationException,
+			JsonMappingException, IOException {
+		AccountOperations accountOps = template.accountOperations();
+		printValue(accountOps.getAccount(accountId));
+		printValue(accountOps.getAccountStats(accountId));
+	}
+
+	@Test(expected = RestClientException.class)
+        @Ignore
+	public void testAccountGroupOperations() throws JsonGenerationException,
+			JsonMappingException, IOException {
+		AccountGroupOperations accountGroupOps = template
+				.accountGroupOperations();
+		printValue(accountGroupOps.getAccountGroup(accountGroupId));
+	}
+
+	@Test
+        @Ignore
+	public void testCampaignOperations() throws JsonGenerationException,
+			JsonMappingException, IOException {
+		CampaignOperations campaignOps = template.campaignOperations();
+		printValue(campaignOps.getCampaigns(accountId));
+		printValue(campaignOps.getCampaign(campaignId));
+	}
+
+	@Test
+        @Ignore
+	public void testCreativeOperations() throws JsonGenerationException,
+			JsonMappingException, IOException {
+		CreativeOperations creativeOps = template.creativeOperations();
+		printValue(creativeOps.getCreatives(accountId));
+		printValue(creativeOps.getCreative(creativeId));
+	}
+
+	@Test
+        @Ignore
+	public void testAdGroupOperations() throws JsonGenerationException,
+			JsonMappingException, IOException {
+		AdGroupOperations adGroupOperations = template.adGroupOperations();
+		printValue(adGroupOperations.getAdGroups(accountId));
+	}
+	
+	@Test
+        @Ignore
+	public void testPageOperations() throws JsonGenerationException,
+			JsonMappingException, IOException {
+		PageOperations pageOps = template.pageOperations();
+		printValue(pageOps.getPage(pageId));
+		printValue(pageOps.getAccounts());
+	}
+
+	@Test
+        @Ignore
+	public void testStatsOperations() throws JsonGenerationException,
+			JsonMappingException, IOException {
+		AccountOperations accountOps = template.accountOperations();
+		printValue(accountOps.getReachEstimate(accountId, "USD", null));
+	}
+
+	private void printValue(Object object) throws JsonGenerationException,
+			JsonMappingException, IOException {
+		StringWriter sw = new StringWriter();
+		mapper.writeValue(sw, object);
+		sw.close();
+		System.out.println("--------------------------------------------------");
+		System.out.println(object.getClass().getCanonicalName() + ":");
+		System.out.println(sw.getBuffer().toString());
+		System.out.println("--------------------------------------------------");
 	}
 
 	public String getAccessToken() {
@@ -88,47 +153,4 @@ public class FacebookAdsTemplateTest {
 		this.accountGroupId = accountGroupId;
 	}
 
-	@Before
-	public void setUp() {
-		this.template = new FacebookAdsTemplate(accessToken);
-		this.mapper = new ObjectMapper();
-		this.mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-	}
-
-	@Test
-        @Ignore
-	public void testAccountOperations() throws JsonGenerationException,
-			JsonMappingException, IOException {
-		AccountOperations accountOps = template.accountOperations();
-		mapper.writeValue(System.out, accountOps.getAccount(accountId));
-		mapper.writeValue(System.out, accountOps.getAccountStats(accountId));
-	}
-
-	@Test
-        @Ignore
-	public void testAccountGroupOperations() throws JsonGenerationException,
-			JsonMappingException, IOException {
-		AccountGroupOperations accountGroupOps = template
-				.accountGroupOperations();
-		mapper.writeValue(System.out,
-				accountGroupOps.getAccountGroup(accountGroupId));
-	}
-
-	@Test
-        @Ignore
-	public void testCampaignOperations() throws JsonGenerationException,
-			JsonMappingException, IOException {
-		CampaignOperations campaignOps = template.campaignOperations();
-		mapper.writeValue(System.out, campaignOps.getCampaigns(accountId));
-		mapper.writeValue(System.out, campaignOps.getCampaign(campaignId));
-	}
-
-	@Test
-        @Ignore
-	public void testCreativeOperations() throws JsonGenerationException,
-			JsonMappingException, IOException {
-		CreativeOperations creativeOps = template.creativeOperations();
-		mapper.writeValue(System.out, creativeOps.getCreatives(accountId));
-		mapper.writeValue(System.out, creativeOps.getCreative(creativeId));
-	}
 }

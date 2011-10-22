@@ -17,12 +17,33 @@ package org.springframework.social.facebook.api.ads.impl.json;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * @author Karthick Sankarachary
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class AdAccountGroupMixin {
+abstract class EstimationMixin {
 
 	@JsonCreator
-	AdAccountGroupMixin() {
+	EstimationMixin() {
 	}
 
+	@JsonProperty("cpc_min")
+	int cpcMin;
+
+	@JsonProperty("cpc_median")
+	int cpcMedian;
+
+	@JsonProperty("cpc_max")
+	int cpcMax;
+
+	@JsonProperty("cpm_min")
+	int cpmMin;
+
+	@JsonProperty("cpm_median")
+	int cpmMedian;
+
+	@JsonProperty("cpm_max")
+	int cpmMax;
 }

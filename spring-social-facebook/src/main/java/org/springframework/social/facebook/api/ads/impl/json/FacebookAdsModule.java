@@ -22,6 +22,8 @@ import org.springframework.social.facebook.api.ads.AdAccountGroup;
 import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCreative;
 import org.springframework.social.facebook.api.ads.AdGroup;
+import org.springframework.social.facebook.api.ads.Estimation;
+import org.springframework.social.facebook.api.ads.ReachEstimate;
 import org.springframework.social.facebook.api.ads.Stats;
 import org.springframework.social.facebook.api.ads.Targeting;
 import org.springframework.social.facebook.api.ads.User;
@@ -47,5 +49,9 @@ public class FacebookAdsModule extends SimpleModule {
 		context.setMixInAnnotations(Stats.class, StatsMixin.class);
 		context.setMixInAnnotations(User.class, UserMixin.class);
 		context.setMixInAnnotations(Targeting.class, TargetingMixin.class);
+
+		context.setMixInAnnotations(ReachEstimate.class,
+				ReachEstimateMixin.class);
+		context.setMixInAnnotations(Estimation.class, EstimationMixin.class);
 	}
 }

@@ -34,6 +34,6 @@ public interface AccountOperations extends ConnectionOperations {
 	public <T> List<Stats> getAccountConnectionStats(String accountId,
 			Class<T> connectionType);
 
-	public long getReachEstimate(String accountId, String currency,
+	public ReachEstimate getReachEstimate(String accountId, String currency,
 			Targeting targetingSpec);
 }

@@ -15,12 +15,18 @@
  */
 package org.springframework.social.facebook.api.ads.impl;
 
+import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ads.AccountOperations;
 import org.springframework.social.facebook.api.ads.AdAccount;
+import org.springframework.social.facebook.api.ads.ReachEstimate;
 import org.springframework.social.facebook.api.ads.Stats;
 import org.springframework.social.facebook.api.ads.Targeting;
 import org.springframework.social.facebook.api.ads.User;
@@ -42,12 +48,12 @@ class AccountTemplate extends AbstractAdsOperations implements
 		super(graphApi, isAuthorizedForUser);
 		this.restTemplate = restTemplate;
 	}
-	
+
 	@Override
 	public String[] getConnectionTypes() {
-		return new String[] { "adcampaign", "adcreative", "adgroup", "adimages"};
+		return new String[] { "adcampaign", "adcreative", "adgroup", "adimages" };
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<AdAccount> getAccounts(String userId) {
 		requireAuthorization();
@@ -79,15 +85,37 @@ class AccountTemplate extends AbstractAdsOperations implements
 				getConnectionType(connectionType), Stats.class);
 	}
 
-	public long getReachEstimate(String accountId, String currency,
+	public ReachEstimate getReachEstimate(String accountId, String currency,
 			Targeting targetingSpec) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("currency", currency);
-		parameters.set("targeting_spec", targetingSpec.toString());
-		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + accountId)
+		if (targetingSpec != null) {
+			parameters.set("targeting_spec", targetingSpec.toString());
+		}
+		if (targetingSpec == null) {
+			targetingSpec = new Targeting();
+			targetingSpec.setCountries(Arrays.asList("US"));
+		}
+		parameters.set("countries", "US");
+		ObjectMapper mapper = new ObjectMapper();
+		String targeting = null;
+		try {
+			targeting = mapper.writeValueAsString(targetingSpec);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		parameters.set("targeting_spec", targeting);
+		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + getAccountId(accountId) + "/reachestimate")
 				.queryParams(parameters).build();
-		return restTemplate.getForObject(uri, Long.class);
+		return restTemplate.getForObject(uri, ReachEstimate.class);
 	}
 
 }

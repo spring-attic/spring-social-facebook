@@ -15,12 +15,15 @@
  */
 package org.springframework.social.facebook.api.ads.impl.json;
 
+import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.deser.std.DateDeserializer;
+import org.springframework.social.facebook.api.ads.BidInfo;
 import org.springframework.social.facebook.api.ads.BidType;
 
 /**
@@ -53,16 +56,19 @@ abstract class AdGroupMixin {
 	long adGroupid;
 	
 	@JsonProperty("end_time")
-	int endTime;
+	@JsonDeserialize(using=DateDeserializer.class)
+	Date endTime;
 	
 	@JsonProperty("start_time")
-	int startTime;
+	@JsonDeserialize(using=DateDeserializer.class)
+	Date startTime;
 	
 	@JsonProperty("updated_time")
-	int updatedTime;
+	@JsonDeserialize(using=DateDeserializer.class)
+	Date updatedTime;
 	
 	@JsonProperty("bid_info")
-	List<String> bidInfo;
+	BidInfo bidInfo;
 	
 	@JsonProperty("disapprove_reason_descriptions")
 	List<String> disapproveReasonDescriptions;
