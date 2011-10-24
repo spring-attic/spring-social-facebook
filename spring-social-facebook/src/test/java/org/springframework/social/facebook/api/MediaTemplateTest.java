@@ -89,6 +89,16 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertSingleAlbum(album);
 	}
 
+	@Test
+	public void getAlbumWithUnknownPrivacy() {
+		mockServer.expect(requestTo("https://graph.facebook.com/10151447271460580"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/album-with-unknown-privacy"), responseHeaders));
+		Album album = facebook.mediaOperations().getAlbum("10151447271460580");
+		assertSingleAlbum(album);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getAlbum_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getAlbum("192837465");

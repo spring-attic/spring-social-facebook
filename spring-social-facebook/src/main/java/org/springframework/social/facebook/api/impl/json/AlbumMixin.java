@@ -69,7 +69,11 @@ abstract class AlbumMixin {
 		@Override
 		public Privacy deserialize(JsonParser jp, DeserializationContext ctxt)
 				throws IOException, JsonProcessingException {
-			return Privacy.valueOf(jp.getText().replace("-", "_").toUpperCase());
+			try {
+				return Privacy.valueOf(jp.getText().replace("-", "_").toUpperCase());
+			} catch (IllegalArgumentException e) {
+				return Privacy.CUSTOM;
+			}
 		}
 	}
 }
