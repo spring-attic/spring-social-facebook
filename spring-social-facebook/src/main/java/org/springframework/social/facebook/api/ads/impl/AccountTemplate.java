@@ -15,13 +15,10 @@
  */
 package org.springframework.social.facebook.api.ads.impl;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ads.AccountOperations;
@@ -85,6 +82,12 @@ class AccountTemplate extends AbstractAdsOperations implements
 				getConnectionType(connectionType), Stats.class);
 	}
 
+	@Override
+	public <T> List<T> getConnectionObjects(String accountId,
+			Class<T> objectType) {
+		return super.getConnectionObjects(getAccountId(accountId), objectType);
+	}
+
 	public ReachEstimate getReachEstimate(String accountId, String currency,
 			Targeting targetingSpec) {
 		requireAuthorization();
@@ -99,22 +102,18 @@ class AccountTemplate extends AbstractAdsOperations implements
 		}
 		parameters.set("countries", "US");
 		ObjectMapper mapper = new ObjectMapper();
-		String targeting = null;
 		try {
-			targeting = mapper.writeValueAsString(targetingSpec);
-		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
+			parameters.set("targeting_spec",
+					mapper.writeValueAsString(targetingSpec));
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
 		}
-		parameters.set("targeting_spec", targeting);
-		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + getAccountId(accountId) + "/reachestimate")
-				.queryParams(parameters).build();
+		URI uri = URIBuilder
+				.fromUri(
+						GraphApi.GRAPH_API_URL + getAccountId(accountId)
+								+ "/reachestimate").queryParams(parameters)
+				.build();
 		return restTemplate.getForObject(uri, ReachEstimate.class);
 	}
 

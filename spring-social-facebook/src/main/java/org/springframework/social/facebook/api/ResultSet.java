@@ -13,15 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.ads;
+package org.springframework.social.facebook.api;
+
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.springframework.social.facebook.api.ResultSet;
 
 /**
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AdCampaignList extends ResultSet<AdCampaign> {
+public class ResultSet<T> {
+	private List<T> data;
+	private int count;
+	private int limit;
+	private int offset;
+
+	public List<T> getData() {
+		return data;
+	}
+
+	public void setData(List<T> data) {
+		this.data = data;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
 
 }

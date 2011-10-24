@@ -55,5 +55,11 @@ abstract class AdCreativeMixin {
 
 	@JsonProperty("related_fan_page")
 	String relatedFanPage;
+	
+	@JsonProperty("auto_update")
+	boolean autoUpdate;
+	
+	@JsonProperty("story_id")
+	String storyId;
 
 }

@@ -26,6 +26,8 @@ public interface AdGroupOperations {
 
 	public AdGroup getAdGroup(String adGroupId);
 
+	public List<AdGroup> getAdGroups(List<String> adGroupIds);
+
 	public List<AdGroup> getCampaignAdGroups(String campaignId);
 
 	public Id createAdGroup(String accountId, AdGroup adGroup);
@@ -41,4 +43,6 @@ public interface AdGroupOperations {
 
 	public List<Stats> getAdGroupsStats(String accountId, long startTime,
 			long endTime);
+
+	public Stats getAdGroupKeywordStats(String adGroupId);
 }

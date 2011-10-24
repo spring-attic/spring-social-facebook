@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.ads;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.springframework.social.facebook.api.ResultSet;
+package org.springframework.social.facebook.api;
 
 /**
+ * 
  * @author Karthick Sankarachary
+ *
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class AdCampaignList extends ResultSet<AdCampaign> {
+public class DescriptiveId {
+	private String name;
+	private String description;
+	private long id;
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 }

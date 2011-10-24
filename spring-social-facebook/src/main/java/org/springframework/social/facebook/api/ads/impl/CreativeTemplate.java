@@ -83,5 +83,4 @@ class CreativeTemplate extends AbstractAdsOperations implements
 		data.set("related_fan_page", creative.getRelatedFanPage());
 		return data;
 	}
-
 }

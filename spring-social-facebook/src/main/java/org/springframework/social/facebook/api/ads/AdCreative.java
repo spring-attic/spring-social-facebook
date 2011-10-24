@@ -32,6 +32,8 @@ public class AdCreative {
 	private String linkUrl;
 	private String previewUrl;
 	private String relatedFanPage;
+	private boolean autoUpdate;
+	private String storyId;
 
 	public String getName() {
 		return name;
@@ -135,6 +137,22 @@ public class AdCreative {
 
 	public void setRelatedFanPage(String relatedFanPage) {
 		this.relatedFanPage = relatedFanPage;
+	}
+
+	public boolean isAutoUpdate() {
+		return autoUpdate;
+	}
+
+	public void setAutoUpdate(boolean autoUpdate) {
+		this.autoUpdate = autoUpdate;
+	}
+
+	public String getStoryId() {
+		return storyId;
+	}
+
+	public void setStoryId(String storyId) {
+		this.storyId = storyId;
 	}
 
 }

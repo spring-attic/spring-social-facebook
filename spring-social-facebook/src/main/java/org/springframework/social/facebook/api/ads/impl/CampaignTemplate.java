@@ -18,11 +18,11 @@ package org.springframework.social.facebook.api.ads.impl;
 import java.util.List;
 
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.ResultSet;
 import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCampaignList;
 import org.springframework.social.facebook.api.ads.CampaignOperations;
 import org.springframework.social.facebook.api.ads.Id;
-import org.springframework.social.facebook.api.ads.ResultSet;
 import org.springframework.social.facebook.api.ads.Stats;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;

@@ -16,6 +16,7 @@
 package org.springframework.social.facebook.api.ads;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Karthick Sankarachary

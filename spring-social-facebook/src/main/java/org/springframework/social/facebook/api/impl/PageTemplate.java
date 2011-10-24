@@ -26,6 +26,8 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.PageAdministrationException;
 import org.springframework.social.facebook.api.PageOperations;
+import org.springframework.social.facebook.api.Post;
+import org.springframework.social.facebook.api.ResultSet;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -52,6 +54,12 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 		return graphApi.fetchConnections("me", "accounts", Account.class);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Post> getPosts(String pageId) {
+		ResultSet<Post> resultSet = graphApi.fetchObject(pageId + "/posts", ResultSet.class);
+		return resultSet != null ? resultSet.getData() : null;
+	}
+	
 	public String post(String pageId, String message) {
 		requireAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);

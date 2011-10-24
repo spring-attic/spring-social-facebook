@@ -41,6 +41,7 @@ import org.springframework.social.facebook.api.LikeOperations;
 import org.springframework.social.facebook.api.MediaOperations;
 import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PlacesOperations;
+import org.springframework.social.facebook.api.SearchOperations;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.social.facebook.api.impl.json.FacebookModule;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
@@ -83,6 +84,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	private MediaOperations mediaOperations;
 	
 	private PageOperations pageOperations;
+	
+	private SearchOperations searchOperations;
 
 	protected ObjectMapper objectMapper;
 
@@ -152,6 +155,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	public PageOperations pageOperations() {
 		return pageOperations;
+	}
+	
+	public SearchOperations searchOperations() {
+		return searchOperations;
 	}
 	
 	// low-level Graph API operations
@@ -279,6 +286,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorized());
 		groupOperations = new GroupTemplate(this, isAuthorized());
 		pageOperations = new PageTemplate(this, isAuthorized());
+		searchOperations = new SearchTemplate(this, isAuthorized());
 	}
 	
 	@SuppressWarnings("unchecked")

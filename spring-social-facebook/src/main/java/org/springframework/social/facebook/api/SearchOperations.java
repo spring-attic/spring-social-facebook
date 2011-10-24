@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.ads;
+package org.springframework.social.facebook.api;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.springframework.social.facebook.api.ResultSet;
+import java.util.List;
+
+import org.springframework.util.MultiValueMap;
 
 /**
+ * 
  * @author Karthick Sankarachary
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class AdCampaignList extends ResultSet<AdCampaign> {
+public interface SearchOperations {
+	public <T> List<T> search(String type, String query, Class<T> resultType);
 
+	public <T> List<T> search(String type, String query,
+			MultiValueMap<String, String> vars, Class<T> resultType);
 }
