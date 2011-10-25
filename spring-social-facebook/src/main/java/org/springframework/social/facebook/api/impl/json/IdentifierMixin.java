@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.ads;
+package org.springframework.social.facebook.api.impl.json;
 
-import java.util.List;
-
-import org.springframework.social.facebook.api.Identifier;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
+ * Annotated mixin to add Jackson annotations to Identifier.
+ * 
  * @author Karthick Sankarachary
  */
-public interface CreativeOperations {
-	public List<AdCreative> getCreatives(String accountId);
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class IdentifierMixin {
 
-	public AdCreative getCreative(String creativeId);
-
-	public Identifier createCreative(String accountId, AdCreative creative);
-
-	public boolean updateCreative(String creativeId, AdCreative creative);
-
-	public boolean deleteCreative(String creativeId);
-	
-	public String getStory(String storyId);
+	@JsonCreator
+	IdentifierMixin(@JsonProperty("id") String id) {
+	}
 }

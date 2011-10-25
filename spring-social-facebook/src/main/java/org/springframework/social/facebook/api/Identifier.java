@@ -13,47 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.social.facebook.api;
 
 /**
- * A simple reference to another Facebook object without the complete set of object data.
- * @author Craig Walls
+ * 
+ * @author Karthick Sankarachary
+ * 
  */
-public class Reference {
-
-	private final String id;
-
-	private final String name;
+public class Identifier {
+	private String name;
+	private String description;
+	private String id;
 	
-	private String category;
-	
-	public Reference() {
-		this(null);
+	public Identifier() {
 	}
 
-	public Reference(String id) {
-		this(id, null);
-	}
-
-	public Reference(String id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-
-	public String getId() {
-		return id;
+	public Identifier(String id) {
+		setId(id);
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public String getCategory() {
-		return category;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public String getDescription() {
+		return description;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

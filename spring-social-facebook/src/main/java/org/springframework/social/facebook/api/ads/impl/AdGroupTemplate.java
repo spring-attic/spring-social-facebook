@@ -18,10 +18,10 @@ package org.springframework.social.facebook.api.ads.impl;
 import java.util.List;
 
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.Identifier;
 import org.springframework.social.facebook.api.ResultSet;
 import org.springframework.social.facebook.api.ads.AdGroup;
 import org.springframework.social.facebook.api.ads.AdGroupOperations;
-import org.springframework.social.facebook.api.ads.Id;
 import org.springframework.social.facebook.api.ads.Stats;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -66,11 +66,11 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 		return getConnections(getPath(campaignId, "adgroups"), AdGroup.class);
 	}
 
-	public Id createAdGroup(String accountId, AdGroup adGroup) {
+	public Identifier createAdGroup(String accountId, AdGroup adGroup) {
 		requireAuthorization();
 		String id = graphApi.publish(getAccountId(accountId), "adgroups",
 				getAdGroupData(adGroup));
-		return new Id(id);
+		return new Identifier(id);
 	}
 
 	public boolean updateAdGroup(String adGroupId, AdGroup adGroup) {

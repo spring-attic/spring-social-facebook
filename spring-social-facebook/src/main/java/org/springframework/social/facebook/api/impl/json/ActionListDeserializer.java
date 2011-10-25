@@ -13,21 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.impl.json;
 
-import java.util.List;
+import org.springframework.social.facebook.api.Action;
 
-import org.springframework.util.MultiValueMap;
-
-/**
- * 
- * @author Karthick Sankarachary
- */
-public interface SearchOperations {
-	public <T> List<T> search(String type, String query,
-			Class<T> itemType);
-
-	public <T> List<T> search(String type, String query,
-			MultiValueMap<String, String> vars, 
-			Class<T> itemType);
+class ActionListDeserializer extends GenericListDeserializer<Action> {
 }

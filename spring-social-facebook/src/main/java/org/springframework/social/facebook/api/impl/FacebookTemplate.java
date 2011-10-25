@@ -285,8 +285,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		eventOperations = new EventTemplate(this, isAuthorized());
 		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorized());
 		groupOperations = new GroupTemplate(this, isAuthorized());
-		pageOperations = new PageTemplate(this, isAuthorized());
-		searchOperations = new SearchTemplate(this, isAuthorized());
+		pageOperations = new PageTemplate(this, objectMapper, isAuthorized());
+		searchOperations = new SearchTemplate(this, objectMapper, isAuthorized());
 	}
 	
 	@SuppressWarnings("unchecked")

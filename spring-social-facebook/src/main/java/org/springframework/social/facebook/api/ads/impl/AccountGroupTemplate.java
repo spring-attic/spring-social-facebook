@@ -16,9 +16,9 @@
 package org.springframework.social.facebook.api.ads.impl;
 
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.Identifier;
 import org.springframework.social.facebook.api.ads.AccountGroupOperations;
 import org.springframework.social.facebook.api.ads.AdAccountGroup;
-import org.springframework.social.facebook.api.ads.Id;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -42,11 +42,11 @@ class AccountGroupTemplate extends AbstractAdsOperations implements
 		return graphApi.fetchObject(accountGroupId, AdAccountGroup.class);
 	}
 
-	public Id createAccountGroup(AdAccountGroup accountGroup) {
+	public Identifier createAccountGroup(AdAccountGroup accountGroup) {
 		requireAuthorization();
 		String id = graphApi.publish("me", "adaccountgroups",
 				getAccountGroupData(accountGroup));
-		return new Id(id);
+		return new Identifier(id);
 	}
 
 	public boolean updateAccountGroup(String accountGroupId,

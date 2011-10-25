@@ -33,6 +33,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.springframework.social.facebook.api.Action;
 import org.springframework.social.facebook.api.CheckinPost;
 import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.LinkPost;
@@ -51,7 +52,7 @@ import org.springframework.social.facebook.api.VideoPost;
  * Also defines Post subtypes to deserialize into based on the "type" attribute. 
  * @author Craig Walls
  */
-@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="postType")
+@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="type")
 @JsonSubTypes({
 				@Type(name="checkin", value=CheckinPost.class),
 				@Type(name="link", value=LinkPost.class),
@@ -105,7 +106,7 @@ abstract class PostMixin {
 	Reference application;
 	
 	@JsonProperty("type")
-	@JsonDeserialize(using = TypeDeserializer.class)
+	@JsonDeserialize(using = PostTypeDeserializer.class)
 	PostType type;
 
 	@JsonProperty("likes")
@@ -115,8 +116,12 @@ abstract class PostMixin {
 	@JsonProperty("comments")
 	@JsonDeserialize(using = CommentListDeserializer.class)
 	List<Comment> comments;
+	
+	@JsonProperty("actions")
+	@JsonDeserialize(using = ActionListDeserializer.class)
+	List<Action> actions;
 
-	private static class TypeDeserializer extends JsonDeserializer<PostType> {
+	private class PostTypeDeserializer extends JsonDeserializer<PostType> {
 		@Override
 		public PostType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			return PostType.valueOf(jp.getText().toUpperCase());

@@ -16,9 +16,10 @@
 package org.springframework.social.facebook.api.impl;
 
 import java.util.List;
+import java.util.Map;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.social.facebook.api.GraphApi;
-import org.springframework.social.facebook.api.ResultSet;
 import org.springframework.social.facebook.api.SearchOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -30,27 +31,30 @@ import org.springframework.util.MultiValueMap;
 public class SearchTemplate extends AbstractFacebookOperations implements
 		SearchOperations {
 	private final GraphApi graphApi;
+	private ListDeserializer listDeserializer;
 
-	public SearchTemplate(GraphApi graphApi, boolean isAuthorized) {
+	public SearchTemplate(GraphApi graphApi, ObjectMapper objectMapper, boolean isAuthorized) {
 		super(isAuthorized);
 		this.graphApi = graphApi;
+		this.listDeserializer = new ListDeserializer(objectMapper);
 	}
 
-	public <T> List<T> search(String type, String query, Class<T> resultType) {
-		return search(type, query, null, resultType);
+	public <T> List<T> search(String type, String query, Class<T> itemType) {
+		return search(type, query, null, itemType);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T> List<T> search(String type, String query,
-			MultiValueMap<String, String> vars, Class<T> resultType) {
+			MultiValueMap<String, String> vars, Class<T> itemType) {
 		if (vars == null) {
 			vars = new LinkedMultiValueMap<String, String>();
 		}
 		vars.set("type", type);
-		vars.set("q", query);
-		ResultSet<T> resultSet = graphApi.fetchObject("search",
-				ResultSet.class, vars);
-		return resultSet.getData();
+		if (query != null) {
+			vars.set("q", query);
+		}
+		Map<String, ?> map = graphApi.fetchObject("search", Map.class, vars);
+		return listDeserializer.deserializeList(map, itemType);
 	}
 
 }

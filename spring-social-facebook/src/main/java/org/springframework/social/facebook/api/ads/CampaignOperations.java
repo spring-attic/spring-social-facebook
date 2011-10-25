@@ -18,6 +18,7 @@ package org.springframework.social.facebook.api.ads;
 import java.util.List;
 
 import org.springframework.social.facebook.api.ConnectionOperations;
+import org.springframework.social.facebook.api.Identifier;
 import org.springframework.util.MultiValueMap;
 
 /**
@@ -40,7 +41,7 @@ public interface CampaignOperations extends ConnectionOperations {
 	public Stats getCampaignStats(String campaignId, long startTime,
 			long endTime);
 
-	public Id createCampaign(String accountId, AdCampaign campaign);
+	public Identifier createCampaign(String accountId, AdCampaign campaign);
 
 	public boolean updateCampaign(String campaignId, AdCampaign campaign);
 

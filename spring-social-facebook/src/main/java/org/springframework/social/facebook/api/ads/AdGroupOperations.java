@@ -17,6 +17,8 @@ package org.springframework.social.facebook.api.ads;
 
 import java.util.List;
 
+import org.springframework.social.facebook.api.Identifier;
+
 /**
  * @author Karthick Sankarachary
  */
@@ -30,7 +32,7 @@ public interface AdGroupOperations {
 
 	public List<AdGroup> getCampaignAdGroups(String campaignId);
 
-	public Id createAdGroup(String accountId, AdGroup adGroup);
+	public Identifier createAdGroup(String accountId, AdGroup adGroup);
 
 	public boolean updateAdGroup(String adGroupId, AdGroup adGroup);
 

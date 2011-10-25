@@ -15,20 +15,41 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import java.util.List;
+
 import org.springframework.social.MissingAuthorizationException;
 
 public class AbstractFacebookOperations {
-	
+
 	private final boolean isAuthorized;
 
 	public AbstractFacebookOperations(boolean isAuthorized) {
 		this.isAuthorized = isAuthorized;
 	}
-	
+
 	protected void requireAuthorization() {
 		if (!isAuthorized) {
 			throw new MissingAuthorizationException();
 		}
 	}
-	
+
+	public String join(List<?> objects) {
+		return join(objects, ",");
+
+	}
+
+	public String join(List<?> objects, String separator) {
+		StringBuffer result = new StringBuffer();
+		for (Object object : objects) {
+			if (object == null) {
+				continue;
+			}
+			if (result.length() > 0) {
+				result.append(separator);
+			}
+			result.append(object.toString());
+		}
+		return result.toString();
+
+	}
 }

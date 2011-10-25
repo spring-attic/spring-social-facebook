@@ -57,6 +57,12 @@ public class Post {
 	private int likeCount;
 
 	private List<Comment> comments;
+	
+	private List<Action> actions;
+	
+	public Post() {
+		this(null, null, null, null);
+	}
 
 	public Post(String id, Reference from, Date createdTime, Date updatedTime) {
 		this.id = id;
@@ -127,6 +133,14 @@ public class Post {
 
 	public List<Comment> getComments() {
 		return comments;
+	}
+
+	public List<Action> getActions() {
+		return actions;
+	}
+
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
 	}
 
 	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }

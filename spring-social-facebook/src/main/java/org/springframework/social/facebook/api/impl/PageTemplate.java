@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.core.io.Resource;
 import org.springframework.social.facebook.api.Account;
 import org.springframework.social.facebook.api.FacebookLink;
@@ -27,17 +28,18 @@ import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.PageAdministrationException;
 import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.Post;
-import org.springframework.social.facebook.api.ResultSet;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 class PageTemplate extends AbstractFacebookOperations implements PageOperations {
 
 	private final GraphApi graphApi;
+	private final ListDeserializer listDeserializer;
 
-	public PageTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
+	public PageTemplate(GraphApi graphApi, ObjectMapper objectMapper, boolean isAuthorizedForUser) {
 		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
+		this.listDeserializer = new ListDeserializer(objectMapper);
 	}
 
 	public Page getPage(String pageId) {
@@ -56,8 +58,15 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 
 	@SuppressWarnings("unchecked")
 	public List<Post> getPosts(String pageId) {
-		ResultSet<Post> resultSet = graphApi.fetchObject(pageId + "/posts", ResultSet.class);
-		return resultSet != null ? resultSet.getData() : null;
+		requireAuthorization();
+		System.out.println( graphApi.fetchObject(pageId + "/posts", String.class));
+		Map<String, ?> map = graphApi.fetchObject(pageId + "/posts", Map.class);
+		return listDeserializer.deserializeList(map, Post.class);
+	}
+	
+	public Post getPost(String postId) {
+		requireAuthorization();
+		return graphApi.fetchObject(postId , Post.class);
 	}
 	
 	public String post(String pageId, String message) {

@@ -18,11 +18,11 @@ package org.springframework.social.facebook.api.ads.impl;
 import java.util.List;
 
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.Identifier;
 import org.springframework.social.facebook.api.ResultSet;
 import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCampaignList;
 import org.springframework.social.facebook.api.ads.CampaignOperations;
-import org.springframework.social.facebook.api.ads.Id;
 import org.springframework.social.facebook.api.ads.Stats;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -104,7 +104,7 @@ class CampaignTemplate extends AbstractAdsOperations implements
 		return graphApi.fetchObject(getPath(campaignId, "stats"), Stats.class);
 	}
 
-	public Id createCampaign(String accountId, AdCampaign campaign) {
+	public Identifier createCampaign(String accountId, AdCampaign campaign) {
 		requireAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("name", campaign.getName());
@@ -115,7 +115,7 @@ class CampaignTemplate extends AbstractAdsOperations implements
 		data.set("lifetime_budget", campaign.getLifetimeBudget());
 		String id = graphApi.publish(getAccountId(accountId), "adcampaigns",
 				data);
-		return new Id(id);
+		return new Identifier(id);
 	}
 
 	public boolean updateCampaign(String campaignId, AdCampaign campaign) {

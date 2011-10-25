@@ -16,6 +16,7 @@
 package org.springframework.social.facebook.api.ads;
 
 import org.springframework.social.facebook.api.ConnectionOperations;
+import org.springframework.social.facebook.api.Identifier;
 
 /**
  * @author Karthick Sankarachary
@@ -23,7 +24,7 @@ import org.springframework.social.facebook.api.ConnectionOperations;
 public interface AccountGroupOperations extends ConnectionOperations {
 	public AdAccountGroup getAccountGroup(String accountGroupId);
 
-	public Id createAccountGroup(AdAccountGroup accountGroup);
+	public Identifier createAccountGroup(AdAccountGroup accountGroup);
 
 	public boolean updateAccountGroup(String accountGroupId,
 			AdAccountGroup accountGroup);
