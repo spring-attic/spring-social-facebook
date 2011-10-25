@@ -121,7 +121,7 @@ abstract class PostMixin {
 	@JsonDeserialize(using = ActionListDeserializer.class)
 	List<Action> actions;
 
-	private class PostTypeDeserializer extends JsonDeserializer<PostType> {
+	private static class PostTypeDeserializer extends JsonDeserializer<PostType> {
 		@Override
 		public PostType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			return PostType.valueOf(jp.getText().toUpperCase());
