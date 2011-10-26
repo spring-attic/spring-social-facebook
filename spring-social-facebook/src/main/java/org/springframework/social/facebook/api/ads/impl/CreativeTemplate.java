@@ -15,12 +15,18 @@
  */
 package org.springframework.social.facebook.api.ads.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Identifier;
 import org.springframework.social.facebook.api.ads.AdCreative;
 import org.springframework.social.facebook.api.ads.CreativeOperations;
+import org.springframework.social.facebook.api.ads.Images.Image;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -56,6 +62,21 @@ class CreativeTemplate extends AbstractAdsOperations implements
 		return new Identifier(id);
 	}
 
+	public Identifier createCreative(String accountId, AdCreative creative,
+			File imageFile, String imageContentType) {
+		requireAuthorization();
+		List<Image> images = graphApi.uploadImage(getAccountId(accountId),
+				"adimages", imageFile, imageContentType);
+		if (images != null && images.size() == 1) {
+			Image image = images.get(0);
+			creative.setImageHash(image.getHash());
+			creative.setImageUrl(image.getUrl());
+		}
+		String id = graphApi.publish(getAccountId(accountId), "adcreatives",
+				getCreativeData(creative));
+		return new Identifier(id);
+	}
+
 	public boolean updateCreative(String creativeId, AdCreative creative) {
 		requireAuthorization();
 		return graphApi.update(creativeId, getCreativeData(creative));
@@ -66,7 +87,7 @@ class CreativeTemplate extends AbstractAdsOperations implements
 		String status = graphApi.delete(creativeId);
 		return Boolean.valueOf(status);
 	}
-	
+
 	public String getStory(String storyId) {
 		requireAuthorization();
 		return graphApi.fetchObject(storyId, String.class);
@@ -76,7 +97,7 @@ class CreativeTemplate extends AbstractAdsOperations implements
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("name", creative.getName());
 		data.set("type", creative.getType());
-		data.set("object_id", creative.getObjectId());
+		data.set("object_id", String.valueOf(creative.getObjectId()));
 		data.set("body", creative.getBody());
 		data.set("image_hash", creative.getImageHash());
 		data.set("image_url", creative.getImageUrl());
@@ -86,6 +107,8 @@ class CreativeTemplate extends AbstractAdsOperations implements
 		data.set("link_url", creative.getLinkUrl());
 		data.set("preview_url", creative.getPreviewUrl());
 		data.set("related_fan_page", creative.getRelatedFanPage());
+		data.set("auto_update", String.valueOf(creative.isAutoUpdate()));
+		data.set("story_id", creative.getStoryId());
 		return data;
 	}
 }

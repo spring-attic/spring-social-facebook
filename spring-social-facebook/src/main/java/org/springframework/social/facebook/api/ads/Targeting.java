@@ -17,18 +17,37 @@ package org.springframework.social.facebook.api.ads;
 
 import java.util.List;
 
+import org.springframework.social.facebook.api.Identifier;
+
 /**
  * @author Karthick Sankarachary
  */
 public class Targeting {
+	// Location
 	private List<String> countries;
-	private List<Integer> genders;
-	private List<Integer> relationshipStatus;
+	private List<Name> cities;
+	private List<String> zips;
+	private List<String> regions;
+	private int radius;
+	private List<String> locales;
+
+	// Likes and interests
+	private List<String> keywords;
+	private List<Identifier> userAdclusters;
+	private List<Gender> interestedIn;
+
+	// Demographic and events
+	private List<Gender> genders;
 	private int ageMin;
 	private int ageMax;
-	private List<Name> cities;
-	private int radius;
-	private List<String> keywords;
+	private int broadAge;
+	private List<RelationshipStatus> relationshipStatus;
+	private List<UserEvent> userEvent;
+
+	// Connections
+	private List<Long> connections;
+	private List<Long> excludedConnections;
+	private List<Long> friendsOfConnections;
 
 	public List<String> getCountries() {
 		return countries;
@@ -38,20 +57,76 @@ public class Targeting {
 		this.countries = countries;
 	}
 
-	public List<Integer> getGenders() {
+	public List<Name> getCities() {
+		return cities;
+	}
+
+	public void setCities(List<Name> cities) {
+		this.cities = cities;
+	}
+
+	public List<String> getZips() {
+		return zips;
+	}
+
+	public void setZips(List<String> zips) {
+		this.zips = zips;
+	}
+
+	public List<String> getRegions() {
+		return regions;
+	}
+
+	public void setRegions(List<String> regions) {
+		this.regions = regions;
+	}
+
+	public int getRadius() {
+		return radius;
+	}
+
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
+
+	public List<String> getLocales() {
+		return locales;
+	}
+
+	public void setLocales(List<String> locales) {
+		this.locales = locales;
+	}
+
+	public List<String> getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(List<String> keywords) {
+		this.keywords = keywords;
+	}
+
+	public List<Identifier> getUserAdclusters() {
+		return userAdclusters;
+	}
+
+	public void setUserAdclusters(List<Identifier> userAdclusters) {
+		this.userAdclusters = userAdclusters;
+	}
+
+	public List<Gender> getInterestedIn() {
+		return interestedIn;
+	}
+
+	public void setInterestedIn(List<Gender> interestedIn) {
+		this.interestedIn = interestedIn;
+	}
+
+	public List<Gender> getGenders() {
 		return genders;
 	}
 
-	public void setGenders(List<Integer> genders) {
+	public void setGenders(List<Gender> genders) {
 		this.genders = genders;
-	}
-
-	public List<Integer> getRelationshipStatus() {
-		return relationshipStatus;
-	}
-
-	public void setRelationshipStatus(List<Integer> relationshipStatus) {
-		this.relationshipStatus = relationshipStatus;
 	}
 
 	public int getAgeMin() {
@@ -70,28 +145,53 @@ public class Targeting {
 		this.ageMax = ageMax;
 	}
 
-	public List<Name> getCities() {
-		return cities;
+	public int getBroadAge() {
+		return broadAge;
 	}
 
-	public void setCities(List<Name> cities) {
-		this.cities = cities;
+	public void setBroadAge(int broadAge) {
+		this.broadAge = broadAge;
 	}
 
-	public int getRadius() {
-		return radius;
+	public List<RelationshipStatus> getRelationshipStatus() {
+		return relationshipStatus;
 	}
 
-	public void setRadius(int radius) {
-		this.radius = radius;
+	public void setRelationshipStatus(
+			List<RelationshipStatus> relationshipStatus) {
+		this.relationshipStatus = relationshipStatus;
 	}
 
-	public List<String> getKeywords() {
-		return keywords;
+	public List<UserEvent> getUserEvent() {
+		return userEvent;
 	}
 
-	public void setKeywords(List<String> keywords) {
-		this.keywords = keywords;
+	public void setUserEvent(List<UserEvent> userEvent) {
+		this.userEvent = userEvent;
+	}
+
+	public List<Long> getConnections() {
+		return connections;
+	}
+
+	public void setConnections(List<Long> connections) {
+		this.connections = connections;
+	}
+
+	public List<Long> getExcludedConnections() {
+		return excludedConnections;
+	}
+
+	public void setExcludedConnections(List<Long> excludedConnections) {
+		this.excludedConnections = excludedConnections;
+	}
+
+	public List<Long> getFriendsOfConnections() {
+		return friendsOfConnections;
+	}
+
+	public void setFriendsOfConnections(List<Long> friendsOfConnections) {
+		this.friendsOfConnections = friendsOfConnections;
 	}
 
 }

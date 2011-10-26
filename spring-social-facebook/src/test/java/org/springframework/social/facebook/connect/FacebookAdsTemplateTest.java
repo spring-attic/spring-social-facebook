@@ -1,5 +1,6 @@
 package org.springframework.social.facebook.connect;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
@@ -32,12 +33,11 @@ import org.springframework.web.client.RestClientException;
 /**
  * @author Karthick Sankarachary
  */
+@Ignore
 public class FacebookAdsTemplateTest {
-        private String accessToken = "<YOUR ACCESS TOKEN>";
-        private String accountId = "<YOUR ACCOUNT ID>";
-        private String campaignId = "<YOUR CAMPAIGN ID>";
-        private String creativeId = "<YOUR CREATIVE ID>";
-        private String accountGroupId = "<YOUR ACCOUNT GROUP ID>";
+	private String accessToken = "<YOUR ACCESS TOKEN>";
+	private String accountId = "<YOUR ACCOUNT ID>";
+	private String accountGroupId = "<YOUR ACCOUNT GROUP ID>";
 	private String pageId = "cnn";
 
 	private FacebookAdsTemplate template;
@@ -83,7 +83,7 @@ public class FacebookAdsTemplateTest {
 			JsonMappingException, IOException {
 		AccountGroupOperations accountGroupOps = template
 				.accountGroupOperations();
-		 assertPrintable(accountGroupOps.getAccountGroup(accountGroupId));
+		assertPrintable(accountGroupOps.getAccountGroup(accountGroupId));
 	}
 
 	@Test
@@ -100,7 +100,10 @@ public class FacebookAdsTemplateTest {
 			campaign = campaignOps
 					.getCampaign(String.valueOf(campaign.getId()));
 			assertPrintable(campaign);
+
+			//campaignOps.createCampaign(accountId, campaign);
 		}
+
 	}
 
 	@Test
@@ -117,6 +120,11 @@ public class FacebookAdsTemplateTest {
 			creative = creativeOps.getCreative(String.valueOf(creative
 					.getCreativeId()));
 			assertPrintable(creative);
+			
+			// assertPrintable(creativeOps.createCreative(accountId, creative, new File("/Users/karthick/image.zip"), "application/x-zip-compressed"));
+			// Identifier creativeId = creativeOps.createCreative(accountId, creative);
+			// assertPrintable(creativeId);
+			// assertPrintable(creativeOps.deleteCreative(creativeId.getId()));
 		}
 	}
 
@@ -134,6 +142,7 @@ public class FacebookAdsTemplateTest {
 			adGroup = adGroupOperations.getAdGroup(String.valueOf(adGroup
 					.getAdId()));
 			assertPrintable(adGroup);
+			assertPrintable(adGroup.getTargeting());
 		}
 	}
 
@@ -210,7 +219,7 @@ public class FacebookAdsTemplateTest {
 		Assert.assertTrue("The collection " + collection + " is not a list",
 				collection instanceof List);
 		Assert.assertTrue("The list is empty", collection.size() > 0);
-		T element = (T) ((List<T>) collection).get(0);
+		T element = ((List<T>) collection).get(0);
 		Assert.assertTrue("The element type is not an instance of "
 				+ elementType, elementType.isAssignableFrom(element.getClass()));
 	}

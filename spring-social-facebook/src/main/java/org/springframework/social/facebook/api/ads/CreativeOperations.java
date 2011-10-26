@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api.ads;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.social.facebook.api.Identifier;
@@ -29,9 +30,12 @@ public interface CreativeOperations {
 
 	public Identifier createCreative(String accountId, AdCreative creative);
 
+	public Identifier createCreative(String accountId, AdCreative creative,
+			File imageFile, String imageContentType);
+
 	public boolean updateCreative(String creativeId, AdCreative creative);
 
 	public boolean deleteCreative(String creativeId);
-	
+
 	public String getStory(String storyId);
 }

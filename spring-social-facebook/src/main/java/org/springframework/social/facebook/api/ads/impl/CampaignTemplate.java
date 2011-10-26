@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api.ads.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.social.facebook.api.GraphApi;
@@ -48,14 +49,15 @@ class CampaignTemplate extends AbstractAdsOperations implements
 		return resultSet.getData();
 	}
 
-	public List<AdCampaign> getCampaigns(
-			List<String> campaignIds, MultiValueMap<String, String> vars) {
+	public List<AdCampaign> getCampaigns(List<String> campaignIds,
+			MultiValueMap<String, String> vars) {
 		requireAuthorization();
 		vars.set("ids", join(campaignIds));
-		AdCampaignList resultSet = graphApi.fetchObject("", AdCampaignList.class, vars);
+		AdCampaignList resultSet = graphApi.fetchObject("",
+				AdCampaignList.class, vars);
 		return resultSet.getData();
 	}
-	
+
 	public List<AdCampaign> getCampaigns(String accountId,
 			List<String> campaignIds, MultiValueMap<String, String> vars) {
 		requireAuthorization();
@@ -73,8 +75,9 @@ class CampaignTemplate extends AbstractAdsOperations implements
 			long endTime) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("start_time", String.valueOf(startTime));
-		parameters.set("end_time", String.valueOf(endTime));
+		parameters.set("date_format", "U");
+		parameters.set("start_time", getUnixTime(startTime));
+		parameters.set("end_time", getUnixTime(endTime));
 		@SuppressWarnings("unchecked")
 		ResultSet<Stats> resultSet = graphApi.fetchObject(
 				getPath(getAccountId(accountId), "adcampaignstats"),
@@ -86,8 +89,9 @@ class CampaignTemplate extends AbstractAdsOperations implements
 			long startTime, long endTime) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("start_time", String.valueOf(startTime));
-		parameters.set("end_time", String.valueOf(endTime));
+		parameters.set("date_format", "U");
+		parameters.set("start_time", getUnixTime(startTime));
+		parameters.set("end_time", getUnixTime(endTime));
 		parameters.set("ids", join(campaignIds));
 		parameters.set("stats", "");
 		@SuppressWarnings("unchecked")
@@ -99,20 +103,24 @@ class CampaignTemplate extends AbstractAdsOperations implements
 			long endTime) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("start_time", String.valueOf(startTime));
-		parameters.set("end_time", String.valueOf(endTime));
+		parameters.set("date_format", "U");
+		parameters.set("start_time", getUnixTime(startTime));
+		parameters.set("end_time", getUnixTime(endTime));
 		return graphApi.fetchObject(getPath(campaignId, "stats"), Stats.class);
 	}
 
 	public Identifier createCampaign(String accountId, AdCampaign campaign) {
 		requireAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
+		data.set("date_format", "U");
 		data.set("name", campaign.getName());
-		data.set("start_time", campaign.getStartTime());
-		data.set("end_time", campaign.getEndTime());
-		data.set("daily_budget", campaign.getDailyBudget());
-		data.set("campaign_status", campaign.getCampaignStatus());
-		data.set("lifetime_budget", campaign.getLifetimeBudget());
+		data.set("start_time", getUnixTime(new Date()));
+		data.set("end_time", getUnixTime(campaign.getEndTime()));
+		data.set("daily_budget", String.valueOf(campaign.getDailyBudget()));
+		data.set("campaign_status",
+				String.valueOf(campaign.getCampaignStatus()));
+		data.set("lifetime_budget",
+				String.valueOf(campaign.getLifetimeBudget()));
 		String id = graphApi.publish(getAccountId(accountId), "adcampaigns",
 				data);
 		return new Identifier(id);
@@ -121,9 +129,10 @@ class CampaignTemplate extends AbstractAdsOperations implements
 	public boolean updateCampaign(String campaignId, AdCampaign campaign) {
 		requireAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
+		data.set("date_format", "U");
 		data.set("name", campaign.getName());
-		data.set("start_time", campaign.getStartTime());
-		data.set("end_time", campaign.getEndTime());
+		data.set("start_time", getUnixTime(campaign.getStartTime()));
+		data.set("end_time", getUnixTime(campaign.getEndTime()));
 		data.set("daily_budget", campaign.getDailyBudget());
 		data.set("campaign_status", campaign.getCampaignStatus());
 		data.set("lifetime_budget", campaign.getLifetimeBudget());

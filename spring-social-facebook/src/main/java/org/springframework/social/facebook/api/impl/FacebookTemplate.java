@@ -15,7 +15,10 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +46,7 @@ import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PlacesOperations;
 import org.springframework.social.facebook.api.SearchOperations;
 import org.springframework.social.facebook.api.UserOperations;
+import org.springframework.social.facebook.api.ads.Images.Image;
 import org.springframework.social.facebook.api.impl.json.FacebookModule;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.OAuth2Version;
@@ -51,6 +55,7 @@ import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>This is the central class for interacting with Facebook.</p>
@@ -198,6 +203,65 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return response.getBody();
 	}
 	
+	public List<Image> uploadImage(String objectId, String connectionType,
+			final File imageFile, final String contentType) {
+		URI uri = URIBuilder.fromUri(
+				GRAPH_API_URL + objectId + "/" + connectionType).build();
+		LinkedMultiValueMap<String, Object> uploadRequest = new LinkedMultiValueMap<String, Object>();
+		MultipartFile imageMultipartFile = new MultipartFile() {
+
+			public void transferTo(File dest) throws IOException,
+					IllegalStateException {
+				throw new IOException("Not Implemeted");
+			}
+
+			public boolean isEmpty() {
+				return getSize() == 0;
+			}
+
+			public long getSize() {
+				return imageFile.length();
+			}
+
+			public String getOriginalFilename() {
+				try {
+					return imageFile.getCanonicalPath();
+				} catch (IOException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+
+			public String getName() {
+				return imageFile.getName();
+			}
+
+			public InputStream getInputStream() throws IOException {
+				return new FileInputStream(imageFile);
+			}
+
+			public String getContentType() {
+				return contentType;
+			}
+
+			public byte[] getBytes() throws IOException {
+				byte fileContent[] = new byte[(int) getSize()];
+				getInputStream().read(fileContent);
+				return fileContent;
+			}
+		};
+
+		uploadRequest.add("file", imageMultipartFile);
+		ResponseEntity<String> string = getRestTemplate()
+		.postForEntity(uri.toString(), null, String.class,
+				uploadRequest);
+		System.out.println(string);
+		System.out.println(string.getBody());
+		ResponseEntity<List> responseEntity = getRestTemplate()
+				.postForEntity(uri.toString(), null, List.class,
+						uploadRequest);
+		return responseEntity != null ? responseEntity.getBody() : null;
+	}
 
 	public <T> String addConnection(String objectId, String connectionType,
 			Class<T> type, MultiValueMap<String, String> queryParameters, T connectionObject) {

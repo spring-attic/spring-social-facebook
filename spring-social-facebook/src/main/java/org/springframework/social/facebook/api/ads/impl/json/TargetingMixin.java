@@ -21,7 +21,11 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.springframework.social.facebook.api.Identifier;
+import org.springframework.social.facebook.api.ads.Gender;
 import org.springframework.social.facebook.api.ads.Name;
+import org.springframework.social.facebook.api.ads.RelationshipStatus;
+import org.springframework.social.facebook.api.ads.UserEvent;
 
 /**
  * @author Karthick Sankarachary
@@ -32,27 +36,39 @@ abstract class TargetingMixin {
 	@JsonCreator
 	TargetingMixin() {
 	}
-	
-	@JsonProperty("countries")
-	List<String> countries;
-	
-	@JsonProperty("genders")
-	List<Integer> genders;
-	
-	@JsonProperty("relationship_statuses")
-	List<Integer> relationshipStatuses;
-	
+
+	@JsonProperty("cities")
+	@JsonDeserialize(using = CitiesListDeserializer.class)
+	List<Name> cities;
+
+	@JsonProperty("regions")
+	@JsonDeserialize(using = RegionsListDeserializer.class)
+	List<Name> regions;
+
+	@JsonProperty("user_adclusters")
+	List<Identifier> userAdclusters;
+
+	@JsonProperty("interested_in")
+	List<Gender> interestedIn;
+
 	@JsonProperty("age_min")
 	int ageMin;
-	
+
 	@JsonProperty("age_max")
 	int ageMax;
-	
-	@JsonProperty("cities")
-	@JsonDeserialize(using=CitiesListDeserializer.class)
-	List<Name> cities;
-	
-	@JsonProperty("regions")
-	@JsonDeserialize(using=RegionsListDeserializer.class)
-	List<Name> regions;
+
+	@JsonProperty("broad_age")
+	int broadAge;
+
+	@JsonProperty("relationship_statuses")
+	List<RelationshipStatus> relationshipStatus;
+
+	@JsonProperty("user_event")
+	List<UserEvent> userEvent;
+
+	@JsonProperty("excluded_connections")
+	List<Long> excludedConnections;
+
+	@JsonProperty("friends_of_connections")
+	List<Long> friendsOfConnections;
 }

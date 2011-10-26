@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api.ads.impl;
 
+import java.util.Date;
+
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.impl.ConnectionTemplate;
 
@@ -40,5 +42,13 @@ public abstract class AbstractAdsOperations extends ConnectionTemplate {
 			path.append(subPath);
 		}
 		return path.toString();
+	}
+
+	public static String getUnixTime(long time) {
+		return getUnixTime(new Date(time));
+	}
+
+	public static String getUnixTime(Date date) {
+		return String.valueOf(date.getTime() / 1000L);
 	}
 }

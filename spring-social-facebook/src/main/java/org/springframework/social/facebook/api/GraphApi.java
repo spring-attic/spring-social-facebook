@@ -15,8 +15,11 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.io.File;
 import java.util.List;
 
+import org.springframework.social.facebook.api.ads.Images;
+import org.springframework.social.facebook.api.ads.Images.Image;
 import org.springframework.util.MultiValueMap;
 
 /**
@@ -146,6 +149,10 @@ public interface GraphApi {
 	 * @return an indicator of success
 	 */
 	String delete(String objectId, String connectionName);
+	
+	List<Image> uploadImage(String objectId, String connectionType,
+			final File imageFile, final String contentType);
+
 	
 	public static final String GRAPH_API_URL = "https://graph.facebook.com/";
 
