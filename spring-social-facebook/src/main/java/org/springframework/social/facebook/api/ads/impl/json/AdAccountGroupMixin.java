@@ -19,6 +19,8 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
+ * A Jackson mixin for the {@link AdAccountGroup} object.
+ * 
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

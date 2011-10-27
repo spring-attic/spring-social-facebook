@@ -24,6 +24,8 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.springframework.social.facebook.api.ads.AdGroupStatus;
 
 /**
+ * A deserializer for a {@link AdGroupStatus} enum.
+ * 
  * @author Karthick Sankarachary
  */
 public class AdGroupStatusDeserializer extends JsonDeserializer<AdGroupStatus> {

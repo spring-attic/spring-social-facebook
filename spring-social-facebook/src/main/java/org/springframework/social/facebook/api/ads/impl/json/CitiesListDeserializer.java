@@ -28,22 +28,27 @@ import org.codehaus.jackson.type.TypeReference;
 import org.springframework.social.facebook.api.ads.Name;
 
 /**
+ * A deserializer for a list of city names.
+ * 
  * @author Karthick Sankarachary
  */
 class CitiesListDeserializer extends JsonDeserializer<List<Name>> {
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Name> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+	public List<Name> deserialize(JsonParser jp, DeserializationContext ctxt)
+			throws IOException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setDeserializationConfig(ctxt.getConfig());
 		jp.setCodec(mapper);
-		if(jp.hasCurrentToken()) {
+		if (jp.hasCurrentToken()) {
 			JsonNode dataNode = jp.readValueAsTree().get("regions");
-			if(dataNode != null) {
-				return (List<Name>) mapper.readValue(dataNode, new TypeReference<List<Name>>() {});
+			if (dataNode != null) {
+				return (List<Name>) mapper.readValue(dataNode,
+						new TypeReference<List<Name>>() {
+						});
 			}
 		}
-		
+
 		return null;
 	}
 }

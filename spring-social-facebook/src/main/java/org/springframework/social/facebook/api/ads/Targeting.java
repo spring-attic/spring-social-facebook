@@ -21,6 +21,10 @@ import java.util.List;
 import org.springframework.social.facebook.api.Identifier;
 
 /**
+ * The <code>Targeting</code> class specifies the type of audience one is
+ * interested in reaching. It lets you narrow down your users by location,
+ * interests, connections, demographics and education.
+ * 
  * @author Karthick Sankarachary
  */
 public class Targeting {

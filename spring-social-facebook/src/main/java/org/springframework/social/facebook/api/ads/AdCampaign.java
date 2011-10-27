@@ -18,6 +18,13 @@ package org.springframework.social.facebook.api.ads;
 import java.util.Date;
 
 /**
+ * The <code>AdCampaign</code> represents a campaign for managing ads, as
+ * represented in the Graph API.
+ * 
+ * @see <a
+ *      href="http://developers.facebook.com/docs/reference/ads-api/adcampaign/">Ad
+ *      Campaign</a>
+ * 
  * @author Karthick Sankarachary
  */
 public class AdCampaign {

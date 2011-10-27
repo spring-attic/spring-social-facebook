@@ -18,6 +18,13 @@ package org.springframework.social.facebook.api.ads;
 import java.util.List;
 
 /**
+ * The <code>AdAccountGroup</code> represents a group for managing access to
+ * Facebook ad accounts, as represented in the Graph API.
+ * 
+ * @see <a
+ *      href="http://developers.facebook.com/docs/reference/ads-api/adaccountgroup/">Ad
+ *      Account Group</a>
+ * 
  * @author Karthick Sankarachary
  */
 public class AdAccountGroup {

@@ -18,6 +18,11 @@ package org.springframework.social.facebook.api.ads;
 import java.util.Date;
 
 /**
+ * The <code>Stats</code> class represents the statistics as reported by
+ * Facebook for a given ad object. It includes metrics such as number of
+ * impressions, clicks and connections, some of which may be social in nature,
+ * meaning that some type of social activity was attached to that ad event.
+ * 
  * @author Karthick Sankarachary
  */
 public class Stats {

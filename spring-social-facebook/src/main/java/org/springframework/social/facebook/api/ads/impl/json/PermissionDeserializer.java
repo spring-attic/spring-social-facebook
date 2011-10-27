@@ -24,6 +24,8 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.springframework.social.facebook.api.ads.Permission;
 
 /**
+ * A deserializer for the {@link Permission} enum.
+ * 
  * @author Karthick Sankarachary
  */
 public class PermissionDeserializer extends JsonDeserializer<Permission> {

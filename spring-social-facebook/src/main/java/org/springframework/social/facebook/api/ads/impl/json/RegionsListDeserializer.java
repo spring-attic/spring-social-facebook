@@ -28,6 +28,8 @@ import org.codehaus.jackson.type.TypeReference;
 import org.springframework.social.facebook.api.ads.Name;
 
 /**
+ * A deserializer for a list of region names.
+ * 
  * @author Karthick Sankarachary
  */
 class RegionsListDeserializer extends JsonDeserializer<List<Name>> {

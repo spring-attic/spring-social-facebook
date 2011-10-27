@@ -16,6 +16,8 @@
 package org.springframework.social.facebook.api.ads;
 
 /**
+ * The <code>Name</code> class merely has a name attribute.
+ * 
  * @author Karthick Sankarachary
  */
 public class Name {

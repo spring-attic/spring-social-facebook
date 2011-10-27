@@ -22,6 +22,8 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.deser.std.DateDeserializer;
 
 /**
+ * A Jackson mixin for the {@link StatsMixin} object.
+ * 
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -30,16 +32,16 @@ abstract class StatsMixin {
 	@JsonCreator
 	StatsMixin() {
 	}
-	
+
 	@JsonProperty("account_id")
 	long accountId;
 
 	@JsonProperty("start_time")
-	@JsonDeserialize(using=DateDeserializer.class)
+	@JsonDeserialize(using = DateDeserializer.class)
 	int startTime;
 
 	@JsonProperty("end_time")
-	@JsonDeserialize(using=DateDeserializer.class)
+	@JsonDeserialize(using = DateDeserializer.class)
 	int endTime;
 
 	@JsonProperty("campaign_id")

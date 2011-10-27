@@ -19,15 +19,53 @@ import org.springframework.social.facebook.api.ConnectionOperations;
 import org.springframework.social.facebook.api.Identifier;
 
 /**
+ * The <code>AccountGroupOperations</code> lets you perform operations on a
+ * group for managing access to Facebook ad accounts, as represented in the
+ * Graph API.
+ * 
+ * @see <a
+ *      href="http://developers.facebook.com/docs/reference/ads-api/adaccountgroup/">Ad
+ *      Account Group</a>
+ * 
  * @author Karthick Sankarachary
  */
 public interface AccountGroupOperations extends ConnectionOperations {
+	/**
+	 * Get the ad account group of the given id
+	 * 
+	 * @param accountGroupId
+	 *            the ad group id
+	 * @return the {@link AdAccountGroup} object
+	 */
 	public AdAccountGroup getAccountGroup(String accountGroupId);
 
+	/**
+	 * Create an ad account group
+	 * 
+	 * @param accountGroup
+	 *            the ad account group
+	 * @return the identified of the created ad account group
+	 */
 	public Identifier createAccountGroup(AdAccountGroup accountGroup);
 
+	/**
+	 * Update the given ad account group
+	 * 
+	 * @param accountGroupId
+	 *            the account group id
+	 * @param accountGroup
+	 *            the account group
+	 * @return true if the update succeeded
+	 */
 	public boolean updateAccountGroup(String accountGroupId,
 			AdAccountGroup accountGroup);
 
+	/**
+	 * Delete the given ad group
+	 * 
+	 * @param accountGroupId
+	 *            the ad group id
+	 * @return true if the delete succeeded
+	 */
 	public boolean deleteAccountGroup(String accountGroupId);
 }

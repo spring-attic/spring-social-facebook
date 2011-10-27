@@ -16,6 +16,8 @@
 package org.springframework.social.facebook.api.ads;
 
 /**
+ * The possible user role values.
+ * 
  * @author Karthick Sankarachary
  */
 public enum UserRole {

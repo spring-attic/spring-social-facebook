@@ -33,6 +33,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
+ * The <code>AccountTemplate</code> implements the {@link AccountOperations}
+ * interface} in terms of the {@link #graphApi}.
+ * 
  * @author Karthick Sankarachary
  */
 class AccountTemplate extends AbstractAdsOperations implements

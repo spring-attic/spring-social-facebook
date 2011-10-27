@@ -26,9 +26,11 @@ import org.springframework.social.facebook.api.ads.EducationStatus;
 import org.springframework.social.facebook.api.ads.Gender;
 import org.springframework.social.facebook.api.ads.Name;
 import org.springframework.social.facebook.api.ads.RelationshipStatus;
+import org.springframework.social.facebook.api.ads.Targeting;
 import org.springframework.social.facebook.api.ads.UserEvent;
 
 /**
+ * A Jackson mixin for the {@link Targeting} object.
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -24,6 +24,8 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.springframework.social.facebook.api.ads.UserRole;
 
 /**
+ * A deserializer for the {@link UserRole} enum.
+ * 
  * @author Karthick Sankarachary
  */
 public class UserRoleDeserializer extends JsonDeserializer<UserRole> {

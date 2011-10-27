@@ -18,8 +18,10 @@ package org.springframework.social.facebook.api.ads.impl.json;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.springframework.social.facebook.api.ads.Estimation;
 
 /**
+ * A Jackson mixin for the {@link Estimation} object.
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

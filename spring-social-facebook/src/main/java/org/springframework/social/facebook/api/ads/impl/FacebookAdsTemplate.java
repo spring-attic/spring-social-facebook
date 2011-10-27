@@ -27,6 +27,11 @@ import org.springframework.social.facebook.api.ads.impl.json.FacebookAdsModule;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
 /**
+ * The <code>FacebookAdsTemplate</code> implements the {@link FacebookAds}
+ * interface} in terms of the {@link #graphApi}. For the sake of convenience, it
+ * extends the {@link FacebookTemplate} class, so as to make all non-ad related
+ * operations available through this class.
+ * 
  * @author Karthick Sankarachary
  */
 public class FacebookAdsTemplate extends FacebookTemplate implements

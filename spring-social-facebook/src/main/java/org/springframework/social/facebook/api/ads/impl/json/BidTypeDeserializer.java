@@ -24,6 +24,8 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.springframework.social.facebook.api.ads.BidType;
 
 /**
+ * A deserializer for the {@link BidType} enum.
+ * 
  * @author Karthick Sankarachary
  */
 class BidTypeDeserializer extends JsonDeserializer<BidType> {

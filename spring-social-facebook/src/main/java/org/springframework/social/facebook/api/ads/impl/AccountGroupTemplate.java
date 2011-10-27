@@ -23,6 +23,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 /**
+ * The <code>AccountGroupTemplate</code> implements the
+ * {@link AccountGroupOperations} interface} in terms of the {@link #graphApi}.
+ * 
  * @author Karthick Sankarachary
  */
 class AccountGroupTemplate extends AbstractAdsOperations implements

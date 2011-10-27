@@ -29,6 +29,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 /**
+ * The <code>CampaignTemplate</code> implements the {@link CampaignOperations}
+ * interface} in terms of the {@link #graphApi}.
+ * 
  * @author Karthick Sankarachary
  */
 class CampaignTemplate extends AbstractAdsOperations implements

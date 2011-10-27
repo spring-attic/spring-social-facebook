@@ -21,6 +21,10 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.impl.ConnectionTemplate;
 
 /**
+ * The <code>AbstractAdsOperations</code> class is used as the base class for
+ * all of the ad-specific templates. It not only extends from the
+ * {@link ConnectionTemplate} but also adds some helper methods.
+ * 
  * @author Karthick Sankarachary
  */
 public abstract class AbstractAdsOperations extends ConnectionTemplate {

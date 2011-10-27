@@ -27,6 +27,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 /**
+ * The <code>SearchTemplate</code> implements the {@link SearchOperations}
+ * interface} in terms of the {@link #graphApi}.
+ * 
  * @author Karthick Sankarachary
  */
 class SearchTemplate extends

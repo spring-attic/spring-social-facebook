@@ -28,6 +28,8 @@ import org.codehaus.jackson.type.TypeReference;
 import org.springframework.social.facebook.api.ads.Permission;
 
 /**
+ * A deserializer for a list of {@link Permission} enum values.
+ * 
  * @author Karthick Sankarachary
  */
 class PermissionsListDeserializer extends JsonDeserializer<List<Permission>> {

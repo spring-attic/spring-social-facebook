@@ -23,9 +23,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.ads.AccountStatus;
 import org.springframework.social.facebook.api.ads.Permission;
+import org.springframework.social.facebook.api.ads.User;
 import org.springframework.social.facebook.api.ads.UserRole;
 
 /**
+ * A Jackson mixin for the {@link User} object.
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

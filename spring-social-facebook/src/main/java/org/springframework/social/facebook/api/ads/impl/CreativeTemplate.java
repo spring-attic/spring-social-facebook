@@ -31,6 +31,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 /**
+ * The <code>CreativeTemplate</code> implements the
+ * {@link CreativeOperations} interface} in terms of the {@link #graphApi}.
+ * 
  * @author Karthick Sankarachary
  */
 class CreativeTemplate extends AbstractAdsOperations implements
@@ -109,11 +112,6 @@ class CreativeTemplate extends AbstractAdsOperations implements
 		requireAuthorization();
 		String status = graphApi.delete(creativeId);
 		return Boolean.valueOf(status);
-	}
-
-	public String getStory(String storyId) {
-		requireAuthorization();
-		return graphApi.fetchObject(storyId, String.class);
 	}
 
 	private MultiValueMap<String, Object> getCreativeData(AdCreative creative) {

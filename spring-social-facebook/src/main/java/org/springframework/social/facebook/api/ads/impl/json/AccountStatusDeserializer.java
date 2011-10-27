@@ -24,6 +24,8 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.springframework.social.facebook.api.ads.AccountStatus;
 
 /**
+ * A deserializer for parsing a {@link AccountStatus} enum value.
+ * 
  * @author Karthick Sankarachary
  */
 public class AccountStatusDeserializer extends JsonDeserializer<AccountStatus> {

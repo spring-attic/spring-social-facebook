@@ -23,10 +23,13 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.ads.AccountStatus;
+import org.springframework.social.facebook.api.ads.AdAccount;
 import org.springframework.social.facebook.api.ads.AdAccountGroup;
 import org.springframework.social.facebook.api.ads.User;
 
 /**
+ * A Jackson mixin for the {@link AdAccount} object.
+ * 
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -38,27 +41,27 @@ abstract class AdAccountMixin {
 
 	@JsonProperty("account_id")
 	long accountId;
-	
+
 	@JsonProperty("account_status")
-	@JsonDeserialize(using=AccountStatusDeserializer.class)
+	@JsonDeserialize(using = AccountStatusDeserializer.class)
 	AccountStatus accountStatus;
 
 	@JsonProperty("daily_spend_limit")
 	int dailySpendLimit;
-	
+
 	@JsonProperty("timezone_id")
 	int timezoneId;
-	
+
 	@JsonProperty("timezone_name")
 	String timezoneName;
-	
+
 	@JsonIgnore
 	abstract List<Object> getCapabilities();
-	
+
 	@JsonProperty("account_groups")
 	List<AdAccountGroup> accountGroups;
-	
+
 	@JsonProperty("users")
-	@JsonDeserialize(using=UserListDeserializer.class)
+	@JsonDeserialize(using = UserListDeserializer.class)
 	List<User> users;
 }

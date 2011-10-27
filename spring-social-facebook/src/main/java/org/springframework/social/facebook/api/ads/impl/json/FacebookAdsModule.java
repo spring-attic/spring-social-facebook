@@ -31,6 +31,9 @@ import org.springframework.social.facebook.api.ads.User;
 import org.springframework.social.facebook.api.impl.json.IdentifierMixin;
 
 /**
+ * The <code>FacebookAdsModule</code> registers the Jackson mixins for the
+ * Facebook ad objects.
+ * 
  * @author Karthick Sankarachary
  */
 public class FacebookAdsModule extends SimpleModule {

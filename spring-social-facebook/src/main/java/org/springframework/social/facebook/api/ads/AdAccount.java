@@ -18,6 +18,13 @@ package org.springframework.social.facebook.api.ads;
 import java.util.List;
 
 /**
+ * The <code>AdAccount</code> represents an ad account for managing ads on
+ * Facebook.
+ * 
+ * @see <a
+ *      href="http://developers.facebook.com/docs/reference/ads-api/adaccount/">Ad
+ *      Account</a>
+ * 
  * @author Karthick Sankarachary
  */
 public class AdAccount {

@@ -16,6 +16,8 @@
 package org.springframework.social.facebook.api.ads;
 
 /**
+ * The possible permission values permitted in a Facebook ad object.
+ * 
  * @author Karthick Sankarachary
  */
 public enum Permission {

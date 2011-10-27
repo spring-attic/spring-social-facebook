@@ -28,14 +28,15 @@ import org.codehaus.jackson.type.TypeReference;
 import org.springframework.social.facebook.api.ads.User;
 
 /**
+ * A deserializer for a list of {@link User} objects.
+ * 
  * @author Karthick Sankarachary
  */
 class UserListDeserializer extends JsonDeserializer<List<User>> {
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> deserialize(JsonParser jp,
-			DeserializationContext ctxt) throws IOException,
-			JsonProcessingException {
+	public List<User> deserialize(JsonParser jp, DeserializationContext ctxt)
+			throws IOException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setDeserializationConfig(ctxt.getConfig());
 		jp.setCodec(mapper);

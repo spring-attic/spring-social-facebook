@@ -20,6 +20,9 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
+ * The <code>ResultSet</code> represents a response from Facebook that contains
+ * a list of objects of the given generic type in the "data" property.
+ * 
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

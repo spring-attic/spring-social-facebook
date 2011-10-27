@@ -21,6 +21,9 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.ads.impl.json.UserRoleDeserializer;
 
 /**
+ * The <code>User</code> class contains the id, permissions and roles of a given
+ * ad account user.
+ * 
  * @author Karthick Sankarachary
  */
 public class User {

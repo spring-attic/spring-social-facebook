@@ -22,20 +22,74 @@ import java.util.Map;
 import org.springframework.social.facebook.api.Identifier;
 
 /**
+ * The <code>CreativeOperations</code> lets you perform operations on a creative
+ * that can be used in ads, as represented in the Graph API.
+ * 
+ * @see <a
+ *      href="http://developers.facebook.com/docs/reference/ads-api/adcreative/">Ad
+ *      Creative</a>
+ * 
  * @author Karthick Sankarachary
  */
 public interface CreativeOperations {
+	/**
+	 * Get all the creatives for the given account
+	 * 
+	 * @param accountId
+	 *            the account id
+	 * @return a list of {@link AdCreative}s
+	 */
 	public List<AdCreative> getCreatives(String accountId);
 
+	/**
+	 * Get the creative of the specified id
+	 * 
+	 * @param creativeId
+	 *            the creative id
+	 * @return an {@link AdCreative} object
+	 */
 	public AdCreative getCreative(String creativeId);
 
+	/**
+	 * Create a creative in the given account
+	 * 
+	 * @param accountId
+	 *            the account id
+	 * @param creative
+	 *            the creative object
+	 * @return the identifer of the created creative
+	 */
 	public Identifier createCreative(String accountId, AdCreative creative);
 
+	/**
+	 * Upload a set of images to the given account
+	 * 
+	 * @param accountId
+	 *            the account id
+	 * @param images
+	 *            a map of file name to input stream
+	 * @return the hash/url combinations for each file uploaded
+	 */
 	public Images uploadImages(String accountId, Map<String, InputStream> images);
 
+	/**
+	 * Update the given creative
+	 * 
+	 * @param creativeId
+	 *            the creative id
+	 * @param creative
+	 *            the creative object
+	 * @return true if the update succeeded
+	 */
 	public boolean updateCreative(String creativeId, AdCreative creative);
 
+	/**
+	 * Delete the given creative
+	 * 
+	 * @param creativeId
+	 *            the creative id
+	 * @return true if the delete succeeded
+	 */
 	public boolean deleteCreative(String creativeId);
 
-	public String getStory(String storyId);
 }

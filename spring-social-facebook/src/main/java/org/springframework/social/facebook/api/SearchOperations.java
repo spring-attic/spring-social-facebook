@@ -20,14 +20,37 @@ import java.util.List;
 import org.springframework.util.MultiValueMap;
 
 /**
+ * The <code>SearchOperations</code> interface lets you run search queries for a
+ * particular type of object.
  * 
  * @author Karthick Sankarachary
  */
 public interface SearchOperations {
-	public <T> List<T> search(String type, String query,
-			Class<T> itemType);
+	/**
+	 * Search for a type of object using the given query.
+	 * 
+	 * @param type
+	 *            the type of search object
+	 * @param query
+	 *            the search query (i.e., the "q" parameter)
+	 * @param itemType
+	 *            the type of the individual search result
+	 * @return a list of search result items
+	 */
+	public <T> List<T> search(String type, String query, Class<T> itemType);
 
+	/**
+	 * 
+	 * @param type
+	 *            the type of search object
+	 * @param query
+	 *            the search query (i.e., the "q" parameter)
+	 * @param vars
+	 *            a map of query parameters
+	 * @param itemType
+	 *            the type of the individual search result
+	 * @return a list of search result items
+	 */
 	public <T> List<T> search(String type, String query,
-			MultiValueMap<String, String> vars, 
-			Class<T> itemType);
+			MultiValueMap<String, String> vars, Class<T> itemType);
 }

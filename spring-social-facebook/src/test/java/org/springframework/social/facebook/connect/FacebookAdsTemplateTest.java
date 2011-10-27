@@ -1,6 +1,5 @@
 package org.springframework.social.facebook.connect;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +24,6 @@ import org.springframework.social.facebook.api.ads.AccountGroupOperations;
 import org.springframework.social.facebook.api.ads.AccountOperations;
 import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCreative;
-import org.springframework.social.facebook.api.ads.AdCreative.AdCreativeType;
 import org.springframework.social.facebook.api.ads.AdGroup;
 import org.springframework.social.facebook.api.ads.AdGroupOperations;
 import org.springframework.social.facebook.api.ads.CampaignOperations;
@@ -38,14 +36,11 @@ import org.springframework.web.client.RestClientException;
 /**
  * @author Karthick Sankarachary
  */
-@Ignore
 public class FacebookAdsTemplateTest {
-        // Inject your own object ids prior to running this test
-	private String accessToken = "";
-	private String accountId = "";
+	private String accessToken = "AAABqilsDaoYBAFQpH5LdpMglZBkFiu3IzrAsu5Y8VSFYJk7D8nNoHOoJUOgZCBwzHcXbhVIi2cDSVc2dJYBxcgw5ThvbhncH4VicVHZAQZDZD";
+	private String accountId = "102102933211511";
 	private String accountGroupId = "";
-	private String creativeId = "";
-	private String pageId = "";
+	private String pageId = "cnn";
 
 	private FacebookAdsTemplate template;
 
@@ -249,7 +244,7 @@ public class FacebookAdsTemplateTest {
 		Assert.assertTrue("The collection " + collection + " is not a list",
 				collection instanceof List);
 		Assert.assertTrue("The list is empty", collection.size() > 0);
-		T element = (T) ((List<T>) collection).get(0);
+		T element = ((List<T>) collection).get(0);
 		Assert.assertTrue("The element type is not an instance of "
 				+ elementType, elementType.isAssignableFrom(element.getClass()));
 	}

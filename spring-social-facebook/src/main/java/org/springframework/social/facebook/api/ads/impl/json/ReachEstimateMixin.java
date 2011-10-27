@@ -21,8 +21,11 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.social.facebook.api.ads.Estimation;
+import org.springframework.social.facebook.api.ads.ReachEstimate;
 
 /**
+ * A Jackson mixin for the {@link ReachEstimate} object.
+ * 
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

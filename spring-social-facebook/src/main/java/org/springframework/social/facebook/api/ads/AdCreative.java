@@ -16,6 +16,13 @@
 package org.springframework.social.facebook.api.ads;
 
 /**
+ * The <code>AdCreative</code> represents a creative that can be used in ads, as
+ * represented in the Graph API.
+ * 
+ * @see <a
+ *      href="http://developers.facebook.com/docs/reference/ads-api/adcreative/">Ad
+ *      Creative</a>
+ * 
  * @author Karthick Sankarachary
  */
 public class AdCreative {

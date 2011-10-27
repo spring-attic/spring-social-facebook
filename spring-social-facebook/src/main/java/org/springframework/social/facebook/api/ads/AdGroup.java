@@ -19,6 +19,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * The <code>AdGroup</code> represents an ad on Facebook , as represented in the
+ * Graph API.
+ * 
+ * @see <a
+ *      href="http://developers.facebook.com/docs/reference/ads-api/adgroup/">Ad
+ *      Group</a>
+ * 
  * @author Karthick Sankarachary
  */
 public class AdGroup {

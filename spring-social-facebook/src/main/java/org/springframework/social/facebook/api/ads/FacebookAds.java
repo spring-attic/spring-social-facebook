@@ -16,8 +16,13 @@
 package org.springframework.social.facebook.api.ads;
 
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.ads.impl.FacebookAdsTemplate;
 
 /**
+ * Interface specifying a basic set of operations for interacting with ads on
+ * Facebook.
+ * 
+ * @see {@link FacebookAdsTemplate}.
  * @author Karthick Sankarachary
  */
 public interface FacebookAds extends Facebook {

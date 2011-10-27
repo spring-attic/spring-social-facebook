@@ -23,10 +23,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.deser.std.DateDeserializer;
+import org.springframework.social.facebook.api.ads.AdGroup;
 import org.springframework.social.facebook.api.ads.BidInfo;
 import org.springframework.social.facebook.api.ads.BidType;
 
 /**
+ * A Jackson mixin for the {@link AdGroup} object.
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

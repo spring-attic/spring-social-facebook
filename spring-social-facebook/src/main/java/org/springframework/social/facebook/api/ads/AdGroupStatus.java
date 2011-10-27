@@ -16,6 +16,8 @@
 package org.springframework.social.facebook.api.ads;
 
 /**
+ * The possible statuses of an {@link AdGroup} object.
+ * 
  * @author Karthick Sankarachary
  */
 public enum AdGroupStatus {

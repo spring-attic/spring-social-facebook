@@ -29,6 +29,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
+ * The <code>AdGroupTemplate</code> implements the {@link AdGroupOperations}
+ * interface} in terms of the {@link #graphApi}.
+ * 
  * @author Karthick Sankarachary
  */
 class AdGroupTemplate extends AbstractAdsOperations implements

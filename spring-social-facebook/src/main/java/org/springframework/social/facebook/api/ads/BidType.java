@@ -16,6 +16,8 @@
 package org.springframework.social.facebook.api.ads;
 
 /**
+ * The possible bid types that may be used in an {@link AdGroup}.
+ * 
  * @author Karthick Sankarachary
  */
 public enum BidType {
