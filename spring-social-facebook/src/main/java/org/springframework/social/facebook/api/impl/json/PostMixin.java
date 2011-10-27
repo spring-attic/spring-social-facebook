@@ -18,6 +18,7 @@ package org.springframework.social.facebook.api.impl.json;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
@@ -43,6 +44,7 @@ import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.StatusPost;
+import org.springframework.social.facebook.api.StoryTag;
 import org.springframework.social.facebook.api.SwfPost;
 import org.springframework.social.facebook.api.VideoPost;
 
@@ -115,6 +117,13 @@ abstract class PostMixin {
 	@JsonProperty("comments")
 	@JsonDeserialize(using = CommentListDeserializer.class)
 	List<Comment> comments;
+	
+	@JsonProperty("story")
+	String story;
+	
+	@JsonProperty("story_tags")
+	@JsonDeserialize(using = StoryTagMapDeserializer.class)
+	Map<Integer,List<StoryTag>> storyTags;
 
 	private static class TypeDeserializer extends JsonDeserializer<PostType> {
 		@Override
