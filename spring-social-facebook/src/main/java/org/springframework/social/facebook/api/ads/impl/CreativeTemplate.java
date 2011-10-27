@@ -15,14 +15,18 @@
  */
 package org.springframework.social.facebook.api.ads.impl;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Identifier;
 import org.springframework.social.facebook.api.ads.AdCreative;
 import org.springframework.social.facebook.api.ads.CreativeOperations;
-import org.springframework.social.facebook.api.ads.Images.Image;
+import org.springframework.social.facebook.api.ads.Images;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -58,19 +62,42 @@ class CreativeTemplate extends AbstractAdsOperations implements
 		return new Identifier(id);
 	}
 
-	public Identifier createCreative(String accountId, AdCreative creative,
-			File imageFile, String imageContentType) {
+	public Images uploadImages(String accountId, Map<String, InputStream> images) {
 		requireAuthorization();
-		List<Image> images = graphApi.uploadImage(getAccountId(accountId),
-				"adimages", imageFile, imageContentType);
-		if (images != null && images.size() == 1) {
-			Image image = images.get(0);
-			creative.setImageHash(image.getHash());
-			creative.setImageUrl(image.getUrl());
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ZipOutputStream zos = new ZipOutputStream(baos);
+		try {
+			byte[] data = new byte[2048];
+			for (Map.Entry<String, InputStream> entry : images.entrySet()) {
+				String imageName = entry.getKey();
+				InputStream imageStream = entry.getValue();
+				try {
+					ZipEntry zipEntry = new ZipEntry(imageName);
+					zos.putNextEntry(zipEntry);
+					int count;
+					while ((count = imageStream.read(data, 0, data.length)) != -1) {
+						zos.write(data, 0, count);
+					}
+				} catch (Exception e) {
+				} finally {
+					imageStream.close();
+				}
+			}
+		} catch (Exception e) {
+		} finally {
+			try {
+				zos.close();
+			} catch (Exception e) {
+
+			}
 		}
-		String id = graphApi.publish(getAccountId(accountId), "adcreatives",
-				getCreativeData(creative));
-		return new Identifier(id);
+
+		final byte[] bytes = baos.toByteArray();
+		if (bytes.length == 0) {
+			return null;
+		}
+		return graphApi.uploadImage(getAccountId(accountId), "adimages", bytes,
+				"image.zip", Images.class);
 	}
 
 	public boolean updateCreative(String creativeId, AdCreative creative) {

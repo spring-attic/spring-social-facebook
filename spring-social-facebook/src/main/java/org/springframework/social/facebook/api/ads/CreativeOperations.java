@@ -15,8 +15,9 @@
  */
 package org.springframework.social.facebook.api.ads;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.social.facebook.api.Identifier;
 
@@ -30,8 +31,7 @@ public interface CreativeOperations {
 
 	public Identifier createCreative(String accountId, AdCreative creative);
 
-	public Identifier createCreative(String accountId, AdCreative creative,
-			File imageFile, String imageContentType);
+	public Images uploadImages(String accountId, Map<String, InputStream> images);
 
 	public boolean updateCreative(String creativeId, AdCreative creative);
 

@@ -18,7 +18,6 @@ package org.springframework.social.facebook.api;
 import java.io.File;
 import java.util.List;
 
-import org.springframework.social.facebook.api.ads.Images.Image;
 import org.springframework.util.MultiValueMap;
 
 /**
@@ -77,6 +76,31 @@ public interface GraphApi {
 	 */
 	byte[] fetchImage(String objectId, String connectionName, ImageType imageType);	
 
+	/**
+	 * Uploads an image file.
+	 * Requires appropriate permission to upload to the object connection.
+	 * @param objectId the object ID
+	 * @param connectionName the connection name
+	 * @param imageFile the image file (maybe a zip of image files in some cases)
+	 * @param responseType the type of the response (id, image hash/url, etc)
+	 * @return an object of the responseType
+	 */
+	<T> T uploadImage(String objectId, String connectionName, File imageFile,
+			Class<T> responseType);
+
+	/**
+	 * Uploads an image file.
+	 * Requires appropriate permission to upload to the object connection.
+	 * @param objectId the object ID
+	 * @param connectionName the connection name
+	 * @param bytes the in-memory byte array representation of the image
+	 * @param name the logical name of the image file
+	 * @param responseType the type of the response (id, image hash/url, etc)
+	 * @return an object of the responseType
+	 */
+	<T> T uploadImage(String objectId, String connectionName,
+			final byte[] bytes, final String name, Class<T> responseType);
+	
 	/**
 	 * Adds a connection to a given object, extracting the data from the value the given Java type 
 	 * Requires appropriate permission to fetch the object connection.
@@ -148,10 +172,6 @@ public interface GraphApi {
 	 * @return an indicator of success
 	 */
 	String delete(String objectId, String connectionName);
-	
-	List<Image> uploadImage(String objectId, String connectionType,
-			final File imageFile, final String contentType);
-
 	
 	public static final String GRAPH_API_URL = "https://graph.facebook.com/";
 

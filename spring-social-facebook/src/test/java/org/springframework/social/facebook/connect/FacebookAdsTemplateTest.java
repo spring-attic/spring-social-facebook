@@ -1,8 +1,12 @@
 package org.springframework.social.facebook.connect;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +30,7 @@ import org.springframework.social.facebook.api.ads.AdGroup;
 import org.springframework.social.facebook.api.ads.AdGroupOperations;
 import org.springframework.social.facebook.api.ads.CampaignOperations;
 import org.springframework.social.facebook.api.ads.CreativeOperations;
+import org.springframework.social.facebook.api.ads.Images;
 import org.springframework.social.facebook.api.ads.ValidKeyword;
 import org.springframework.social.facebook.api.ads.impl.FacebookAdsTemplate;
 import org.springframework.web.client.RestClientException;
@@ -35,7 +40,7 @@ import org.springframework.web.client.RestClientException;
  */
 @Ignore
 public class FacebookAdsTemplateTest {
-        // Inject your own facebook ad object ids prior to testing
+        // Inject your own object ids prior to running this test
 	private String accessToken = "";
 	private String accountId = "";
 	private String accountGroupId = "";
@@ -103,7 +108,7 @@ public class FacebookAdsTemplateTest {
 					.getCampaign(String.valueOf(campaign.getId()));
 			assertPrintable(campaign);
 
-//			campaignOps.createCampaign(accountId, campaign);
+			// campaignOps.createCampaign(accountId, campaign);
 		}
 
 	}
@@ -122,19 +127,24 @@ public class FacebookAdsTemplateTest {
 			creative = creativeOps.getCreative(String.valueOf(creative
 					.getCreativeId()));
 			assertPrintable(creative);
-			
-//			assertPrintable(creativeOps.createCreative(accountId, creative, new File("/Users/karthick/image.zip"), "application/x-zip-compressed"));
-			Identifier creativeId = creativeOps.createCreative(accountId, creative);
+
+			Identifier creativeId = creativeOps.createCreative(accountId,
+					creative);
 			assertPrintable(creativeId);
-			
-			creative.setType(AdCreativeType.SPONSORED_STORY_FOR_A_PAGE_LIKE_EVENT);
-			creative.setStoryId("202346236454983");
-			creative.setImageHash(null);
-			creative.setImageUrl(null);
-			creativeId = creativeOps.createCreative(accountId, creative);
-			assertPrintable(creativeId);
-//			assertPrintable(creativeOps.deleteCreative(creativeId.getId()));
+
+			// creative.setType(AdCreativeType.SPONSORED_STORY_FOR_A_PAGE_LIKE_EVENT);
+			// creative.setStoryId("202346236454983");
+			// creative.setImageHash(null);
+			// creative.setImageUrl(null);
+			// creativeId = creativeOps.createCreative(accountId, creative);
+			// assertPrintable(creativeId);
+			// assertPrintable(creativeOps.deleteCreative(creativeId.getId()));
 		}
+		Map<String, InputStream> images = new HashMap<String, InputStream>();
+		images.put("image.jpg",
+				new FileInputStream("/Users/karthick/image.jpg"));
+		Images result = creativeOps.uploadImages(accountId, images);
+		assertPrintable(result);
 	}
 
 	@Test
@@ -152,7 +162,7 @@ public class FacebookAdsTemplateTest {
 					.getAdId()));
 			assertPrintable(adGroup);
 			assertPrintable(adGroup.getTargeting());
-			
+
 			CreativeOperations creativeOps = template.creativeOperations();
 			List<AdCreative> creatives = creativeOps.getCreatives(accountId);
 			if (creatives.size() > 0) {
@@ -160,8 +170,9 @@ public class FacebookAdsTemplateTest {
 				assertPrintable(creative);
 				adGroup.setCreative(creative);
 			}
-			Identifier identifier = adGroupOperations.createAdGroup(accountId, adGroup);
-			assertPrintable(identifier);
+			// Identifier identifier =
+			// adGroupOperations.createAdGroup(accountId, adGroup);
+			// assertPrintable(identifier);
 		}
 	}
 

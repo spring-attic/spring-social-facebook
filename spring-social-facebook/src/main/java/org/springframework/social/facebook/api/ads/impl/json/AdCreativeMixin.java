@@ -53,6 +53,12 @@ abstract class AdCreativeMixin {
 	@JsonProperty("preview_url")
 	String previewUrl;
 
+	@JsonProperty("ipreview_url")
+	String ipreviewUrl;
+	
+	@JsonProperty("url_tags")
+	String urlTags;
+	
 	@JsonProperty("related_fan_page")
 	String relatedFanPage;
 	

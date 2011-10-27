@@ -16,9 +16,8 @@
 package org.springframework.social.facebook.api.impl;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +27,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.type.CollectionType;
 import org.codehaus.jackson.map.type.TypeFactory;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -47,7 +47,6 @@ import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PlacesOperations;
 import org.springframework.social.facebook.api.SearchOperations;
 import org.springframework.social.facebook.api.UserOperations;
-import org.springframework.social.facebook.api.ads.Images.Image;
 import org.springframework.social.facebook.api.impl.json.FacebookModule;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.OAuth2Version;
@@ -56,7 +55,6 @@ import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>This is the central class for interacting with Facebook.</p>
@@ -194,8 +192,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return deserializeDataList(dataNode.get("data"), type);
 	}
 
-	public byte[] fetchImage(String objectId, String connectionType, ImageType type) {
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType + "?type=" + type.toString().toLowerCase()).build();
+	public byte[] fetchImage(String objectId, String connectionName, ImageType type) {
+		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionName + "?type=" + type.toString().toLowerCase()).build();
 		ResponseEntity<byte[]> response = getRestTemplate().getForEntity(uri, byte[].class);
 		if(response.getStatusCode() == HttpStatus.FOUND) {
 			throw new UnsupportedOperationException("Attempt to fetch image resulted in a redirect which could not be followed. Add Apache HttpComponents HttpClient to the classpath " +
@@ -204,65 +202,49 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return response.getBody();
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Image> uploadImage(String objectId, String connectionType,
-			final File imageFile, final String contentType) {
+	public <T> T uploadImage(String objectId, String connectionName,
+			File imageFile, Class<T> responseType) {
 		URI uri = URIBuilder.fromUri(
-				GRAPH_API_URL + objectId + "/" + connectionType).build();
+				GRAPH_API_URL + objectId + "/" + connectionName).build();
 		LinkedMultiValueMap<String, Object> uploadRequest = new LinkedMultiValueMap<String, Object>();
-		MultipartFile imageMultipartFile = new MultipartFile() {
+		uploadRequest.add("image.zip", new FileSystemResource(imageFile));
+		return getRestTemplate().postForObject(uri.toString(), uploadRequest,
+				responseType);
+	}
 
-			public void transferTo(File dest) throws IOException,
-					IllegalStateException {
-				throw new IOException("Not Implemeted");
+	public <T> T uploadImage(String objectId, String connectionName,
+			final byte[] bytes, final String name, Class<T> responseType) {
+		File imageFile = null;
+		try {
+			String prefix, suffix;
+			if (name != null) {
+				int dotIndex = name.indexOf(".");
+				prefix = dotIndex > 0 ? name.substring(0, dotIndex) : name;
+				suffix = dotIndex > 0 ? name.substring(dotIndex + 1) : "image";
+			} else {
+				prefix = "facebook_image_" + System.currentTimeMillis();
+				suffix = "image";
 			}
+			imageFile = File.createTempFile(prefix, suffix);
+			FileOutputStream fos = new FileOutputStream(imageFile);
+			fos.write(bytes);
+			fos.close();
+			T response = uploadImage(objectId, connectionName, imageFile,
+					responseType);
 
-			public boolean isEmpty() {
-				return getSize() == 0;
-			}
-
-			public long getSize() {
-				return imageFile.length();
-			}
-
-			public String getOriginalFilename() {
+			return response;
+		} catch (Exception e) {
+			throw new UncategorizedApiException("Could not upload image "
+					+ name + " of type " + connectionName + " to object "
+					+ objectId + ": " + e.getMessage(), e);
+		} finally {
+			if (imageFile != null) {
 				try {
-					return imageFile.getCanonicalPath();
-				} catch (IOException e) {
-					e.printStackTrace();
-					return null;
+					imageFile.deleteOnExit();
+				} catch (Exception e) {
 				}
 			}
-
-			public String getName() {
-				return imageFile.getName();
-			}
-
-			public InputStream getInputStream() throws IOException {
-				return new FileInputStream(imageFile);
-			}
-
-			public String getContentType() {
-				return contentType;
-			}
-
-			public byte[] getBytes() throws IOException {
-				byte fileContent[] = new byte[(int) getSize()];
-				getInputStream().read(fileContent);
-				return fileContent;
-			}
-		};
-
-		uploadRequest.add("file", imageMultipartFile);
-		ResponseEntity<String> string = getRestTemplate()
-		.postForEntity(uri.toString(), null, String.class,
-				uploadRequest);
-		System.out.println(string);
-		System.out.println(string.getBody());
-		ResponseEntity<List> responseEntity = getRestTemplate()
-				.postForEntity(uri.toString(), null, List.class,
-						uploadRequest);
-		return responseEntity != null ? responseEntity.getBody() : null;
+		}
 	}
 
 	public <T> String addConnection(String objectId, String connectionType,
@@ -325,6 +307,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		restTemplate.setErrorHandler(new FacebookErrorHandler());
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected MappingJacksonHttpMessageConverter getJsonMessageConverter() {
 		MappingJacksonHttpMessageConverter converter = super.getJsonMessageConverter();

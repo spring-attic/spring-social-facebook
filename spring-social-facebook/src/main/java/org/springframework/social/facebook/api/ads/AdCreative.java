@@ -35,6 +35,8 @@ public class AdCreative {
 	private String runStatus;
 	private String linkUrl;
 	private String previewUrl;
+	private String ipreviewUrl;
+	private String urlTags;
 	private String relatedFanPage;
 	private boolean autoUpdate;
 	private String storyId;
@@ -135,6 +137,22 @@ public class AdCreative {
 		this.previewUrl = previewUrl;
 	}
 
+	public String getIpreviewUrl() {
+		return ipreviewUrl;
+	}
+
+	public void setIpreviewUrl(String ipreviewUrl) {
+		this.ipreviewUrl = ipreviewUrl;
+	}
+
+	public String getUrlTags() {
+		return urlTags;
+	}
+
+	public void setUrlTags(String urlTags) {
+		this.urlTags = urlTags;
+	}
+
 	public String getRelatedFanPage() {
 		return relatedFanPage;
 	}
@@ -158,5 +176,4 @@ public class AdCreative {
 	public void setStoryId(String storyId) {
 		this.storyId = storyId;
 	}
-
 }
