@@ -22,6 +22,7 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ads.AccountOperations;
+import org.springframework.social.facebook.api.ads.AccountStats;
 import org.springframework.social.facebook.api.ads.AdAccount;
 import org.springframework.social.facebook.api.ads.ReachEstimate;
 import org.springframework.social.facebook.api.ads.Stats;
@@ -72,10 +73,10 @@ class AccountTemplate extends AbstractAdsOperations implements
 		return users;
 	}
 
-	public Stats getAccountStats(String accountId) {
+	public AccountStats getAccountStats(String accountId) {
 		requireAuthorization();
 		return graphApi.fetchObject(getPath(getAccountId(accountId), "stats"),
-				Stats.class);
+				AccountStats.class);
 	}
 
 	public <T> List<Stats> getAccountConnectionStats(String accountId,

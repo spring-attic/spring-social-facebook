@@ -106,9 +106,10 @@ public interface AdGroupOperations {
 	 *            the start time
 	 * @param endTime
 	 *            the end time
-	 * @return the {@link Stats} object
+	 * @return the {@link AdGroupStats} object
 	 */
-	public Stats getAdGroupStats(String adGroupId, long startTime, long endTime);
+	public AdGroupStats getAdGroupStats(String adGroupId, long startTime,
+			long endTime);
 
 	/**
 	 * Get the stats for the given set of ad group ids
@@ -121,7 +122,7 @@ public interface AdGroupOperations {
 	 *            the end time
 	 * @return the list of {@link Stats} objects
 	 */
-	public List<Stats> getAdGroupsStats(List<String> adGroupIds,
+	public List<AdGroupStats> getAdGroupsStats(List<String> adGroupIds,
 			long startTime, long endTime);
 
 	/**
@@ -135,8 +136,8 @@ public interface AdGroupOperations {
 	 *            the end time
 	 * @return the list of {@link Stats} objects
 	 */
-	public List<Stats> getAdGroupsStats(String accountId, long startTime,
-			long endTime);
+	public List<AdGroupStats> getAdGroupsStats(String accountId,
+			long startTime, long endTime);
 
 	/**
 	 * Get the keyword stats for the given ad group

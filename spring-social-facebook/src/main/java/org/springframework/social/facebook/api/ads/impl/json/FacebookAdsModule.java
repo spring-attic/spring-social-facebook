@@ -18,11 +18,14 @@ package org.springframework.social.facebook.api.ads.impl.json;
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.module.SimpleModule;
 import org.springframework.social.facebook.api.Identifier;
+import org.springframework.social.facebook.api.ads.AccountStats;
 import org.springframework.social.facebook.api.ads.AdAccount;
 import org.springframework.social.facebook.api.ads.AdAccountGroup;
 import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCreative;
 import org.springframework.social.facebook.api.ads.AdGroup;
+import org.springframework.social.facebook.api.ads.AdGroupStats;
+import org.springframework.social.facebook.api.ads.CampaignStats;
 import org.springframework.social.facebook.api.ads.Estimation;
 import org.springframework.social.facebook.api.ads.ReachEstimate;
 import org.springframework.social.facebook.api.ads.Stats;
@@ -59,5 +62,9 @@ public class FacebookAdsModule extends SimpleModule {
 				ReachEstimateMixin.class);
 		context.setMixInAnnotations(Estimation.class, EstimationMixin.class);
 		context.setMixInAnnotations(Identifier.class, IdentifierMixin.class);
+
+		context.setMixInAnnotations(AdGroupStats.class, AdGroupStatsMixin.class);
+		context.setMixInAnnotations(AccountStats.class, AccountStatsMixin.class);
+		context.setMixInAnnotations(CampaignStats.class, CampaignStatsMixin.class);
 	}
 }

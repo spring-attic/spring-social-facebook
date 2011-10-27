@@ -64,7 +64,7 @@ public interface AccountOperations extends ConnectionOperations {
 	 *            the account id
 	 * @return the {@link Stats} object
 	 */
-	public Stats getAccountStats(String accountId);
+	public AccountStats getAccountStats(String accountId);
 
 	/**
 	 * Get the connection stats for the given account and connection type

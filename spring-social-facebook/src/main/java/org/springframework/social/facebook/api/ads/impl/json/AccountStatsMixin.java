@@ -18,50 +18,19 @@ package org.springframework.social.facebook.api.ads.impl.json;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.deser.std.DateDeserializer;
 
 /**
- * A Jackson mixin for the {@link StatsMixin} object.
+ * A Jackson mixin for the {@link AccountStatsMixin} object.
  * 
  * @author Karthick Sankarachary
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class StatsMixin {
+abstract class AccountStatsMixin extends StatsMixin {
 
 	@JsonCreator
-	StatsMixin() {
+	AccountStatsMixin() {
 	}
 
-	@JsonProperty("start_time")
-	@JsonDeserialize(using = DateDeserializer.class)
-	int startTime;
-
-	@JsonProperty("end_time")
-	@JsonDeserialize(using = DateDeserializer.class)
-	int endTime;
-
-	@JsonProperty("campaign_id")
-	long campaignId;
-
-	@JsonProperty("social_impressions")
-	int socialImpressions;
-
-	@JsonProperty("social_clicks")
-	int socialClicks;
-
-	@JsonProperty("social_spent")
-	int socialSpent;
-
-	@JsonProperty("unique_impressions")
-	int uniqueImpressions;
-
-	@JsonProperty("social_unique_impressions")
-	int socialUniqueImpressions;
-
-	@JsonProperty("unique_clicks")
-	int uniqueClicks;
-
-	@JsonProperty("social_unique_clicks")
-	int socialUniqueClicks;
+	@JsonProperty("account_id")
+	long accountId;
 }

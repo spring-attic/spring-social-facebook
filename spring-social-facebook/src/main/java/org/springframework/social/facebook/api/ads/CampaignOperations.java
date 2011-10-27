@@ -71,10 +71,10 @@ public interface CampaignOperations extends ConnectionOperations {
 	 *            the start time
 	 * @param endTime
 	 *            the end time
-	 * @return a list of {@link Stats} objects
+	 * @return a list of {@link CampaignStats} objects
 	 */
-	public List<Stats> getCampaignsStats(String accountId, long startTime,
-			long endTime);
+	public List<CampaignStats> getCampaignsStats(String accountId,
+			long startTime, long endTime);
 
 	/**
 	 * Get the stats for given campaign ids
@@ -85,9 +85,9 @@ public interface CampaignOperations extends ConnectionOperations {
 	 *            the start time
 	 * @param endTime
 	 *            the end time
-	 * @return a list of {@link Stats} objects
+	 * @return a list of {@link CampaignStats} objects
 	 */
-	public List<Stats> getCampaignsStats(List<String> campaignIds,
+	public List<CampaignStats> getCampaignsStats(List<String> campaignIds,
 			long startTime, long endTime);
 
 	/**
@@ -99,9 +99,9 @@ public interface CampaignOperations extends ConnectionOperations {
 	 *            the start time
 	 * @param endTime
 	 *            the end time
-	 * @return a {@link Stats} object
+	 * @return a {@link CampaignStats} object
 	 */
-	public Stats getCampaignStats(String campaignId, long startTime,
+	public CampaignStats getCampaignStats(String campaignId, long startTime,
 			long endTime);
 
 	public Identifier createCampaign(String accountId, AdCampaign campaign);

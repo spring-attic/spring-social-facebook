@@ -23,6 +23,7 @@ import org.springframework.social.facebook.api.Identifier;
 import org.springframework.social.facebook.api.ResultSet;
 import org.springframework.social.facebook.api.ads.AdGroup;
 import org.springframework.social.facebook.api.ads.AdGroupOperations;
+import org.springframework.social.facebook.api.ads.AdGroupStats;
 import org.springframework.social.facebook.api.ads.Stats;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -91,16 +92,16 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 		return Boolean.valueOf(status);
 	}
 
-	public Stats getAdGroupStats(String adGroupId, long startTime, long endTime) {
+	public AdGroupStats getAdGroupStats(String adGroupId, long startTime, long endTime) {
 		requireAuthorization();
 		MultiValueMap<String, String> vars = new LinkedMultiValueMap<String, String>();
 		vars.set("start_time", String.valueOf(startTime));
 		vars.set("end_time", String.valueOf(endTime));
-		return graphApi.fetchObject(getPath(adGroupId, "stats"), Stats.class,
+		return graphApi.fetchObject(getPath(adGroupId, "stats"), AdGroupStats.class,
 				vars);
 	}
 
-	public List<Stats> getAdGroupsStats(List<String> adGroupIds,
+	public List<AdGroupStats> getAdGroupsStats(List<String> adGroupIds,
 			long startTime, long endTime) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
@@ -109,18 +110,18 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 		parameters.set("ids", join(adGroupIds));
 		parameters.set("stats", "");
 		@SuppressWarnings("unchecked")
-		ResultSet<Stats> resultSet = graphApi.fetchObject("", ResultSet.class);
+		ResultSet<AdGroupStats> resultSet = graphApi.fetchObject("", ResultSet.class);
 		return resultSet.getData();
 	}
 
-	public List<Stats> getAdGroupsStats(String accountId, long startTime,
+	public List<AdGroupStats> getAdGroupsStats(String accountId, long startTime,
 			long endTime) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("start_time", String.valueOf(startTime));
 		parameters.set("end_time", String.valueOf(endTime));
 		@SuppressWarnings("unchecked")
-		ResultSet<Stats> resultSet = graphApi.fetchObject(
+		ResultSet<AdGroupStats> resultSet = graphApi.fetchObject(
 				getPath(getAccountId(accountId), "adgroupstats"),
 				ResultSet.class);
 		return resultSet.getData();
