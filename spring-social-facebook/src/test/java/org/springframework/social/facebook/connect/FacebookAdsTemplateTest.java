@@ -36,11 +36,12 @@ import org.springframework.web.client.RestClientException;
 /**
  * @author Karthick Sankarachary
  */
+@Ignore
 public class FacebookAdsTemplateTest {
-	private String accessToken = "AAABqilsDaoYBAFQpH5LdpMglZBkFiu3IzrAsu5Y8VSFYJk7D8nNoHOoJUOgZCBwzHcXbhVIi2cDSVc2dJYBxcgw5ThvbhncH4VicVHZAQZDZD";
-	private String accountId = "102102933211511";
+	private String accessToken = "";
+	private String accountId = "";
 	private String accountGroupId = "";
-	private String pageId = "cnn";
+	private String pageId = "";
 
 	private FacebookAdsTemplate template;
 
