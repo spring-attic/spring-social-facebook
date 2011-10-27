@@ -19,8 +19,12 @@ package org.springframework.social.facebook.api.ads;
  * @author Karthick Sankarachary
  */
 public class AdCreative {
+	public enum AdCreativeType {
+		NONE, DEFAULT_BASIC_LINK_AD, INLINE_LIKE, EVENT_RSVP, APP_AD, SPONSORED_STORY_FOR_AN_APP_SHARE, SPONSORED_STORY_FOR_A_PAGE_LIKE_EVENT, SPONSORED_STORY_FOR_A_PLACE_CHECKIN_EVENT, SPONSORED_STORY_FOR_AN_APP_USED, SPONSORED_STORY_FOR_A_PAGE_POST_LIKE, SPONSORED_STORY_FOR_A_DOMAIN, SPONSORED_STORY_FOR_A_FACEBOOK_PAGE_UPDATE
+	}
+
 	private String name;
-	private String type;
+	private AdCreativeType type;
 	private int objectId;
 	private String body;
 	private String imageHash;
@@ -43,11 +47,11 @@ public class AdCreative {
 		this.name = name;
 	}
 
-	public String getType() {
+	public AdCreativeType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(AdCreativeType type) {
 		this.type = type;
 	}
 

@@ -58,9 +58,10 @@ public class FacebookAdsTemplate extends FacebookTemplate implements
 		accountGroupOperations = new AccountGroupTemplate(this, isAuthorized());
 		campaignOperations = new CampaignTemplate(this, isAuthorized());
 		creativeOperations = new CreativeTemplate(this, isAuthorized());
-		adGroupOperations = new AdGroupTemplate(this, getRestTemplate(),
+		adGroupOperations = new AdGroupTemplate(this, objectMapper,
+				getRestTemplate(), isAuthorized());
+		searchOperations = new SearchTemplate(this, objectMapper,
 				isAuthorized());
-		searchOperations = new SearchTemplate(this, objectMapper, isAuthorized());
 	}
 
 	public AccountOperations accountOperations() {

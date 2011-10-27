@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.type.CollectionType;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.springframework.http.HttpStatus;
@@ -203,6 +204,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return response.getBody();
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Image> uploadImage(String objectId, String connectionType,
 			final File imageFile, final String contentType) {
 		URI uri = URIBuilder.fromUri(
@@ -326,7 +328,9 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	@Override
 	protected MappingJacksonHttpMessageConverter getJsonMessageConverter() {
 		MappingJacksonHttpMessageConverter converter = super.getJsonMessageConverter();
-		objectMapper = new ObjectMapper();				
+		objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().enable(
+				SerializationConfig.Feature.WRITE_ENUMS_USING_INDEX);
 		objectMapper.registerModule(new FacebookModule());
 		converter.setObjectMapper(objectMapper);		
 		return converter;
@@ -372,5 +376,9 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 			}
 		}
 		return builder.toString();
+	}
+	
+	public ObjectMapper getObjectMapper() {
+		return objectMapper;
 	}
 }

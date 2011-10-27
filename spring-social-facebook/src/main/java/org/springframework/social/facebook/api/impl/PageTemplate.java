@@ -59,7 +59,6 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	@SuppressWarnings("unchecked")
 	public List<Post> getPosts(String pageId) {
 		requireAuthorization();
-		System.out.println( graphApi.fetchObject(pageId + "/posts", String.class));
 		Map<String, ?> map = graphApi.fetchObject(pageId + "/posts", Map.class);
 		return listDeserializer.deserializeList(map, Post.class);
 	}

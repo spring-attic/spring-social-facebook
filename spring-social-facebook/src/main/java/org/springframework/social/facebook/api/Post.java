@@ -18,14 +18,13 @@ package org.springframework.social.facebook.api;
 import java.util.Date;
 import java.util.List;
 
-
-
 /**
- * Model class representing an entry in a feed. 
+ * Model class representing an entry in a feed.
+ * 
  * @author Craig Walls
  */
 public class Post {
-	
+
 	private final String id;
 
 	private final Reference from;
@@ -35,31 +34,31 @@ public class Post {
 	private final Date updatedTime;
 
 	private List<Reference> to;
-	
+
 	private String message;
-	
+
 	private String picture;
-	
+
 	private String link;
-		
+
 	private String name;
-	
+
 	private String caption;
-	
+
 	private String description;
-	
+
 	private String icon;
-	
+
 	private Reference application;
-	
+
 	private PostType type;
-	
+
 	private int likeCount;
 
 	private List<Comment> comments;
-	
+
 	private List<Action> actions;
-	
+
 	public Post() {
 		this(null, null, null, null);
 	}
@@ -126,7 +125,7 @@ public class Post {
 	public PostType getType() {
 		return type;
 	}
-	
+
 	public int getLikeCount() {
 		return likeCount;
 	}
@@ -143,6 +142,16 @@ public class Post {
 		this.actions = actions;
 	}
 
-	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }
-	
+	public String getStoryId() {
+		try {
+			return id.substring(id.indexOf("_") + 1);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static enum PostType {
+		POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC
+	}
+
 }

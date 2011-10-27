@@ -22,6 +22,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.Identifier;
+import org.springframework.social.facebook.api.ads.EducationStatus;
 import org.springframework.social.facebook.api.ads.Gender;
 import org.springframework.social.facebook.api.ads.Name;
 import org.springframework.social.facebook.api.ads.RelationshipStatus;
@@ -47,7 +48,7 @@ abstract class TargetingMixin {
 
 	@JsonProperty("user_adclusters")
 	List<Identifier> userAdclusters;
-
+	
 	@JsonProperty("interested_in")
 	List<Gender> interestedIn;
 
@@ -71,4 +72,19 @@ abstract class TargetingMixin {
 
 	@JsonProperty("friends_of_connections")
 	List<Long> friendsOfConnections;
+
+	@JsonProperty("college_networks")
+	List<String> collegeNetworks;
+
+	@JsonProperty("work_networks")
+	List<String> workNetworks;
+
+	@JsonProperty("education_statuses")
+	List<EducationStatus> educationStatuses;
+
+	@JsonProperty("education_years")
+	List<Integer> educationYears;
+
+	@JsonProperty("college_majors")
+	List<String> collegeMajors;
 }

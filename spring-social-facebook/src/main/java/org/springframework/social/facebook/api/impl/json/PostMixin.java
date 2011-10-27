@@ -23,6 +23,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonSubTypes;
@@ -135,4 +136,8 @@ abstract class PostMixin {
 			return tree.get("count").getIntValue();
 		}
 	}
+	
+	@JsonIgnore
+	public abstract String getStoryId();
+
 }

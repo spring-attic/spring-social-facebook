@@ -49,6 +49,6 @@ public abstract class AbstractAdsOperations extends ConnectionTemplate {
 	}
 
 	public static String getUnixTime(Date date) {
-		return String.valueOf(date.getTime() / 1000L);
+		return date != null ? String.valueOf(date.getTime() / 1000L) : "";
 	}
 }

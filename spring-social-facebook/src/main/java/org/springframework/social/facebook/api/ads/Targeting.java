@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api.ads;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import org.springframework.social.facebook.api.Identifier;
@@ -37,7 +38,7 @@ public class Targeting {
 	private List<Gender> interestedIn;
 
 	// Demographic and events
-	private List<Gender> genders;
+	private EnumSet<Gender> genders;
 	private int ageMin;
 	private int ageMax;
 	private int broadAge;
@@ -48,6 +49,53 @@ public class Targeting {
 	private List<Long> connections;
 	private List<Long> excludedConnections;
 	private List<Long> friendsOfConnections;
+
+	// Education
+	private List<String> collegeNetworks;
+	private List<String> workNetworks;
+	private List<EducationStatus> educationStatuses;
+	private List<Integer> educationYears;
+	private List<String> collegeMajors;
+
+	public List<String> getCollegeNetworks() {
+		return collegeNetworks;
+	}
+
+	public void setCollegeNetworks(List<String> collegeNetworks) {
+		this.collegeNetworks = collegeNetworks;
+	}
+
+	public List<String> getWorkNetworks() {
+		return workNetworks;
+	}
+
+	public void setWorkNetworks(List<String> workNetworks) {
+		this.workNetworks = workNetworks;
+	}
+
+	public List<EducationStatus> getEducationStatuses() {
+		return educationStatuses;
+	}
+
+	public void setEducationStatuses(List<EducationStatus> educationStatuses) {
+		this.educationStatuses = educationStatuses;
+	}
+
+	public List<Integer> getEducationYears() {
+		return educationYears;
+	}
+
+	public void setEducationYears(List<Integer> educationYears) {
+		this.educationYears = educationYears;
+	}
+
+	public List<String> getCollegeMajors() {
+		return collegeMajors;
+	}
+
+	public void setCollegeMajors(List<String> collegeMajors) {
+		this.collegeMajors = collegeMajors;
+	}
 
 	public List<String> getCountries() {
 		return countries;
@@ -121,11 +169,11 @@ public class Targeting {
 		this.interestedIn = interestedIn;
 	}
 
-	public List<Gender> getGenders() {
+	public EnumSet<Gender> getGenders() {
 		return genders;
 	}
 
-	public void setGenders(List<Gender> genders) {
+	public void setGenders(EnumSet<Gender> genders) {
 		this.genders = genders;
 	}
 

@@ -1,6 +1,5 @@
 package org.springframework.social.facebook.connect;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
@@ -22,6 +21,7 @@ import org.springframework.social.facebook.api.ads.AccountGroupOperations;
 import org.springframework.social.facebook.api.ads.AccountOperations;
 import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCreative;
+import org.springframework.social.facebook.api.ads.AdCreative.AdCreativeType;
 import org.springframework.social.facebook.api.ads.AdGroup;
 import org.springframework.social.facebook.api.ads.AdGroupOperations;
 import org.springframework.social.facebook.api.ads.CampaignOperations;
@@ -35,10 +35,12 @@ import org.springframework.web.client.RestClientException;
  */
 @Ignore
 public class FacebookAdsTemplateTest {
-	private String accessToken = "<YOUR ACCESS TOKEN>";
-	private String accountId = "<YOUR ACCOUNT ID>";
-	private String accountGroupId = "<YOUR ACCOUNT GROUP ID>";
-	private String pageId = "cnn";
+        // Inject your own facebook ad object ids prior to testing
+	private String accessToken = "";
+	private String accountId = "";
+	private String accountGroupId = "";
+	private String creativeId = "";
+	private String pageId = "";
 
 	private FacebookAdsTemplate template;
 
@@ -63,7 +65,7 @@ public class FacebookAdsTemplateTest {
 	@Before
 	public void setUp() {
 		this.template = new FacebookAdsTemplate(accessToken);
-		this.mapper = new ObjectMapper();
+		this.mapper = this.template.getObjectMapper();
 		this.mapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
 	}
 
@@ -101,7 +103,7 @@ public class FacebookAdsTemplateTest {
 					.getCampaign(String.valueOf(campaign.getId()));
 			assertPrintable(campaign);
 
-			//campaignOps.createCampaign(accountId, campaign);
+//			campaignOps.createCampaign(accountId, campaign);
 		}
 
 	}
@@ -121,10 +123,17 @@ public class FacebookAdsTemplateTest {
 					.getCreativeId()));
 			assertPrintable(creative);
 			
-			// assertPrintable(creativeOps.createCreative(accountId, creative, new File("/Users/karthick/image.zip"), "application/x-zip-compressed"));
-			// Identifier creativeId = creativeOps.createCreative(accountId, creative);
-			// assertPrintable(creativeId);
-			// assertPrintable(creativeOps.deleteCreative(creativeId.getId()));
+//			assertPrintable(creativeOps.createCreative(accountId, creative, new File("/Users/karthick/image.zip"), "application/x-zip-compressed"));
+			Identifier creativeId = creativeOps.createCreative(accountId, creative);
+			assertPrintable(creativeId);
+			
+			creative.setType(AdCreativeType.SPONSORED_STORY_FOR_A_PAGE_LIKE_EVENT);
+			creative.setStoryId("202346236454983");
+			creative.setImageHash(null);
+			creative.setImageUrl(null);
+			creativeId = creativeOps.createCreative(accountId, creative);
+			assertPrintable(creativeId);
+//			assertPrintable(creativeOps.deleteCreative(creativeId.getId()));
 		}
 	}
 
@@ -143,6 +152,16 @@ public class FacebookAdsTemplateTest {
 					.getAdId()));
 			assertPrintable(adGroup);
 			assertPrintable(adGroup.getTargeting());
+			
+			CreativeOperations creativeOps = template.creativeOperations();
+			List<AdCreative> creatives = creativeOps.getCreatives(accountId);
+			if (creatives.size() > 0) {
+				AdCreative creative = creatives.get(0);
+				assertPrintable(creative);
+				adGroup.setCreative(creative);
+			}
+			Identifier identifier = adGroupOperations.createAdGroup(accountId, adGroup);
+			assertPrintable(identifier);
 		}
 	}
 
@@ -219,7 +238,7 @@ public class FacebookAdsTemplateTest {
 		Assert.assertTrue("The collection " + collection + " is not a list",
 				collection instanceof List);
 		Assert.assertTrue("The list is empty", collection.size() > 0);
-		T element = ((List<T>) collection).get(0);
+		T element = (T) ((List<T>) collection).get(0);
 		Assert.assertTrue("The element type is not an instance of "
 				+ elementType, elementType.isAssignableFrom(element.getClass()));
 	}

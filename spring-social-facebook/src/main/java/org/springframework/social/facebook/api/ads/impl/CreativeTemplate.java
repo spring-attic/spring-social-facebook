@@ -16,12 +16,8 @@
 package org.springframework.social.facebook.api.ads.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Identifier;
 import org.springframework.social.facebook.api.ads.AdCreative;
@@ -96,7 +92,7 @@ class CreativeTemplate extends AbstractAdsOperations implements
 	private MultiValueMap<String, Object> getCreativeData(AdCreative creative) {
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("name", creative.getName());
-		data.set("type", creative.getType());
+		data.set("type", String.valueOf(creative.getType().ordinal()));
 		data.set("object_id", String.valueOf(creative.getObjectId()));
 		data.set("body", creative.getBody());
 		data.set("image_hash", creative.getImageHash());

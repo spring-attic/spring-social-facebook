@@ -17,6 +17,7 @@ package org.springframework.social.facebook.api.ads.impl;
 
 import java.util.List;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Identifier;
 import org.springframework.social.facebook.api.ResultSet;
@@ -33,9 +34,12 @@ import org.springframework.web.client.RestTemplate;
 class AdGroupTemplate extends AbstractAdsOperations implements
 		AdGroupOperations {
 
-	public AdGroupTemplate(GraphApi graphApi, RestTemplate restTemplate,
-			boolean isAuthorizedForUser) {
+	private ObjectMapper objectMapper;
+
+	public AdGroupTemplate(GraphApi graphApi, ObjectMapper objectMapper,
+			RestTemplate restTemplate, boolean isAuthorizedForUser) {
 		super(graphApi, isAuthorizedForUser);
+		this.objectMapper = objectMapper;
 	}
 
 	@Override
@@ -127,21 +131,29 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 
 	private MultiValueMap<String, Object> getAdGroupData(AdGroup adGroup) {
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
-		data.set("ad_id", adGroup.getAdId());
-		data.set("campaign_id", adGroup.getCampaignId());
+		data.set("date_format", "U");
+		data.set("ad_id", String.valueOf(adGroup.getAdId()));
+		data.set("campaign_id", String.valueOf(adGroup.getCampaignId()));
 		data.set("name", adGroup.getName());
-		data.set("adgroup_status", adGroup.getAdGroupStatus().getValue());
-		data.set("bid_type", adGroup.getBidType().getValue());
+		data.set("adgroup_status",
+				String.valueOf(adGroup.getAdGroupStatus().getValue()));
+		data.set("bid_type", String.valueOf(adGroup.getBidType().getValue()));
 		data.set("max_bid", adGroup.getMaxBid());
-		data.set("targeting", adGroup.getTargeting());
-		data.set("creative", adGroup.getCreative());
-		data.set("adgroup_id", adGroup.getAdGroupId());
-		data.set("end_time", adGroup.getEndTime());
-		data.set("start_time", adGroup.getStartTime());
-		data.set("updated_time", adGroup.getUpdatedTime());
-		data.set("bid_info", adGroup.getBidInfo());
+		try {
+			data.set("targeting",
+					objectMapper.writeValueAsString(adGroup.getTargeting()));
+			data.set("creative",
+					objectMapper.writeValueAsString(adGroup.getCreative()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		data.set("adgroup_id", String.valueOf(adGroup.getAdGroupId()));
+		data.set("end_time", getUnixTime(adGroup.getEndTime()));
+		data.set("start_time", getUnixTime(adGroup.getStartTime()));
+		data.set("updated_time", getUnixTime(adGroup.getUpdatedTime()));
+		// data.set("bid_info", adGroup.getBidInfo());
 		data.set("disapprove_reason_descriptions",
-				adGroup.getDisapproveReasonDescriptions());
+				join(adGroup.getDisapproveReasonDescriptions()));
 		return data;
 	}
 
