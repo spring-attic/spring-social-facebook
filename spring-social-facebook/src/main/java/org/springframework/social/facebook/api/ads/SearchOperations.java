@@ -38,6 +38,13 @@ public interface SearchOperations extends
 	 */
 	public Identifier getIdByUrl(String url);
 
+	public List<Identifier> getAutocomplete(String query,
+			AdSearchType objectType);
+
+	public enum AdSearchType {
+		adcity, adcollege, adcollegemajor, adcountry, adlocale, adregion, adworkplace
+	}
+
 	/**
 	 * Get the auto-completions for the given keyword
 	 * 

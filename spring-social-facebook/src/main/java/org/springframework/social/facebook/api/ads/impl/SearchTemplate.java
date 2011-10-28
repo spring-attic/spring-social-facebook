@@ -72,4 +72,12 @@ class SearchTemplate extends
 		return super.join(list);
 	}
 
+	public List<Identifier> getAutocomplete(String query,
+			AdSearchType objectType) {
+		if (objectType == null) {
+			return null;
+		}
+		return super.search(objectType.name(), query, Identifier.class);
+	}
+
 }

@@ -138,9 +138,11 @@ class CampaignTemplate extends AbstractAdsOperations implements
 		data.set("name", campaign.getName());
 		data.set("start_time", getUnixTime(campaign.getStartTime()));
 		data.set("end_time", getUnixTime(campaign.getEndTime()));
-		data.set("daily_budget", campaign.getDailyBudget());
-		data.set("campaign_status", campaign.getCampaignStatus());
-		data.set("lifetime_budget", campaign.getLifetimeBudget());
+		data.set("daily_budget", String.valueOf(campaign.getDailyBudget()));
+		data.set("campaign_status",
+				String.valueOf(campaign.getCampaignStatus()));
+		data.set("lifetime_budget",
+				String.valueOf(campaign.getLifetimeBudget()));
 		return graphApi.update(campaignId, data);
 	}
 

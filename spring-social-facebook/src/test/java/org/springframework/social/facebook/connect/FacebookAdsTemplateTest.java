@@ -4,7 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,16 +22,19 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.social.facebook.api.Identifier;
 import org.springframework.social.facebook.api.PageOperations;
-import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.ads.AccountGroupOperations;
 import org.springframework.social.facebook.api.ads.AccountOperations;
 import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCreative;
 import org.springframework.social.facebook.api.ads.AdGroup;
 import org.springframework.social.facebook.api.ads.AdGroupOperations;
+import org.springframework.social.facebook.api.ads.BidType;
 import org.springframework.social.facebook.api.ads.CampaignOperations;
 import org.springframework.social.facebook.api.ads.CreativeOperations;
+import org.springframework.social.facebook.api.ads.EducationStatus;
 import org.springframework.social.facebook.api.ads.Images;
+import org.springframework.social.facebook.api.ads.SearchOperations.AdSearchType;
+import org.springframework.social.facebook.api.ads.Targeting;
 import org.springframework.social.facebook.api.ads.ValidKeyword;
 import org.springframework.social.facebook.api.ads.impl.FacebookAdsTemplate;
 import org.springframework.web.client.RestClientException;
@@ -38,6 +44,7 @@ import org.springframework.web.client.RestClientException;
  */
 @Ignore
 public class FacebookAdsTemplateTest {
+        // Prior to enabling, use real ids below
 	private String accessToken = "";
 	private String accountId = "";
 	private String accountGroupId = "";
@@ -166,9 +173,35 @@ public class FacebookAdsTemplateTest {
 				assertPrintable(creative);
 				adGroup.setCreative(creative);
 			}
-			// Identifier identifier =
-			// adGroupOperations.createAdGroup(accountId, adGroup);
-			// assertPrintable(identifier);
+
+			long now = System.currentTimeMillis();
+			Date startDate = new Date(now + 1000 * 60 * 60 * 24 * 2), endDate = new Date(
+					now + 1000 * 60 * 60 * 24 * 3);
+			CampaignOperations campaignOps = template.campaignOperations();
+			AdCampaign campaign = campaignOps.getCampaign(String
+					.valueOf(adGroup.getCampaignId()));
+			// campaign.setStartTime(startDate);
+			campaign.setEndTime(endDate);
+			campaignOps.updateCampaign(String.valueOf(campaign.getId()),
+					campaign);
+
+			adGroup.setBidType(BidType.CPC);
+			adGroup.setMaxBid("3");
+
+			Targeting targeting = new Targeting();
+			targeting.setCountries(Arrays.asList("US"));
+			targeting.setCollegeMajors(Arrays.asList("Computer Science"));
+			targeting.setEducationStatuses(new ArrayList<EducationStatus>());
+
+			adGroup.setTargeting(targeting);
+			adGroup.setStartTime(startDate);
+			adGroup.setEndTime(endDate);
+
+			Identifier identifier = adGroupOperations.createAdGroup(accountId,
+					adGroup);
+			assertPrintable(identifier);
+//			assertPrintable(adGroupOperations.getAdGroup(identifier.getId()));
+//			adGroupOperations.deleteAdGroup(identifier.getId());
 		}
 	}
 
@@ -177,13 +210,15 @@ public class FacebookAdsTemplateTest {
 			JsonMappingException, IOException {
 		PageOperations pageOps = template.pageOperations();
 
-		assertPrintable(pageOps.getPage(pageId));
+		// assertPrintable(pageOps.getPage(pageId));
+		//
+		// assertPrintable(pageOps.getInsights(pageId));
 
 		assertPrintable(pageOps.getAccounts());
-
-		List<Post> posts = pageOps.getPosts(pageId);
-		assertPrintable(posts);
-		assertListOf(posts, Post.class);
+		//
+		// List<Post> posts = pageOps.getPosts(pageId);
+		// assertPrintable(posts);
+		// assertListOf(posts, Post.class);
 	}
 
 	@Test
@@ -201,7 +236,12 @@ public class FacebookAdsTemplateTest {
 			JsonMappingException, IOException {
 		org.springframework.social.facebook.api.ads.SearchOperations searchOps = template
 				.searchOperations();
-		List<Identifier> identifiers = searchOps.search("adkeyword", "string",
+		
+		List<Identifier> identifiers = searchOps.getAutocomplete("un", AdSearchType.adcountry);
+		assertPrintable(identifiers);
+		assertPrintable(identifiers.get(0));
+		
+		identifiers = searchOps.search("adkeyword", "string",
 				Identifier.class);
 		assertPrintable(identifiers);
 		assertListOf(identifiers, Identifier.class);
