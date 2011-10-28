@@ -18,7 +18,9 @@ package org.springframework.social.facebook.api.ads.impl.json;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.ads.AdCreative;
+import org.springframework.social.facebook.api.ads.AdCreative.AdCreativeType;
 
 /**
  * A Jackson mixin for the {@link AdCreative} object.
@@ -31,6 +33,10 @@ abstract class AdCreativeMixin {
 	AdCreativeMixin() {
 	}
 
+	@JsonProperty("type")
+	@JsonDeserialize(using=AdCreativeTypeDeserializer.class)
+	AdCreativeType type;
+	
 	@JsonProperty("object_id")
 	int objectId;
 

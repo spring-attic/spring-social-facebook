@@ -27,7 +27,26 @@ package org.springframework.social.facebook.api.ads;
  */
 public class AdCreative {
 	public enum AdCreativeType {
-		NONE, DEFAULT_BASIC_LINK_AD, INLINE_LIKE, EVENT_RSVP, APP_AD, SPONSORED_STORY_FOR_AN_APP_SHARE, SPONSORED_STORY_FOR_A_PAGE_LIKE_EVENT, SPONSORED_STORY_FOR_A_PLACE_CHECKIN_EVENT, SPONSORED_STORY_FOR_AN_APP_USED, SPONSORED_STORY_FOR_A_PAGE_POST_LIKE, SPONSORED_STORY_FOR_A_DOMAIN, SPONSORED_STORY_FOR_A_FACEBOOK_PAGE_UPDATE
+		DEFAULT_BASIC_LINK_AD(1), INLINE_LIKE(2), EVENT_RSVP(3), APP_AD(4), SPONSORED_STORY_FOR_AN_APP_SHARE(
+				8), SPONSORED_STORY_FOR_A_PAGE_LIKE_EVENT(9), SPONSORED_STORY_FOR_A_PLACE_CHECKIN_EVENT(
+				10), SPONSORED_STORY_FOR_AN_APP_USED(16), SPONSORED_STORY_FOR_A_PAGE_POST_LIKE(
+				17), SPONSORED_STORY_FOR_A_DOMAIN(19), SPONSORED_STORY_FOR_A_FACEBOOK_PAGE_UPDATE(
+				27);
+
+		private int value;
+
+		private AdCreativeType(int value) {
+			this.value = value;
+		}
+
+		public static AdCreativeType findByValue(int value) {
+			for (AdCreativeType type : values()) {
+				if (type.value == value) {
+					return type;
+				}
+			}
+			return null;
+		}
 	}
 
 	private String name;
