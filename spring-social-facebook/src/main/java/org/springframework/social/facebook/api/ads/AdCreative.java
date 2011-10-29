@@ -51,7 +51,7 @@ public class AdCreative {
 
 	private String name;
 	private AdCreativeType type;
-	private int objectId;
+	private long objectId;
 	private String body;
 	private String imageHash;
 	private String imageUrl;
@@ -83,11 +83,11 @@ public class AdCreative {
 		this.type = type;
 	}
 
-	public int getObjectId() {
+	public long getObjectId() {
 		return objectId;
 	}
 
-	public void setObjectId(int objectId) {
+	public void setObjectId(long objectId) {
 		this.objectId = objectId;
 	}
 
