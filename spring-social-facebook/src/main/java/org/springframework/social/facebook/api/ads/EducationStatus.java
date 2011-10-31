@@ -20,6 +20,16 @@ package org.springframework.social.facebook.api.ads;
  * 
  * @author Karthick Sankarachary
  */
-public enum EducationStatus {
-	NONE, HIGH_SCHOOL, UNDERGRAD, ALUM
+public enum EducationStatus implements Valuable {
+	NONE(0), HIGH_SCHOOL(1), UNDERGRAD(2), ALUM(3);
+	
+	private int value;
+	
+	private EducationStatus(int value) {
+		this.value = value;
+	}
+	
+	public int getValue() {
+		return value;
+	}
 }

@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api.ads.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -92,13 +93,14 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 		return Boolean.valueOf(status);
 	}
 
-	public AdGroupStats getAdGroupStats(String adGroupId, long startTime, long endTime) {
+	public AdGroupStats getAdGroupStats(String adGroupId, long startTime,
+			long endTime) {
 		requireAuthorization();
 		MultiValueMap<String, String> vars = new LinkedMultiValueMap<String, String>();
 		vars.set("start_time", String.valueOf(startTime));
 		vars.set("end_time", String.valueOf(endTime));
-		return graphApi.fetchObject(getPath(adGroupId, "stats"), AdGroupStats.class,
-				vars);
+		return graphApi.fetchObject(getPath(adGroupId, "stats"),
+				AdGroupStats.class, vars);
 	}
 
 	public List<AdGroupStats> getAdGroupsStats(List<String> adGroupIds,
@@ -110,12 +112,13 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 		parameters.set("ids", join(adGroupIds));
 		parameters.set("stats", "");
 		@SuppressWarnings("unchecked")
-		ResultSet<AdGroupStats> resultSet = graphApi.fetchObject("", ResultSet.class);
+		ResultSet<AdGroupStats> resultSet = graphApi.fetchObject("",
+				ResultSet.class);
 		return resultSet.getData();
 	}
 
-	public List<AdGroupStats> getAdGroupsStats(String accountId, long startTime,
-			long endTime) {
+	public List<AdGroupStats> getAdGroupsStats(String accountId,
+			long startTime, long endTime) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("start_time", String.valueOf(startTime));
@@ -151,6 +154,8 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		adGroup.setStartTime(new Date());
+		adGroup.setEndTime(new Date());
 		data.set("adgroup_id", String.valueOf(adGroup.getAdGroupId()));
 		data.set("end_time", getUnixTime(adGroup.getEndTime()));
 		data.set("start_time", getUnixTime(adGroup.getStartTime()));
@@ -160,5 +165,4 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 				join(adGroup.getDisapproveReasonDescriptions()));
 		return data;
 	}
-
 }

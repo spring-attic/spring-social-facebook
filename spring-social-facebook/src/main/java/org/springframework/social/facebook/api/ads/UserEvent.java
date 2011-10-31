@@ -22,6 +22,16 @@ package org.springframework.social.facebook.api.ads;
  * @author Karthick Sankarachary
  * 
  */
-public enum UserEvent {
-	ALL, BIRTHDAY
+public enum UserEvent implements Valuable {
+	ALL(0), BIRTHDAY(1);
+
+	private int value;
+
+	private UserEvent(int value) {
+		this.value = value;
+	}
+
+	public int getValue() {
+		return value;
+	}
 }

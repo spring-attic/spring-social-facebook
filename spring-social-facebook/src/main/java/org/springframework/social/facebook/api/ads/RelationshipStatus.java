@@ -21,6 +21,16 @@ package org.springframework.social.facebook.api.ads;
  * @author Karthick Sankarachary
  * 
  */
-public enum RelationshipStatus {
-	ALL, SINGLE, IN_RELATIONSHIP, MARRIED, ENGAGED
+public enum RelationshipStatus implements Valuable {
+	ALL(0), SINGLE(1), IN_RELATIONSHIP(2), MARRIED(3), ENGAGED(4);
+
+	private int value;
+
+	private RelationshipStatus(int value) {
+		this.value = value;
+	}
+
+	public int getValue() {
+		return value;
+	}
 }

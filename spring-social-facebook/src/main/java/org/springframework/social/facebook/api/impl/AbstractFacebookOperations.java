@@ -39,6 +39,9 @@ public class AbstractFacebookOperations {
 	}
 
 	public String join(List<?> objects, String separator) {
+		if (objects == null) {
+			return null;
+		}
 		StringBuffer result = new StringBuffer();
 		for (Object object : objects) {
 			if (object == null) {

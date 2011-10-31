@@ -15,7 +15,6 @@
  */
 package org.springframework.social.facebook.api.ads;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import org.springframework.social.facebook.api.Identifier;
@@ -42,7 +41,7 @@ public class Targeting {
 	private List<Gender> interestedIn;
 
 	// Demographic and events
-	private EnumSet<Gender> genders;
+	private List<Gender> genders;
 	private int ageMin;
 	private int ageMax;
 	private int broadAge;
@@ -173,11 +172,11 @@ public class Targeting {
 		this.interestedIn = interestedIn;
 	}
 
-	public EnumSet<Gender> getGenders() {
+	public List<Gender> getGenders() {
 		return genders;
 	}
 
-	public void setGenders(EnumSet<Gender> genders) {
+	public void setGenders(List<Gender> genders) {
 		this.genders = genders;
 	}
 

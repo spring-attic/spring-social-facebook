@@ -20,6 +20,25 @@ package org.springframework.social.facebook.api.ads;
  * 
  * @author Karthick Sankarachary
  */
-public enum Gender {
-	ALL, MALE, FEMALE
+public enum Gender implements Valuable {
+    ALL(0), MALE(1), FEMALE(2);
+
+    private int value;
+
+    private Gender(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+    	return value;
+    }
+
+    public static Gender findByValue(int value) {
+        for (Gender type : values()) {
+            if (type.value == value) {
+                return type;
+            }
+        }
+        return null;
+    }
 }
