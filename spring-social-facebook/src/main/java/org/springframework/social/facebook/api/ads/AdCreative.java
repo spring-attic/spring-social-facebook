@@ -26,7 +26,7 @@ package org.springframework.social.facebook.api.ads;
  * @author Karthick Sankarachary
  */
 public class AdCreative {
-	public enum AdCreativeType {
+	public enum AdCreativeType implements Valuable {
 		DEFAULT_BASIC_LINK_AD(1), INLINE_LIKE(2), EVENT_RSVP(3), APP_AD(4), SPONSORED_STORY_FOR_AN_APP_SHARE(
 				8), SPONSORED_STORY_FOR_A_PAGE_LIKE_EVENT(9), SPONSORED_STORY_FOR_A_PLACE_CHECKIN_EVENT(
 				10), SPONSORED_STORY_FOR_AN_APP_USED(16), SPONSORED_STORY_FOR_A_PAGE_POST_LIKE(
@@ -37,6 +37,10 @@ public class AdCreative {
 
 		private AdCreativeType(int value) {
 			this.value = value;
+		}
+		
+		public int getValue() {
+			return value;
 		}
 
 		public static AdCreativeType findByValue(int value) {

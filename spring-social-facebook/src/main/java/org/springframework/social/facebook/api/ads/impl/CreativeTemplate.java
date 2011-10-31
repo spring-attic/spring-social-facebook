@@ -117,7 +117,7 @@ class CreativeTemplate extends AbstractAdsOperations implements
 	private MultiValueMap<String, Object> getCreativeData(AdCreative creative) {
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("name", creative.getName());
-		data.set("type", String.valueOf(creative.getType().ordinal()));
+		data.set("type", String.valueOf(creative.getType().getValue()));
 		data.set("object_id", String.valueOf(creative.getObjectId()));
 		data.set("body", creative.getBody());
 		data.set("image_hash", creative.getImageHash());

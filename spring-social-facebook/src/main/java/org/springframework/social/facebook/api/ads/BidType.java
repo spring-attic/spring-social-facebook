@@ -20,7 +20,7 @@ package org.springframework.social.facebook.api.ads;
  * 
  * @author Karthick Sankarachary
  */
-public enum BidType {
+public enum BidType implements Valuable {
 	CPC(1), CPM(2);
 
 	private int value;

@@ -244,5 +244,9 @@ public class Targeting {
 	public void setFriendsOfConnections(List<Long> friendsOfConnections) {
 		this.friendsOfConnections = friendsOfConnections;
 	}
+	
+	public static boolean isTopicKeyword(String keyword) {
+		return keyword != null && keyword.startsWith("#");
+	}
 
 }

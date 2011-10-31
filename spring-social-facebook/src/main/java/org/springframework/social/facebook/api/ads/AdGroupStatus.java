@@ -20,7 +20,7 @@ package org.springframework.social.facebook.api.ads;
  * 
  * @author Karthick Sankarachary
  */
-public enum AdGroupStatus {
+public enum AdGroupStatus implements Valuable {
 	ACTIVE(1), DELETED(3), PENDING_REVIEW(4), DISAPPROVED(5), CAMPAIGN_PAUSED(6), ADGROUP_PAUSED(
 			7);
 
