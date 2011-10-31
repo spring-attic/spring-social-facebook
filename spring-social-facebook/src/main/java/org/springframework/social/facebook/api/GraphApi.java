@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.util.MultiValueMap;
@@ -76,6 +77,56 @@ public interface GraphApi {
 	byte[] fetchImage(String objectId, String connectionName, ImageType imageType);	
 
 	/**
+	 * Uploads an image file.
+	 * Requires appropriate permission to upload to the object connection.
+	 * @param objectId the object ID
+	 * @param connectionName the connection name
+	 * @param imageFile the image file (maybe a zip of image files in some cases)
+	 * @param responseType the type of the response (id, image hash/url, etc)
+	 * @return an object of the responseType
+	 */
+	<T> T uploadImage(String objectId, String connectionName, File imageFile,
+			Class<T> responseType);
+
+	/**
+	 * Uploads an image file.
+	 * Requires appropriate permission to upload to the object connection.
+	 * @param objectId the object ID
+	 * @param connectionName the connection name
+	 * @param bytes the in-memory byte array representation of the image
+	 * @param name the logical name of the image file
+	 * @param responseType the type of the response (id, image hash/url, etc)
+	 * @return an object of the responseType
+	 */
+	<T> T uploadImage(String objectId, String connectionName,
+			final byte[] bytes, final String name, Class<T> responseType);
+	
+	/**
+	 * Adds a connection to a given object, extracting the data from the value the given Java type 
+	 * Requires appropriate permission to fetch the object connection.
+	 * @param objectId the ID of the object to retrieve the connections for.
+	 * @param connectionName the connection name.
+	 * @param type the Java type of each connection.
+	 * @param queryParameters query parameters to include in the request
+	 * @param connectionObject the connection object
+	 * @return an indicator of success
+	 */
+	<T> String addConnection(String objectId, String connectionName,
+			Class<T> type, MultiValueMap<String, String> queryParameters, T connectionObject);
+	
+	/**
+	 * Removes a connection to a given object, based on the ID of the pair of objects 
+	 * Requires appropriate permission to fetch the object connection.
+	 * @param objectId the ID of the object to retrieve the connections for.
+	 * @param connectionName the connection name.
+	 * @param type the Java type of each connection.
+	 * @param connectedObjectId the ID of the connection object to remove.
+	 * @return an indicator of success
+	 */
+	 String deleteConnection(String objectId, String connectionName,
+			Class<?> type, String connectedObjectId);
+	
+	/**
 	 * Publishes data to an object's connection.
 	 * Requires appropriate permission to publish to the object connection.
 	 * @param objectId the object ID to publish to.
@@ -84,6 +135,15 @@ public interface GraphApi {
 	 * @return the ID of the newly published object.
 	 */
 	String publish(String objectId, String connectionName, MultiValueMap<String, Object> data);	
+
+	/**
+	 * Updates data of an object.
+	 * Requires appropriate permission to update the object.
+	 * @param objectId the object ID to publish to.
+	 * @param data the data to publish to the connection.
+	 * @return a boolean value indicating success of the update operation.
+	 */
+	boolean update(String objectId, MultiValueMap<String, Object> data);	
 
 	/**
 	 * Publishes data to an object's connection. 
@@ -100,17 +160,19 @@ public interface GraphApi {
 	 * Deletes an object.
 	 * Requires appropriate permission to delete the object.
 	 * @param objectId the object ID
+	 * @return an indicator of success
 	 */
-	void delete(String objectId);
+	String delete(String objectId);
 	
 	/**
 	 * Deletes an object connection.
 	 * Requires appropriate permission to delete the object connection.
 	 * @param objectId the object ID
 	 * @param connectionName the connection name
+	 * @return an indicator of success
 	 */
-	void delete(String objectId, String connectionName);
+	String delete(String objectId, String connectionName);
 	
-	static final String GRAPH_API_URL = "https://graph.facebook.com/";
+	public static final String GRAPH_API_URL = "https://graph.facebook.com/";
 
 }

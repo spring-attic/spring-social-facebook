@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
@@ -22,8 +24,10 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.type.CollectionType;
 import org.codehaus.jackson.map.type.TypeFactory;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -41,6 +45,7 @@ import org.springframework.social.facebook.api.LikeOperations;
 import org.springframework.social.facebook.api.MediaOperations;
 import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PlacesOperations;
+import org.springframework.social.facebook.api.SearchOperations;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.social.facebook.api.impl.json.FacebookModule;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
@@ -83,8 +88,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	private MediaOperations mediaOperations;
 	
 	private PageOperations pageOperations;
+	
+	private SearchOperations searchOperations;
 
-	private ObjectMapper objectMapper;
+	protected ObjectMapper objectMapper;
 
 	/**
 	 * Create a new instance of FacebookTemplate.
@@ -154,6 +161,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return pageOperations;
 	}
 	
+	public SearchOperations searchOperations() {
+		return searchOperations;
+	}
+	
 	// low-level Graph API operations
 	public <T> T fetchObject(String objectId, Class<T> type) {
 		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId).build();
@@ -181,14 +192,74 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return deserializeDataList(dataNode.get("data"), type);
 	}
 
-	public byte[] fetchImage(String objectId, String connectionType, ImageType type) {
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType + "?type=" + type.toString().toLowerCase()).build();
+	public byte[] fetchImage(String objectId, String connectionName, ImageType type) {
+		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionName + "?type=" + type.toString().toLowerCase()).build();
 		ResponseEntity<byte[]> response = getRestTemplate().getForEntity(uri, byte[].class);
 		if(response.getStatusCode() == HttpStatus.FOUND) {
 			throw new UnsupportedOperationException("Attempt to fetch image resulted in a redirect which could not be followed. Add Apache HttpComponents HttpClient to the classpath " +
 					"to be able to follow redirects.");
 		}
 		return response.getBody();
+	}
+	
+	public <T> T uploadImage(String objectId, String connectionName,
+			File imageFile, Class<T> responseType) {
+		URI uri = URIBuilder.fromUri(
+				GRAPH_API_URL + objectId + "/" + connectionName).build();
+		LinkedMultiValueMap<String, Object> uploadRequest = new LinkedMultiValueMap<String, Object>();
+		uploadRequest.add("image.zip", new FileSystemResource(imageFile));
+		return getRestTemplate().postForObject(uri.toString(), uploadRequest,
+				responseType);
+	}
+
+	public <T> T uploadImage(String objectId, String connectionName,
+			final byte[] bytes, final String name, Class<T> responseType) {
+		File imageFile = null;
+		try {
+			String prefix, suffix;
+			if (name != null) {
+				int dotIndex = name.indexOf(".");
+				prefix = dotIndex > 0 ? name.substring(0, dotIndex) : name;
+				suffix = dotIndex > 0 ? name.substring(dotIndex + 1) : "image";
+			} else {
+				prefix = "facebook_image_" + System.currentTimeMillis();
+				suffix = "image";
+			}
+			imageFile = File.createTempFile(prefix, suffix);
+			FileOutputStream fos = new FileOutputStream(imageFile);
+			fos.write(bytes);
+			fos.close();
+			T response = uploadImage(objectId, connectionName, imageFile,
+					responseType);
+
+			return response;
+		} catch (Exception e) {
+			throw new UncategorizedApiException("Could not upload image "
+					+ name + " of type " + connectionName + " to object "
+					+ objectId + ": " + e.getMessage(), e);
+		} finally {
+			if (imageFile != null) {
+				try {
+					imageFile.deleteOnExit();
+				} catch (Exception e) {
+				}
+			}
+		}
+	}
+
+	public <T> String addConnection(String objectId, String connectionType,
+			Class<T> type, MultiValueMap<String, String> queryParameters, T connectionObject) {
+		String connectionPath = connectionType != null && connectionType.length() > 0 ? "/" + connectionType : "";
+		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).queryParams(queryParameters);		
+		return getRestTemplate().postForObject(uriBuilder.build(), connectionObject, String.class);
+	}
+
+	public String deleteConnection(String objectId, String connectionType,
+			Class<?> type, String connectedObjectId) {
+		LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
+		deleteRequest.set("method", "delete");
+		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType + "/" + connectedObjectId).build();
+		return getRestTemplate().postForObject(uri, deleteRequest, String.class);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -199,23 +270,30 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return (String) response.get("id");
 	}
 	
+	public boolean update(String objectId, MultiValueMap<String, Object> data) {
+		MultiValueMap<String, Object> requestData = new LinkedMultiValueMap<String, Object>(data);
+		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId).build();
+		String response = getRestTemplate().postForObject(uri, requestData, String.class);
+		return Boolean.valueOf(response);
+	}
+	
 	public void post(String objectId, String connectionType, MultiValueMap<String, String> data) {
 		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType).build();
 		getRestTemplate().postForObject(uri, new LinkedMultiValueMap<String, String>(data), String.class);
 	}
 	
-	public void delete(String objectId) {
+	public String delete(String objectId) {
 		LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
 		deleteRequest.set("method", "delete");
 		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId).build();
-		getRestTemplate().postForObject(uri, deleteRequest, String.class);
+		return getRestTemplate().postForObject(uri, deleteRequest, String.class);
 	}
 	
-	public void delete(String objectId, String connectionType) {
+	public String delete(String objectId, String connectionType) {
 		LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
 		deleteRequest.set("method", "delete");
 		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType).build();
-		getRestTemplate().postForObject(uri, deleteRequest, String.class);
+		return getRestTemplate().postForObject(uri, deleteRequest, String.class);
 	}
 	
 	// AbstractOAuth2ApiBinding hooks
@@ -229,10 +307,13 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		restTemplate.setErrorHandler(new FacebookErrorHandler());
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected MappingJacksonHttpMessageConverter getJsonMessageConverter() {
 		MappingJacksonHttpMessageConverter converter = super.getJsonMessageConverter();
-		objectMapper = new ObjectMapper();				
+		objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().enable(
+				SerializationConfig.Feature.WRITE_ENUMS_USING_INDEX);
 		objectMapper.registerModule(new FacebookModule());
 		converter.setObjectMapper(objectMapper);		
 		return converter;
@@ -255,7 +336,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		eventOperations = new EventTemplate(this, isAuthorized());
 		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorized());
 		groupOperations = new GroupTemplate(this, isAuthorized());
-		pageOperations = new PageTemplate(this, isAuthorized());
+		pageOperations = new PageTemplate(this, objectMapper, isAuthorized());
+		searchOperations = new SearchTemplate(this, objectMapper, isAuthorized());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -279,4 +361,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return builder.toString();
 	}
 	
+	public ObjectMapper getObjectMapper() {
+		return objectMapper;
+	}
 }

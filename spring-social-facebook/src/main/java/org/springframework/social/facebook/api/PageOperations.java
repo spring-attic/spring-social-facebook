@@ -55,6 +55,22 @@ public interface PageOperations {
 	List<Account> getAccounts();
 	
 	/**
+	 * Retrieves a list of Post objects for the given page ID.
+	 * 
+	 * @param pageId the page ID
+	 * @return a list of Post objects
+	 */
+	List<Post> getPosts(String pageId);
+	
+	/**
+	 * Retrieves a Post object for the given post ID.
+	 * 
+	 * @param pageId the post ID
+	 * @return a Post object
+	 */
+	Post getPost(String postId);
+	
+	/**
 	 * Posts a message to a page's feed as a page administrator.
 	 * Requires that the application is granted "manage_pages" permission and that the authenticated user be an administrator of the page.
 	 * To post to the page's feed as the authenticated user, use {@link FeedOperations#post(String, String)} instead.

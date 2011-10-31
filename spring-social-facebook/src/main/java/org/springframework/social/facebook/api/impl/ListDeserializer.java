@@ -15,16 +15,59 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.type.TypeFactory;
 
 /**
- * Strategy interface for deserializing lists of data returned from Facebook as JSON.
+ * Strategy interface for deserializing lists of data returned from Facebook as
+ * JSON.
+ * 
  * @author Craig Walls
  */
-interface ListDeserializer {
+public class ListDeserializer {
+	private ObjectMapper objectMapper;
 
-	<T> List<T> deserializeList(JsonNode jsonNode, Class<T> type);
+	public ListDeserializer(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
+
+	@SuppressWarnings({ "deprecation", "unchecked" })
+	public <T> List<T> deserializeList(JsonNode jsonNode, Class<T> elementType)
+			throws Exception {
+		Object value = objectMapper.readValue(jsonNode,
+				TypeFactory.arrayType(elementType));
+		List<T> returnValue = new ArrayList<T>();
+		if (value != null) {
+			if (value.getClass().isArray()) {
+				for (T element : (T[]) value) {
+					returnValue.add(element);
+				}
+			} else if (value instanceof List) {
+				return (List<T>) value;
+			}
+		}
+		return returnValue;
+	}
+
+	public <T> List<T> deserializeList(Map<String, ?> map, Class<T> elementType) {
+		return deserializeList(map, elementType, "data");
+	}
+
+	public <T> List<T> deserializeList(Map<String, ?> map,
+			Class<T> elementType, String listPropertyName) {
+		try {
+			return deserializeList(
+					objectMapper.valueToTree(map.get(listPropertyName)),
+					elementType);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }
