@@ -42,4 +42,8 @@ public enum AdGroupStatus implements Valuable {
 		}
 		return null;
 	}
+
+	public String toString() {
+		return String.valueOf(value);
+	}
 }

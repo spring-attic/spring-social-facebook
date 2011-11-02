@@ -41,4 +41,8 @@ public enum UserRole {
 		}
 		return null;
 	}
+
+	public String toString() {
+		return String.valueOf(level);
+	}
 }

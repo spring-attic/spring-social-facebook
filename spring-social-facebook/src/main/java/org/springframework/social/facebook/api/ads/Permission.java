@@ -42,4 +42,8 @@ public enum Permission {
 		}
 		return null;
 	}
+	
+	public String toString() {
+		return String.valueOf(level);
+	}
 }

@@ -41,4 +41,8 @@ public enum BidType implements Valuable {
 		}
 		return null;
 	}
+
+	public String toString() {
+		return String.valueOf(value);
+	}
 }

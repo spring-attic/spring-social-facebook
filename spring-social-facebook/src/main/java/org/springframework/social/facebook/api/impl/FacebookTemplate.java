@@ -313,7 +313,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		MappingJacksonHttpMessageConverter converter = super.getJsonMessageConverter();
 		objectMapper = new ObjectMapper();
 		objectMapper.getSerializationConfig().enable(
-				SerializationConfig.Feature.WRITE_ENUMS_USING_INDEX);
+				SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
 		objectMapper.registerModule(new FacebookModule());
 		converter.setObjectMapper(objectMapper);		
 		return converter;

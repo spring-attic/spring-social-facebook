@@ -154,8 +154,6 @@ class AdGroupTemplate extends AbstractAdsOperations implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		adGroup.setStartTime(new Date());
-		adGroup.setEndTime(new Date());
 		data.set("adgroup_id", String.valueOf(adGroup.getAdGroupId()));
 		data.set("end_time", getUnixTime(adGroup.getEndTime()));
 		data.set("start_time", getUnixTime(adGroup.getStartTime()));

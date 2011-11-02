@@ -33,4 +33,8 @@ public enum RelationshipStatus implements Valuable {
 	public int getValue() {
 		return value;
 	}
+
+	public String toString() {
+		return String.valueOf(value);
+	}
 }

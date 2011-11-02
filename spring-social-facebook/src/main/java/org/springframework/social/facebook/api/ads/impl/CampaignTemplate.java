@@ -119,7 +119,7 @@ class CampaignTemplate extends AbstractAdsOperations implements
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("date_format", "U");
 		data.set("name", campaign.getName());
-		data.set("start_time", getUnixTime(new Date()));
+		data.set("start_time", getUnixTime(campaign.getStartTime()));
 		data.set("end_time", getUnixTime(campaign.getEndTime()));
 		data.set("daily_budget", String.valueOf(campaign.getDailyBudget()));
 		data.set("campaign_status",

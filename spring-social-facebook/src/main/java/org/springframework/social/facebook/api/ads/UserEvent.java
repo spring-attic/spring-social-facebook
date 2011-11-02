@@ -34,4 +34,8 @@ public enum UserEvent implements Valuable {
 	public int getValue() {
 		return value;
 	}
+
+	public String toString() {
+		return String.valueOf(value);
+	}
 }

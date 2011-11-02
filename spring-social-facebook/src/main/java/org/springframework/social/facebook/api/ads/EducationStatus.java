@@ -32,4 +32,8 @@ public enum EducationStatus implements Valuable {
 	public int getValue() {
 		return value;
 	}
+
+	public String toString() {
+		return String.valueOf(value);
+	}
 }

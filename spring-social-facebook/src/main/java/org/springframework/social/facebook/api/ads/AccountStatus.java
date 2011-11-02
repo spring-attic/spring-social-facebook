@@ -18,7 +18,7 @@ package org.springframework.social.facebook.api.ads;
 /**
  * @author Karthick Sankarachary
  */
-public enum AccountStatus {
+public enum AccountStatus implements Valuable {
 	ACTIVE(1), DISABLED(2), UNSETTLED(3);
 
 	private int value;
@@ -38,5 +38,9 @@ public enum AccountStatus {
 			}
 		}
 		return null;
+	}
+	
+	public String toString() {
+		return String.valueOf(value);
 	}
 }
