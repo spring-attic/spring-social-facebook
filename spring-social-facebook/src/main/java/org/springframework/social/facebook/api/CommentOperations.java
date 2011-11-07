@@ -29,13 +29,23 @@ import org.springframework.social.MissingAuthorizationException;
 public interface CommentOperations {
 	
 	/**
-	 * Retrieves all comments for a given object.
-	 * @param objectId the objectId
+	 * Retrieves the first 25 comments for a given object.
+	 * @param objectId the ID of the object
 	 * @return a list of {@link Comment}s for the specified object
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<Comment> getComments(String objectId);
-	
+
+	/**
+	 * Retrieves comments for a given object.
+	 * @param objectId the ID of the object
+	 * @param offset the offset into the list of comments to start retrieving comments
+	 * @param limit the maximum number of comments to retrieve
+	 * @return a list of {@link Comment}s for the specified object
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	List<Comment> getComments(String objectId, int offset, int limit);
+
 	/**
 	 * Retrieves a single comment
 	 * @param commentId the comment ID

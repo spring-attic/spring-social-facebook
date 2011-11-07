@@ -32,7 +32,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getComments() {
-		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments"))
+		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/comments"), responseHeaders));
@@ -48,7 +48,26 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Chuck Wagon", comment2.getFrom().getName());
 		assertEquals("The world says hello back", comment2.getMessage());
 	}
-	
+
+	@Test
+	public void getComments_withOffsetAndLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments?offset=75&limit=100"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/comments"), responseHeaders));
+		
+		List<Comment> comments = facebook.commentOperations().getComments("123456", 75, 100);
+		assertEquals(2, comments.size());
+		Comment comment1 = comments.get(0);
+		assertEquals("1533260333", comment1.getFrom().getId());
+		assertEquals("Art Names", comment1.getFrom().getName());
+		assertEquals("Howdy!", comment1.getMessage());
+		Comment comment2 = comments.get(1);
+		assertEquals("638140578", comment2.getFrom().getId());
+		assertEquals("Chuck Wagon", comment2.getFrom().getName());
+		assertEquals("The world says hello back", comment2.getMessage());
+	}
+
 	@Test
 	public void getComment() {
 		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))

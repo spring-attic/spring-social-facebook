@@ -125,6 +125,9 @@ public class Post {
 		return likeCount;
 	}
 
+	/**
+	 * The most recent comments for the post.
+	 */
 	public List<Comment> getComments() {
 		return comments;
 	}
