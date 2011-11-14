@@ -214,11 +214,21 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getFriendProfiles() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/friends?fields=id%2Cusername%2Cname%2Cfirst_name%2Clast_name%2Cgender%2Clocale%2Ceducation%2Cwork%2Cemail%2Cthird_party_id%2Clink%2Ctimezone%2Cupdated_time%2Cverified%2Cabout%2Cbio%2Cbirthday%2Clocation%2Chometown%2Cinterested_in%2Creligion%2Cpolitical%2Cquotes%2Crelationship_status%2Csignificant_other%2Cwebsite"))
+		mockServer.expect(requestTo("https://graph.facebook.com/me/friends?offset=0&limit=100&fields=id%2Cusername%2Cname%2Cfirst_name%2Clast_name%2Cgender%2Clocale%2Ceducation%2Cwork%2Cemail%2Cthird_party_id%2Clink%2Ctimezone%2Cupdated_time%2Cverified%2Cabout%2Cbio%2Cbirthday%2Clocation%2Chometown%2Cinterested_in%2Creligion%2Cpolitical%2Cquotes%2Crelationship_status%2Csignificant_other%2Cwebsite"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/user-profiles"), responseHeaders));
 		List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles();
+		assertFriendProfiles(friends);
+	}
+
+	@Test
+	public void getFriendProfiles_withOffsetAndLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/friends?offset=100&limit=150&fields=id%2Cusername%2Cname%2Cfirst_name%2Clast_name%2Cgender%2Clocale%2Ceducation%2Cwork%2Cemail%2Cthird_party_id%2Clink%2Ctimezone%2Cupdated_time%2Cverified%2Cabout%2Cbio%2Cbirthday%2Clocation%2Chometown%2Cinterested_in%2Creligion%2Cpolitical%2Cquotes%2Crelationship_status%2Csignificant_other%2Cwebsite"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/user-profiles"), responseHeaders));
+		List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles(100, 150);
 		assertFriendProfiles(friends);
 	}
 	
@@ -229,7 +239,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getFriendProfiles_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/1234567/friends?fields=id%2Cusername%2Cname%2Cfirst_name%2Clast_name%2Cgender%2Clocale%2Ceducation%2Cwork%2Cemail%2Cthird_party_id%2Clink%2Ctimezone%2Cupdated_time%2Cverified%2Cabout%2Cbio%2Cbirthday%2Clocation%2Chometown%2Cinterested_in%2Creligion%2Cpolitical%2Cquotes%2Crelationship_status%2Csignificant_other%2Cwebsite"))
+		mockServer.expect(requestTo("https://graph.facebook.com/1234567/friends?offset=0&limit=100&fields=id%2Cusername%2Cname%2Cfirst_name%2Clast_name%2Cgender%2Clocale%2Ceducation%2Cwork%2Cemail%2Cthird_party_id%2Clink%2Ctimezone%2Cupdated_time%2Cverified%2Cabout%2Cbio%2Cbirthday%2Clocation%2Chometown%2Cinterested_in%2Creligion%2Cpolitical%2Cquotes%2Crelationship_status%2Csignificant_other%2Cwebsite"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/user-profiles"), responseHeaders));
@@ -237,6 +247,16 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendProfiles(friends);
 	}
 
+	@Test
+	public void getFriendProfiles_forSpecificUserWithOffsetAndLimit() {
+		mockServer.expect(requestTo("https://graph.facebook.com/1234567/friends?offset=100&limit=150&fields=id%2Cusername%2Cname%2Cfirst_name%2Clast_name%2Cgender%2Clocale%2Ceducation%2Cwork%2Cemail%2Cthird_party_id%2Clink%2Ctimezone%2Cupdated_time%2Cverified%2Cabout%2Cbio%2Cbirthday%2Clocation%2Chometown%2Cinterested_in%2Creligion%2Cpolitical%2Cquotes%2Crelationship_status%2Csignificant_other%2Cwebsite"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/user-profiles"), responseHeaders));
+		List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles("1234567", 100, 150);
+		assertFriendProfiles(friends);
+	}
+	
 	@Test(expected = NotAuthorizedException.class)
 	public void getFriendProfiles_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendProfiles("912873465");

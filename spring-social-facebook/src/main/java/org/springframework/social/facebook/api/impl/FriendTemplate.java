@@ -96,9 +96,13 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public List<FacebookProfile> getFriendProfiles() {
-		return getFriendProfiles("me");
+		return getFriendProfiles("me", 0, 100);
 	}
 
+	public List<FacebookProfile> getFriendProfiles(int offset, int limit) {
+		return getFriendProfiles("me", offset, limit);
+	}
+	
 	public List<Reference> getFriends(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "friends", Reference.class);
@@ -118,10 +122,18 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public List<FacebookProfile> getFriendProfiles(String userId) {
-		requireAuthorization();
-		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, FULL_PROFILE_FIELDS);
+		return getFriendProfiles(userId, 0, 100);
 	}
 
-	private static final String[] FULL_PROFILE_FIELDS = {"id", "username", "name", "first_name", "last_name", "gender", "locale", "education", "work", "email", "third_party_id", "link", "timezone", "updated_time", "verified", "about", "bio", "birthday", "location", "hometown", "interested_in", "religion", "political", "quotes", "relationship_status", "significant_other", "website"};
+	public List<FacebookProfile> getFriendProfiles(String userId, int offset, int limit) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("offset", String.valueOf(offset));
+		parameters.set("limit", String.valueOf(limit));
+		parameters.set("fields", FULL_PROFILE_FIELDS);
+		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
+	}
+
+	private static final String FULL_PROFILE_FIELDS = "id,username,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,bio,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";
 
 }
