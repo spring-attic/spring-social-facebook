@@ -127,7 +127,7 @@ abstract class PostMixin {
 		@Override
 		public Integer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			JsonNode tree = jp.readValueAsTree();
-			return tree.has("count") ? tree.get("count").getValueAsInt() : 0;
+			return tree.has("count") ? tree.get("count").getIntValue() : 0;
 		}
 	}
 }
