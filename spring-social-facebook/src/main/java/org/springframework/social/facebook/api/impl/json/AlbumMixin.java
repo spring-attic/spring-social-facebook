@@ -64,7 +64,7 @@ abstract class AlbumMixin {
 			try {
 				return Type.valueOf(jp.getText().toUpperCase());
 			} catch (IllegalArgumentException e) {
-				return Type.CUSTOM;
+				return Type.UNKNOWN;
 			}				
 		}		
 	}
