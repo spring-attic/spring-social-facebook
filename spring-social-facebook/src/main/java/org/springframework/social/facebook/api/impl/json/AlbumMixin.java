@@ -61,7 +61,11 @@ abstract class AlbumMixin {
 		@Override
 		public Type deserialize(JsonParser jp, DeserializationContext ctxt)
 				throws IOException, JsonProcessingException {
-			return Type.valueOf(jp.getText().toUpperCase());
+			try {
+				return Type.valueOf(jp.getText().toUpperCase());
+			} catch (IllegalArgumentException e) {
+				return Type.CUSTOM;
+			}				
 		}		
 	}
 			
