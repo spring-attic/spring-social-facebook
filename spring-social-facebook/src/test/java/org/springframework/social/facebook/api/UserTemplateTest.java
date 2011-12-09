@@ -41,7 +41,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andRespond(withResponse(jsonResource("testdata/full-profile"), responseHeaders));
 
 		FacebookProfile profile = facebook.userOperations().getUserProfile();
-		assertBasicProfileData(profile);
+		assertBasicProfileData(profile, true);
 		assertEquals("cwalls@vmware.com", profile.getEmail());
 		assertEquals("http://www.facebook.com/habuma", profile.getLink());
 		assertEquals("xyz123abc987", profile.getThirdPartyId());
@@ -110,9 +110,20 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andRespond(withResponse(jsonResource("testdata/minimal-profile"), responseHeaders));
 
 		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
-		assertBasicProfileData(profile);
+		assertBasicProfileData(profile, true);
 	}
-	
+
+	@Test
+	public void getUserProfile_specificUserByUserId_noMiddleName() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withResponse(jsonResource("testdata/minimal-profile-no-middle-name"), responseHeaders));
+
+		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		assertBasicProfileData(profile, false);
+	}
+
 	@Test
 	public void getUserProfileImage() {
 		responseHeaders.setContentType(MediaType.IMAGE_JPEG);
@@ -199,11 +210,16 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		unauthorizedFacebook.userOperations().search("Michael Scott");
 	}
 
-	private void assertBasicProfileData(FacebookProfile profile) {
+	private void assertBasicProfileData(FacebookProfile profile, boolean withMiddleName) {
 		assertEquals("123456789", profile.getId());
-		assertEquals("Craig", profile.getFirstName());
+		assertEquals("Michael", profile.getFirstName());
+		if (withMiddleName) {
+			assertEquals("Craig", profile.getMiddleName());
+		} else {
+			assertNull(profile.getMiddleName());
+		}
 		assertEquals("Walls", profile.getLastName());
-		assertEquals("Craig Walls", profile.getName());
+		assertEquals("Michael Craig Walls", profile.getName());
 		assertEquals(Locale.US, profile.getLocale());
 		assertEquals("male", profile.getGender());
 	}

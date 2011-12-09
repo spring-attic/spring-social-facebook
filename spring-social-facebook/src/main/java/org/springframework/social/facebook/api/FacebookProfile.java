@@ -36,6 +36,8 @@ public class FacebookProfile implements Serializable {
 	private final String name;
 
 	private final String firstName;
+	
+	private String middleName;
 
 	private final String lastName;
 
@@ -133,6 +135,14 @@ public class FacebookProfile implements Serializable {
 	 */
 	public String getFirstName() {
 		return firstName;
+	}
+
+	/**
+	 * The user's middle name
+	 * @return The user's middle name
+	 */
+	public String getMiddleName() {
+		return middleName;
 	}
 
 	/**

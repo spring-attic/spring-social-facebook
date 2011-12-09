@@ -1,7 +1,8 @@
 {
    "id": "123456789",
-   "name": "Craig Walls",
-   "first_name": "Craig",
+   "name": "Michael Craig Walls",
+   "first_name": "Michael",
+   "middle_name": "Craig",
    "last_name": "Walls",
    "link": "http://www.facebook.com/habuma",
    "third_party_id" : "xyz123abc987",
