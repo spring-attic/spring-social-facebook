@@ -49,6 +49,7 @@ import org.springframework.social.support.ClientHttpRequestFactorySelector;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -152,6 +153,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	public PageOperations pageOperations() {
 		return pageOperations;
+	}
+	
+	public RestOperations restOperations() {
+		return getRestTemplate();
 	}
 	
 	// low-level Graph API operations
