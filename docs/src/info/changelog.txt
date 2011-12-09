@@ -1,3 +1,23 @@
+Spring Social Facebook 1.0.1 (??? ?, 2011)
+==========================================
+Bug Fixes
+  * Handle unknown album types as AlbumType.UNKNOWN (SOCIALFB-50)
+  * Check for existence of "count" field before attempting to read
+    the likes count (SOCIALFB-33)
+
+Improvements
+  * Added middle name to FacebookProfile (SOCIALFB-29)
+  * Expose RestOperations through Facebook interface for access to
+    endpoints not yet covered by the API binding (SOCIALFB-32)
+  * Added GroupOperations.getMemberships() to retrieve a list of
+    groups that a user is a member of (SOCIALFB-49)
+  * Added a new FRIENDS_WALLS albums type to reflect a new album
+    type returned by the graph API (SOCIALFB-50)
+  * Added paging support (offset and limit) to FriendOperations.
+    getFriendProfiles()  (SOCIALFB-44)
+  * Added paging (offset and limit) to CommentOperations.getComments()
+    (SOCIALFB-25)
+
 Spring Social Facebook 1.0.0 (September 8, 2011)
 ================================================
  Misc:
