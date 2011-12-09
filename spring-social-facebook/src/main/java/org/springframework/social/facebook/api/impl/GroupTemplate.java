@@ -21,6 +21,7 @@ import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Group;
 import org.springframework.social.facebook.api.GroupMemberReference;
+import org.springframework.social.facebook.api.GroupMembership;
 import org.springframework.social.facebook.api.GroupOperations;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.util.LinkedMultiValueMap;
@@ -55,6 +56,15 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 	public List<FacebookProfile> getMemberProfiles(String groupId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(groupId, "members", FacebookProfile.class, FULL_PROFILE_FIELDS);
+	}
+	
+	public List<GroupMembership> getMemberships() {
+		return getMemberships("me");
+	}
+	
+	public List<GroupMembership> getMemberships(String userId) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "groups", GroupMembership.class);
 	}
 
 	public List<Group> search(String query) {
