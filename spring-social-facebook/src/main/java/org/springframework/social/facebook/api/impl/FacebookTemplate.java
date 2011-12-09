@@ -30,6 +30,7 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.UncategorizedApiException;
+import org.springframework.social.facebook.api.AdOperations;
 import org.springframework.social.facebook.api.CommentOperations;
 import org.springframework.social.facebook.api.EventOperations;
 import org.springframework.social.facebook.api.Facebook;
@@ -83,6 +84,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	private MediaOperations mediaOperations;
 	
 	private PageOperations pageOperations;
+	
+	private AdOperations adOperations;
 
 	private ObjectMapper objectMapper;
 
@@ -152,6 +155,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	public PageOperations pageOperations() {
 		return pageOperations;
+	}
+	
+	public AdOperations adOperations() {
+	    return adOperations;
 	}
 	
 	// low-level Graph API operations
@@ -256,6 +263,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorized());
 		groupOperations = new GroupTemplate(this, isAuthorized());
 		pageOperations = new PageTemplate(this, isAuthorized());
+		adOperations = new AdTemplate(this, isAuthorized());
 	}
 	
 	@SuppressWarnings("unchecked")
