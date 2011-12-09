@@ -43,6 +43,9 @@ abstract class FacebookProfileMixin {
 			@JsonProperty("gender") String gender, 
 			@JsonProperty("locale") Locale locale) {}
 	
+	@JsonProperty("middle_name")
+	String middleName;
+
 	@JsonProperty("work")
 	List<WorkEntry> work;
 	
