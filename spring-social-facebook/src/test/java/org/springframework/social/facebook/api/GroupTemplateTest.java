@@ -80,6 +80,26 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		List<FacebookProfile> members = facebook.groupOperations().getMemberProfiles("213106022036379");
 		assertMembers(members);
 	}
+	
+	@Test
+	public void getMemberships_currentUser() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/groups"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/group-memberships"), responseHeaders));
+		List<GroupMembership> memberships = facebook.groupOperations().getMemberships();
+		assertMemberships(memberships);
+	}
+
+	@Test
+	public void getMemberships_specificUser() {
+		mockServer.expect(requestTo("https://graph.facebook.com/12345678/groups"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/group-memberships"), responseHeaders));
+		List<GroupMembership> memberships = facebook.groupOperations().getMemberships("12345678");
+		assertMemberships(memberships);
+	}
 
 	@Test
 	public void search() {
@@ -133,7 +153,37 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 	}	
 	
 	private void assertMembers(List<FacebookProfile> members) {
-		// TODO assert member details		
+		assertEquals(3, members.size());
+		assertEquals("100001387295207", members.get(0).getId());
+		assertEquals("Art Names", members.get(0).getName());
+		assertEquals("738140579", members.get(1).getId());
+		assertEquals("Craig Walls", members.get(1).getName());
+		assertEquals("627039468", members.get(2).getId());
+		assertEquals("Chuck Wagon", members.get(2).getName());
+		
+		// TODO: Assert additional profile fields
 	}
 
+	private void assertMemberships(List<GroupMembership> memberships) {
+		assertEquals(3, memberships.size());
+		assertEquals("12345", memberships.get(0).getId());
+		assertEquals("Test Group", memberships.get(0).getName());
+		assertEquals(1, memberships.get(0).getVersion());
+		assertEquals(1, memberships.get(0).getBookmarkOrder());
+		assertTrue(memberships.get(0).isAdministrator());
+		assertEquals(0, memberships.get(0).getUnread());
+		assertEquals("54321", memberships.get(1).getId());
+		assertEquals("Test Group 2", memberships.get(1).getName());
+		assertEquals(0, memberships.get(1).getVersion());
+		assertEquals(2, memberships.get(1).getBookmarkOrder());
+		assertFalse(memberships.get(1).isAdministrator());
+		assertEquals(0, memberships.get(1).getUnread());
+		assertEquals("24680", memberships.get(2).getId());
+		assertEquals("Test Group 3", memberships.get(2).getName());
+		assertEquals(1, memberships.get(2).getVersion());
+		assertEquals(999999999, memberships.get(2).getBookmarkOrder());
+		assertFalse(memberships.get(2).isAdministrator());
+		assertEquals(24, memberships.get(2).getUnread());
+	}
+	
 }
