@@ -17,6 +17,7 @@ package org.springframework.social.facebook.api;
 
 import org.springframework.social.ApiBinding;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
+import org.springframework.web.client.RestOperations;
 
 
 /**
@@ -76,4 +77,10 @@ public interface Facebook extends GraphApi, ApiBinding {
 	 */
 	UserOperations userOperations();
 	
+	/**
+	 * Returns the underlying {@link RestOperations} object allowing for consumption of Facebook endpoints that may not be otherwise covered by the API binding.
+	 * The RestOperations object returned is configured to include an OAuth 2 "Authorization" header on all requests.
+	 */
+	RestOperations restOperations();
+
 }
