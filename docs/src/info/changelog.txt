@@ -4,6 +4,8 @@ Bug Fixes
   * Handle unknown album types as AlbumType.UNKNOWN (SOCIALFB-50)
   * Check for existence of "count" field before attempting to read
     the likes count (SOCIALFB-33)
+  * Default album privacy to CUSTOM when an unrecognized privacy
+    is received from facebook. (SOCIALFB-38)
 
 Improvements
   * Added middle name to FacebookProfile (SOCIALFB-29)
@@ -17,6 +19,8 @@ Improvements
     getFriendProfiles()  (SOCIALFB-44)
   * Added paging (offset and limit) to CommentOperations.getComments()
     (SOCIALFB-25)
+  * Added story, storyTags, and messageTags properties to Post objects
+    to capture in-text tagging of stories and messages (SCOIALFB-36)
 
 Spring Social Facebook 1.0.0 (September 8, 2011)
 ================================================
