@@ -1,5 +1,5 @@
-Spring Social Facebook 1.0.1 (??? ?, 2011)
-==========================================
+Spring Social Facebook 1.0.1 (December 15, 2011)
+================================================
 Bug Fixes
   * Handle unknown album types as AlbumType.UNKNOWN (SOCIALFB-50)
   * Check for existence of "count" field before attempting to read
