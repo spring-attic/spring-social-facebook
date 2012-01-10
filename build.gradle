@@ -93,11 +93,11 @@ configure(javaprojects) {
     // add tasks for finding and publishing .xsd files
     apply from: "$buildSrcDir/schema-publication.gradle"
 
-    springSocialVersion = '1.0.1.RELEASE'
-    jacksonVersion = '1.9.2'
+    springSocialVersion = '1.0.2.BUILD-SNAPSHOT'
+    jacksonVersion = '1.9.3'
     jspApiVersion = '2.1'
-    junitVersion = '4.9'
-    mockitoVersion = '1.8.5'
+    junitVersion = '4.10'
+    mockitoVersion = '1.9.0'
     servletApiVersion = '2.5'
     springVersion = '3.1.0.RELEASE'
 
@@ -116,7 +116,7 @@ configure(javaprojects) {
 
     // dependencies that are common across all java projects
     dependencies {
-        testCompile "junit:junit:$junitVersion"
+        testCompile "junit:junit-dep:$junitVersion"
         testCompile "org.mockito:mockito-all:$mockitoVersion"
         testCompile "org.springframework:spring-test:$springVersion"
     }
