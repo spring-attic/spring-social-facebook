@@ -298,6 +298,15 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse(jsonResource("testdata/error-duplicate-to-twitter"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 		facebook.feedOperations().updateStatus("Test Message");
 	}
+	
+	@Test(expected = ResourceNotFoundException.class)
+	public void notFound() {
+		mockServer.expect(requestTo("https://graph.facebook.com/nobody/feed?offset=0&limit=25"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/error-unknown-alias"), responseHeaders, HttpStatus.NOT_FOUND, ""));
+		facebook.feedOperations().getFeed("nobody");		
+	}
 
 	private static final String CHANGED_PASSWORD_REVOKATION = "The authorization has been revoked. Reason: Error validating access token: " +
 			"The session has been invalidated because the user has changed the password.";
