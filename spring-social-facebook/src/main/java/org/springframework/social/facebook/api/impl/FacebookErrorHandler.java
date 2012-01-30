@@ -124,6 +124,8 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 			} else {
 				throw new OperationNotPermittedException(message);
 			}
+		} else if (statusCode == HttpStatus.NOT_FOUND) {
+			throw new ResourceNotFoundException(message);
 		} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR) {
 			if (message.equals("User must be an owner of the friendlist")) { // watch for pattern in similar message in other resources
 				throw new ResourceOwnershipException(message);
