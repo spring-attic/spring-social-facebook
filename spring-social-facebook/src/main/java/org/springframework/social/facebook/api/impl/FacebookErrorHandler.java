@@ -107,6 +107,8 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 				throw new DuplicateStatusException(message);
 			} else if (message.contains("Feed action request limit reached")) {
 				throw new RateLimitExceededException();
+			} else if (message.contains("The status you are trying to publish is a duplicate of, or too similar to, one that we recently posted to Twitter")) {
+				throw new DuplicateStatusException(message);
 			}
 		} else if (statusCode == HttpStatus.UNAUTHORIZED) {
 			if (message.startsWith("Error validating access token")) {

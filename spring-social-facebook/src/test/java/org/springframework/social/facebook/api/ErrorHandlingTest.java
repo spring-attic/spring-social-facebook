@@ -23,6 +23,7 @@ import static org.springframework.social.test.client.ResponseCreators.*;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.social.DuplicateStatusException;
 import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
@@ -285,6 +286,16 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			.andExpect(body("message=Test+Message"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/error-rate-limit"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
+		facebook.feedOperations().updateStatus("Test Message");
+	}
+
+	@Test(expected = DuplicateStatusException.class)
+	public void duplicateOrSimilarPostToTwitter() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
+			.andExpect(method(POST))
+			.andExpect(body("message=Test+Message"))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/error-duplicate-to-twitter"), responseHeaders, HttpStatus.BAD_REQUEST, ""));
 		facebook.feedOperations().updateStatus("Test Message");
 	}
 
