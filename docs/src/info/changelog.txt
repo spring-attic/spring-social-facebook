@@ -1,3 +1,15 @@
+Spring Social Facebook 1.1.0.M1 (TBD)
+=====================================
+Bug Fixes
+  * Handle HTTP 404 from Graph API by throwing ResourceNotFoundException
+    (SOCIALFB-42)
+  * Handle error where Facebook says that status is duplicate or similar
+    to a recent post to Twitter by throwing DuplicateStatusException 
+    (SOCIALFB-57)
+
+Improvements
+
+
 Spring Social Facebook 1.0.1 (December 15, 2011)
 ================================================
 Bug Fixes
