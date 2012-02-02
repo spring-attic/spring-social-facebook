@@ -22,6 +22,7 @@ import static org.springframework.test.web.client.ResponseCreators.*;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.social.NotAuthorizedException;
 
@@ -290,6 +291,32 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 	@Test(expected = NotAuthorizedException.class)
 	public void getFamily_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFamily("12345678900");
+	}
+	
+	@Test
+	public void getMutualFriends() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/mutualfriends?user=12345678900"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/friends"), responseHeaders));
+		List<Reference> mutualFriends = facebook.friendOperations().getMutualFriends("12345678900");
+		assertFriends(mutualFriends);		
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void getMutualFriends_unauthorized() {
+		unauthorizedFacebook.friendOperations().getMutualFriends("12345678900");
+	}
+	
+	@Test
+	@Ignore("Graph API doesn't seem to support this for any user other than /me.")
+	public void getMutualFriends_forSpecificUser() {
+//		mockServer.expect(requestTo("https://graph.facebook.com/9876543210/mutualfriends?user=12345678900"))
+//			.andExpect(method(GET))
+//			.andExpect(header("Authorization", "OAuth someAccessToken"))
+//			.andRespond(withResponse(jsonResource("testdata/friends"), responseHeaders));
+//		List<Reference> mutualFriends = facebook.friendOperations().getMutualFriends("9876543210", "12345678900");
+//		assertFriends(mutualFriends);		
 	}
 
 	private void assertFriends(List<Reference> friends) {
