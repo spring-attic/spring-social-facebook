@@ -110,5 +110,14 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		return graphApi.fetchConnections(userId, "interests", Page.class, PAGE_FIELDS);
 	}
 
+	public List<Page> getGames() {
+		return getGames("me");
+	}
+
+	public List<Page> getGames(String userId) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "games", Page.class, PAGE_FIELDS);
+	}
+
 	private static final String PAGE_FIELDS = "id,name,category,description,location,website,picture,phone,affiliation,company_overview,likes,checkins";
 }

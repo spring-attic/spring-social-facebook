@@ -1,0 +1,19 @@
+{
+   "data": [
+      {
+         "name": "Super Mario Stadium Baseball",
+         "category": "Games/toys",
+         "id": "113744711969537",
+         "created_time": "2011-11-16T22:55:39+0000"
+      },
+      {
+         "name": "Disney Epic Mickey Video Game",
+         "category": "Games/toys",
+         "id": "128165803879512",
+         "created_time": "2012-02-02T11:23:19+0000"
+      }
+   ],
+   "paging": {
+      "next": "https://graph.facebook.com/12345678/games?access_token=some-access-token&limit=5000&offset=5000&__after_id=113744711969537"
+   }
+}

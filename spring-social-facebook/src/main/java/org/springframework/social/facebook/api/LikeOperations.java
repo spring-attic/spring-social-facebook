@@ -222,4 +222,28 @@ public interface LikeOperations {
 	 */
 	List<Page> getInterests(String userId);
 
+	/**
+	 * Retrieves a list of games that the authenticated user likes. 
+	 * Requires "user_likes" permission. 
+	 * Returns an empty list if permission isn't granted.
+	 * @param userId the ID of the user
+	 * @return a list of {@link Page} objects
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Page> getGames();
+
+	/**
+	 * Retrieves a list of games that the given user likes. 
+	 * Requires "user_likes" permission for the authenticated user and "friends_likes" for the authenticated user's friends. 
+	 * Returns an empty list if permission isn't granted.
+	 * @param userId the ID of the user
+	 * @return a list of {@link Page} objects
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_likes" or "friends_likes" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Page> getGames(String userId);
+
 }
