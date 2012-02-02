@@ -26,6 +26,7 @@ import org.springframework.social.facebook.api.EducationEntry;
 import org.springframework.social.facebook.api.Event;
 import org.springframework.social.facebook.api.EventInvitee;
 import org.springframework.social.facebook.api.FacebookProfile;
+import org.springframework.social.facebook.api.FamilyMember;
 import org.springframework.social.facebook.api.Group;
 import org.springframework.social.facebook.api.GroupMemberReference;
 import org.springframework.social.facebook.api.GroupMembership;
@@ -90,5 +91,6 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(SwfPost.class, SwfPostMixin.class);
 		context.setMixInAnnotations(MusicPost.class, MusicPostMixin.class);
 		context.setMixInAnnotations(GroupMembership.class, GroupMembershipMixin.class);
+		context.setMixInAnnotations(FamilyMember.class, FamilyMemberMixin.class);
 	}
 }

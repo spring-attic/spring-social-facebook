@@ -22,6 +22,7 @@ import static org.springframework.test.web.client.ResponseCreators.*;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.social.NotAuthorizedException;
 
@@ -261,6 +262,62 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 	public void getFriendProfiles_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFriendProfiles("912873465");
 	}
+	
+	@Test
+	public void getFamily() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/family"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/family"), responseHeaders));
+		List<FamilyMember> family = facebook.friendOperations().getFamily();
+		assertFamilyMembers(family);
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void getFamily_unauthorized() {
+		unauthorizedFacebook.friendOperations().getFamily();
+	}
+
+	@Test
+	public void getFamily_forSpecificUser() {
+		mockServer.expect(requestTo("https://graph.facebook.com/12345678900/family"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/family"), responseHeaders));
+		List<FamilyMember> family = facebook.friendOperations().getFamily("12345678900");
+		assertFamilyMembers(family);
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void getFamily_forSpecificUser_unauthorized() {
+		unauthorizedFacebook.friendOperations().getFamily("12345678900");
+	}
+	
+	@Test
+	public void getMutualFriends() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/mutualfriends?user=12345678900"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/friends"), responseHeaders));
+		List<Reference> mutualFriends = facebook.friendOperations().getMutualFriends("12345678900");
+		assertFriends(mutualFriends);		
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void getMutualFriends_unauthorized() {
+		unauthorizedFacebook.friendOperations().getMutualFriends("12345678900");
+	}
+	
+	@Test
+	@Ignore("Graph API doesn't seem to support this for any user other than /me.")
+	public void getMutualFriends_forSpecificUser() {
+//		mockServer.expect(requestTo("https://graph.facebook.com/9876543210/mutualfriends?user=12345678900"))
+//			.andExpect(method(GET))
+//			.andExpect(header("Authorization", "OAuth someAccessToken"))
+//			.andRespond(withResponse(jsonResource("testdata/friends"), responseHeaders));
+//		List<Reference> mutualFriends = facebook.friendOperations().getMutualFriends("9876543210", "12345678900");
+//		assertFriends(mutualFriends);		
+	}
 
 	private void assertFriends(List<Reference> friends) {
 		assertEquals(3, friends.size());
@@ -291,6 +348,30 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 
 	private void assertFriendProfiles(List<FacebookProfile> friends) {
 		// TODO assert friend profiles		
+	}
+
+	private void assertFamilyMembers(List<FamilyMember> family) {
+		assertEquals(5, family.size());
+		FamilyMember member1 = family.get(0);
+		assertEquals("12345678901", member1.getId());
+		assertEquals("Homer Simpson", member1.getName());
+		assertEquals("father", member1.getRelationship());
+		FamilyMember member2 = family.get(1);
+		assertEquals("12345678902", member2.getId());
+		assertEquals("Marge Simpson", member2.getName());
+		assertEquals("mother", member2.getRelationship());
+		FamilyMember member3 = family.get(2);
+		assertEquals("12345678903", member3.getId());
+		assertEquals("Lisa Simpson", member3.getName());
+		assertEquals("sister", member3.getRelationship());
+		FamilyMember member4 = family.get(3);
+		assertEquals("12345678904", member4.getId());
+		assertEquals("Maggie Simpson", member4.getName());
+		assertEquals("sister", member4.getRelationship());
+		FamilyMember member5 = family.get(4);
+		assertEquals("12345678905", member5.getId());
+		assertEquals("Abraham Simpson", member5.getName());
+		assertEquals("grandfather", member5.getRelationship());
 	}
 
 }

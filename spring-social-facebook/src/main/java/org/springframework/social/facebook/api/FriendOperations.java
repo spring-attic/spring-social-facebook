@@ -200,4 +200,31 @@ public interface FriendOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<FacebookProfile> getFriendProfiles(String userId, int offset, int limit);
+	
+	/**
+	 * Retrieves a list of FamilyMember references for the authenticated user.
+	 * @return a list of {@link FamilyMember}s, each representing a Facebook user that the user is related to.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<FamilyMember> getFamily();
+	
+	/**
+	 * Retrieves a list of FamilyMember references for the specified user.
+	 * @param userId the ID of the user to retrieve family members for.
+	 * @return a list of {@link FamilyMember}s, each representing a Facebook user that the user is related to.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<FamilyMember> getFamily(String userId);
+	
+	/**
+	 * Retrieves a list of user references that the authenticated user and the specified user have in common as friends.
+	 * @param userId the ID of the user to check for common friendships with.
+	 * @return a list of {@link Reference}s, each representing a friend that the two users have in common.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Reference> getMutualFriends(String userId);
+
 }

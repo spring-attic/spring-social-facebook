@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.social.facebook.api.FacebookProfile;
+import org.springframework.social.facebook.api.FamilyMember;
 import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Reference;
@@ -132,6 +133,23 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		parameters.set("limit", String.valueOf(limit));
 		parameters.set("fields", FULL_PROFILE_FIELDS);
 		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
+	}
+
+	public List<FamilyMember> getFamily() {
+		requireAuthorization();
+		return graphApi.fetchConnections("me", "family", FamilyMember.class);
+	}
+
+	public List<FamilyMember> getFamily(String userId) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "family", FamilyMember.class);
+	}
+
+	public List<Reference> getMutualFriends(String userId) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("user", String.valueOf(userId));
+		return graphApi.fetchConnections("me", "mutualfriends", Reference.class, parameters);
 	}
 
 	private static final String FULL_PROFILE_FIELDS = "id,username,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,bio,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";

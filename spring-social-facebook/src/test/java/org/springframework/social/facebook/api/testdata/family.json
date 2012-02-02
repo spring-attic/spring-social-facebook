@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "name": "Homer Simpson",
+      "id": "12345678901",
+      "relationship": "father"
+    },
+    {
+      "name": "Marge Simpson",
+      "id": "12345678902",
+      "relationship": "mother"
+    },
+    {
+      "name": "Lisa Simpson",
+      "id": "12345678903",
+      "relationship": "sister"
+    },
+    {
+      "name": "Maggie Simpson",
+      "id": "12345678904",
+      "relationship": "sister"
+    },
+    {
+      "name": "Abraham Simpson",
+      "id": "12345678905",
+      "relationship": "grandfather"
+    }    
+  ],
+  "paging": {
+    "next": "https://graph.facebook.com/12345678900/family?format=json&limit=5000&offset=5000&__after_id=12345678905"
+  }
+}

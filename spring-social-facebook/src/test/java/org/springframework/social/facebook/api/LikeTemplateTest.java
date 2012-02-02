@@ -279,7 +279,35 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	public void getInterests_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getInterests("123456789");
 	}
+
+	@Test
+	public void getGames() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/games?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withResponse(jsonResource("testdata/games"), responseHeaders));
+		List<Page> likes = facebook.likeOperations().getGames();
+		assertGames(likes);
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void getGames_unauthorized() {
+		unauthorizedFacebook.likeOperations().getGames();
+	}
+
+	@Test
+	public void getGames_forSpecificUser() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/games?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withResponse(jsonResource("testdata/games"), responseHeaders));
+		List<Page> likes = facebook.likeOperations().getGames("123456789");
+		assertGames(likes);
+	}
 	
+	@Test(expected = NotAuthorizedException.class)
+	public void getGames_forSpecificUser_unauthorized() {
+		unauthorizedFacebook.likeOperations().getGames("123456789");
+	}
+		
 	private void assertLikes(List<Page> likes) {
 		assertEquals(3, likes.size());
 		Page like1 = likes.get(0);
@@ -294,6 +322,19 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("10264922373", like3.getId());
 		assertEquals("Freebirds World Burrito", like3.getName());
 		assertEquals("Restaurant/cafe", like3.getCategory());
+	}
+
+	private void assertGames(List<Page> games) {
+		assertEquals(2, games.size());
+		Page game1 = games.get(0);
+		assertEquals("113744711969537", game1.getId());
+		assertEquals("Super Mario Stadium Baseball", game1.getName());
+		assertEquals("Games/toys", game1.getCategory());
+		Page game2 = games.get(1);
+		assertEquals("128165803879512", game2.getId());
+		assertEquals("Disney Epic Mickey Video Game", game2.getName());
+		assertEquals("Games/toys", game2.getCategory());
+
 	}
 
 }
