@@ -17,8 +17,8 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.social.test.client.RequestMatchers.*;
-import static org.springframework.social.test.client.ResponseCreators.*;
+import static org.springframework.test.web.client.RequestMatchers.*;
+import static org.springframework.test.web.client.ResponseCreators.*;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -33,7 +33,7 @@ import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.RevokedAuthorizationException;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
-import org.springframework.social.test.client.MockRestServiceServer;
+import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
 
 public class ErrorHandlingTest extends AbstractFacebookApiTest {

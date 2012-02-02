@@ -100,6 +100,7 @@ configure(javaprojects) {
     mockitoVersion = '1.9.0'
     servletApiVersion = '2.5'
     springVersion = '3.1.0.RELEASE'
+    springTestMvcVersion = "1.0.0.BUILD-SNAPSHOT"
 
     sourceSets {
         main {
@@ -140,7 +141,7 @@ project('spring-social-facebook') {
     dependencies {
         compile "org.springframework.social:spring-social-core:$springSocialVersion"
         compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
-        testCompile "org.springframework.social:spring-social-test:$springSocialVersion"
+        testCompile "org.springframework:spring-test-mvc:$springTestMvcVersion"
     }
 }
 

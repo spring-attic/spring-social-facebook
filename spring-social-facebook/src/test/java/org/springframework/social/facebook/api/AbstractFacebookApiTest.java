@@ -27,7 +27,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
-import org.springframework.social.test.client.MockRestServiceServer;
+import org.springframework.test.web.client.MockRestServiceServer;
 
 public class AbstractFacebookApiTest {
 	protected static final String ACCESS_TOKEN = "someAccessToken";
