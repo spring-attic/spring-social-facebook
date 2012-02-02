@@ -34,6 +34,7 @@ import org.springframework.social.facebook.api.CommentOperations;
 import org.springframework.social.facebook.api.EventOperations;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FeedOperations;
+import org.springframework.social.facebook.api.FqlOperations;
 import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.GroupOperations;
 import org.springframework.social.facebook.api.ImageType;
@@ -84,6 +85,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	private MediaOperations mediaOperations;
 	
 	private PageOperations pageOperations;
+	
+	private FqlOperations fqlOperations;
 
 	private ObjectMapper objectMapper;
 
@@ -157,6 +160,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	public RestOperations restOperations() {
 		return getRestTemplate();
+	}
+	
+	public FqlOperations fqlOperations() {
+		return fqlOperations;
 	}
 	
 	// low-level Graph API operations
@@ -261,6 +268,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorized());
 		groupOperations = new GroupTemplate(this, isAuthorized());
 		pageOperations = new PageTemplate(this, isAuthorized());
+		fqlOperations = new FqlTemplate(this, isAuthorized());
 	}
 	
 	@SuppressWarnings("unchecked")
