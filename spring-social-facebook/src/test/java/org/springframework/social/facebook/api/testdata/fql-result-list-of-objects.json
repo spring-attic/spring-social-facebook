@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "uid": 12345678900,
+      "name": "Bart Simpson",
+      "family": [
+        {
+          "relationship": "father",
+          "uid": 12345678901
+        },
+        {
+          "relationship": "mother",
+          "uid": 12345678902
+        },
+        {
+          "relationship": "sister",
+          "uid": 12345678903
+        },
+        {
+          "relationship": "sister",
+          "uid": 12345678904
+        }
+      ]
+    }
+  ]
+}

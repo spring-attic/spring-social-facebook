@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "app_id": "162886103757745",
+      "display_name": "Spring Social Showcase",
+      "restriction_info": {
+      	"type": "alcohol",
+      	"location" : "US",
+      	"age" : "18",
+      	"age_distribution" : "18+"
+      }
+    }
+  ]
+}
