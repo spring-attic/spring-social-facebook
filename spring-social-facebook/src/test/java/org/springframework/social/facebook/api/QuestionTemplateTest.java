@@ -96,6 +96,17 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
+	public void deleteQuestion() {
+		mockServer.expect(requestTo("https://graph.facebook.com/297875170268725"))
+			.andExpect(method(POST))
+			.andExpect(body("method=delete"))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse("", responseHeaders));
+		facebook.questionOperations().deleteQuestion("297875170268725");
+		mockServer.verify();
+	}
+	
+	@Test
 	public void getOption() {
 		mockServer.expect(requestTo("https://graph.facebook.com/338689702832185"))
 			.andExpect(method(GET))
@@ -113,6 +124,17 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse(jsonResource("testdata/question-options"), responseHeaders));
 		List<QuestionOption> options = facebook.questionOperations().getOptions("338689702832185");
 		assertOptionsList(options);
+	}
+	
+	@Test
+	public void deleteOption() {
+		mockServer.expect(requestTo("https://graph.facebook.com/297875170268725"))
+			.andExpect(method(POST))
+			.andExpect(body("method=delete"))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse("", responseHeaders));
+		facebook.questionOperations().deleteOption("297875170268725");
+		mockServer.verify();
 	}
 
 	private void assertSingleQuestion(Question question) {

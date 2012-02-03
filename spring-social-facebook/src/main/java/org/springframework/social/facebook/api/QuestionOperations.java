@@ -80,6 +80,16 @@ public interface QuestionOperations {
 	List<Question> getQuestions(String userId);
 
 	/**
+	 * Removes a question.
+	 * Requires "publish_stream" permission.
+	 * @param questionId the ID of the question to delete
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	void deleteQuestion(String questionId);
+	
+	/**
 	 * Retrieves a question option.
 	 * Requires "user_questions" permission to retrieve an option from the authenticated user and "friends_questions" to retrieve an option
 	 * from one of the authenticated user's friends.
@@ -102,5 +112,15 @@ public interface QuestionOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<QuestionOption> getOptions(String questionId);
+
+	/**
+	 * Removes a question option.
+	 * Requires "publish_stream" permission.
+	 * @param questionId the ID of the option to delete
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	void deleteOption(String optionId);
 
 }

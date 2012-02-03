@@ -55,6 +55,11 @@ class QuestionTemplate extends AbstractFacebookOperations implements QuestionOpe
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "questions", Question.class);
 	}
+	
+	public void deleteQuestion(String questionId) {
+		requireAuthorization();
+		graphApi.delete(questionId);
+	}
 
 	public Question getQuestion(String questionId) {
 		requireAuthorization();
@@ -69,6 +74,11 @@ class QuestionTemplate extends AbstractFacebookOperations implements QuestionOpe
 	public List<QuestionOption> getOptions(String questionId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(questionId, "options", QuestionOption.class);
+	}
+	
+	public void deleteOption(String optionId) {
+		requireAuthorization();
+		graphApi.delete(optionId);
 	}
 
 }
