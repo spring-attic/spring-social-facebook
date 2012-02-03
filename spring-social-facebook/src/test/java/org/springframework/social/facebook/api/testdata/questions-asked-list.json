@@ -1,0 +1,57 @@
+{
+   "data": [
+      {
+         "id": "297905380265703",
+         "from": {
+            "name": "Art Names",
+            "id": "100001387295207"
+         },
+         "question": "What is your favorite ice cream?",
+         "created_time": "2012-02-03T18:27:06+0000",
+         "updated_time": "2012-02-03T18:27:06+0000"
+      },
+      {
+         "id": "297875170268724",
+         "from": {
+            "name": "Art Names",
+            "id": "100001387295207"
+         },
+         "question": "What's your favorite football team?",
+         "created_time": "2012-02-03T17:40:36+0000",
+         "updated_time": "2012-02-03T17:40:36+0000"
+      },
+      {
+         "id": "297874250268816",
+         "from": {
+            "name": "Art Names",
+            "id": "100001387295207"
+         },
+         "question": "What's your favorite color?",
+         "created_time": "2012-02-03T17:39:13+0000",
+         "updated_time": "2012-02-03T17:39:13+0000"
+      },
+      {
+         "id": "189238447799064",
+         "from": {
+            "name": "Art Names",
+            "id": "100001387295207"
+         },
+         "question": "Where's the Mountain Dew?",
+         "created_time": "2011-07-11T16:07:06+0000",
+         "updated_time": "2011-07-11T16:07:06+0000"
+      },
+      {
+         "id": "172591202797122",
+         "from": {
+            "name": "Art Names",
+            "id": "100001387295207"
+         },
+         "question": "Where can I find Mountain Dew Pitch Black in the Dallas Texas area?",
+         "created_time": "2011-05-16T21:31:22+0000",
+         "updated_time": "2011-05-16T21:31:22+0000"
+      }
+   ],
+   "paging": {
+      "next": "https://graph.facebook.com/me/questions/asked?access_token=AAACUJOBac7EBANG7MXChVUv556pOtsdAdnd9ZAF2IZCZABazrSDHriZBvRqvGP76xHwNKXf8Dp5u1FBCUCAHs29YBvbXXkCkOWMCmrL0BAZDZD&limit=50&offset=50&__after_id=172591202797122"
+   }
+}
