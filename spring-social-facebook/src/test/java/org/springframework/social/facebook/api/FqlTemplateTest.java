@@ -87,6 +87,18 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		});
 		
 		assertEquals(3, results.size());
+		VideoObject video1 = results.get(0);
+		assertEquals(10151147608775580L, video1.videoId);
+		assertEquals("Video 1", video1.title);
+		assertEquals(20.62, video1.length, 0.00001);
+		VideoObject video2 = results.get(1);
+		assertEquals(10150902511815580L, video2.videoId);
+		assertEquals("Video 2", video2.title);
+		assertEquals(128.16, video2.length, 0.00001);
+		VideoObject video3 = results.get(2);
+		assertEquals(10150447297960580L, video3.videoId);
+		assertEquals("Video 3", video3.title);
+		assertEquals(31, video3.length, 0.0);
 	}
 	
 	@Test
