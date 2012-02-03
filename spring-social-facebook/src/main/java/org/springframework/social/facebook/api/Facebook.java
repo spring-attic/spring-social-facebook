@@ -43,6 +43,11 @@ public interface Facebook extends GraphApi, ApiBinding {
 	FeedOperations feedOperations();
 
 	/**
+	 * API for performing Facebook Query Language (FQL) queries.
+	 */
+	FqlOperations fqlOperations();
+	
+	/**
 	 * API for performing operations with a user's set of friends.
 	 */
 	FriendOperations friendOperations();
@@ -71,6 +76,11 @@ public interface Facebook extends GraphApi, ApiBinding {
 	 * API for performing Facebook Places checkin operations.
 	 */
 	PlacesOperations placesOperations();
+	
+	/**
+	 * API for performing question operations.
+	 */
+	QuestionOperations questionOperations();
 	
 	/**
 	 * API for performing operations on Facebook user profiles.

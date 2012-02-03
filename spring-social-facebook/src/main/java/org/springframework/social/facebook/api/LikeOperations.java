@@ -226,7 +226,6 @@ public interface LikeOperations {
 	 * Retrieves a list of games that the authenticated user likes. 
 	 * Requires "user_likes" permission. 
 	 * Returns an empty list if permission isn't granted.
-	 * @param userId the ID of the user
 	 * @return a list of {@link Page} objects
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
