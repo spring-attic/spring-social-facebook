@@ -151,6 +151,24 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		parameters.set("user", String.valueOf(userId));
 		return graphApi.fetchConnections("me", "mutualfriends", Reference.class, parameters);
 	}
+	
+	public List<Reference> getSubscribedTo() {
+		return getSubscribedTo("me");
+	}
+	
+	public List<Reference> getSubscribedTo(String userId) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "subscribedTo", Reference.class);
+	}
+	
+	public List<Reference> getSubscribers() {
+		return getSubscribers("me");
+	}
+	
+	public List<Reference> getSubscribers(String userId) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "subscribers", Reference.class);
+	}
 
 	private static final String FULL_PROFILE_FIELDS = "id,username,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,bio,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";
 
