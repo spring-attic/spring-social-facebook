@@ -227,4 +227,42 @@ public interface FriendOperations {
 	 */
 	List<Reference> getMutualFriends(String userId);
 
+	/**
+	 * Retrieves a list of user reference for the users that the authenticated user is subscribed to.
+	 * Requires "user_subscriptions" permission.
+	 * @return a list of {@link Reference}s, each representing a Facebook user that the user is subscribed to.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Reference> getSubscribedTo();
+
+	/**
+	 * Retrieves a list of user reference for the users that the specified user is subscribed to.
+	 * Requires "user_subscriptions" permission for the authenticated user or "friends_subscriptions" permission for accessing the authenticated user's friends subscriptions.
+	 * @param userId the ID of the user to fetch subscriptions for.
+	 * @return a list of {@link Reference}s, each representing a Facebook user that the user is subscribed to.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Reference> getSubscribedTo(String userId);
+
+	/**
+	 * Retrieves a list of user reference for the users that are subscribed to the authenticated user.
+	 * Requires "user_subscriptions" permission.
+	 * @return a list of {@link Reference}s, each representing a Facebook user that the user is subscribed to.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Reference> getSubscribers();
+
+	/**
+	 * Retrieves a list of user reference for the users that are subscribed to the specified user.
+	 * Requires "user_subscriptions" permission for the authenticated user or "friends_subscriptions" permission for accessing the authenticated user's friends subscriptions.
+	 * @param userId the ID of the user to fetch subscriptions for.
+	 * @return a list of {@link Reference}s, each representing a Facebook user that the user is subscribed to.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Reference> getSubscribers(String userId);
+
 }
