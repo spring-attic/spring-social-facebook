@@ -318,6 +318,62 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 //		List<Reference> mutualFriends = facebook.friendOperations().getMutualFriends("9876543210", "12345678900");
 //		assertFriends(mutualFriends);		
 	}
+	
+	@Test
+	public void getSubscribedTo() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/subscribedTo"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/subscribe-list"), responseHeaders));
+		List<Reference> subscriptions = facebook.friendOperations().getSubscribedTo();
+		assertEquals(2, subscriptions.size());
+		assertEquals("4", subscriptions.get(0).getId());
+		assertEquals("Mark Zuckerberg", subscriptions.get(0).getName());
+		assertEquals("1075423140", subscriptions.get(1).getId());
+		assertEquals("Rod Johnson", subscriptions.get(1).getName());
+	}
+
+	@Test
+	public void getSubscribedTo_forSpecificUser() {
+		mockServer.expect(requestTo("https://graph.facebook.com/9876543210/subscribedTo"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/subscribe-list"), responseHeaders));
+		List<Reference> subscriptions = facebook.friendOperations().getSubscribedTo("9876543210");
+		assertEquals(2, subscriptions.size());
+		assertEquals("4", subscriptions.get(0).getId());
+		assertEquals("Mark Zuckerberg", subscriptions.get(0).getName());
+		assertEquals("1075423140", subscriptions.get(1).getId());
+		assertEquals("Rod Johnson", subscriptions.get(1).getName());
+	}
+
+	@Test
+	public void getSubscribers() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/subscribers"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/subscribe-list"), responseHeaders));
+		List<Reference> subscriptions = facebook.friendOperations().getSubscribers();
+		assertEquals(2, subscriptions.size());
+		assertEquals("4", subscriptions.get(0).getId());
+		assertEquals("Mark Zuckerberg", subscriptions.get(0).getName());
+		assertEquals("1075423140", subscriptions.get(1).getId());
+		assertEquals("Rod Johnson", subscriptions.get(1).getName());
+	}
+
+	@Test
+	public void getSubscribers_forSpecificUser() {
+		mockServer.expect(requestTo("https://graph.facebook.com/9876543210/subscribers"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/subscribe-list"), responseHeaders));
+		List<Reference> subscriptions = facebook.friendOperations().getSubscribers("9876543210");
+		assertEquals(2, subscriptions.size());
+		assertEquals("4", subscriptions.get(0).getId());
+		assertEquals("Mark Zuckerberg", subscriptions.get(0).getName());
+		assertEquals("1075423140", subscriptions.get(1).getId());
+		assertEquals("Rod Johnson", subscriptions.get(1).getName());
+	}
 
 	private void assertFriends(List<Reference> friends) {
 		assertEquals(3, friends.size());
