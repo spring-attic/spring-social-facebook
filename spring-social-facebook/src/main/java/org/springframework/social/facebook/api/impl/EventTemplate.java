@@ -43,6 +43,10 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		return getInvitations("me", offset, limit);
 	}
 
+	public List<Invitation> getInvitations(String since, String until) {
+		return getInvitations("me", since, until);
+	}
+
 	public List<Invitation> getInvitations(String userId) {
 		return getInvitations(userId, 0, 25);
 	}
@@ -54,7 +58,15 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		parameters.set("limit", String.valueOf(limit));
 		return graphApi.fetchConnections(userId, "events", Invitation.class, parameters);
 	}
-	
+
+	public List<Invitation> getInvitations(String userId, String since, String until) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("since", String.valueOf(since));
+		parameters.set("until", String.valueOf(until));
+		return graphApi.fetchConnections(userId, "events", Invitation.class, parameters);
+	}
+
 	public Event getEvent(String eventId) {
 		return graphApi.fetchObject(eventId, Event.class);
 	}
@@ -128,5 +140,14 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		queryMap.add("limit", String.valueOf(limit));
 		return graphApi.fetchConnections("search", null, Event.class, queryMap);
 	}
-	
+
+	public List<Event> search(String query, String since, String until) {
+		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
+		queryMap.add("q", query);
+		queryMap.add("type", "event");
+		queryMap.add("since", String.valueOf(since));
+		queryMap.add("until", String.valueOf(until));
+		return graphApi.fetchConnections("search", null, Event.class, queryMap);
+	}
+
 }

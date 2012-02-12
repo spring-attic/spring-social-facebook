@@ -47,6 +47,16 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertCheckins(checkins);
 	}
 
+	@Test
+	public void getCheckins_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/checkins?since=2011-01-01&until=2011-03-31"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
+		List<Checkin> checkins = facebook.placesOperations().getCheckins("2011-01-01", "2011-03-31");
+		assertCheckins(checkins);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getCheckins_unauthorized() {
 		unauthorizedFacebook.placesOperations().getCheckins();
@@ -69,6 +79,16 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins("987654321", 50, 10);
+		assertCheckins(checkins);
+	}
+
+	@Test
+	public void getCheckins_forSpecificUser_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/987654321/checkins?since=2011-01-01&until=2011-03-31"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
+		List<Checkin> checkins = facebook.placesOperations().getCheckins("987654321", "2011-01-01", "2011-03-31");
 		assertCheckins(checkins);
 	}
 

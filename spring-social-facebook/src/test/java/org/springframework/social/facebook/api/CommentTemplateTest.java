@@ -69,6 +69,25 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
+	public void getComments_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments?since=2011-03-01&until=today"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/comments"), responseHeaders));
+		
+		List<Comment> comments = facebook.commentOperations().getComments("123456", "2011-03-01", "today");
+		assertEquals(2, comments.size());
+		Comment comment1 = comments.get(0);
+		assertEquals("1533260333", comment1.getFrom().getId());
+		assertEquals("Art Names", comment1.getFrom().getName());
+		assertEquals("Howdy!", comment1.getMessage());
+		Comment comment2 = comments.get(1);
+		assertEquals("638140578", comment2.getFrom().getId());
+		assertEquals("Chuck Wagon", comment2.getFrom().getName());
+		assertEquals("The world says hello back", comment2.getMessage());
+	}
+
+	@Test
 	public void getComment() {
 		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))
 			.andExpect(method(GET))

@@ -49,6 +49,10 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		return getAlbums("me", offset, limit);
 	}
 
+	public List<Album> getAlbums(String since, String until) {
+		return getAlbums("me", since, until);
+	}
+
 	public List<Album> getAlbums(String userId) {
 		return getAlbums(userId, 0, 25);
 	}
@@ -58,6 +62,14 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("offset", String.valueOf(offset));
 		parameters.set("limit", String.valueOf(limit));
+		return graphApi.fetchConnections(userId, "albums", Album.class, parameters);
+	}
+
+	public List<Album> getAlbums(String userId, String since, String until) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("since", String.valueOf(since));
+		parameters.set("until", String.valueOf(until));
 		return graphApi.fetchConnections(userId, "albums", Album.class, parameters);
 	}
 
@@ -100,6 +112,14 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		return graphApi.fetchConnections(objectId, "photos", Photo.class, parameters);
 	}
 	
+	public List<Photo> getPhotos(String objectId, String since, String until) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("since", String.valueOf(since));
+		parameters.set("until", String.valueOf(until));
+		return graphApi.fetchConnections(objectId, "photos", Photo.class, parameters);
+	}
+
 	public Photo getPhoto(String photoId) {
 		requireAuthorization();
 		return graphApi.fetchObject(photoId, Photo.class);
@@ -152,6 +172,10 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		return getVideos("me", offset, limit);
 	}
 
+	public List<Video> getVideos(String since, String until) {
+		return getVideos("me", since, until);
+	}
+
 	public List<Video> getVideos(String userId) {
 		return getVideos(userId, 0, 25);
 	}
@@ -164,6 +188,14 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		return graphApi.fetchConnections(userId, "videos", Video.class, parameters);
 	}
 	
+	public List<Video> getVideos(String userId, String since, String until) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("since", String.valueOf(since));
+		parameters.set("until", String.valueOf(until));
+		return graphApi.fetchConnections(userId, "videos", Video.class, parameters);
+	}
+
 	public Video getVideo(String videoId) {
 		requireAuthorization();
 		return graphApi.fetchObject(videoId, Video.class);
