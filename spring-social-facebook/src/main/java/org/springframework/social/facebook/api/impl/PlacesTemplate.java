@@ -41,6 +41,10 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 		return getCheckins("me", offset, limit);
 	}
 
+	public List<Checkin> getCheckins(String since, String until) {
+		return getCheckins("me", since, until);
+	}
+
 	public List<Checkin> getCheckins(String objectId) {
 		return getCheckins(objectId, 0,  25);
 	}
@@ -50,6 +54,14 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("offset", String.valueOf(offset));
 		parameters.set("limit", String.valueOf(limit));
+		return graphApi.fetchConnections(objectId, "checkins", Checkin.class, parameters);
+	}
+
+	public List<Checkin> getCheckins(String objectId, String since, String until) {
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("since", String.valueOf(since));
+		parameters.set("until", String.valueOf(until));
 		return graphApi.fetchConnections(objectId, "checkins", Checkin.class, parameters);
 	}
 

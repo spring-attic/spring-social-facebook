@@ -47,6 +47,16 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertInvitations(events);
 	}
 
+	@Test
+	public void getInvitations_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/events?since=2011-03-01&until=today"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/user-events"), responseHeaders));
+		List<Invitation> events = facebook.eventOperations().getInvitations("2011-03-01", "today");
+		assertInvitations(events);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getInvitations_unauthorized() {
 		unauthorizedFacebook.eventOperations().getInvitations();
@@ -69,6 +79,16 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/user-events"), responseHeaders));
 		List<Invitation> events = facebook.eventOperations().getInvitations("123456789", 60, 30);
+		assertInvitations(events);
+	}
+
+	@Test
+	public void getInvitations_forSpecificUser_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/events?since=yesterday&until=today"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/user-events"), responseHeaders));
+		List<Invitation> events = facebook.eventOperations().getInvitations("123456789", "yesterday", "today");
 		assertInvitations(events);
 	}
 
@@ -285,7 +305,22 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-06-01T08:00:00+0000"), results.get(0).getStartTime());
 		assertEquals(toDate("2011-06-03T16:00:00+0000"), results.get(0).getEndTime());
 	}
-	
+
+	@Test
+	public void search_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=event&since=2011-06-01&until=2011-06-05"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/event-list"), responseHeaders));
+		List<Event> results = facebook.eventOperations().search("Spring User Group", "2011-06-01", "2011-06-05");
+		assertEquals(1, results.size());
+		assertEquals("196119297091135", results.get(0).getId());
+		assertEquals("FLUG (Florida Local Users Group) Spring User Conference", results.get(0).getName());
+		assertEquals("Radisson Resort at the Port", results.get(0).getLocation());
+		assertEquals(toDate("2011-06-01T08:00:00+0000"), results.get(0).getStartTime());
+		assertEquals(toDate("2011-06-03T16:00:00+0000"), results.get(0).getEndTime());
+	}
+
 	private void assertInvitee(EventInvitee invitee, String id, String name, RsvpStatus rsvpStatus) {
 		assertEquals(id, invitee.getId());
 		assertEquals(name, invitee.getName());

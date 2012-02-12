@@ -47,6 +47,16 @@ public interface CommentOperations {
 	List<Comment> getComments(String objectId, int offset, int limit);
 
 	/**
+	 * Retrieves comments for a given object using time-based paging..
+	 * @param objectId the ID of the object
+	 * @param since the date into the list of comments to start retrieving posts.
+	 * @param until the date up to comments to be returned.
+	 * @return a list of {@link Comment}s for the specified object
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	List<Comment> getComments(String objectId, String since, String until);
+
+	/**
 	 * Retrieves a single comment
 	 * @param commentId the comment ID
 	 * @return the requested {@link Comment}

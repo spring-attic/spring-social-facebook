@@ -49,6 +49,16 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertAlbums(albums);
 	}
 
+	@Test
+	public void getAlbums_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/albums?since=2009-01-01&until=2011-03-31"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/albums"), responseHeaders));
+		List<Album> albums = facebook.mediaOperations().getAlbums("2009-01-01", "2011-03-31");
+		assertAlbums(albums);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getAlbums_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getAlbums();
@@ -71,6 +81,16 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/albums"), responseHeaders));
 		List<Album> albums = facebook.mediaOperations().getAlbums("192837465", 15, 5);
+		assertAlbums(albums);
+	}
+
+	@Test
+	public void getAlbums_forSpecificUser_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/192837465/albums?since=2009-01-01&until=today"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/albums"), responseHeaders));
+		List<Album> albums = facebook.mediaOperations().getAlbums("192837465", "2009-01-01", "today");
 		assertAlbums(albums);
 	}
 
@@ -133,6 +153,17 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withResponse(jsonResource("testdata/photos"), responseHeaders));
 	
 		List<Photo> photos = facebook.mediaOperations().getPhotos("10151447271460580", 40, 20);
+		assertPhotos(photos);
+	}
+
+	@Test
+	public void getPhotos_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/10151447271460580/photos?since=2011-03-01&until=today"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/photos"), responseHeaders));
+	
+		List<Photo> photos = facebook.mediaOperations().getPhotos("10151447271460580", "2011-03-01", "today");
 		assertPhotos(photos);
 	}
 
@@ -243,6 +274,16 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertVideos(videos);
 	}
 
+	@Test
+	public void getVideos_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/videos?since=2011-03-01&until=today"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/videos"), responseHeaders));
+		List<Video> videos = facebook.mediaOperations().getVideos("2011-03-01", "today");
+		assertVideos(videos);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getVideos_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getVideos();
@@ -265,6 +306,16 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withResponse(jsonResource("testdata/videos"), responseHeaders));
 		List<Video> videos = facebook.mediaOperations().getVideos("100001387295207", 48, 12);
+		assertVideos(videos);
+	}
+
+	@Test
+	public void getVideos_forSpecificOwner_withSinceAndUntil() {
+		mockServer.expect(requestTo("https://graph.facebook.com/100001387295207/videos?since=2011-03-01&until=today"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/videos"), responseHeaders));
+		List<Video> videos = facebook.mediaOperations().getVideos("100001387295207", "2011-03-01", "today");
 		assertVideos(videos);
 	}
 

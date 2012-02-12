@@ -51,6 +51,18 @@ public interface PlacesOperations {
 	List<Checkin> getCheckins(int offset, int limit);
 
 	/**
+	 * Retrieves a list of checkins for the authenticated user using time-based paging.
+	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * @param since the date into the list of checkins to start retrieving checkins.
+	 * @param until the date up to checkins to be returned.
+	 * @return a list {@link Checkin}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Checkin> getCheckins(String since, String until);
+
+	/**
 	 * Retrieves a list of up to 25 recent checkins for the specified object.
 	 * If the object is a user, this returns checkins for places the user has checked into.
 	 * If the object is a page, then this returns checkins that the user's friends has made to the location that the page represents.
@@ -77,6 +89,21 @@ public interface PlacesOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Checkin> getCheckins(String objectId, int offset, int limit);
+
+	/**
+	 * Retrieves a list of checkins for the specified object using time-based paging.
+	 * If the object is a user, this returns checkins for places the user has checked into.
+	 * If the object is a page, then this returns checkins that the user's friends has made to the location that the page represents.
+	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * @param objectId either a Facebook user ID or page ID
+	 * @param since the date into the list of checkins to start retrieving checkins.
+	 * @param until the date up to checkins to be returned.
+	 * @return a list {@link Checkin}s, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Checkin> getCheckins(String objectId, String since, String until);
 
 	/**
 	 * Retrieves details for a single checkin.

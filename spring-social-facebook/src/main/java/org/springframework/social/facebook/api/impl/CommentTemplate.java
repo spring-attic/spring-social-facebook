@@ -44,6 +44,13 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 		return graphApi.fetchConnections(objectId, "comments", Comment.class, parameters);
 	}
 	
+	public List<Comment> getComments(String objectId, String since, String until) {
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("since", String.valueOf(since));
+		parameters.set("until", String.valueOf(until));
+		return graphApi.fetchConnections(objectId, "comments", Comment.class, parameters);
+	}
+	
 	public Comment getComment(String commentId) {
 		return graphApi.fetchObject(commentId, Comment.class);
 	}

@@ -51,6 +51,18 @@ public interface EventOperations {
 	List<Invitation> getInvitations(int offset, int limit);
 
 	/**
+	 * Retrieves a list of events that the authenticated user has been invited to using time-based paging.
+	 * Requires "user_events" or "friends_events" permission.
+	 * @param since the date into the list of events.
+	 * @param until the date up to events to be returned.
+	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Invitation> getInvitations(String since, String until);
+
+	/**
 	 * Retrieves a list of events that the specified user has been invited to.
 	 * Requires "user_events" or "friends_events" permission.
 	 * @param userId the user's ID
@@ -73,6 +85,19 @@ public interface EventOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Invitation> getInvitations(String userId, int offset, int limit);
+
+	/**
+	 * Retrieves a list of events that the specified user has been invited to using time-based paging.
+	 * Requires "user_events" or "friends_events" permission.
+	 * @param userId the user's ID
+	 * @param since the date into the list of events.
+	 * @param until the date up to events to be returned.
+	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Invitation> getInvitations(String userId, String since, String until);
 
 	/**
 	 * Retrieves event data for a specified event.
@@ -220,5 +245,15 @@ public interface EventOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	List<Event> search(String query, int offset, int limit);
+
+	/**
+	 * Search for events using time-based paging.
+	 * @param query the search query (e.g., "Spring User Group")
+	 * @param since the date into the list of events.
+	 * @param until the date up to events to be returned.
+	 * @return a list of {@link Event}s matching the search query
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	List<Event> search(String query, String since, String until);
 
 }

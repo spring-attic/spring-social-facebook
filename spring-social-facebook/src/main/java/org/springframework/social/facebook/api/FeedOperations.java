@@ -51,6 +51,17 @@ public interface FeedOperations {
 	List<Post> getFeed(int offset, int limit);
 
 	/**
+	 * Retrieves recent posts for the authenticated user using time-based paging.
+	 * Requires "read_stream" permission to read non-public posts.
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of {@link Post}s for the authenticated user. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Post> getFeed(String since, String until);
+
+	/**
 	 * Retrieves recent feed entries for a given user. 
 	 * Returns up to the most recent 25 posts.
 	 * Requires "read_stream" permission to read non-public posts. 
@@ -75,6 +86,19 @@ public interface FeedOperations {
 	List<Post> getFeed(String ownerId, int offset, int limit);
 
 	/**
+	 * Retrieves recent feed entries for a given user using time-based paging. 
+	 * Requires "read_stream" permission to read non-public posts.
+	 * Returns up to the most recent 25 posts between since and until dates being the most recent the first element in the list.
+	 * @param ownerId the Facebook ID or alias for the owner (user, group, event, page, etc) of the feed.
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of {@link Post}s for the specified user. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Post> getFeed(String ownerId, String since, String until);
+
+	/**
 	 * Retrieves the user's home feed. This includes entries from the user's friends.
 	 * Returns up to the most recent 25 posts.
 	 * Requires "read_stream" permission. 
@@ -96,6 +120,19 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getHomeFeed(int offset, int limit);
+
+
+	/**
+	 * Retrieves the user's home feed using time-based paging. This includes entries from the user's friends.
+	 * Requires "read_stream" permission. 
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of {@link Post}s from the authenticated user's home feed.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Post> getHomeFeed(String since, String until);
 
 	/**
 	 * Retrieves a single post.
@@ -125,6 +162,16 @@ public interface FeedOperations {
 	List<StatusPost> getStatuses(int offset, int limit);
 
 	/**
+	 * Retrieves the status entries from the authenticated user's feed using time-based paging.
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of status {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<StatusPost> getStatuses(String since, String until);
+
+	/**
 	 * Retrieves the status entries from the specified user's feed.
 	 * Returns up to the most recent 25 posts.
 	 * Requires "read_stream" permission. 
@@ -150,6 +197,19 @@ public interface FeedOperations {
 	List<StatusPost> getStatuses(String userId, int offset, int limit);
 
 	/**
+	 * Retrieves the status entries from the specified user's feed using time-based paging.
+	 * Requires "read_stream" permission. 
+	 * @param userId the user's ID
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of status {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<StatusPost> getStatuses(String userId, String since, String until);
+
+	/**
 	 * Retrieves the link entries from the authenticated user's feed.
 	 * Returns up to the most recent 25 posts.
 	 * Requires "read_stream" permission. 
@@ -171,6 +231,18 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<LinkPost> getLinks(int offset, int limit);
+
+	/**
+	 * Retrieves the link entries from the authenticated user's feed using time-based paging.
+	 * Requires "read_stream" permission. 
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of link {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<LinkPost> getLinks(String since, String until);
 
 	/**
 	 * Retrieves the link entries from the specified owner's feed.
@@ -198,6 +270,19 @@ public interface FeedOperations {
 	List<LinkPost> getLinks(String ownerId, int offset, int limit);
 
 	/**
+	 * Retrieves the link entries from the specified owner's feed using time-based paging.
+	 * Requires "read_stream" permission. 
+	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of link {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<LinkPost> getLinks(String ownerId, String since, String until);
+
+	/**
 	 * Retrieves the note entries from the authenticated user's feed.
 	 * Returns up to the most recent 25 posts.
 	 * Requires "read_stream" permission. 
@@ -219,6 +304,18 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<NotePost> getNotes(int offset, int limit);
+
+	/**
+	 * Retrieves the note entries from the authenticated user's feed using time-based paging.
+	 * Requires "read_stream" permission.
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of note {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<NotePost> getNotes(String since, String until);
 
 	/**
 	 * Retrieves the note entries from the specified owner's feed.
@@ -246,6 +343,19 @@ public interface FeedOperations {
 	List<NotePost> getNotes(String ownerId, int offset, int limit);
 
 	/**
+	 * Retrieves the note entries from the specified owner's feed using time-based paging.
+	 * Requires "read_stream" permission. 
+	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of note {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<NotePost> getNotes(String ownerId, String since, String until);
+
+	/**
 	 * Retrieves the post entries from the authenticated user's feed.
 	 * Returns up to the most recent 25 posts.
 	 * Requires "read_stream" permission. 
@@ -267,6 +377,18 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getPosts(int offset, int limit);
+
+	/**
+	 * Retrieves the post entries from the authenticated user's feed using time-based paging.
+	 * Requires "read_stream" permission. 
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of post {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Post> getPosts(String since, String until);
 
 	/**
 	 * Retrieves the post entries from the specified owner's feed.
@@ -292,6 +414,19 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> getPosts(String ownerId, int offset, int limit);
+
+	/**
+	 * Retrieves the post entries from the specified owner's feed.
+	 * Requires "read_stream" permission. 
+	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of post {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Post> getPosts(String ownerId, String since, String until);
 
 	/**
 	 * Posts a status update to the authenticated user's feed.
@@ -376,6 +511,16 @@ public interface FeedOperations {
 	List<Post> searchPublicFeed(String query, int offset, int limit);
 
 	/**
+	 * Searches Facebook's public feed.
+	 * @param query the search query (e.g., "Dr Seuss")
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of {@link Post}s that match the search query
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	List<Post> searchPublicFeed(String query, String since, String until);
+
+	/**
 	 * Searches the authenticated user's home feed.
 	 * Returns up to 25 posts that match the query.
 	 * @param query the search query (e.g., "Dr Seuss")
@@ -395,6 +540,17 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> searchHomeFeed(String query, int offset, int limit);
+
+	/**
+	 * Searches the authenticated user's home feed.
+	 * @param query the search query (e.g., "Dr Seuss")
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of {@link Post}s that match the search query
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Post> searchHomeFeed(String query, String since, String until);
 
 	/**
 	 * Searches the authenticated user's feed.
@@ -418,6 +574,17 @@ public interface FeedOperations {
 	List<Post> searchUserFeed(String query, int offset, int limit);
 
 	/**
+	 * Searches the authenticated user's feed.
+	 * @param query the search query (e.g., "football")
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of {@link Post}s that match the search query
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Post> searchUserFeed(String query, String since, String until);
+
+	/**
 	 * Searches a specified user's feed.
 	 * Returns up to 25 posts that match the query.
 	 * @param userId the ID of the user whose feed is to be searched
@@ -439,5 +606,17 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Post> searchUserFeed(String userId, String query, int offset, int limit);
+
+	/**
+	 * Searches a specified user's feed.
+	 * @param userId the ID of the user whose feed is to be searched
+	 * @param query the search query (e.g., "football")
+	 * @param since the date into the feed to start retrieving posts.
+	 * @param until the date up to posts to be returned.
+	 * @return a list of {@link Post}s that match the search query
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	List<Post> searchUserFeed(String userId, String query, String since, String until);
 
 }
