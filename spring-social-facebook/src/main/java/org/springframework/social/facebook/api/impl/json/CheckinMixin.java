@@ -22,7 +22,7 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.springframework.social.facebook.api.Comment;
+import org.springframework.social.facebook.api.Comments;
 import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.Reference;
 
@@ -46,7 +46,7 @@ abstract class CheckinMixin {
 
 	@JsonProperty("comments")
 	@JsonDeserialize(using = CommentListDeserializer.class)
-	List<Comment> comments;
+	Comments comments;
 	
 	@JsonProperty("likes")
 	@JsonDeserialize(using = ReferenceListDeserializer.class)

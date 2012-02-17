@@ -56,7 +56,9 @@ public class Post {
 	
 	private int likeCount;
 
-	private List<Comment> comments;
+	private Comments comments;
+	
+	private int commentCount;
 	
 	private int sharesCount;
 
@@ -135,9 +137,12 @@ public class Post {
 	 * The most recent comments for the post.
 	 */
 	public List<Comment> getComments() {
-		return comments;
+		return comments.getComments();
 	}
 
-	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }
+	public int getCommentCount() {
+		return comments.getCommentCount();
+	}
 	
+	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }
 }

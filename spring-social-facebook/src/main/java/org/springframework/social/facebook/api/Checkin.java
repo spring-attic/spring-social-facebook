@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 
+
 /**
  * Model class representing a user checkin on Facebook Places.
  * @author Craig Walls
@@ -36,7 +37,7 @@ public class Checkin {
 
 	private String message;
 
-	private List<Comment> comments;
+	private Comments comments;
 
 	private List<Reference> likes;
 
@@ -75,7 +76,7 @@ public class Checkin {
 	}
 
 	public List<Comment> getComments() {
-		return comments;
+		return comments.getComments();
 	}
 
 	public List<Reference> getLikes() {
