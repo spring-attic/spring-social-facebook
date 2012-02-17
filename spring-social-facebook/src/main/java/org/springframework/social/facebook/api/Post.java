@@ -57,6 +57,8 @@ public class Post {
 	private int likeCount;
 
 	private List<Comment> comments;
+	
+	private int sharesCount;
 
 	public Post(String id, Reference from, Date createdTime, Date updatedTime) {
 		this.id = id;
@@ -123,6 +125,10 @@ public class Post {
 	
 	public int getLikeCount() {
 		return likeCount;
+	}
+	
+	public int getSharesCount() {
+		return sharesCount;
 	}
 
 	/**
