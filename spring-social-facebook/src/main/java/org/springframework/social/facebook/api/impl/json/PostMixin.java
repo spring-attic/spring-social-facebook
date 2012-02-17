@@ -34,7 +34,7 @@ import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.CheckinPost;
-import org.springframework.social.facebook.api.Comment;
+import org.springframework.social.facebook.api.Comments;
 import org.springframework.social.facebook.api.LinkPost;
 import org.springframework.social.facebook.api.MusicPost;
 import org.springframework.social.facebook.api.NotePost;
@@ -118,7 +118,8 @@ abstract class PostMixin {
 
 	@JsonProperty("comments")
 	@JsonDeserialize(using = CommentListDeserializer.class)
-	List<Comment> comments;
+	Comments comments;
+
 
 	private static class TypeDeserializer extends JsonDeserializer<PostType> {
 		@Override
