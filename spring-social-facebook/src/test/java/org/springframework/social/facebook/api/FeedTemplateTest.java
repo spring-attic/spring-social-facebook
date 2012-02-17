@@ -608,12 +608,14 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Just trying something", feed.get(0).getMessage());
 		assertEquals("100001387295207", feed.get(0).getFrom().getId());
 		assertEquals("Art Names", feed.get(0).getFrom().getName());
+		assertEquals(23, feed.get(0).getSharesCount());
 		assertNull(feed.get(0).getApplication());
 		assertEquals(PostType.PHOTO, feed.get(1).getType());
 		assertEquals("100001387295207_160064384049804", feed.get(1).getId());
 		assertEquals("Check out my ride", feed.get(1).getMessage());
 		assertEquals("100001387295207", feed.get(1).getFrom().getId());
 		assertEquals("Art Names", feed.get(1).getFrom().getName());
+		assertEquals(0, feed.get(1).getSharesCount());
 		assertNull(feed.get(1).getApplication());
 		assertEquals(PostType.STATUS, feed.get(2).getType());
 		assertEquals("100001387295207_153453231377586", feed.get(2).getId());
@@ -621,6 +623,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("100001387295207", feed.get(2).getFrom().getId());
 		assertEquals("Art Names", feed.get(2).getFrom().getName());
 		assertEquals("162886103757745", feed.get(2).getApplication().getId());
+		assertEquals(19, feed.get(2).getSharesCount());
 		assertEquals("Spring Social Showcase", feed.get(2).getApplication().getName());
 	}
 	
