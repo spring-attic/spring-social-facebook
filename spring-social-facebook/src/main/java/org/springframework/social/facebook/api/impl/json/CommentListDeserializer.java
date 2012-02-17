@@ -16,6 +16,7 @@
 package org.springframework.social.facebook.api.impl.json;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
@@ -26,19 +27,25 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.social.facebook.api.Comment;
+import org.springframework.social.facebook.api.Comments;
 
-class CommentListDeserializer extends JsonDeserializer<List<Comment>> {
+class CommentListDeserializer extends JsonDeserializer<Comments> {
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Comment> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+	public Comments deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setDeserializationConfig(ctxt.getConfig());
 		jp.setCodec(mapper);
 		if(jp.hasCurrentToken()) {
-			JsonNode dataNode = jp.readValueAsTree().get("data");
-			if(dataNode != null) {
-				return (List<Comment>) mapper.readValue(dataNode, new TypeReference<List<Comment>>() {});
-			}
+			JsonNode commentsNode = jp.readValueAsTree();
+			JsonNode dataNode = commentsNode.get("data");
+			List<Comment> commentsList = dataNode != null ? 
+					(List<Comment>) mapper.readValue(dataNode, new TypeReference<List<Comment>>() {}) : 
+					Collections.<Comment>emptyList();
+			JsonNode countNode = commentsNode.get("count");
+			int commentCount = countNode != null ? countNode.getIntValue() : 0;
+			return new Comments(commentsList, commentCount);
 		}
 		
 		return null;

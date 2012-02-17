@@ -116,7 +116,7 @@ public interface QuestionOperations {
 	/**
 	 * Removes a question option.
 	 * Requires "publish_stream" permission.
-	 * @param questionId the ID of the option to delete
+	 * @param optionId the ID of the option to delete
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
