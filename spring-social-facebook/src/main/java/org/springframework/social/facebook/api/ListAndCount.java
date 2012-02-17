@@ -23,23 +23,23 @@ import java.util.List;
  * Instead, the comments list and count are available through Comment.getComments(), Post.getComments(), and Post.getCommentCount().
  * @author habuma
  */
-public class Comments {
+public class ListAndCount<T> {
 	
-	private final List<Comment> comments;
+	private final List<T> list;
 	
-	private final int commentCount;
+	private final int count;
 	
-	public Comments(List<Comment> comments, int commentCount) {
-		this.comments = comments;
-		this.commentCount = commentCount;
+	public ListAndCount(List<T> list, int count) {
+		this.list = list;
+		this.count = count;
 	}
 
-	public int getCommentCount() {
-		return commentCount;
+	public int getCount() {
+		return count;
 	}
 
-	public List<Comment> getComments() {
-		return comments;
+	public List<T> getList() {
+		return list;
 	}
 
 }
