@@ -108,8 +108,12 @@ abstract class PostMixin {
 	@JsonDeserialize(using = TypeDeserializer.class)
 	PostType type;
 
+	@JsonProperty("shares")
+	@JsonDeserialize(using = CountDeserializer.class)
+	int sharesCount;
+
 	@JsonProperty("likes")
-	@JsonDeserialize(using = LikesCountDeserializer.class)
+	@JsonDeserialize(using = CountDeserializer.class)
 	int likeCount;
 
 	@JsonProperty("comments")
@@ -123,7 +127,7 @@ abstract class PostMixin {
 		}
 	}
 	
-	private static class LikesCountDeserializer extends JsonDeserializer<Integer> {
+	private static class CountDeserializer extends JsonDeserializer<Integer> {
 		@Override
 		public Integer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			JsonNode tree = jp.readValueAsTree();
