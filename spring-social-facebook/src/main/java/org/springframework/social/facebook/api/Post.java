@@ -54,11 +54,9 @@ public class Post {
 	
 	private PostType type;
 	
-	private int likeCount;
-
-	private Comments comments;
+	private ListAndCount<Reference> likes;
 	
-	private int commentCount;
+	private ListAndCount<Comment> comments;
 	
 	private int sharesCount;
 
@@ -125,8 +123,20 @@ public class Post {
 		return type;
 	}
 	
+	/**
+	 * Reference for users who have liked this Post. 
+	 * May not be a complete list and the size may be different than the value returned from getLikeCount().
+	 * For a complete list of likes, use {@link LikeOperations#getLikes(String)}.
+	 */
+	public List<Reference> getLikes() {
+		return likes.getList();
+	}
+	
+	/**
+	 * The number of likes for this Post. May be different than the size of the list returned from getLikes().
+	 */
 	public int getLikeCount() {
-		return likeCount;
+		return likes.getCount();
 	}
 	
 	public int getSharesCount() {
@@ -137,11 +147,11 @@ public class Post {
 	 * The most recent comments for the post.
 	 */
 	public List<Comment> getComments() {
-		return comments.getComments();
+		return comments.getList();
 	}
 
 	public int getCommentCount() {
-		return comments.getCommentCount();
+		return comments.getCount();
 	}
 	
 	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }

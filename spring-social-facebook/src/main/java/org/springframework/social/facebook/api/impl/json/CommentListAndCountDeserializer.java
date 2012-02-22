@@ -27,13 +27,13 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.social.facebook.api.Comment;
-import org.springframework.social.facebook.api.Comments;
+import org.springframework.social.facebook.api.ListAndCount;
 
-class CommentListDeserializer extends JsonDeserializer<Comments> {
+class CommentListAndCountDeserializer extends JsonDeserializer<ListAndCount<Comment>> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Comments deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+	public ListAndCount<Comment> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setDeserializationConfig(ctxt.getConfig());
 		jp.setCodec(mapper);
@@ -45,7 +45,7 @@ class CommentListDeserializer extends JsonDeserializer<Comments> {
 					Collections.<Comment>emptyList();
 			JsonNode countNode = commentsNode.get("count");
 			int commentCount = countNode != null ? countNode.getIntValue() : 0;
-			return new Comments(commentsList, commentCount);
+			return new ListAndCount<Comment>(commentsList, commentCount);
 		}
 		
 		return null;
