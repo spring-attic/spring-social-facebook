@@ -37,9 +37,9 @@ public class Checkin {
 
 	private String message;
 
-	private Comments comments;
+	private ListAndCount<Comment> comments;
 
-	private List<Reference> likes;
+	private ListAndCount<Reference> likes;
 
 	private List<Reference> tags;
 
@@ -76,11 +76,11 @@ public class Checkin {
 	}
 
 	public List<Comment> getComments() {
-		return comments.getComments();
+		return comments.getList();
 	}
 
 	public List<Reference> getLikes() {
-		return likes;
+		return likes.getList();
 	}
 
 	public List<Reference> getTags() {

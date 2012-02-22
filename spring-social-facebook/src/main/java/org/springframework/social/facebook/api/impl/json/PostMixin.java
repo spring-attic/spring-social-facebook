@@ -34,8 +34,9 @@ import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.CheckinPost;
-import org.springframework.social.facebook.api.Comments;
+import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.LinkPost;
+import org.springframework.social.facebook.api.ListAndCount;
 import org.springframework.social.facebook.api.MusicPost;
 import org.springframework.social.facebook.api.NotePost;
 import org.springframework.social.facebook.api.PhotoPost;
@@ -113,12 +114,12 @@ abstract class PostMixin {
 	int sharesCount;
 
 	@JsonProperty("likes")
-	@JsonDeserialize(using = CountDeserializer.class)
-	int likeCount;
+	@JsonDeserialize(using = ReferenceListAndCountDeserializer.class)
+	ListAndCount<Reference> likes;
 
 	@JsonProperty("comments")
-	@JsonDeserialize(using = CommentListDeserializer.class)
-	Comments comments;
+	@JsonDeserialize(using = CommentListAndCountDeserializer.class)
+	ListAndCount<Comment> comments;
 
 
 	private static class TypeDeserializer extends JsonDeserializer<PostType> {
