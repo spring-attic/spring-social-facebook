@@ -442,6 +442,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Craig Walls", album.getFrom().getName());
 		assertEquals("http://www.facebook.com/album.php?aid=620722&id=738140579", album.getLink());
 		assertEquals("Early Broncos", album.getName());
+		assertEquals("10151447371355580", album.getCoverPhotoId());
 		assertNull(album.getDescription());
 		assertEquals("Somewhere", album.getLocation());
 		assertEquals(Album.Privacy.CUSTOM, album.getPrivacy());
