@@ -111,6 +111,12 @@ public interface GraphApi {
 	 */
 	void delete(String objectId, String connectionName);
 	
+	/**
+	 * @return The application namespace associated with this GraphApi instance. Useful for interacting with Facebook's OpenGraph actions.
+	 * 			May be null if no namespace was specified.
+	 */
+	String getApplicationNamespace();
+	
 	static final String GRAPH_API_URL = "https://graph.facebook.com/";
 
 }
