@@ -45,6 +45,8 @@ public class Album {
 	private Date createdTime;
 
 	private Date updatedTime;
+	
+	private String coverPhotoId;
 
 	private Album(String id, Reference from, String name, Type type, String link, int count, Privacy privacy, Date createdTime) {
 		this.id = id;
@@ -99,6 +101,14 @@ public class Album {
 
 	public Date getUpdatedTime() {
 		return updatedTime;
+	}
+	
+	/**
+	 * The ID of the Photo object that is the cover photo for the album.
+	 * @return A Photo object ID or null if the album does not have a cover photo
+	 */
+	public String getCoverPhotoId() {
+		return coverPhotoId;
 	}
 
 	public static enum Type { NORMAL, MOBILE, PROFILE, WALL, FRIENDS_WALLS, UNKNOWN }
