@@ -56,6 +56,9 @@ abstract class AlbumMixin {
 	
 	@JsonProperty("updated_time")
 	Date updatedTime;
+	
+	@JsonProperty("cover_photo")
+	String coverPhotoId;
 		
 	private static class TypeDeserializer extends JsonDeserializer<Type> {
 		@Override
