@@ -66,7 +66,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("10150958796185580", s3.statusId);
 		assertEquals(10150958796185580L, s3.statusIdLong);
 		assertEquals("Test Message 3", s3.message);
-		assertEquals(1322256314000L, s3.time.getTime());
+		assertEquals(null, s3.time);
 		assertEquals(6628568379L, s3.source);
 	}
 	
