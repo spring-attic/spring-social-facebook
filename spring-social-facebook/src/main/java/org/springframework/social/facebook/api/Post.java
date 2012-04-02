@@ -17,6 +17,7 @@ package org.springframework.social.facebook.api;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -59,6 +60,10 @@ public class Post {
 	private ListAndCount<Comment> comments;
 	
 	private int sharesCount;
+	
+	private String story;
+	
+	private Map<Integer,List<StoryTag>> storyTags;
 
 	public Post(String id, Reference from, Date createdTime, Date updatedTime) {
 		this.id = id;
@@ -148,6 +153,14 @@ public class Post {
 	 */
 	public List<Comment> getComments() {
 		return comments.getList();
+	}
+	
+	public String getStory() {
+		return story;
+	}
+	
+	public Map<Integer,List<StoryTag>> getStoryTags() {
+		return storyTags;
 	}
 
 	public int getCommentCount() {
