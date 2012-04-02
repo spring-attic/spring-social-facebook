@@ -68,6 +68,11 @@ public interface Facebook extends GraphApi, ApiBinding {
 	MediaOperations mediaOperations();
 	
 	/**
+	 * API for working with OpenGraph actions.
+	 */
+	OpenGraphOperations openGraphOperations();
+	
+	/**
 	 * API for working with Facebook pages.
 	 */
 	PageOperations pageOperations();

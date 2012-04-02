@@ -40,6 +40,7 @@ import org.springframework.social.facebook.api.GroupOperations;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.LikeOperations;
 import org.springframework.social.facebook.api.MediaOperations;
+import org.springframework.social.facebook.api.OpenGraphOperations;
 import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PlacesOperations;
 import org.springframework.social.facebook.api.QuestionOperations;
@@ -91,7 +92,11 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	private QuestionOperations questionOperations;
 
+	private OpenGraphOperations openGraphOperations;
+
 	private ObjectMapper objectMapper;
+
+	private String applicationNamespace;
 
 	/**
 	 * Create a new instance of FacebookTemplate.
@@ -111,7 +116,13 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	 * @param accessToken An access token given by Facebook after a successful OAuth 2 authentication (or through Facebook's JS library).
 	 */
 	public FacebookTemplate(String accessToken) {
+		this(accessToken, null);
+		initialize();
+	}
+	
+	public FacebookTemplate(String accessToken, String applicationNamespace) {
 		super(accessToken);
+		this.applicationNamespace = applicationNamespace;
 		initialize();
 	}
 
@@ -171,6 +182,14 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	public QuestionOperations questionOperations() {
 		return questionOperations;
+	}
+
+	public OpenGraphOperations openGraphOperations() {
+		return openGraphOperations;
+	}
+	
+	public String getApplicationNamespace() {
+		return applicationNamespace;
 	}
 	
 	// low-level Graph API operations
@@ -265,6 +284,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 		
 	private void initSubApis() {
+		openGraphOperations = new OpenGraphTemplate(this, isAuthorized());
 		userOperations = new UserTemplate(this, getRestTemplate(), isAuthorized());
 		placesOperations = new PlacesTemplate(this, isAuthorized());
 		friendOperations = new FriendTemplate(this, getRestTemplate(), isAuthorized());

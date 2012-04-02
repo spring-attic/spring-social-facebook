@@ -39,13 +39,17 @@ public class AbstractFacebookApiTest {
 
 	@Before
 	public void setup() {
-		facebook = new FacebookTemplate(ACCESS_TOKEN);
+		facebook = createFacebookTemplate();
 		mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		responseHeaders = new HttpHeaders();
 		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		unauthorizedFacebook = new FacebookTemplate();
 		MockRestServiceServer.createServer(unauthorizedFacebook.getRestTemplate());
+	}
+
+	protected FacebookTemplate createFacebookTemplate() {
+		return new FacebookTemplate(ACCESS_TOKEN);
 	}
 
 	protected Resource jsonResource(String filename) {

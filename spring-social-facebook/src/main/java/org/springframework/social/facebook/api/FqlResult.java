@@ -105,8 +105,12 @@ public class FqlResult {
 	 */
 	public Date getTime(String fieldName) {
 		try {
-			long timeInMilliseconds = Long.valueOf(String.valueOf(resultMap.get(fieldName))) * 1000;
-			return resultMap.containsKey(fieldName) ? new Date(timeInMilliseconds) : null;
+			if (resultMap.get(fieldName) != null) {
+				long timeInMilliseconds = Long.valueOf(String.valueOf(resultMap.get(fieldName))) * 1000;
+				return new Date(timeInMilliseconds);
+			} else {
+				return null;
+			}
 		} catch (NumberFormatException e) {
 			throw new FqlException("Field '" + fieldName +"' is not a time.", e);
 		}
