@@ -42,6 +42,8 @@ public class Photo {
 	
 	private List<Tag> tags;
 	
+	private List<Image> images;
+	
 	private Image oversizedImage;
 	
 	private Image sourceImage;
@@ -58,6 +60,7 @@ public class Photo {
 		this.link = link;
 		this.icon = icon;
 		this.createdTime = createdTime;
+		this.images = images;
 		
 		int i=0;
 		if(images.size() == 5) {
@@ -100,6 +103,10 @@ public class Photo {
 	public Date getUpdatedTime() {
 		return updatedTime;
 	}
+	
+	public List<Image> getImages() {
+		return images;
+	}	
 
 	/**
 	 * An oversized image. May be null if no oversized image was provided.
