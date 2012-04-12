@@ -1,4 +1,4 @@
-Spring Social Facebook
+Spring Social Facebook ${version}
 -----------------------------------------------------------
 Spring Social Facebook is an extension to Spring Social to enable connectivity with Facebook.
 
