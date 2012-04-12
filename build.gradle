@@ -111,7 +111,7 @@ project('spring-social-facebook-web') {
 }
 
 configure(rootProject) {
-    description = 'Spring Social'
+    description = 'Spring Social Facebook'
 
     apply plugin: 'docbook-reference'
 
