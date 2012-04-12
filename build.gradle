@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import org.springframework.build.Version
 
 // -----------------------------------------------------------------------------
 // Main gradle build file for Spring Social Facebook
@@ -30,10 +29,6 @@ abbreviation = 'SOCIAL-FACEBOOK'
 apply plugin: 'base'
 apply plugin: 'idea'
 
-def buildSrcDir = "$rootDir/buildSrc"
-apply from: "$buildSrcDir/wrapper.gradle"
-apply from: "$buildSrcDir/maven-root-pom.gradle"
-
 // -----------------------------------------------------------------------------
 // Configuration for all projects including this one (the root project)
 //
@@ -42,13 +37,6 @@ apply from: "$buildSrcDir/maven-root-pom.gradle"
 allprojects {
     // group will translate to groupId during pom generation and deployment
     group = 'org.springframework.social'
-
-    // version will be used in maven pom generation as well as determining
-    // where artifacts should be deployed, based on release type of snapshot,
-    // milestone or release.
-    // @see org.springframework.build.Version under buildSrc/ for more info
-    // @see gradle.properties for the declaration of this property.
-    version = new Version(springSocialFacebookVersion)
 
     // default set of maven repositories to be used when resolving dependencies
     repositories {
@@ -86,12 +74,6 @@ configure(javaprojects) {
     // this makes it easier when putting together the distribution
     libsBinDir = new File(libsDir, 'bin')
     libsSrcDir = new File(libsDir, 'src')
-
-    // add tasks for creating source jars and generating poms etc
-    apply from: "$buildSrcDir/maven-deployment.gradle"
-
-    // add tasks for finding and publishing .xsd files
-    apply from: "$buildSrcDir/schema-publication.gradle"
 
     springSocialVersion = '1.0.2.BUILD-SNAPSHOT'
     jacksonVersion = '1.9.3'
@@ -153,13 +135,3 @@ project('spring-social-facebook-web') {
         compile ("javax.servlet.jsp:jsp-api:$jspApiVersion") { provided = true }
     }
 }
-
-// -----------------------------------------------------------------------------
-// Configuration for the docs subproject
-// -----------------------------------------------------------------------------
-project('docs') {
-    apply from: "$buildSrcDir/docs.gradle"
-}
-
-apply from: "$buildSrcDir/dist.gradle"
-apply from: "$buildSrcDir/checks.gradle"
