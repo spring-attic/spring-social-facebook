@@ -130,8 +130,6 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("18", restriction.age);
 		assertEquals("18+", restriction.ageDistribution);		
 	}
-
-
 	
 	@Test
 	public void query_resultsWithAnObjectArrayField() {
@@ -168,6 +166,62 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		FamilyMemberObject member4 = listOfFamilyMembers.get(3);
 		assertEquals(12345678904L, member4.uid);
 		assertEquals("sister", member4.relationship);
+	}
+	
+	@Test
+	public void nullChecks() {		
+		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+stuff+from+somewhere+where+uid%3Dme%28%29"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/fql-with-nulls"), responseHeaders));
+
+		facebook.fqlOperations().query("select stuff from somewhere where uid=me()", new FqlResultMapper<Object>() {
+			public Object mapObject(FqlResult result) {
+				assertNotNull(result.getString("string"));
+				assertNull(result.getString("string_null"));
+				assertNotNull(result.getInteger("number"));
+				assertNull(result.getInteger("number_null"));
+				assertNotNull(result.getLong("number"));
+				assertNull(result.getLong("number_null"));
+				assertNotNull(result.getFloat("float"));
+				assertNull(result.getFloat("float_null"));
+				assertNotNull(result.getBoolean("boolean"));
+				assertNull(result.getBoolean("boolean_null"));
+				assertNotNull(result.getTime("time"));
+				assertNull(result.getTime("time_null"));
+				assertNotNull(result.getList("list", new FqlResultMapper<String>() {
+					public String mapObject(FqlResult objectValues) {
+						return null;
+					}
+				}));
+				assertNotNull(result.getList("list_empty", new FqlResultMapper<String>() {
+					public String mapObject(FqlResult objectValues) {
+						return null;
+					}
+				}));
+				assertNull(result.getList("list_null", new FqlResultMapper<String>() {
+					public String mapObject(FqlResult objectValues) {
+						return null;
+					}
+				}));
+				assertNotNull(result.getObject("object"));
+				assertEquals("someValue", result.getObject("object", new FqlResultMapper<String>() { 
+					public String mapObject(FqlResult objectValues) {
+						return objectValues.getString("fieldA");
+					} 
+				}));
+				assertNull(result.getObject("object_null"));
+				assertNull(result.getObject("object_null", new FqlResultMapper<String>() { 
+					public String mapObject(FqlResult objectValues) {
+						fail("mapObjects() shouldn't be called for a null value");
+						return null;
+					} 
+				}));
+				return null;
+			}
+		});
+
+		
 	}
 
 	private static class StatusObject {
