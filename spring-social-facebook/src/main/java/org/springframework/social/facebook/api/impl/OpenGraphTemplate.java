@@ -32,6 +32,7 @@ class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphO
 
 	public String publishAction(String action, String objectType, String objectUrl) {
 		requireAuthorization();
+		requireApplicationNamespace();
 		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
 		parameters.set(objectType, objectUrl);
 		return graphApi.publish("me", graphApi.getApplicationNamespace() + ":" + action, parameters);
