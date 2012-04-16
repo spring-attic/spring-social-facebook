@@ -132,16 +132,18 @@ public class Post {
 	 * Reference for users who have liked this Post. 
 	 * May not be a complete list and the size may be different than the value returned from getLikeCount().
 	 * For a complete list of likes, use {@link LikeOperations#getLikes(String)}.
+	 * @return a list of Reference objects for the users who have liked the Post or null if there is no like information available.
 	 */
 	public List<Reference> getLikes() {
-		return likes.getList();
+		return likes != null ? likes.getList() : null;
 	}
 	
 	/**
 	 * The number of likes for this Post. May be different than the size of the list returned from getLikes().
+	 * @return the number of likes for the Post or null if no like information is available.
 	 */
-	public int getLikeCount() {
-		return likes.getCount();
+	public Integer getLikeCount() {
+		return likes != null ? likes.getCount() : null;
 	}
 	
 	public int getSharesCount() {
