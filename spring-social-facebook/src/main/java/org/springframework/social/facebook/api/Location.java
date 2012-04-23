@@ -16,7 +16,7 @@
 package org.springframework.social.facebook.api;
 
 /**
- * Model class representing a location of a place that a user may check into in Facebook Places.
+ * Model class representing a location of a place that a user may check into in Facebook Places or an event.
  * @author Craig Walls
  */
 public class Location {
@@ -24,6 +24,8 @@ public class Location {
 	private final double latitude;
 
 	private final double longitude;
+
+	private String id;
 
 	private String street;
 
@@ -46,6 +48,10 @@ public class Location {
 
 	public double getLongitude() {
 		return longitude;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public String getStreet() {

@@ -25,12 +25,15 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class LocationMixin {
-	
+
 	@JsonCreator
 	LocationMixin(
 			@JsonProperty("latitude") double latitude, 
 			@JsonProperty("longitude") double longitude) {}
-	
+
+	@JsonProperty("id")
+	String id;
+
 	@JsonProperty("street")
 	String street;
 
