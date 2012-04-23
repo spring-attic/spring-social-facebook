@@ -40,6 +40,8 @@ public class Event {
 
 	private String location;
 	
+	private Location venue;
+	
 	private final Date updatedTime;
 	
 	public Event(String id, String name, Reference owner, Privacy privacy, Date startTime, Date endTime, Date updatedTime) {
@@ -82,6 +84,10 @@ public class Event {
 
 	public String getLocation() {
 		return location;
+	}
+	
+	public Location getVenue() {
+		return venue;
 	}
 
 	public Date getUpdatedTime() {

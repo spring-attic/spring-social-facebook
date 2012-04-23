@@ -27,6 +27,7 @@ import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.Event.Privacy;
+import org.springframework.social.facebook.api.Location;
 import org.springframework.social.facebook.api.Reference;
 
 /**
@@ -51,6 +52,9 @@ abstract class EventMixin {
 	
 	@JsonProperty("location")
 	String location;
+	
+	@JsonProperty("venue")
+	Location venue;
 	
 	private static class PrivacyDeserializer extends JsonDeserializer<Privacy> {
 		@Override

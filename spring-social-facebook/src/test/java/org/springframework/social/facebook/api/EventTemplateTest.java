@@ -94,6 +94,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-30T14:30:28+0000"), event.getUpdatedTime());
 		assertNull(event.getDescription());
 		assertNull(event.getLocation());
+		assertNull(event.getVenue());
 	}
 	
 	@Test
@@ -113,6 +114,34 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-30T14:38:40+0000"), event.getUpdatedTime());
 		assertEquals("Bring your best parachute pants!", event.getDescription());
 		assertEquals("2400 Dunlavy Dr, Denton, TX", event.getLocation());
+		assertNull(event.getVenue());
+	}
+	
+	@Test
+	public void getEvent_withLocationAndDescriptionAndVenue() {
+		mockServer.expect(requestTo("https://graph.facebook.com/188420717869087"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withResponse(jsonResource("testdata/event"), responseHeaders));
+		Event event = facebook.eventOperations().getEvent("188420717869087");
+		assertEquals("188420717869087", event.getId());
+		assertEquals("738140579", event.getOwner().getId());
+		assertEquals("Craig Walls", event.getOwner().getName());
+		assertEquals("Afternoon naptime", event.getName());
+		assertEquals("Sawing logs", event.getDescription());
+		assertEquals(toDate("2011-03-26T14:00:00+0000"), event.getStartTime());
+		assertEquals(toDate("2011-03-26T15:00:00+0000"), event.getEndTime());
+		assertEquals(toDate("2011-03-24T19:40:43+0000"), event.getUpdatedTime());
+		assertEquals("On the couch", event.getLocation());
+		assertEquals(Event.Privacy.SECRET, event.getPrivacy());
+		assertEquals("1234 North Avenue", event.getVenue().getStreet());
+		assertEquals("Plano", event.getVenue().getCity());
+		assertEquals("Texas", event.getVenue().getState());
+		assertEquals("United States", event.getVenue().getCountry());
+		assertEquals(33.0197, event.getVenue().getLatitude(), 0.1);
+		assertEquals(-96.6986, event.getVenue().getLongitude(), 0.1);
+		assertNull(event.getVenue().getId());
+		assertNull(event.getVenue().getZip());
 	}
 	
 	@Test
