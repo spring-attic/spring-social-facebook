@@ -42,15 +42,7 @@ public class Photo {
 	
 	private List<Tag> tags;
 	
-	private Image oversizedImage;
-	
-	private Image sourceImage;
-	
-	private Image smallImage;
-
-	private Image albumImage;
-		
-	private Image tinyImage;
+	private List<Image> images;
 	
 	private Photo(String id, Reference from, String link, String icon, Date createdTime, List<Image> images) {
 		this.id = id;
@@ -58,15 +50,7 @@ public class Photo {
 		this.link = link;
 		this.icon = icon;
 		this.createdTime = createdTime;
-		
-		int i=0;
-		if(images.size() == 5) {
-			this.oversizedImage = images.get(i++);
-		}
-		this.sourceImage = images.get(i++);
-		this.albumImage = images.get(i++);
-		this.smallImage = images.get(i++);
-		this.tinyImage = images.get(i++);
+		this.images = images;
 	}
 	
 	public String getId() {
@@ -100,28 +84,29 @@ public class Photo {
 	public Date getUpdatedTime() {
 		return updatedTime;
 	}
+	
+	public List<Image> getImages() {
+		return images;
+	}
 
-	/**
-	 * An oversized image. May be null if no oversized image was provided.
-	 */
 	public Image getOversizedImage() {
-		return oversizedImage;
+		return images.get(0);
 	}
 	
 	public Image getSourceImage() {
-		return sourceImage;
+		return images.get(1);
 	}
 	
 	public Image getSmallImage() {
-		return smallImage;
+		return images.get(6);
 	}
 	
 	public Image getAlbumImage() {
-		return albumImage;
+		return images.get(5);
 	}
 	
 	public Image getTinyImage() {
-		return tinyImage;
+		return images.get(7);
 	}
 	
 	public List<Tag> getTags() {
