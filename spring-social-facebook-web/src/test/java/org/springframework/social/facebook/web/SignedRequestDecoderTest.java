@@ -76,5 +76,17 @@ public class SignedRequestDecoderTest {
 		assertEquals("us", userData.get("country"));
 		assertEquals("en_US", userData.get("locale"));
 	}
+
 	
+	@Test
+	public void decodeSignedRequest_deauthorizeRequest_toObject() throws Exception {
+		SignedRequestDecoder decoder = new SignedRequestDecoder("888e92659dae96040216a257576b092a");
+		DeauthorizationRequest deauth = decoder.decodeSignedRequest("T4PCp840PHnhgQwMgCSZODpDGqhLC4mFGaNG8oHW7WU.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTMzNTg5NDc5NiwidXNlciI6eyJjb3VudHJ5IjoidXMiLCJsb2NhbGUiOiJlbl9VUyJ9LCJ1c2VyX2lkIjoiNzM4MTQwNTc5In0", DeauthorizationRequest.class);
+		assertEquals("HMAC-SHA256", deauth.getAlgorithm());
+		assertEquals(1335894796, deauth.getIssuedAt());
+		assertEquals("738140579", deauth.getUserId());
+		assertEquals("us", deauth.getUser().getCountry());
+		assertEquals("en_US", deauth.getUser().getLocale());
+	}
+
 }

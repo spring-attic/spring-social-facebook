@@ -16,6 +16,7 @@
 package org.springframework.social.facebook.web;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -76,7 +77,7 @@ public class DisconnectController {
 	}
 
 	private String getUserId(String signedRequest) throws SignedRequestException {
-		return (String) signedRequestDecoder.decodeSignedRequest(signedRequest).get("user_id");		
+		return (String) signedRequestDecoder.decodeSignedRequest(signedRequest, Map.class).get("user_id");		
 	}
 
 }
