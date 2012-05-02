@@ -16,6 +16,7 @@
 package org.springframework.social.facebook.web;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -24,7 +25,9 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.PropertyNamingStrategy;
 import org.springframework.security.crypto.codec.Base64;
 
 /**
@@ -43,23 +46,36 @@ class SignedRequestDecoder {
 	public SignedRequestDecoder(String secret) {
 		this.secret = secret;
 		this.objectMapper = new ObjectMapper();
+		this.objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		this.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 	}
 	
 	/**
-	 * Decodes a signed request, returning the payload of the signed request as a String
+	 * Decodes a signed request, returning the payload of the signed request as a Map
 	 * @param signedRequest the value of the signed_request parameter sent by Facebook.
-	 * @return the payload of the signed request
+	 * @return the payload of the signed request as a Map
 	 */
 	@SuppressWarnings("unchecked")
 	public Map<String, ?> decodeSignedRequest(String signedRequest) throws SignedRequestException {
+		return decodeSignedRequest(signedRequest, Map.class);
+	}
+
+	/**
+	 * Decodes a signed request, returning the payload of the signed request as a specified type.
+	 * @param signedRequest the value of the signed_request parameter sent by Facebook.
+	 * @param type the type to bind the signed_request to.
+	 * @return the payload of the signed request as an object
+	 */
+	public <T> T decodeSignedRequest(String signedRequest, Class<T> type) throws SignedRequestException {
 		String[] split = signedRequest.split("\\.");
 		String encodedSignature = split[0];
 		String payload = split[1];		
 		byte[] signature = base64DecodeToBytes(encodedSignature);
 		try {
-			Map<String, ?> data = objectMapper.readValue(base64DecodeToString(payload), Map.class);
-			if (!data.get("algorithm").equals("HMAC-SHA256")) {
-				throw new SignedRequestException("Unknown encryption algorithm: " + data.get("algorithm"));
+			T data = objectMapper.readValue(base64DecodeToString(payload), type);
+			String algorithm = getAlgorithm(data);
+			if (algorithm == null || !algorithm.equals("HMAC-SHA256")) {
+				throw new SignedRequestException("Unknown encryption algorithm: " + algorithm);
 			}			
 			byte[] expectedSignature = encrypt(payload, secret);
 			if (!Arrays.equals(expectedSignature, signature)) {
@@ -71,6 +87,20 @@ class SignedRequestDecoder {
 		}
 	}
 
+	private String getAlgorithm(Object data) {
+		if (data instanceof Map) {
+			return (String) ((Map) data).get("algorithm");
+		} else {
+			try {
+				Field field = data.getClass().getDeclaredField("algorithm");
+				field.setAccessible(true);
+				return (String) field.get(data);
+			} catch (Exception e) {
+				return null;
+			}
+		}
+	}
+	
 	private String padForBase64(String base64) {
 		return base64 + PADDING.substring(0, (4-base64.length() % 4) % 4);
 	}
