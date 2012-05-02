@@ -24,18 +24,21 @@ import org.springframework.web.bind.support.WebArgumentResolver;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
+ * Web argument resolver for controller handler method arguments that are annotated with {@link SignedRequest}.
+ * Binds JSON payload of the signed_request parameter to the parameter type.
+ * JSON properties named with underbar (_) separates will be converted to camel-case when binding to field name. (e.g., "user_id" will bind to a property named "userId").
+ * Any JSON properties without corresponding fields in the target type will be ignored.
  * @author Craig Walls
  */
 public class SignedRequestArgumentResolver implements WebArgumentResolver {
 
 	private final SignedRequestDecoder signedRequestDecoder;
 
-	/**
-	 */
 	public SignedRequestArgumentResolver(String appSecret) {
 		this.signedRequestDecoder = new SignedRequestDecoder(appSecret);
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Object resolveArgument(MethodParameter parameter, NativeWebRequest request) throws Exception {
 		SignedRequest annotation = parameter.getParameterAnnotation(SignedRequest.class);
 		if (annotation == null) {
