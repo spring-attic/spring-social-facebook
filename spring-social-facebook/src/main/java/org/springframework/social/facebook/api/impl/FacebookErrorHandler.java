@@ -121,6 +121,8 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 				throw new InsufficientPermissionException(requiredPermission);
 			} else if (message.contains("Permissions error")) {
 				throw new InsufficientPermissionException();
+			} else if (message.contains("The user hasn't authorized the application to perform this action")) {
+				throw new InsufficientPermissionException();
 			} else {
 				throw new OperationNotPermittedException(message);
 			}
