@@ -34,10 +34,7 @@ configure(allprojects) {
     test.systemProperty("java.awt.headless", "true")
 
     repositories {
-        maven { url "http://repo.springsource.org/libs-release" }
-        maven { url "http://repo.springsource.org/libs-milestone" }
         maven { url "http://repo.springsource.org/libs-snapshot" }
-        maven { url "http://repo.springsource.org/ebr-maven-external" }
     }
 
     dependencies {
@@ -107,7 +104,7 @@ project('spring-social-facebook-web') {
     dependencies {
         compile ("org.springframework:spring-web:$springVersion")
         compile ("org.springframework.social:spring-social-core:$springSocialVersion") { optional = true }
-        compile ("org.springframework.social:spring-social-facebook:$version") { optional = true }
+        compile project(':spring-social-facebook') { optional = true }
         compile ("org.springframework.security:spring-security-crypto:$springSecurityCryptoVersion") { optional = true }
         compile ("org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion") { optional = true }
         compile ("javax.servlet:servlet-api:$servletApiVersion") { provided = true }
