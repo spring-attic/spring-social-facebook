@@ -68,11 +68,6 @@ public interface Facebook extends GraphApi, ApiBinding {
 	MediaOperations mediaOperations();
 	
 	/**
-	 * API for working with OpenGraph actions.
-	 */
-	OpenGraphOperations openGraphOperations();
-	
-	/**
 	 * API for working with Facebook pages.
 	 */
 	PageOperations pageOperations();
@@ -91,6 +86,11 @@ public interface Facebook extends GraphApi, ApiBinding {
 	 * API for performing operations on Facebook user profiles.
 	 */
 	UserOperations userOperations();
+	
+	/**
+	 * API for performing insights operations
+	 */
+	InsightsOperations insightsOperations();
 	
 	/**
 	 * Returns the underlying {@link RestOperations} object allowing for consumption of Facebook endpoints that may not be otherwise covered by the API binding.
