@@ -23,6 +23,7 @@ configure(allprojects) {
     junitVersion = '4.10'
     mockitoVersion = '1.9.0'
     servletApiVersion = '2.5'
+    springSecurityCryptoVersion = '3.1.0.RELEASE'
     springVersion = '3.1.1.RELEASE'
     springTestMvcVersion = "1.0.0.BUILD-SNAPSHOT"
 
@@ -33,10 +34,7 @@ configure(allprojects) {
     test.systemProperty("java.awt.headless", "true")
 
     repositories {
-        maven { url "http://repo.springsource.org/libs-release" }
-        maven { url "http://repo.springsource.org/libs-milestone" }
         maven { url "http://repo.springsource.org/libs-snapshot" }
-        maven { url "http://repo.springsource.org/ebr-maven-external" }
     }
 
     dependencies {
@@ -105,8 +103,13 @@ project('spring-social-facebook-web') {
     description = 'Facebook Web'
     dependencies {
         compile ("org.springframework:spring-web:$springVersion")
+        compile ("org.springframework.social:spring-social-core:$springSocialVersion") { optional = true }
+        compile project(':spring-social-facebook') { optional = true }
+        compile ("org.springframework.security:spring-security-crypto:$springSecurityCryptoVersion") { optional = true }
+        compile ("org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion") { optional = true }
         compile ("javax.servlet:servlet-api:$servletApiVersion") { provided = true }
         compile ("javax.servlet.jsp:jsp-api:$jspApiVersion") { provided = true }
+        testCompile "org.springframework:spring-test-mvc:$springTestMvcVersion"
     }
 }
 

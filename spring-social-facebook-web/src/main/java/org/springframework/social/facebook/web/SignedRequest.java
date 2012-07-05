@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,24 +22,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that indicates to {@link FacebookWebArgumentResolver} that a controller method parameter should be bound
- * to a value from the Facebook cookie written when the user signed in with Facebook.
  * @author Craig Walls
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface FacebookCookieValue {
+public @interface SignedRequest {
 	
 	/**
-	 * The specific element of the cookie to be bound (e.g., "uid", "expires", etc)
-	 */
-	public String value() default "";
-
-	/**
-	 * Whether the Facebook cookie value is required.
-	 * Default is true, leading to an exception being thrown in case the Facebook cookie is missing or if the value can't be found in the cookie. 
-	 * Switch this to false if you prefer a null in case of the missing cookie/value.
+	 * Whether the signed_request parameter is required.
+	 * Default is true, leading to an exception being thrown in case signed_request is missing. 
+	 * Switch this to false if you prefer a null in case of a missing signed_request parameter.
 	 */
 	boolean required() default true;
 }
