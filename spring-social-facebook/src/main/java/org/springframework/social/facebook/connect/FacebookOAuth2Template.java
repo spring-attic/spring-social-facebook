@@ -36,6 +36,7 @@ public class FacebookOAuth2Template extends OAuth2Template {
 
 	public FacebookOAuth2Template(String clientId, String clientSecret) {
 		super(clientId, clientSecret, "https://www.facebook.com/dialog/oauth", "https://graph.facebook.com/oauth/access_token");
+		setUseParametersForClientAuthentication(true);
 	}
 
 	@Override
