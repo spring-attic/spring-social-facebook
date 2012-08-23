@@ -17,12 +17,14 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.social.test.client.RequestMatchers.*;
-import static org.springframework.social.test.client.ResponseCreators.*;
+import static org.springframework.test.web.client.RequestMatchers.*;
+import static org.springframework.test.web.client.ResponseCreators.*;
 
 import java.util.List;
 
 import org.junit.Test;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
 
 /**
@@ -31,11 +33,11 @@ import org.springframework.social.NotAuthorizedException;
 public class CommentTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
-	public void getComments() {
+	public void getComments() throws Exception {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/comments"), responseHeaders));
+			.andRespond(withSuccess(new FileSystemResource("/Users/habuma/foo.json"), MediaType.APPLICATION_JSON));
 		
 		List<Comment> comments = facebook.commentOperations().getComments("123456");
 		assertEquals(2, comments.size());
@@ -54,7 +56,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments?offset=75&limit=100"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/comments"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/comments"), MediaType.APPLICATION_JSON));
 		
 		List<Comment> comments = facebook.commentOperations().getComments("123456", 75, 100);
 		assertEquals(2, comments.size());
@@ -73,7 +75,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/comment"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/comment"), MediaType.APPLICATION_JSON));
 		Comment comment = facebook.commentOperations().getComment("1533260333_122829644452184_587062");
 		assertEquals("1533260333", comment.getFrom().getId());
 		assertEquals("Art Names", comment.getFrom().getName());
@@ -88,7 +90,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(POST))
 			.andExpect(body("message=Cool+beans"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse("{\"id\":\"123456_543210\"}", responseHeaders));
+			.andRespond(withSuccess("{\"id\":\"123456_543210\"}", MediaType.APPLICATION_JSON));
 		assertEquals("123456_543210", facebook.commentOperations().addComment("123456", "Cool beans"));
 	}
 	
@@ -103,7 +105,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(POST))
 			.andExpect(body("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse("{}", responseHeaders));
+			.andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 		facebook.commentOperations().deleteComment("1533260333_122829644452184_587062");
 		mockServer.verify();
 	}
@@ -117,7 +119,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	public void getLikes() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withResponse(jsonResource("testdata/likes"), responseHeaders));
+				.andRespond(withSuccess(jsonResource("testdata/likes"), MediaType.APPLICATION_JSON));
 		List<Reference> likes = facebook.commentOperations().getLikes("123456");
 		assertEquals(3, likes.size());
 		Reference like1 = likes.get(0);

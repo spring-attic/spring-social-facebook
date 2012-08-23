@@ -17,12 +17,13 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.social.test.client.RequestMatchers.*;
-import static org.springframework.social.test.client.ResponseCreators.*;
+import static org.springframework.test.web.client.RequestMatchers.*;
+import static org.springframework.test.web.client.ResponseCreators.*;
 
 import java.util.List;
 
 import org.junit.Test;
+import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
 
 public class PlacesTemplateTest extends AbstractFacebookApiTest {
@@ -32,7 +33,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/checkins?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/checkins"), MediaType.APPLICATION_JSON));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins();
 		assertCheckins(checkins);
 	}
@@ -42,7 +43,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/checkins?offset=50&limit=10"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/checkins"), MediaType.APPLICATION_JSON));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins(50, 10);
 		assertCheckins(checkins);
 	}
@@ -57,7 +58,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/checkins?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/checkins"), MediaType.APPLICATION_JSON));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins("987654321");
 		assertCheckins(checkins);
 	}
@@ -67,7 +68,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/checkins?offset=50&limit=10"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/checkins"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/checkins"), MediaType.APPLICATION_JSON));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins("987654321", 50, 10);
 		assertCheckins(checkins);
 	}
@@ -82,7 +83,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/10150431253050580"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/checkin"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/checkin"), MediaType.APPLICATION_JSON));
 		Checkin checkin = facebook.placesOperations().getCheckin("10150431253050580");
 		assertSingleCheckin(checkin);		
 	}
@@ -98,7 +99,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andExpect(body("place=123456789&coordinates=%7B%22latitude%22%3A%2232.943860253093%22%2C%22longitude%22%3A%22-96.648515652755%22%7D"))
-			.andRespond(withResponse("{\"id\":\"10150431253050580\"}", responseHeaders));
+			.andRespond(withSuccess("{\"id\":\"10150431253050580\"}", MediaType.APPLICATION_JSON));
 		assertEquals("10150431253050580", facebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755));
 	}
 
@@ -113,7 +114,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andExpect(body("place=123456789&coordinates=%7B%22latitude%22%3A%2232.943860253093%22%2C%22longitude%22%3A%22-96.648515652755%22%7D&message=My+favorite+place"))
-			.andRespond(withResponse("{\"id\":\"10150431253050580\"}", responseHeaders));
+			.andRespond(withSuccess("{\"id\":\"10150431253050580\"}", MediaType.APPLICATION_JSON));
 		assertEquals("10150431253050580", facebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place"));
 	}
 
@@ -128,7 +129,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andExpect(body("place=123456789&coordinates=%7B%22latitude%22%3A%2232.943860253093%22%2C%22longitude%22%3A%22-96.648515652755%22%7D&message=My+favorite+place&tags=24680%2C13579"))
-			.andRespond(withResponse("{\"id\":\"10150431253050580\"}", responseHeaders));
+			.andRespond(withSuccess("{\"id\":\"10150431253050580\"}", MediaType.APPLICATION_JSON));
 		assertEquals("10150431253050580", 
 				facebook.placesOperations().checkin("123456789", 32.943860253093, -96.648515652755, "My favorite place", "24680", "13579"));
 	}
@@ -143,7 +144,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=coffee&type=place&center=33.050278%2C-96.745833&distance=5280"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/places-list"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/places-list"), MediaType.APPLICATION_JSON));
 		List<Page> places = facebook.placesOperations().search("coffee", 33.050278, -96.745833, 5280);
 		assertEquals(2, places.size());
 		assertEquals("117723491586638", places.get(0).getId());

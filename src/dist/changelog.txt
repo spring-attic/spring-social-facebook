@@ -1,3 +1,8 @@
+Spring Social Facebook 1.0.1 (August 23, 2012)
+==============================================
+Bug Fixes
+  * Properly handles changes to pictures property in page object (SOCIALFB-92)
+
 Spring Social Facebook 1.0.1 (December 15, 2011)
 ================================================
 Bug Fixes
