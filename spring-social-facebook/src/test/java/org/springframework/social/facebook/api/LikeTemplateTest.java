@@ -92,7 +92,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	public void getPagesLiked() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/likes?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/user-likes"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getPagesLiked();
 		assertLikes(likes);
 	}
@@ -287,17 +287,20 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 	private void assertLikes(List<Page> likes) {
 		assertEquals(3, likes.size());
 		Page like1 = likes.get(0);
-		assertEquals("113294925350820", like1.getId());
-		assertEquals("Pirates of the Caribbean", like1.getName());
-		assertEquals("Movie", like1.getCategory());
+		assertEquals("5678046685", like1.getId());
+		assertEquals("U2", like1.getName());
+		assertEquals("Musician/band", like1.getCategory());
+		assertEquals("https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc4/277150_5678046685_1509018948_q.jpg", like1.getPicture());
 		Page like2 = likes.get(1);
-		assertEquals("38073733123", like2.getId());
-		assertEquals("Dublin Dr Pepper", like2.getName());
-		assertEquals("Company", like2.getCategory());
+		assertEquals("113294925350820", like2.getId());
+		assertEquals("Pirates of the Caribbean", like2.getName());
+		assertEquals("Movie", like2.getCategory());
+		assertEquals("https://fbexternal-a.akamaihd.net/safe_image.php?d=AQCawivbIbiha8dS&w=50&h=50&url=http\u00253A\u00252F\u00252Fupload.wikimedia.org\u00252Fwikipedia\u00252Fen\u00252F6\u00252F68\u00252FPiratesDVDs.jpg&crop&fallback=hub_movie&prefix=q", like2.getPicture());
 		Page like3 = likes.get(2);
 		assertEquals("10264922373", like3.getId());
 		assertEquals("Freebirds World Burrito", like3.getName());
-		assertEquals("Restaurant/cafe", like3.getCategory());
+		assertEquals("Food/beverages", like3.getCategory());
+		assertEquals("https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/50427_10264922373_2128398611_q.jpg", like3.getPicture());
 	}
 
 }
