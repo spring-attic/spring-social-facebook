@@ -312,6 +312,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		unauthorizedFacebook.likeOperations().getGames("123456789");
 	}
 		
+	@SuppressWarnings("deprecation")
 	private void assertLikes(List<Page> likes) {
 		assertEquals(3, likes.size());
 		Page like1 = likes.get(0);

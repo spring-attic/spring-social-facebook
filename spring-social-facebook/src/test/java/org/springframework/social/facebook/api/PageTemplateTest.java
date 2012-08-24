@@ -34,6 +34,7 @@ import org.springframework.social.NotAuthorizedException;
 public class PageTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
+	@SuppressWarnings("deprecation")
 	public void getPage_organization() {
 		mockServer.expect(requestTo("https://graph.facebook.com/140804655931206"))
 			.andExpect(method(GET))
@@ -51,6 +52,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
+	@SuppressWarnings("deprecation")
 	public void getPage_product() {
 		mockServer.expect(requestTo("https://graph.facebook.com/21278871488"))
 			.andExpect(method(GET))
@@ -68,6 +70,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
+	@SuppressWarnings("deprecation")
 	public void getPage_place() {
 		mockServer.expect(requestTo("https://graph.facebook.com/150263434985489"))
 			.andExpect(method(GET))
