@@ -24,8 +24,6 @@ import java.util.Locale;
 import org.junit.Before;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.test.web.client.MockRestServiceServer;
 
@@ -35,14 +33,11 @@ public class AbstractFacebookApiTest {
 	protected FacebookTemplate facebook;
 	protected FacebookTemplate unauthorizedFacebook;
 	protected MockRestServiceServer mockServer;
-	protected HttpHeaders responseHeaders;
 
 	@Before
 	public void setup() {
 		facebook = createFacebookTemplate();
 		mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		responseHeaders = new HttpHeaders();
-		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		unauthorizedFacebook = new FacebookTemplate();
 		MockRestServiceServer.createServer(unauthorizedFacebook.getRestTemplate());
