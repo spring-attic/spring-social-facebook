@@ -87,6 +87,7 @@ class SignedRequestDecoder {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private String getAlgorithm(Object data) {
 		if (data instanceof Map) {
 			return (String) ((Map) data).get("algorithm");
