@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
+import org.springframework.http.MediaType;
 
 public class FqlTemplateTest extends AbstractFacebookApiTest {
 
@@ -32,7 +33,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=SELECT+uid%2C+status_id%2C+message%2C+time%2C+source+FROM+status+WHERE+uid%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/fql-result-basic"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/fql-result-basic"), MediaType.APPLICATION_JSON));
 		List<StatusObject> results = facebook.fqlOperations().query("SELECT uid, status_id, message, time, source FROM status WHERE uid=me()", new FqlResultMapper<StatusObject>() {
 			public StatusObject mapObject(FqlResult result) {
 				StatusObject status = new StatusObject();
@@ -75,7 +76,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=SELECT+vid%2C+title%2C+length+FROM+video+WHERE+owner%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/fql-result-basic-with-float"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/fql-result-basic-with-float"), MediaType.APPLICATION_JSON));
 		List<VideoObject> results = facebook.fqlOperations().query("SELECT vid, title, length FROM video WHERE owner=me()", new FqlResultMapper<VideoObject>() {
 			public VideoObject mapObject(FqlResult result) {
 				VideoObject video = new VideoObject();
@@ -106,7 +107,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+app_id%2C+display_name%2C+restriction_info+from+application+where+app_id%3D162886103757745"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/fql-result-with-object-field"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/fql-result-with-object-field"), MediaType.APPLICATION_JSON));
 		List<RestrictionObject> restrictions = facebook.fqlOperations().query("select app_id, display_name, restriction_info from application where app_id=162886103757745", new FqlResultMapper<RestrictionObject>() {
 			public RestrictionObject mapObject(FqlResult result) {
 				RestrictionObject restriction = result.getObject("restriction_info", new FqlResultMapper<RestrictionObject>() {
@@ -136,7 +137,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+uid%2C+name%2C+family+from+user+where+uid%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/fql-result-list-of-objects"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/fql-result-list-of-objects"), MediaType.APPLICATION_JSON));
 		List<List<FamilyMemberObject>> queryResult = facebook.fqlOperations().query("select uid, name, family from user where uid=me()", new FqlResultMapper<List<FamilyMemberObject>>() {
 			public List<FamilyMemberObject> mapObject(FqlResult result) {
 				List<FamilyMemberObject> family = result.getList("family", new FqlResultMapper<FamilyMemberObject>() {
@@ -173,7 +174,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+stuff+from+somewhere+where+uid%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/fql-with-nulls"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/fql-with-nulls"), MediaType.APPLICATION_JSON));
 
 		facebook.fqlOperations().query("select stuff from somewhere where uid=me()", new FqlResultMapper<Object>() {
 			public Object mapObject(FqlResult result) {

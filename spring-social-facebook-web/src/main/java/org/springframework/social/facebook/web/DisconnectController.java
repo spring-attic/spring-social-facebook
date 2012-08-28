@@ -49,7 +49,7 @@ public class DisconnectController {
 
 	/**
 	 * Constructs a DisconnectController.
-	 * @param connectionRepository the current user's {@link ConnectionRepository} needed to persist connections; must be a proxy to a request-scoped bean
+	 * @param usersConnectionRepository the current user's {@link UsersConnectionRepository} needed to persist connections; must be a proxy to a request-scoped bean
 	 * @param applicationSecret the application's secret as assigned by Facebook at registration time. Used to validate signed_request.
 	 */
 	public DisconnectController(UsersConnectionRepository usersConnectionRepository, String applicationSecret) {
