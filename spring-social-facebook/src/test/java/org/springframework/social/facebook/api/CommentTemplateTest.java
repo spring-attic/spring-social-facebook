@@ -23,10 +23,8 @@ import static org.springframework.test.web.client.ResponseCreators.*;
 import java.util.List;
 
 import org.junit.Test;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
-import org.springframework.test.web.client.ResponseCreators;
 
 /**
  * @author Craig Walls
