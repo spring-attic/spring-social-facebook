@@ -34,7 +34,7 @@ public class Photo {
 	
 	private String icon;
 	
-	private Integer position;
+	private int position;
 	
 	private Date createdTime;
 	
@@ -73,6 +73,11 @@ public class Photo {
 		return icon;
 	}
 
+	/**
+	 * The position of the photo in a list of photos.
+	 * @deprecated On September 5, 2012, Facebook will either stop returning a position property on Photo objects or will only return 0. This method will be removed in Spring Social Facebook 1.1.0.
+	 */
+	@Deprecated
 	public Integer getPosition() {
 		return position;
 	}

@@ -34,7 +34,9 @@ public class Comment {
 	
 	private List<Reference> likes;
 	
-	private int likesCount;
+	private Integer _likeCount;
+
+	private Integer _likes;
 
 	/**
 	 * Constructs a Comment object.
@@ -91,6 +93,11 @@ public class Comment {
 	 * The number of users who like this comment.
 	 */
 	public int getLikesCount() {
-		return likesCount;
+		if (_likeCount != null ) {
+			return _likeCount;
+		} else if (_likes != null) {
+			return _likes;
+		}
+		return 0;
 	}
 }
