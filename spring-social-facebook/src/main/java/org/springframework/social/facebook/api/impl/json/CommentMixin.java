@@ -36,6 +36,12 @@ abstract class CommentMixin {
 			@JsonProperty("message") String message, 
 			@JsonProperty("created_time") Date createdTime) {}
 	
+	// Support pre-Sept 2012 "likes" property
 	@JsonProperty("likes")
-	int likesCount;
+	int _likes;
+	
+	// Support post-Sept 2012 "like_count" property
+	@JsonProperty("like_count")
+	Integer _likeCount;
+	
 }

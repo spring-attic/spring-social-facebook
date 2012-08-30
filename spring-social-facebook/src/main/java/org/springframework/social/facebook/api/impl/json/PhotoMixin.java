@@ -46,7 +46,7 @@ abstract class PhotoMixin {
 	String name;
 	
 	@JsonProperty("position")
-	Integer position;
+	int position;
 	
 	@JsonProperty("updated_time")
 	Date updatedTime;

@@ -15,16 +15,9 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
-import java.io.IOException;
-
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.Location;
 
@@ -52,7 +45,7 @@ abstract class PageMixin {
 	String website;
 	
 	@JsonProperty("picture")
-	@JsonDeserialize(using=PagePictureDeserializer.class)
+	@JsonDeserialize(using=PictureDeserializer.class)
 	String picture;
 	
 	@JsonProperty("phone")
@@ -73,17 +66,4 @@ abstract class PageMixin {
 	@JsonProperty("checkins")
 	int checkins;
 	
-	private static class PagePictureDeserializer extends JsonDeserializer<String> {
-		@Override
-		public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-			JsonNode tree = jp.readValueAsTree();
-			if (tree.isObject() && tree.has("data")) {
-				return tree.get("data").get("url").asText();
-			} else if (tree.isTextual()) {
-				return tree.asText();
-			}
-			return null;
-		}		
-	}
-
 }
