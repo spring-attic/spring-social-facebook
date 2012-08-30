@@ -338,6 +338,24 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test 
+	public void getFeedEntry_preSeptember2012() {
+		mockServer.expect(requestTo("https://graph.facebook.com/100001387295207_123939024341978"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/post_preSept2012"), MediaType.APPLICATION_JSON));
+		Post feedEntry = facebook.feedOperations().getPost("100001387295207_123939024341978");
+		assertEquals(PostType.STATUS, feedEntry.getType());
+		assertEquals("100001387295207_123939024341978", feedEntry.getId());
+		assertEquals("Hello world!", feedEntry.getMessage());
+		assertEquals("100001387295207", feedEntry.getFrom().getId());
+		assertEquals("Art Names", feedEntry.getFrom().getName());
+		assertEquals(2, feedEntry.getLikeCount());
+		assertEquals(2, feedEntry.getComments().size());
+		assertNull(feedEntry.getComments().get(1).getLikes());
+		assertEquals(3, feedEntry.getComments().get(1).getLikesCount());
+	}
+
+	@Test 
 	public void getFeedEntry() {
 		mockServer.expect(requestTo("https://graph.facebook.com/100001387295207_123939024341978"))
 			.andExpect(method(GET))

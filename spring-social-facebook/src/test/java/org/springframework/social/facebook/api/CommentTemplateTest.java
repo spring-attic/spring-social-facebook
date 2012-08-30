@@ -69,8 +69,34 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("The world says hello back", comment2.getMessage());
 	}
 
+	/*
+	 * This test is for comment "likes" property before Facebook's breaking change to be applied on Sept 5, 2012.
+	 * See https://developers.facebook.com/roadmap/#september-2012
+	 * Note that even with the September breaking changes enabled, there are some cases where comments will have a "likes" property instead of "like_count".
+	 * This seems like a bug on Facebook's side, but Spring Social Facebook will handle both properties for the time being just in case.
+	 */
 	@Test
-	public void getComment() {
+	public void getComment_preSeptember2012BreakingChanges() {
+		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/comment_preSept2012"), MediaType.APPLICATION_JSON));
+		Comment comment = facebook.commentOperations().getComment("1533260333_122829644452184_587062");
+		assertEquals("1533260333", comment.getFrom().getId());
+		assertEquals("Art Names", comment.getFrom().getName());
+		assertEquals("Howdy!", comment.getMessage());
+		assertNull(comment.getLikes());		
+		assertEquals(4, comment.getLikesCount());
+	}
+	
+	/*
+	 * This test is for comment "like_count" property after Facebook's breaking change are applied on Sept 5, 2012.
+	 * See https://developers.facebook.com/roadmap/#september-2012
+	 * Note that even with the September breaking changes enabled, there are some cases where comments will have a "likes" property instead of "like_count".
+	 * This seems like a bug on Facebook's side, but Spring Social Facebook will handle both properties for the time being just in case.
+	 */
+	@Test
+	public void getComment_postSeptember2012BreakingChanges() {
 		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
