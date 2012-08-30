@@ -23,7 +23,6 @@ import static org.springframework.test.web.client.ResponseCreators.*;
 import java.util.List;
 
 import org.junit.Test;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
 
@@ -37,7 +36,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(new FileSystemResource("/Users/habuma/foo.json"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("testdata/comments"), MediaType.APPLICATION_JSON));
 		
 		List<Comment> comments = facebook.commentOperations().getComments("123456");
 		assertEquals(2, comments.size());
