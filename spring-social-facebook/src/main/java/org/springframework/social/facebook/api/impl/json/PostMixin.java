@@ -84,6 +84,7 @@ abstract class PostMixin {
 	String caption;
 	
 	@JsonProperty("picture")
+	@JsonDeserialize(using=PictureDeserializer.class)
 	String picture;
 	
 	@JsonProperty("link")

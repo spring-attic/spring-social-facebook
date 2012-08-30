@@ -23,7 +23,7 @@ configure(allprojects) {
     junitVersion = '4.10'
     mockitoVersion = '1.9.0'
     servletApiVersion = '2.5'
-    springSecurityCryptoVersion = '3.1.0.RELEASE'
+    springSecurityCryptoVersion = '3.1.1.RELEASE'
     springVersion = '3.1.2.RELEASE'
     springTestMvcVersion = "1.0.0.BUILD-SNAPSHOT"
 

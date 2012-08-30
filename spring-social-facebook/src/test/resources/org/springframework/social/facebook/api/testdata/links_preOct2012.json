@@ -10,12 +10,7 @@
                 "id":"738140579"
             },
             "message":"Warning about Facebook Phishing: See http:\/\/www.facebook.com\/group.php?gid=9874388706",
-			"picture": {
-			  "data": {
-			    "url": "http:\/\/profile.ak.fbcdn.net\/hprofile-ak-snc4\/50255_9874388706_6623_n.jpg", 
-			    "is_silhouette": false
-			  }
-			},
+            "picture":"http:\/\/profile.ak.fbcdn.net\/hprofile-ak-snc4\/50255_9874388706_6623_n.jpg",
             "name":"Facebook Phishing Scam Awareness",
             "icon":"http:\/\/static.ak.fbcdn.net\/rsrc.php\/v1\/yD\/r\/aS8ecmYRys0.gif",
             "created_time":"2010-11-10T14:48:49+0000"
@@ -28,12 +23,7 @@
                 "id":"738140579"
             },
             "message":"Hey, let's go buy some furniture from the guy who's off his meds.",
-			"picture": {
-			  "data": {
-			    "url": "http:\/\/i.ytimg.com\/vi\/QSLT2N-Ome8\/2.jpg", 
-			    "is_silhouette": false
-			  }
-			},
+            "picture":"http:\/\/i.ytimg.com\/vi\/QSLT2N-Ome8\/2.jpg",
             "link":"http:\/\/www.youtube.com\/watch?v=QSLT2N-Ome8",
             "name":"Competition Beatdown Fail",
             "description":"What was this guy thinking?",

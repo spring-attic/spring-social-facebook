@@ -1,7 +1,18 @@
-Spring Social Facebook 1.0.1 (August 23, 2012)
-==============================================
+Spring Social Facebook 1.0.2 (September 3, 2012)
+================================================
 Bug Fixes
-  * Properly handles changes to pictures property in page object (SOCIALFB-92)
+  * Deserialize the "pictures" field of Page, Post, and Video returned
+    from Facebook as either a String or as an object in anticipation of
+    changes to the Facebook API to be applied on October 3, 2012. (SOCIALFB-92)
+  * Deserialize the likesCount property of Comment as being sent from
+    Facebook as either "likes" or "like_count" to reflect changes in
+    the Facebook API to be applied September 5, 2012. (SOCIALFB-93)
+  
+Miscellaneous
+  * Deprecated the picture property of Page, Post, and Video classes; to
+    be replaced in Spring Social Facebook 1.1.0. (SOCIALFB-92)
+  * Deprecated the position property of the Photo class to reflect changes
+    in the Facebook API to be applied September 5, 2012. (SOCIALFB-94)
 
 Spring Social Facebook 1.0.1 (December 15, 2011)
 ================================================

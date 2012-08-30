@@ -188,6 +188,15 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
+	public void getLinks_preOctober2012() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/links?offset=0&limit=25"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/links_preOct2012"), MediaType.APPLICATION_JSON));
+		assertLinks(facebook.feedOperations().getLinks());
+	}
+
+	@Test
 	public void getLinks() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/links?offset=0&limit=25"))
 			.andExpect(method(GET))
