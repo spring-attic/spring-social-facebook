@@ -117,7 +117,6 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	 */
 	public FacebookTemplate(String accessToken) {
 		this(accessToken, null);
-		initialize();
 	}
 	
 	public FacebookTemplate(String accessToken, String applicationNamespace) {
