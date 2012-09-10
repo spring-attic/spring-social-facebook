@@ -1,0 +1,2 @@
+http\://www.springframework.org/schema/social/spring-social-facebook.xsd=org/springframework/social/facebook/config/xml/spring-social-facebook-1.1.xsd
+http\://www.springframework.org/schema/social/spring-social-facebook-1.1.xsd=org/springframework/social/facebook/config/xml/spring-social-facebook-1.1.xsd

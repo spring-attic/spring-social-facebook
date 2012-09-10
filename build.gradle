@@ -96,6 +96,7 @@ project('spring-social-facebook') {
     description = 'Facebook API'
     dependencies {
         compile "org.springframework.social:spring-social-core:$springSocialVersion"
+        compile "org.springframework.social:spring-social-config:$springSocialVersion"
         compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
         testCompile "org.springframework:spring-test-mvc:$springTestMvcVersion"
     }
