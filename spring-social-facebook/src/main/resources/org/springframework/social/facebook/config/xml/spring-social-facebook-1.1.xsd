@@ -3,10 +3,11 @@
 	xmlns:facebook="http://www.springframework.org/schema/social/facebook"
 	targetNamespace="http://www.springframework.org/schema/social/facebook">
 
-	<xs:element name="facebook">
+	<xs:element name="config">
 		<xs:complexType>
 			<xs:attribute name="app-id" use="required" type="xs:string" />
 			<xs:attribute name="app-secret" use="required" type="xs:string" />
+			<xs:attribute name="app-namespace" use="optional" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
 
