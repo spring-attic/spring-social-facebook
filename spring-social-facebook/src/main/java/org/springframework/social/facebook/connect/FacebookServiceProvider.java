@@ -22,15 +22,25 @@ import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 /**
  * Facebook ServiceProvider implementation.
  * @author Keith Donald
+ * @author Craig Walls
  */
 public class FacebookServiceProvider extends AbstractOAuth2ServiceProvider<Facebook> {
 
-	public FacebookServiceProvider(String clientId, String clientSecret) {
+	private String appNamespace;
+
+	/**
+	 * Creates a FacebookServiceProvider for the given application ID, secret, and namespace.
+	 * @param appId The application's App ID as assigned by Facebook 
+	 * @param appSecret The application's App Secret as assigned by Facebook
+	 * @param appNamespace The application's App Namespace as configured with Facebook. Enables use of Open Graph operations.
+	 */
+	public FacebookServiceProvider(String clientId, String clientSecret, String appNamespace) {
 		super(new FacebookOAuth2Template(clientId, clientSecret));
+		this.appNamespace = appNamespace;
 	}
 
 	public Facebook getApi(String accessToken) {
-		return new FacebookTemplate(accessToken);
+		return new FacebookTemplate(accessToken, appNamespace);
 	}
 	
 }
