@@ -17,7 +17,7 @@ package org.springframework.social.facebook.config.xml;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.social.config.xml.AbstractConnectionFactoryBeanDefinitionParser;
+import org.springframework.social.config.xml.AbstractProviderConfigBeanDefinitionParser;
 import org.springframework.social.config.xml.ApiHelper;
 import org.springframework.social.config.xml.UserIdSource;
 import org.springframework.social.connect.Connection;
@@ -30,9 +30,9 @@ import org.springframework.social.facebook.connect.FacebookConnectionFactory;
  * Implementation of {@link AbstractConnectionFactoryBeanDefinitionParser} that creates a {@link FacebookConnectionFactory}.
  * @author Craig Walls
  */
-class FacebookConnectionFactoryBeanDefinitionParser extends AbstractConnectionFactoryBeanDefinitionParser {
+class FacebookConfigDefinitionParser extends AbstractProviderConfigBeanDefinitionParser {
 
-	public FacebookConnectionFactoryBeanDefinitionParser() {
+	public FacebookConfigDefinitionParser() {
 		super(FacebookConnectionFactory.class, FacebookApiHelper.class);
 	}
 
