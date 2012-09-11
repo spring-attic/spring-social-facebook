@@ -34,8 +34,8 @@ public class FacebookServiceProvider extends AbstractOAuth2ServiceProvider<Faceb
 	 * @param appSecret The application's App Secret as assigned by Facebook
 	 * @param appNamespace The application's App Namespace as configured with Facebook. Enables use of Open Graph operations.
 	 */
-	public FacebookServiceProvider(String clientId, String clientSecret, String appNamespace) {
-		super(new FacebookOAuth2Template(clientId, clientSecret));
+	public FacebookServiceProvider(String appId, String appSecret, String appNamespace) {
+		super(new FacebookOAuth2Template(appId, appSecret));
 		this.appNamespace = appNamespace;
 	}
 
