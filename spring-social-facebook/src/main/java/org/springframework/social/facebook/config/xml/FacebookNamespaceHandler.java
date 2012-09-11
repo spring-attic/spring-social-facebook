@@ -28,7 +28,7 @@ public class FacebookNamespaceHandler extends AbstractProviderConfigNamespaceHan
 
 	@Override
 	protected AbstractProviderConfigBeanDefinitionParser getProviderConfigBeanDefinitionParser() {
-		return new FacebookConfigDefinitionParser();
+		return new FacebookConfigBeanDefinitionParser();
 	}
 
 }
