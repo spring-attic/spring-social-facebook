@@ -35,7 +35,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 		String requestBody = "question=What+is+your+favorite+color%3F";
 		mockServer.expect(requestTo("https://graph.facebook.com/me/questions"))
 				.andExpect(method(POST))
-				.andExpect(body(requestBody))
+				.andExpect(content().string(requestBody))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("testdata/id-only"), MediaType.APPLICATION_JSON));
 		assertEquals("297875170268724", facebook.questionOperations().askQuestion("What is your favorite color?"));
@@ -46,7 +46,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 		String requestBody = "option=Dallas+Cowboys";
 		mockServer.expect(requestTo("https://graph.facebook.com/297875170268725/options"))
 				.andExpect(method(POST))
-				.andExpect(body(requestBody))
+				.andExpect(content().string(requestBody))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("testdata/id-only"), MediaType.APPLICATION_JSON));
 		assertEquals("297875170268724", facebook.questionOperations().addOption("297875170268725", "Dallas Cowboys"));
@@ -100,7 +100,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 	public void deleteQuestion() {
 		mockServer.expect(requestTo("https://graph.facebook.com/297875170268725"))
 			.andExpect(method(POST))
-			.andExpect(body("method=delete"))
+			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		facebook.questionOperations().deleteQuestion("297875170268725");
@@ -131,7 +131,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 	public void deleteOption() {
 		mockServer.expect(requestTo("https://graph.facebook.com/297875170268725"))
 			.andExpect(method(POST))
-			.andExpect(body("method=delete"))
+			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		facebook.questionOperations().deleteOption("297875170268725");

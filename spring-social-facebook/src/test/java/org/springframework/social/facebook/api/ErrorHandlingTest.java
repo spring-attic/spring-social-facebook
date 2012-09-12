@@ -45,7 +45,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	private static final String NOT_AUTHORIZED_REVOKATION = "The authorization has been revoked. Reason: Error validating access token: 123456789 has not authorized application 987654321";
 
 	@Test
-	public void insufficientPrivileges() {
+	public void insufficientPrivileges() {		
 		try {
 			mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/declined"))
 				.andExpect(method(POST))
@@ -107,7 +107,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			mockServer.expect(requestTo("https://graph.facebook.com/1234567890"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body("method=delete"))
+				.andExpect(content().string("method=delete"))
 				.andRespond(withServerError().body(jsonResource("testdata/error-not-the-owner")).contentType(MediaType.APPLICATION_JSON));
 			facebook.friendOperations().deleteFriendList("1234567890");
 			fail();
@@ -264,7 +264,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	public void appMustBeOnWhitelist() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes"))
 			.andExpect(method(POST))
-			.andExpect(body("method=delete"))
+			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withBadRequest().body(jsonResource("testdata/error-whitelist")).contentType(MediaType.APPLICATION_JSON));
 		facebook.likeOperations().unlike("123456");
@@ -302,7 +302,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	public void rateLimit() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
 			.andExpect(method(POST))
-			.andExpect(body("message=Test+Message"))
+			.andExpect(content().string("message=Test+Message"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withBadRequest().body(jsonResource("testdata/error-rate-limit")).contentType(MediaType.APPLICATION_JSON));
 		facebook.feedOperations().updateStatus("Test Message");
@@ -315,7 +315,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
 			.andExpect(method(POST))
-			.andExpect(body("message=Test+Message"))
+			.andExpect(content().string("message=Test+Message"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withBadRequest().body(jsonResource("testdata/error-duplicate-to-twitter")).contentType(MediaType.APPLICATION_JSON));
 		facebook.feedOperations().updateStatus("Test Message");

@@ -39,7 +39,7 @@ public class OpenGraphTemplateTest extends AbstractFacebookApiTest {
 	public void publishAction() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/socialshowcase:ding"))
 			.andExpect(method(POST))
-			.andExpect(body("thing=http%3A%2F%2Fwww.springsource.org%2Fspringsocial"))
+			.andExpect(content().string("thing=http%3A%2F%2Fwww.springsource.org%2Fspringsocial"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/id-only"), MediaType.APPLICATION_JSON));
 		assertEquals("297875170268724", facebook.openGraphOperations().publishAction("ding", "thing", "http://www.springsource.org/springsocial"));
