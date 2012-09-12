@@ -69,7 +69,7 @@ public class LikeTemplate_PreOctober2012_Test extends AbstractFacebookApiTest {
 	public void unlike() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes"))
 			.andExpect(method(POST))
-			.andExpect(body("method=delete"))
+			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 		facebook.likeOperations().unlike("123456");

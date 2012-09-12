@@ -419,7 +419,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body(requestBody))
+				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		assertEquals("123456_78901234", facebook.feedOperations().updateStatus("Hello Facebook World"));
 		mockServer.verify();
@@ -435,7 +435,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body("message=Duplicate"))
+				.andExpect(content().string("message=Duplicate"))
 			.andRespond(withBadRequest().body(jsonResource("testdata/error-duplicate-status")).contentType(MediaType.APPLICATION_JSON));
 		facebook.feedOperations().updateStatus("Duplicate");
 	}
@@ -446,7 +446,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body(requestBody))
+				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		assertEquals("123456_78901234", facebook.feedOperations().post("123456789", "Hello Facebook World"));
 		mockServer.verify();
@@ -462,7 +462,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World";
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed")).andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body(requestBody))
+				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		assertEquals("123456_78901234", facebook.feedOperations().postLink("Hello Facebook World", link));
@@ -480,7 +480,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World";
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed")).andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body(requestBody))
+				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		assertEquals("123456_78901234", facebook.feedOperations().postLink("123456789", "Hello Facebook World", link));
@@ -498,7 +498,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		String requestBody = "method=delete";
 		mockServer.expect(requestTo("https://graph.facebook.com/123456_78901234"))
 				.andExpect(method(POST))
-				.andExpect(header("Authorization", "OAuth someAccessToken")).andExpect(body(requestBody))
+				.andExpect(header("Authorization", "OAuth someAccessToken")).andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 		facebook.feedOperations().deletePost("123456_78901234");
 		mockServer.verify();
@@ -679,6 +679,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Spring Social Showcase", feed.get(2).getApplication().getName());
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void assertLinks(List<LinkPost> feed) {
 		assertEquals(2, feed.size());
 		assertEquals(PostType.LINK, feed.get(0).getType());

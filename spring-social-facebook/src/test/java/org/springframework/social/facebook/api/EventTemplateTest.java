@@ -120,7 +120,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	public void createEvent() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/events"))
 			.andExpect(method(POST))
-			.andExpect(body("name=Test+Event&start_time=2011-04-01T15%3A30%3A00&end_time=2011-04-01T18%3A30%3A00"))
+			.andExpect(content().string("name=Test+Event&start_time=2011-04-01T15%3A30%3A00&end_time=2011-04-01T18%3A30%3A00"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\":\"193482145020832\"}", MediaType.APPLICATION_JSON));
 		String eventId = facebook.eventOperations().createEvent("Test Event", "2011-04-01T15:30:00", "2011-04-01T18:30:00");
@@ -136,7 +136,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	public void deleteEvent() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
 			.andExpect(method(POST))
-			.andExpect(body("method=delete"))
+			.andExpect(content().string("method=delete"))
 			.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		facebook.eventOperations().deleteEvent("123456789");
 		mockServer.verify();
