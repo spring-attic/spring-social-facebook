@@ -95,7 +95,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/friendlists"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andExpect(body("name=My+List"))
+			.andExpect(content().string("name=My+List"))
 			.andRespond(withSuccess(jsonResource("testdata/create-friend-list"), MediaType.APPLICATION_JSON));
 		String friendListId = facebook.friendOperations().createFriendList("My List");
 		assertEquals("11929590579", friendListId);
@@ -111,7 +111,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 	public void deleteFriendList() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456"))
 			.andExpect(method(POST))
-			.andExpect(body("method=delete"))
+			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("", MediaType.APPLICATION_JSON));
 		facebook.friendOperations().deleteFriendList("123456");

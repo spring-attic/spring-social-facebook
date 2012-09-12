@@ -113,7 +113,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	public void addComment() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments"))
 			.andExpect(method(POST))
-			.andExpect(body("message=Cool+beans"))
+			.andExpect(content().string("message=Cool+beans"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\":\"123456_543210\"}", MediaType.APPLICATION_JSON));
 		assertEquals("123456_543210", facebook.commentOperations().addComment("123456", "Cool beans"));
@@ -128,7 +128,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	public void deleteComment() {
 		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))
 			.andExpect(method(POST))
-			.andExpect(body("method=delete"))
+			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 		facebook.commentOperations().deleteComment("1533260333_122829644452184_587062");
