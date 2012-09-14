@@ -25,8 +25,10 @@ import java.util.Locale;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.OperationNotPermittedException;
 
 /**
  * @author Craig Walls
@@ -206,6 +208,38 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 	public void search_unauthorized() {
 		unauthorizedFacebook.userOperations().search("Michael Scott");
 	}
+	
+	@Test
+	public void sendNotification(){
+		mockServer.expect(requestTo("https://graph.facebook.com/123/notifications"))
+			.andExpect(method(POST))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/notifications"), MediaType.APPLICATION_JSON));
+		
+		assertTrue(facebook.userOperations().postNotifcation("123", "href", "template"));
+	}
+	
+	
+	@Test(expected = OperationNotPermittedException.class)
+	public void sendNotification_invalidUser(){
+		mockServer.expect(requestTo("https://graph.facebook.com/123/notifications"))
+			.andExpect(method(POST))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withStatus(HttpStatus.FORBIDDEN).body(jsonResource("testdata/error-permission")).contentType(MediaType.APPLICATION_JSON));
+		
+		facebook.userOperations().postNotifcation("123", "href", "template");
+	}
+	
+	@Test(expected = NotAuthorizedException.class)
+	public void sendNotification_invalidAppId(){
+		mockServer.expect(requestTo("https://graph.facebook.com/123/notifications"))
+			.andExpect(method(POST))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withStatus(HttpStatus.UNAUTHORIZED).body(jsonResource("testdata/error-invalid-access-token")).contentType(MediaType.APPLICATION_JSON));
+		
+		facebook.userOperations().postNotifcation("123", "href", "template");
+	}
+	
 
 	private void assertBasicProfileData(FacebookProfile profile, boolean withMiddleName) {
 		assertEquals("123456789", profile.getId());
