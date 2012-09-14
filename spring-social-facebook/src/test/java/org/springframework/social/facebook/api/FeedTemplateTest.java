@@ -511,7 +511,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void searchPublicFeed() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Dr+Seuss&type=post&offset=0&limit=25"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Dr%20Seuss&type=post&offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/post-list"), MediaType.APPLICATION_JSON));
@@ -521,7 +521,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void searchPublicFeed_withOffsetAndLimit() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Dr+Seuss&type=post&offset=40&limit=10"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Dr%20Seuss&type=post&offset=40&limit=10"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/post-list"), MediaType.APPLICATION_JSON));

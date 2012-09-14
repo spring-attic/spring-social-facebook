@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.config.xml;
-
-import java.util.Map;
+package org.springframework.social.facebook.config.annotation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.social.config.xml.AbstractProviderConfigBeanDefinitionParser;
+import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.social.config.annotation.ProviderConfigRegistrarSupport;
 import org.springframework.social.config.xml.ApiHelper;
 import org.springframework.social.config.xml.UserIdSource;
 import org.springframework.social.connect.Connection;
@@ -31,26 +28,17 @@ import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 
 /**
- * Implementation of {@link AbstractConnectionFactoryBeanDefinitionParser} that creates a {@link FacebookConnectionFactory}.
+ * {@link ImportBeanDefinitionRegistrar} for configuring a {@link FacebookConnectionFactory} bean and a request-scoped {@link Facebook} bean.
  * @author Craig Walls
  */
-class FacebookConfigBeanDefinitionParser extends AbstractProviderConfigBeanDefinitionParser {
+public class FacebookProviderConfigRegistrar extends ProviderConfigRegistrarSupport {
 
-	public FacebookConfigBeanDefinitionParser() {
-		super(FacebookConnectionFactory.class, FacebookApiHelper.class);
+	public FacebookProviderConfigRegistrar() {
+		super(EnableFacebook.class, FacebookConnectionFactory.class, FacebookApiHelper.class);
 	}
 	
-	@Override
-	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId, String appSecret, Map<String, String> allAttributes) {
-		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FacebookConnectionFactory.class).addConstructorArgValue(appId).addConstructorArgValue(appSecret);
-		if (allAttributes.containsKey("app-namespace")) {
-			builder.addConstructorArgValue(allAttributes.get("app-namespace"));			
-		}
-		return builder.getBeanDefinition();
-	}
-
 	static class FacebookApiHelper implements ApiHelper<Facebook> {
-
+		
 		private final UsersConnectionRepository usersConnectionRepository;
 
 		private final UserIdSource userIdSource;
@@ -62,18 +50,18 @@ class FacebookConfigBeanDefinitionParser extends AbstractProviderConfigBeanDefin
 
 		public Facebook getApi() {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Getting API binding instance for Facebook");
+				logger.debug("Getting API binding instance for Facebook provider");
 			}
-			
+					
 			Connection<Facebook> connection = usersConnectionRepository.createConnectionRepository(userIdSource.getUserId()).findPrimaryConnection(Facebook.class);
 			if (logger.isDebugEnabled() && connection == null) {
 				logger.debug("No current connection; Returning default FacebookTemplate instance.");
 			}
 			return connection != null ? connection.getApi() : new FacebookTemplate();
 		}
-
+		
 		private final static Log logger = LogFactory.getLog(FacebookApiHelper.class);
 
 	}
-	
+
 }
