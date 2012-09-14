@@ -1,13 +1,47 @@
-Spring Social Facebook 1.1.0.M1 (TBD)
-=====================================
+Spring Social Facebook 1.1.0.M1 (October 15, 2012)
+==================================================
 Bug Fixes
   * Handle HTTP 404 from Graph API by throwing ResourceNotFoundException
     (SOCIALFB-42)
   * Handle error where Facebook says that status is duplicate or similar
     to a recent post to Twitter by throwing DuplicateStatusException 
     (SOCIALFB-57)
+  * Fixed handling of errors to throw an InsufficientPermissionException
+    when an OperationNotPermittedException was being thrown. (SOCIALFB-80)
+  * Fixed problem with Facebook image sizes after Facebook started sending
+    additional image sizes in the Graph API. (SOCIALFB-76)
+  * Fixed NullPointerException thrown in FqlResult.getList() when field value
+    is null. (SOCIALFB-75)
+  * Fixed duplicate invocation of FacebookTemplate.initialize() in constructor.
+    (SOCIALFB-97)
 
 Improvements
+  * Added XML configuration support for Facebook connection factory and API
+    binding beans. (SOCIAL-292)
+  * Added a sharesCount attribute to Post. (SOCIALFB-56)
+  * Added a commentCount property to Post. (SOCIALFB-51)
+  * Added coverPhotoId property to Album class that can be used to retrieve
+    a Photo object. (SOCIALFB-68)
+  * Added support for getting the signed_request as a Spring MVC controller
+    argument. (SOCIALFB-23)
+  * Support for OpenGraph operations in API Binding (SOCIALFB-64)
+  * Added questions operations in API binding (SOCIALFB-37)
+  * New DisconnectController to handle deauthorization callback from Facebook
+    (SOCIALFB-69)
+  * Facebook Query Language (FQL) support in API binding. (SOCIALFB-8)
+  * Added getSubscribers() and getSubscribedTo() methods to FriendOperations
+    to read a user's subscribers/subscriptions. (SOCIALFB-58)
+  * Added getFamily() to FriendOperations to allow for fetching a list of a user's
+    family members. (SOCIALFB-61)
+  * Added getMutualFriends() method to FriendOperations to allow for fetching
+    of a list of friends that the authenticated user has in common with another
+    user. (SOCIALFB-62)
+  * Added getGames() to LikeOperations to retrieve a list of games that the
+    user has connections to. (SOCIALFB-35)
+  * Fetch list of users who have liked a post instead of just a count. (SOCIALFB-41)
+  * Added ability to configure the application namespace on the Facebook connection
+    factory. This makes it possible to use OpenGraph operations when working with
+    a FacebookTemplate provided via the connection factory. (SOCIALFB-96)
 
 Spring Social Facebook 1.0.2 (September 3, 2012)
 ================================================

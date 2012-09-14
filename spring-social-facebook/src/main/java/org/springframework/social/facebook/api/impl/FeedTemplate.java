@@ -195,13 +195,7 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 	}
 	
 	public List<Post> searchPublicFeed(String query, int offset, int limit) {
-		URI uri = URIBuilder.fromUri("https://graph.facebook.com/search")
-				.queryParam("q", query)
-				.queryParam("type", "post")
-				.queryParam("offset", String.valueOf(offset))
-				.queryParam("limit", String.valueOf(limit))
-				.build();
-		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
+		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/search?q={query}&type=post&offset={offset}&limit={limit}", JsonNode.class, query, offset, limit);
 		return deserializeList(responseNode, null, Post.class);
 	}
 	
