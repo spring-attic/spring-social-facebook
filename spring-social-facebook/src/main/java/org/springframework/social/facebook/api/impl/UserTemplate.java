@@ -18,6 +18,7 @@ package org.springframework.social.facebook.api.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 import org.springframework.social.facebook.api.FacebookProfile;
@@ -92,5 +93,18 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 			}
 		}			
 		return permissions;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public boolean postNotifcation(String userId, String href, String template) {
+		requireAuthorization();
+		
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.set("href", href);
+		map.set("template", template);
+		
+		String uri = GraphApi.GRAPH_API_URL + userId + "/notifications";
+		Map<String, Object> response = restTemplate.postForObject(uri, map, Map.class);
+		return (Boolean)response.get("success");
 	}
 }

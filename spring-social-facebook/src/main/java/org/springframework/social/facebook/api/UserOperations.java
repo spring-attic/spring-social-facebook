@@ -90,4 +90,23 @@ public interface UserOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Reference> search(String query);
+	
+	/**
+	 * Posts a short free-form message to the user's notification list 
+	 * NOTE: This will only work with an APP access token (not a user access token)
+	 * SEE: https://developers.facebook.com/docs/app_notifications/
+	 * 
+	 * @param userId the Facebook user ID
+	 * @param href The relative path/GET params of the target (for example, "index.html?gift_id=123", 
+	 * or "?gift_id=123"). Then we will construct proper target URL based on your app settings. The 
+	 * logic is that, on web, if Canvas setting exists, we always show “Canvas URL + href”. If not, 
+	 * we show nothing. In the future (not in this version), we will also use existing URL 
+	 * re-writing logic to support mobile canvas and native mobile apps. We also append some special 
+	 * tracking params (fb_source, notif_id, notif_t) to the target URL for developers to track at
+	 *  their side. One example of target URL displayed in the jewel is: 
+	 *  https://apps.facebook.com/bzhang_og/?fb_source=notification&notif_id=notif_514699839_145756436&ref=notif&notif_t=app_notification
+	 * @param template The customized text of the notification.
+	 * @return
+	 */
+	boolean postNotifcation(String userId, String href, String template);
 }
