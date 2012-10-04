@@ -304,7 +304,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 			CollectionType listType = TypeFactory.defaultInstance().constructCollectionType(List.class, elementType);
 			return (List<T>) objectMapper.readValue(jsonNode, listType);
 		} catch (IOException e) {
-			throw new UncategorizedApiException("Error deserializing data from Facebook: " + e.getMessage(), e);
+			throw new UncategorizedApiException("facebook", "Error deserializing data from Facebook: " + e.getMessage(), e);
 		}
 	}
 	

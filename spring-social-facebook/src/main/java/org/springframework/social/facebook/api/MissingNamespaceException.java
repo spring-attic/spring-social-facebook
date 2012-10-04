@@ -25,7 +25,7 @@ import org.springframework.social.ApiException;
 public class MissingNamespaceException extends ApiException {
 
 	public MissingNamespaceException() {
-		super("An application namespace is required to publish OpenGraph actions.");
+		super("facebook", "An application namespace is required to publish OpenGraph actions.");
 	}
 	
 }

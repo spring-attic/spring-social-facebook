@@ -25,7 +25,7 @@ import org.springframework.social.OperationNotPermittedException;
 public class NotAFriendException extends OperationNotPermittedException {
 
 	public NotAFriendException(String message) {
-		super(message);
+		super("facebook", message);
 	}
 	
 }
