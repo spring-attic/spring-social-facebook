@@ -49,6 +49,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(33, page.getLikes());
 		assertEquals("Organization", page.getCategory());
 		assertEquals("<p><b>SpringSource</b> is a division of <a href=\"http://en.wikipedia.org/wiki/VMware\" class=\"wikipedia\">VMware</a> that provides...</p>", page.getDescription());
+		assertEquals("SpringSource offers a product suite to build, run & manage enterprise Java applications.  Please join the SpringSource Group here: http://www.facebook.com/groups/10463298884/", page.getAbout());
 	}
 
 	@Test
@@ -67,6 +68,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(5083988, page.getLikes());
 		assertEquals("Food/beverages", page.getCategory());
 		assertEquals("www.mountaindew.com\nwww.greenlabelsound.com\nwww.greenlabelart.com\nwww.honorthecode.com\nwww.dietdewchallenge.com\nwww.twitter.com/mtn_dew\nwww.youtube.com/mountaindew", page.getWebsite());
+		assertEquals("This is How We DEW", page.getAbout());
 	}
 
 	@Test

@@ -34,6 +34,8 @@ public class Page {
 
 	private String description;
 	
+	private String about;
+	
 	private Location location;
 	
 	private String website;
@@ -77,6 +79,10 @@ public class Page {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public String getAbout() {
+		return about;
 	}
 	
 	public Location getLocation() {
