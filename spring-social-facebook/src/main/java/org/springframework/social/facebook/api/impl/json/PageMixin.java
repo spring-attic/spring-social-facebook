@@ -38,6 +38,9 @@ abstract class PageMixin {
 	@JsonProperty("description")
 	String description;
 	
+	@JsonProperty("about")
+	String about;
+	
 	@JsonProperty("location")
 	Location location;
 
