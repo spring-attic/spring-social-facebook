@@ -44,8 +44,6 @@ public class Photo {
 	
 	private List<Image> images;
 	
-	private Image oversizedImage;
-	
 	private Photo(String id, Reference from, String link, String icon, Date createdTime, List<Image> images) {
 		this.id = id;
 		this.from = from;
@@ -53,15 +51,6 @@ public class Photo {
 		this.icon = icon;
 		this.createdTime = createdTime;
 		this.images = images;
-		
-		int i=0;
-		if(images.size() == 5) {
-			this.oversizedImage = images.get(i++);
-		}
-		this.sourceImage = images.get(i++);
-		this.albumImage = images.get(i++);
-		this.smallImage = images.get(i++);
-		this.tinyImage = images.get(i++);
 	}
 	
 	public String getId() {
