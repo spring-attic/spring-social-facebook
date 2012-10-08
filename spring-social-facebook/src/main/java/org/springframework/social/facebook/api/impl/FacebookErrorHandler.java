@@ -62,16 +62,6 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		// if not otherwise handled, do default handling and wrap with UncategorizedApiException
 		handleUncategorizedError(response, errorDetails);			
 	}
-	
-	@Override 
-	public boolean hasError(ClientHttpResponse response) throws IOException {
-		if(super.hasError(response)) {
-			return true;
-		}
-		// only bother checking the body for errors if we get past the default error check
-		String content = readFully(response.getBody());		
-		return content.startsWith("{\"error\":") || content.equals("false");
-	}
 
 	/**
 	 * Examines the error data returned from Facebook and throws the most applicable exception.
@@ -82,7 +72,7 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		// Can rely only on the message (which itself isn't very consistent).
 		String message = errorDetails.get("message");
 
-		if (statusCode == HttpStatus.OK) {
+		if (statusCode == HttpStatus.NOT_FOUND) {
 			if (message.contains("Some of the aliases you requested do not exist")) {
 				throw new ResourceNotFoundException(message);
 			}
@@ -120,6 +110,8 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 				String requiredPermission = message.split(": ")[1];
 				throw new InsufficientPermissionException(requiredPermission);
 			} else if (message.contains("Permissions error")) {
+				throw new InsufficientPermissionException();
+			} else if (message.contains("The user hasn't authorized the application to perform this action")) {
 				throw new InsufficientPermissionException();
 			} else {
 				throw new OperationNotPermittedException(message);

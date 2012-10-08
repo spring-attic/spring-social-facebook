@@ -37,7 +37,7 @@ public @interface FacebookCookieValue {
 	public String value() default "";
 
 	/**
-	 * Whether the Facebook access token is required.
+	 * Whether the Facebook cookie value is required.
 	 * Default is true, leading to an exception being thrown in case the Facebook cookie is missing or if the value can't be found in the cookie. 
 	 * Switch this to false if you prefer a null in case of the missing cookie/value.
 	 */

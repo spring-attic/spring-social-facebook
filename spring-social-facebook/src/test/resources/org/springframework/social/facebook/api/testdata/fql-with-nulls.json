@@ -1,0 +1,33 @@
+{ 
+	"data":[
+		{
+			"string":"Test",
+			"string_null":null,
+			"number":12345,
+			"numer_null":null,
+			"float":12345.67,
+			"float_null":null,
+			"boolean":true,
+			"boolean_null":null,
+			"time": 1323184190,
+			"time_null":null,
+			"list": [
+				{
+					"fieldA":"someValue",
+					"fieldB":12345678901
+				},
+				{
+					"fieldA":"someOtherValue",
+					"fieldB":12345678902
+				}
+			],
+			"list_empty":[],
+			"list_null":null,
+			"object":{
+				"fieldA":"someValue",
+				"fieldB":1234567901
+			},
+			"object_null":null
+		}
+	]
+}

@@ -34,7 +34,7 @@ public class Photo {
 	
 	private String icon;
 	
-	private Integer position;
+	private int position;
 	
 	private Date createdTime;
 	
@@ -45,14 +45,6 @@ public class Photo {
 	private List<Image> images;
 	
 	private Image oversizedImage;
-	
-	private Image sourceImage;
-	
-	private Image smallImage;
-
-	private Image albumImage;
-		
-	private Image tinyImage;
 	
 	private Photo(String id, Reference from, String link, String icon, Date createdTime, List<Image> images) {
 		this.id = id;
@@ -92,6 +84,11 @@ public class Photo {
 		return icon;
 	}
 
+	/**
+	 * The position of the photo in a list of photos.
+	 * @deprecated On September 5, 2012, Facebook will either stop returning a position property on Photo objects or will only return 0. This method will be removed in Spring Social Facebook 1.1.0.
+	 */
+	@Deprecated
 	public Integer getPosition() {
 		return position;
 	}
@@ -106,29 +103,26 @@ public class Photo {
 	
 	public List<Image> getImages() {
 		return images;
-	}	
+	}
 
-	/**
-	 * An oversized image. May be null if no oversized image was provided.
-	 */
 	public Image getOversizedImage() {
-		return oversizedImage;
+		return images.get(0);
 	}
 	
 	public Image getSourceImage() {
-		return sourceImage;
+		return images.get(1);
 	}
 	
 	public Image getSmallImage() {
-		return smallImage;
+		return images.get(6);
 	}
 	
 	public Image getAlbumImage() {
-		return albumImage;
+		return images.get(5);
 	}
 	
 	public Image getTinyImage() {
-		return tinyImage;
+		return images.get(7);
 	}
 	
 	public List<Tag> getTags() {

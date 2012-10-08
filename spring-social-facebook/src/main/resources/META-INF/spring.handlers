@@ -1,0 +1,1 @@
+http\://www.springframework.org/schema/social/facebook=org.springframework.social.facebook.config.xml.FacebookNamespaceHandler

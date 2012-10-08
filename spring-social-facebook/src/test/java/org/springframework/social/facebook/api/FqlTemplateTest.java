@@ -17,13 +17,14 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.test.web.client.RequestMatchers.*;
-import static org.springframework.test.web.client.ResponseCreators.*;
+import static org.springframework.test.web.client.match.RequestMatchers.*;
+import static org.springframework.test.web.client.response.ResponseCreators.*;
 
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
+import org.springframework.http.MediaType;
 
 public class FqlTemplateTest extends AbstractFacebookApiTest {
 
@@ -32,7 +33,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=SELECT+uid%2C+status_id%2C+message%2C+time%2C+source+FROM+status+WHERE+uid%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/fql-result-basic"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/fql-result-basic"), MediaType.APPLICATION_JSON));
 		List<StatusObject> results = facebook.fqlOperations().query("SELECT uid, status_id, message, time, source FROM status WHERE uid=me()", new FqlResultMapper<StatusObject>() {
 			public StatusObject mapObject(FqlResult result) {
 				StatusObject status = new StatusObject();
@@ -75,7 +76,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=SELECT+vid%2C+title%2C+length+FROM+video+WHERE+owner%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/fql-result-basic-with-float"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/fql-result-basic-with-float"), MediaType.APPLICATION_JSON));
 		List<VideoObject> results = facebook.fqlOperations().query("SELECT vid, title, length FROM video WHERE owner=me()", new FqlResultMapper<VideoObject>() {
 			public VideoObject mapObject(FqlResult result) {
 				VideoObject video = new VideoObject();
@@ -106,7 +107,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+app_id%2C+display_name%2C+restriction_info+from+application+where+app_id%3D162886103757745"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/fql-result-with-object-field"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/fql-result-with-object-field"), MediaType.APPLICATION_JSON));
 		List<RestrictionObject> restrictions = facebook.fqlOperations().query("select app_id, display_name, restriction_info from application where app_id=162886103757745", new FqlResultMapper<RestrictionObject>() {
 			public RestrictionObject mapObject(FqlResult result) {
 				RestrictionObject restriction = result.getObject("restriction_info", new FqlResultMapper<RestrictionObject>() {
@@ -130,15 +131,13 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("18", restriction.age);
 		assertEquals("18+", restriction.ageDistribution);		
 	}
-
-
 	
 	@Test
 	public void query_resultsWithAnObjectArrayField() {
 		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+uid%2C+name%2C+family+from+user+where+uid%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/fql-result-list-of-objects"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/fql-result-list-of-objects"), MediaType.APPLICATION_JSON));
 		List<List<FamilyMemberObject>> queryResult = facebook.fqlOperations().query("select uid, name, family from user where uid=me()", new FqlResultMapper<List<FamilyMemberObject>>() {
 			public List<FamilyMemberObject> mapObject(FqlResult result) {
 				List<FamilyMemberObject> family = result.getList("family", new FqlResultMapper<FamilyMemberObject>() {
@@ -168,6 +167,62 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 		FamilyMemberObject member4 = listOfFamilyMembers.get(3);
 		assertEquals(12345678904L, member4.uid);
 		assertEquals("sister", member4.relationship);
+	}
+	
+	@Test
+	public void nullChecks() {		
+		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+stuff+from+somewhere+where+uid%3Dme%28%29"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/fql-with-nulls"), MediaType.APPLICATION_JSON));
+
+		facebook.fqlOperations().query("select stuff from somewhere where uid=me()", new FqlResultMapper<Object>() {
+			public Object mapObject(FqlResult result) {
+				assertNotNull(result.getString("string"));
+				assertNull(result.getString("string_null"));
+				assertNotNull(result.getInteger("number"));
+				assertNull(result.getInteger("number_null"));
+				assertNotNull(result.getLong("number"));
+				assertNull(result.getLong("number_null"));
+				assertNotNull(result.getFloat("float"));
+				assertNull(result.getFloat("float_null"));
+				assertNotNull(result.getBoolean("boolean"));
+				assertNull(result.getBoolean("boolean_null"));
+				assertNotNull(result.getTime("time"));
+				assertNull(result.getTime("time_null"));
+				assertNotNull(result.getList("list", new FqlResultMapper<String>() {
+					public String mapObject(FqlResult objectValues) {
+						return null;
+					}
+				}));
+				assertNotNull(result.getList("list_empty", new FqlResultMapper<String>() {
+					public String mapObject(FqlResult objectValues) {
+						return null;
+					}
+				}));
+				assertNull(result.getList("list_null", new FqlResultMapper<String>() {
+					public String mapObject(FqlResult objectValues) {
+						return null;
+					}
+				}));
+				assertNotNull(result.getObject("object"));
+				assertEquals("someValue", result.getObject("object", new FqlResultMapper<String>() { 
+					public String mapObject(FqlResult objectValues) {
+						return objectValues.getString("fieldA");
+					} 
+				}));
+				assertNull(result.getObject("object_null"));
+				assertNull(result.getObject("object_null", new FqlResultMapper<String>() { 
+					public String mapObject(FqlResult objectValues) {
+						fail("mapObjects() shouldn't be called for a null value");
+						return null;
+					} 
+				}));
+				return null;
+			}
+		});
+
+		
 	}
 
 	private static class StatusObject {

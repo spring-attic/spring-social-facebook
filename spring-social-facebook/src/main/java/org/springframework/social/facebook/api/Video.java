@@ -77,6 +77,11 @@ public class Video {
 		return description;
 	}
 	
+	/**
+	 * The video's picture.
+	 * @deprecated This method will be replaced in Spring 1.1.0 with a new version that returns an object with more details about the picture.
+	 */
+	@Deprecated
 	public String getPicture() {
 		return picture;
 	}

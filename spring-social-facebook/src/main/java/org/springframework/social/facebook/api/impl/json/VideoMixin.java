@@ -36,7 +36,7 @@ abstract class VideoMixin {
 	VideoMixin(
 			@JsonProperty("id") String id, 
 			@JsonProperty("from") Reference from, 
-			@JsonProperty("picture") String picture,
+			@JsonProperty("picture") @JsonDeserialize(using=PictureDeserializer.class) String picture,
 			@JsonProperty("embed_html") String embedHtml,
 			@JsonProperty("icon") String icon, 
 			@JsonProperty("source") String source,

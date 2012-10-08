@@ -34,6 +34,8 @@ public class Page {
 
 	private String description;
 	
+	private String about;
+	
 	private Location location;
 	
 	private String website;
@@ -79,6 +81,10 @@ public class Page {
 		return description;
 	}
 	
+	public String getAbout() {
+		return about;
+	}
+	
 	public Location getLocation() {
 		return location;
 	}
@@ -87,6 +93,11 @@ public class Page {
 		return website;
 	}
 
+	/**
+	 * The page's picture.
+	 * @deprecated This method will be replaced in Spring 1.1.0 with a new version that returns an object with more details about the picture.
+	 */
+	@Deprecated
 	public String getPicture() {
 		return picture;
 	}

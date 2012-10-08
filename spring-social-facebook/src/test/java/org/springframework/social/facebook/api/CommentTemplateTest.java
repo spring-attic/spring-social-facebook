@@ -17,12 +17,13 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.test.web.client.RequestMatchers.*;
-import static org.springframework.test.web.client.ResponseCreators.*;
+import static org.springframework.test.web.client.match.RequestMatchers.*;
+import static org.springframework.test.web.client.response.ResponseCreators.*;
 
 import java.util.List;
 
 import org.junit.Test;
+import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
 
 /**
@@ -31,11 +32,11 @@ import org.springframework.social.NotAuthorizedException;
 public class CommentTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
-	public void getComments() {
+	public void getComments() throws Exception {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/comments"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/comments"), MediaType.APPLICATION_JSON));
 		
 		List<Comment> comments = facebook.commentOperations().getComments("123456");
 		assertEquals(2, comments.size());
@@ -54,7 +55,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments?offset=75&limit=100"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/comments"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/comments"), MediaType.APPLICATION_JSON));
 		
 		List<Comment> comments = facebook.commentOperations().getComments("123456", 75, 100);
 		assertEquals(2, comments.size());
@@ -68,12 +69,38 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("The world says hello back", comment2.getMessage());
 	}
 
+	/*
+	 * This test is for comment "likes" property before Facebook's breaking change to be applied on Sept 5, 2012.
+	 * See https://developers.facebook.com/roadmap/#september-2012
+	 * Note that even with the September breaking changes enabled, there are some cases where comments will have a "likes" property instead of "like_count".
+	 * This seems like a bug on Facebook's side, but Spring Social Facebook will handle both properties for the time being just in case.
+	 */
 	@Test
-	public void getComment() {
+	public void getComment_preSeptember2012BreakingChanges() {
 		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/comment"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/comment_preSept2012"), MediaType.APPLICATION_JSON));
+		Comment comment = facebook.commentOperations().getComment("1533260333_122829644452184_587062");
+		assertEquals("1533260333", comment.getFrom().getId());
+		assertEquals("Art Names", comment.getFrom().getName());
+		assertEquals("Howdy!", comment.getMessage());
+		assertNull(comment.getLikes());		
+		assertEquals(4, comment.getLikesCount());
+	}
+	
+	/*
+	 * This test is for comment "like_count" property after Facebook's breaking change are applied on Sept 5, 2012.
+	 * See https://developers.facebook.com/roadmap/#september-2012
+	 * Note that even with the September breaking changes enabled, there are some cases where comments will have a "likes" property instead of "like_count".
+	 * This seems like a bug on Facebook's side, but Spring Social Facebook will handle both properties for the time being just in case.
+	 */
+	@Test
+	public void getComment_postSeptember2012BreakingChanges() {
+		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/comment"), MediaType.APPLICATION_JSON));
 		Comment comment = facebook.commentOperations().getComment("1533260333_122829644452184_587062");
 		assertEquals("1533260333", comment.getFrom().getId());
 		assertEquals("Art Names", comment.getFrom().getName());
@@ -86,9 +113,9 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	public void addComment() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/comments"))
 			.andExpect(method(POST))
-			.andExpect(body("message=Cool+beans"))
+			.andExpect(content().string("message=Cool+beans"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse("{\"id\":\"123456_543210\"}", responseHeaders));
+			.andRespond(withSuccess("{\"id\":\"123456_543210\"}", MediaType.APPLICATION_JSON));
 		assertEquals("123456_543210", facebook.commentOperations().addComment("123456", "Cool beans"));
 	}
 	
@@ -101,9 +128,9 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	public void deleteComment() {
 		mockServer.expect(requestTo("https://graph.facebook.com/1533260333_122829644452184_587062"))
 			.andExpect(method(POST))
-			.andExpect(body("method=delete"))
+			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse("{}", responseHeaders));
+			.andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 		facebook.commentOperations().deleteComment("1533260333_122829644452184_587062");
 		mockServer.verify();
 	}
@@ -117,7 +144,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	public void getLikes() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes")).andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withResponse(jsonResource("testdata/likes"), responseHeaders));
+				.andRespond(withSuccess(jsonResource("testdata/likes"), MediaType.APPLICATION_JSON));
 		List<Reference> likes = facebook.commentOperations().getLikes("123456");
 		assertEquals(3, likes.size());
 		Reference like1 = likes.get(0);

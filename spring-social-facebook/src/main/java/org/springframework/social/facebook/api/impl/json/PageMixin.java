@@ -18,6 +18,7 @@ package org.springframework.social.facebook.api.impl.json;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.Location;
 
 /**
@@ -37,6 +38,9 @@ abstract class PageMixin {
 	@JsonProperty("description")
 	String description;
 	
+	@JsonProperty("about")
+	String about;
+	
 	@JsonProperty("location")
 	Location location;
 
@@ -44,6 +48,7 @@ abstract class PageMixin {
 	String website;
 	
 	@JsonProperty("picture")
+	@JsonDeserialize(using=PictureDeserializer.class)
 	String picture;
 	
 	@JsonProperty("phone")
@@ -63,4 +68,5 @@ abstract class PageMixin {
 	
 	@JsonProperty("checkins")
 	int checkins;
+	
 }

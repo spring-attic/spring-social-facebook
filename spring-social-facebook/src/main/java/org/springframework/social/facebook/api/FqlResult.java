@@ -42,7 +42,7 @@ public class FqlResult {
 	 * @return the value of the field as a String
 	 */
 	public String getString(String fieldName) {
-		return resultMap.containsKey(fieldName) ? String.valueOf(resultMap.get(fieldName)) : null;
+		return hasValue(fieldName) ? String.valueOf(resultMap.get(fieldName)) : null;
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class FqlResult {
 	 */
 	public Integer getInteger(String fieldName) {
 		try {
-			return resultMap.containsKey(fieldName) ? Integer.valueOf(String.valueOf(resultMap.get(fieldName))) : null;
+			return hasValue(fieldName) ? Integer.valueOf(String.valueOf(resultMap.get(fieldName))) : null;
 		} catch (NumberFormatException e) {
 			throw new FqlException("Field '" + fieldName +"' is not a number.", e);
 		}
@@ -67,7 +67,7 @@ public class FqlResult {
 	 */
 	public Long getLong(String fieldName) {
 		try {
-			return resultMap.containsKey(fieldName) ? Long.valueOf(String.valueOf(resultMap.get(fieldName))) : null;
+			return hasValue(fieldName) ? Long.valueOf(String.valueOf(resultMap.get(fieldName))) : null;
 		} catch (NumberFormatException e) {
 			throw new FqlException("Field '" + fieldName +"' is not a number.", e);
 		}
@@ -81,7 +81,7 @@ public class FqlResult {
 	 */
 	public Float getFloat(String fieldName) {
 		try {
-			return resultMap.containsKey(fieldName) ? Float.valueOf(String.valueOf(resultMap.get(fieldName))) : null;
+			return hasValue(fieldName) ? Float.valueOf(String.valueOf(resultMap.get(fieldName))) : null;
 		} catch (NumberFormatException e) {
 			throw new FqlException("Field '" + fieldName +"' is not a number.", e);
 		}
@@ -93,7 +93,7 @@ public class FqlResult {
 	 * @return the value of the field as a Boolean
 	 */
 	public Boolean getBoolean(String fieldName) {
-		return resultMap.containsKey(fieldName) ? Boolean.valueOf(String.valueOf(resultMap.get(fieldName))) : null;
+		return hasValue(fieldName) ? Boolean.valueOf(String.valueOf(resultMap.get(fieldName))) : null;
 	}
 	
 	/**
@@ -105,9 +105,8 @@ public class FqlResult {
 	 */
 	public Date getTime(String fieldName) {
 		try {
-			if (resultMap.get(fieldName) != null) {
-				long timeInMilliseconds = Long.valueOf(String.valueOf(resultMap.get(fieldName))) * 1000;
-				return new Date(timeInMilliseconds);
+			if (hasValue(fieldName)) {
+				return new Date(Long.valueOf(String.valueOf(resultMap.get(fieldName))) * 1000);
 			} else {
 				return null;
 			}
@@ -133,7 +132,7 @@ public class FqlResult {
 	 * @throws FqlException if the value of the field is not a nested object.
 	 */
 	public <T> T getObject(String fieldName, FqlResultMapper<T> mapper) {
-		if (!resultMap.containsKey(fieldName)) {
+		if (!hasValue(fieldName)) {
 			return null;
 		}
 		try {
@@ -153,7 +152,7 @@ public class FqlResult {
 	 * @throws FqlException if the value of the field is not a list.
 	 */
 	public <T> List<T> getList(String fieldName, FqlResultMapper<T> mapper) {
-		if (!resultMap.containsKey(fieldName)) {
+		if (!hasValue(fieldName)) {
 			return null;
 		}		
 		try {
@@ -167,6 +166,24 @@ public class FqlResult {
 		} catch (ClassCastException e) {
 			throw new FqlException("Field '" + fieldName +"' is not a list.", e);
 		}
+	}
+
+	/**
+	 * Checks for the existence of a field in the result set, whether null or non-null.
+	 * @param fieldName the name of the field to check existence of.
+	 * @return true if the field exists in the result set, even if the value is null; false if the field is not in the result set.
+	 */
+	public boolean hasField(String fieldName) {
+		return resultMap.containsKey(fieldName);
+	}
+
+	/**
+	 * Checks that a field exists and contains a non-null value.
+	 * @param fieldName the name of the field to check existence/value of.
+	 * @return true if the field exists in the result set and has a non-null value; false otherwise.
+	 */
+	public boolean hasValue(String fieldName) {
+		return resultMap.containsKey(fieldName) && resultMap.get(fieldName) != null;
 	}
 
 }

@@ -17,14 +17,15 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.test.web.client.RequestMatchers.*;
-import static org.springframework.test.web.client.ResponseCreators.*;
+import static org.springframework.test.web.client.match.RequestMatchers.*;
+import static org.springframework.test.web.client.response.ResponseCreators.*;
 
 import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
 
 /**
@@ -33,11 +34,12 @@ import org.springframework.social.NotAuthorizedException;
 public class PageTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
+	@SuppressWarnings("deprecation")
 	public void getPage_organization() {
 		mockServer.expect(requestTo("https://graph.facebook.com/140804655931206"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/organization-page"), responseHeaders));
+				.andRespond(withSuccess(jsonResource("testdata/organization-page"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("140804655931206");
 		assertEquals("140804655931206", page.getId());
@@ -47,14 +49,16 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(33, page.getLikes());
 		assertEquals("Organization", page.getCategory());
 		assertEquals("<p><b>SpringSource</b> is a division of <a href=\"http://en.wikipedia.org/wiki/VMware\" class=\"wikipedia\">VMware</a> that provides...</p>", page.getDescription());
+		assertEquals("SpringSource offers a product suite to build, run & manage enterprise Java applications.  Please join the SpringSource Group here: http://www.facebook.com/groups/10463298884/", page.getAbout());
 	}
 
 	@Test
+	@SuppressWarnings("deprecation")
 	public void getPage_product() {
 		mockServer.expect(requestTo("https://graph.facebook.com/21278871488"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/product-page"), responseHeaders));
+				.andRespond(withSuccess(jsonResource("testdata/product-page"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("21278871488");
 		assertEquals("21278871488", page.getId());
@@ -64,14 +68,16 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(5083988, page.getLikes());
 		assertEquals("Food/beverages", page.getCategory());
 		assertEquals("www.mountaindew.com\nwww.greenlabelsound.com\nwww.greenlabelart.com\nwww.honorthecode.com\nwww.dietdewchallenge.com\nwww.twitter.com/mtn_dew\nwww.youtube.com/mountaindew", page.getWebsite());
+		assertEquals("This is How We DEW", page.getAbout());
 	}
 
 	@Test
+	@SuppressWarnings("deprecation")
 	public void getPage_place() {
 		mockServer.expect(requestTo("https://graph.facebook.com/150263434985489"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/place-page"), responseHeaders));
+				.andRespond(withSuccess(jsonResource("testdata/place-page"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("150263434985489");
 		assertEquals("150263434985489", page.getId());
@@ -95,7 +101,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/140372495981006"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse(jsonResource("testdata/application-page"), responseHeaders));
+			.andRespond(withSuccess(jsonResource("testdata/application-page"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("140372495981006");
 		assertEquals("140372495981006", page.getId());
@@ -140,8 +146,8 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/feed"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body(requestBody))
-				.andRespond(withResponse("{\"id\":\"123456_78901234\"}", responseHeaders));
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		assertEquals("123456_78901234", facebook.pageOperations().post("987654321", "Hello Facebook World"));
 		mockServer.verify();
 	}
@@ -163,8 +169,8 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World&access_token=pageAccessToken";
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/feed")).andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body(requestBody))
-				.andRespond(withResponse("{\"id\":\"123456_78901234\"}", responseHeaders));
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		assertEquals("123456_78901234", facebook.pageOperations().post("987654321", "Hello Facebook World", link));
 		mockServer.verify();
@@ -189,7 +195,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/192837465/photos"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse("{\"id\":\"12345\"}", responseHeaders));
+			.andRespond(withSuccess("{\"id\":\"12345\"}", MediaType.APPLICATION_JSON));
 		// TODO: Match body content to ensure fields and photo are included
 		Resource photo = getUploadResource("photo.jpg", "PHOTO DATA");
 		String photoId = facebook.pageOperations().postPhoto("987654321", "192837465", photo);
@@ -207,7 +213,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/192837465/photos"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withResponse("{\"id\":\"12345\"}", responseHeaders));
+			.andRespond(withSuccess("{\"id\":\"12345\"}", MediaType.APPLICATION_JSON));
 		// TODO: Match body content to ensure fields and photo are included
 		Resource photo = getUploadResource("photo.jpg", "PHOTO DATA");
 		String photoId = facebook.pageOperations().postPhoto("987654321", "192837465", photo, "Some caption");
@@ -225,7 +231,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/accounts"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-                .andRespond(withResponse(jsonResource("testdata/accounts"), responseHeaders));
+				.andRespond(withSuccess(jsonResource("testdata/accounts"), MediaType.APPLICATION_JSON));
 	}
 
 	private Resource getUploadResource(final String filename, String content) {
