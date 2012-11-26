@@ -1,5 +1,5 @@
-Spring Social Facebook 1.1.0.M1 (October 15, 2012)
-==================================================
+Spring Social Facebook 1.1.0.M1 (November 26, 2012)
+===================================================
 Bug Fixes
   * Handle HTTP 404 from Graph API by throwing ResourceNotFoundException
     (SOCIALFB-42)
