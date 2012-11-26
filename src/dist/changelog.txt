@@ -18,6 +18,8 @@ Bug Fixes
 Improvements
   * Added XML configuration support for Facebook connection factory and API
     binding beans. (SOCIAL-292)
+  * Added Java configuration support for Facebook connection factory and API
+    binding beans. (SOCIAL-293)
   * Added a sharesCount attribute to Post. (SOCIALFB-56)
   * Added a commentCount property to Post. (SOCIALFB-51)
   * Added coverPhotoId property to Album class that can be used to retrieve
