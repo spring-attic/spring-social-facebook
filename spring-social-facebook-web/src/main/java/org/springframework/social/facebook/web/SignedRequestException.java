@@ -20,7 +20,7 @@ package org.springframework.social.facebook.web;
  * @author habuma
  */
 @SuppressWarnings("serial")
-class SignedRequestException extends Exception {
+public class SignedRequestException extends Exception {
 
 	public SignedRequestException(String message) {
 		super(message);
