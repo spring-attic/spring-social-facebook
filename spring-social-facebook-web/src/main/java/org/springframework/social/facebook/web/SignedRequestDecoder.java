@@ -31,10 +31,10 @@ import org.codehaus.jackson.map.PropertyNamingStrategy;
 import org.springframework.security.crypto.codec.Base64;
 
 /**
- * Helper class for extracting the payload of a signed request sent by Facebook.
+ * Utility class for extracting the payload of a signed request sent by Facebook.
  * @author Craig Walls
  */
-class SignedRequestDecoder {
+public class SignedRequestDecoder {
 	
 	private String secret;
 
