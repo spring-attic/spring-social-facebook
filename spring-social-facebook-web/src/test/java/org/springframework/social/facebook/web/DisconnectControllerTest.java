@@ -26,7 +26,7 @@ import org.springframework.social.connect.ConnectionData;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
-import org.springframework.test.web.servlet.MockMvc;;
+import org.springframework.test.web.servlet.MockMvc;
 
 public class DisconnectControllerTest {
 
