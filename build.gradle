@@ -98,7 +98,7 @@ project('spring-social-facebook') {
     dependencies {
         compile ("org.springframework.social:spring-social-core:$springSocialVersion")
         compile ("org.springframework.social:spring-social-config:$springSocialVersion")
-        compile ("org.springframework.social:spring-social-security:$springSocialVersion")
+        compile ("org.springframework.social:spring-social-security:$springSocialVersion", optional)
         compile ("org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion")
         compile ("javax.servlet:servlet-api:$servletApiVersion", provided)
         testCompile ("org.springframework:spring-test:$springVersion")
