@@ -38,10 +38,16 @@ class FacebookConfigBeanDefinitionParser extends AbstractProviderConfigBeanDefin
 
 	public FacebookConfigBeanDefinitionParser() {
 		super(FacebookConnectionFactory.class, FacebookApiHelper.class);
+
+		try {
+			setAuthenticationServiceClass("org.springframework.social.facebook.security.FacebookAuthenticationService");
+		} catch (ClassNotFoundException shouldntHappen) {
+			// Shouldn't happen unless the class name or package are refactored.
+		}
 	}
 	
 	@Override
-	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId, String appSecret, Map<String, String> allAttributes) {
+	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId, String appSecret, Map<String, Object> allAttributes) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FacebookConnectionFactory.class).addConstructorArgValue(appId).addConstructorArgValue(appSecret);
 		if (allAttributes.containsKey("app-namespace")) {
 			builder.addConstructorArgValue(allAttributes.get("app-namespace"));			

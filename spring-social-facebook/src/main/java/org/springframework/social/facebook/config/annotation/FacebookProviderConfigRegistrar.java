@@ -19,7 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.social.UserIdSource;
-import org.springframework.social.config.annotation.ProviderConfigRegistrarSupport;
+import org.springframework.social.config.annotation.AbstractProviderConfigRegistrarSupport;
 import org.springframework.social.config.xml.ApiHelper;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.UsersConnectionRepository;
@@ -31,7 +31,7 @@ import org.springframework.social.facebook.connect.FacebookConnectionFactory;
  * {@link ImportBeanDefinitionRegistrar} for configuring a {@link FacebookConnectionFactory} bean and a request-scoped {@link Facebook} bean.
  * @author Craig Walls
  */
-public class FacebookProviderConfigRegistrar extends ProviderConfigRegistrarSupport {
+public class FacebookProviderConfigRegistrar extends AbstractProviderConfigRegistrarSupport {
 
 	public FacebookProviderConfigRegistrar() {
 		super(EnableFacebook.class, FacebookConnectionFactory.class, FacebookApiHelper.class);
