@@ -29,6 +29,7 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.facebook.security.FacebookAuthenticationService;
 
 /**
  * Implementation of {@link AbstractConnectionFactoryBeanDefinitionParser} that creates a {@link FacebookConnectionFactory}.
@@ -38,12 +39,11 @@ class FacebookConfigBeanDefinitionParser extends AbstractProviderConfigBeanDefin
 
 	public FacebookConfigBeanDefinitionParser() {
 		super(FacebookConnectionFactory.class, FacebookApiHelper.class);
-
-		try {
-			setAuthenticationServiceClass("org.springframework.social.facebook.security.FacebookAuthenticationService");
-		} catch (ClassNotFoundException shouldntHappen) {
-			// Shouldn't happen unless the class name or package are refactored.
-		}
+	}
+	
+	@Override
+	protected Class<?> getAuthenticationServiceClass() {
+		return FacebookAuthenticationService.class;
 	}
 	
 	@Override
