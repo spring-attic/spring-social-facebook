@@ -27,6 +27,7 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.facebook.security.FacebookAuthenticationService;
+import org.springframework.social.security.provider.SocialAuthenticationService;
 
 /**
  * {@link ImportBeanDefinitionRegistrar} for configuring a {@link FacebookConnectionFactory} bean and a request-scoped {@link Facebook} bean.
@@ -39,7 +40,7 @@ public class FacebookProviderConfigRegistrar extends AbstractProviderConfigRegis
 	}
 	
 	@Override
-	protected Class<?> getAuthenticationServiceClass() {
+	protected Class<? extends SocialAuthenticationService<?>> getAuthenticationServiceClass() {
 		return FacebookAuthenticationService.class;
 	}
 	
