@@ -26,6 +26,8 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.facebook.security.FacebookAuthenticationService;
+import org.springframework.social.security.provider.SocialAuthenticationService;
 
 /**
  * {@link ImportBeanDefinitionRegistrar} for configuring a {@link FacebookConnectionFactory} bean and a request-scoped {@link Facebook} bean.
@@ -35,11 +37,11 @@ public class FacebookProviderConfigRegistrar extends AbstractProviderConfigRegis
 
 	public FacebookProviderConfigRegistrar() {
 		super(EnableFacebook.class, FacebookConnectionFactory.class, FacebookApiHelper.class);
-		try {
-			setAuthenticationServiceClass("org.springframework.social.facebook.security.FacebookAuthenticationService");
-		} catch (ClassNotFoundException shouldntHappen) {
-			// shouldn't happen unless the class name or package are refactored
-		}
+	}
+	
+	@Override
+	protected Class<? extends SocialAuthenticationService<?>> getAuthenticationServiceClass() {
+		return FacebookAuthenticationService.class;
 	}
 	
 	static class FacebookApiHelper implements ApiHelper<Facebook> {
