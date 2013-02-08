@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ public class SignedRequestArgumentResolverTest {
 		NativeWebRequest request = new ServletWebRequest(httpServletRequest); 
 		Method method = SignedRequestArgumentResolverTest.class.getDeclaredMethod("annotatedMethod", DeauthorizationRequest.class, Map.class, MultiValueMap.class, String.class);
 		MethodParameter deauthParameter = new MethodParameter(method, 0);
-		DeauthorizationRequest resolved = (DeauthorizationRequest) resolver.resolveArgument(deauthParameter, request);
+		DeauthorizationRequest resolved = (DeauthorizationRequest) resolver.resolveArgument(deauthParameter, null, request, null);
 		assertEquals("HMAC-SHA256", resolved.getAlgorithm());
 		assertEquals(1335894796, resolved.getIssuedAt());
 		assertEquals("738140579", resolved.getUserId());
@@ -65,7 +65,7 @@ public class SignedRequestArgumentResolverTest {
 		Method method = SignedRequestArgumentResolverTest.class.getDeclaredMethod("annotatedMethod", DeauthorizationRequest.class, Map.class, MultiValueMap.class, String.class);
 		MethodParameter deauthParameter = new MethodParameter(method, 1);
 		Class<?> parameterType = deauthParameter.getParameterType();
-		Map<String, Object> resolved = (Map<String, Object>) resolver.resolveArgument(deauthParameter, request);
+		Map<String, Object> resolved = (Map<String, Object>) resolver.resolveArgument(deauthParameter, null, request, null);
 		assertEquals("HMAC-SHA256", resolved.get("algorithm"));
 		assertEquals(1335894796, resolved.get("issued_at"));
 		assertEquals("738140579", resolved.get("user_id"));
@@ -83,7 +83,7 @@ public class SignedRequestArgumentResolverTest {
 		Method method = SignedRequestArgumentResolverTest.class.getDeclaredMethod("annotatedMethod", DeauthorizationRequest.class, Map.class, MultiValueMap.class, String.class);
 		MethodParameter deauthParameter = new MethodParameter(method, 2);
 		Class<?> parameterType = deauthParameter.getParameterType();
-		MultiValueMap<String, Object> resolved = (MultiValueMap<String, Object>) resolver.resolveArgument(deauthParameter, request);
+		MultiValueMap<String, Object> resolved = (MultiValueMap<String, Object>) resolver.resolveArgument(deauthParameter, null, request, null);
 		assertEquals("HMAC-SHA256", resolved.getFirst("algorithm"));
 		assertEquals(1335894796, resolved.getFirst("issued_at"));
 		assertEquals("738140579", resolved.getFirst("user_id"));
