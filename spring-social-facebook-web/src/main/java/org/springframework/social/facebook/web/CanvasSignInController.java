@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.web;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +67,8 @@ public class CanvasSignInController {
 	
 	private String postSignInUrl = "/";
 
+	private String scope;
+
 	@Inject
 	public CanvasSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, SignInAdapter signInAdapter, String clientId, String clientSecret, String canvasPage) {
 		this.usersConnectionRepository = usersConnectionRepository;
@@ -75,8 +79,20 @@ public class CanvasSignInController {
 		this.signedRequestDecoder = new SignedRequestDecoder(clientSecret);
 	}
 	
+	/**
+	 * The URL or path to redirect to after successful canvas authorization.
+	 * Defaults to "/".
+	 */
 	public void setPostSignInUrl(String postSignInUrl) {
 		this.postSignInUrl = postSignInUrl;
+	}
+	
+	/**
+	 * The scope to request during authorization.
+	 * Defaults to null (no scope will be requested; Facebook will offer their default scope).
+	 */
+	public void setScope(String scope) {
+		this.scope = scope;
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
@@ -93,6 +109,9 @@ public class CanvasSignInController {
 			logger.info("No access token in the signed_request parameter. Redirecting to the authorization dialog.");
 			model.addAttribute("clientId", clientId);
 			model.addAttribute("canvasPage", canvasPage);
+			if (scope != null) {
+				model.addAttribute("scope", scope);
+			}
 			return new AuthorizationDialogRedirectView();
 		}
 
@@ -125,11 +144,26 @@ public class CanvasSignInController {
 		public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 			String clientId = (String) model.get("clientId");
 			String canvasPage = (String) model.get("canvasPage");
+			String scope = (String) model.get("scope");
 			response.getWriter().write("<script>");
-			response.getWriter().write("top.location.href='https://www.facebook.com/dialog/oauth?client_id=" + clientId + "&redirect_uri=" + canvasPage + "';");
+			response.getWriter().write("top.location.href='https://www.facebook.com/dialog/oauth?client_id=" + clientId + "&redirect_uri=" + canvasPage);
+			if (scope != null) {
+				response.getWriter().write("&scope=" + formEncode(scope));
+			}
+			response.getWriter().write("';");
 			response.getWriter().write("</script>");
 			response.flushBuffer();
 		}
-	}
 
+		private String formEncode(String data) {
+			try {
+				return URLEncoder.encode(data, "UTF-8");
+			}
+			catch (UnsupportedEncodingException ex) {
+				// should not happen, UTF-8 is always supported
+				throw new IllegalStateException(ex);
+			}
+		}
+	}
+	
 }
