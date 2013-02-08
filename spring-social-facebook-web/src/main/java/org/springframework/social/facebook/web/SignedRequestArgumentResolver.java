@@ -21,7 +21,10 @@ import org.springframework.core.MethodParameter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.support.WebArgumentResolver;
+import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
  * Web argument resolver for controller handler method arguments that are annotated with {@link SignedRequest}.
@@ -30,7 +33,7 @@ import org.springframework.web.context.request.NativeWebRequest;
  * Any JSON properties without corresponding fields in the target type will be ignored.
  * @author Craig Walls
  */
-public class SignedRequestArgumentResolver implements WebArgumentResolver {
+public class SignedRequestArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private final SignedRequestDecoder signedRequestDecoder;
 
@@ -38,22 +41,24 @@ public class SignedRequestArgumentResolver implements WebArgumentResolver {
 		this.signedRequestDecoder = new SignedRequestDecoder(appSecret);
 	}
 	
+	public boolean supportsParameter(MethodParameter parameter) {
+		SignedRequest annotation = parameter.getParameterAnnotation(SignedRequest.class);
+		return annotation != null;
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Object resolveArgument(MethodParameter parameter, NativeWebRequest request) throws Exception {
+	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest request, WebDataBinderFactory binderFactory) throws Exception {
 		SignedRequest annotation = parameter.getParameterAnnotation(SignedRequest.class);
 		if (annotation == null) {
 			return WebArgumentResolver.UNRESOLVED;
 		}
-
 		String signedRequest = request.getParameter("signed_request");
 		if (signedRequest == null && annotation.required()) {
 			throw new IllegalStateException("Required signed_request parameter is missing.");
 		}
-		
 		if (signedRequest == null) {
 			return null;
 		}
-		
 		Class<?> parameterType = parameter.getParameterType();
 		if (MultiValueMap.class.isAssignableFrom(parameterType)) {
 			Map map = signedRequestDecoder.decodeSignedRequest(signedRequest, Map.class);

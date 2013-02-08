@@ -88,5 +88,5 @@ public class SignedRequestDecoderTest {
 		assertEquals("us", deauth.getUser().getCountry());
 		assertEquals("en_US", deauth.getUser().getLocale());
 	}
-
+	
 }

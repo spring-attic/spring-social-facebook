@@ -16,7 +16,6 @@
 package org.springframework.social.facebook.web;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -70,10 +69,11 @@ public class SignedRequestDecoder {
 		String[] split = signedRequest.split("\\.");
 		String encodedSignature = split[0];
 		String payload = split[1];		
+		String decoded = base64DecodeToString(payload);		
 		byte[] signature = base64DecodeToBytes(encodedSignature);
 		try {
-			T data = objectMapper.readValue(base64DecodeToString(payload), type);
-			String algorithm = getAlgorithm(data);
+			T data = objectMapper.readValue(decoded, type);			
+			String algorithm = objectMapper.readTree(decoded).get("algorithm").getTextValue();
 			if (algorithm == null || !algorithm.equals("HMAC-SHA256")) {
 				throw new SignedRequestException("Unknown encryption algorithm: " + algorithm);
 			}			
@@ -87,21 +87,6 @@ public class SignedRequestDecoder {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
-	private String getAlgorithm(Object data) {
-		if (data instanceof Map) {
-			return (String) ((Map) data).get("algorithm");
-		} else {
-			try {
-				Field field = data.getClass().getDeclaredField("algorithm");
-				field.setAccessible(true);
-				return (String) field.get(data);
-			} catch (Exception e) {
-				return null;
-			}
-		}
-	}
-	
 	private String padForBase64(String base64) {
 		return base64 + PADDING.substring(0, (4-base64.length() % 4) % 4);
 	}
