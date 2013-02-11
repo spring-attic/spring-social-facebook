@@ -323,7 +323,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void notFound() {
-		mockServer.expect(requestTo("https://graph.facebook.com/nobody/feed?offset=0&limit=25"))
+		mockServer.expect(requestTo("https://graph.facebook.com/nobody/feed?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withStatus(HttpStatus.NOT_FOUND).body(jsonResource("testdata/error-unknown-alias")).contentType(MediaType.APPLICATION_JSON));

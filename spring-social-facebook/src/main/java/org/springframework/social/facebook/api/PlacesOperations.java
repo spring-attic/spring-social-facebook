@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.List;
-
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
@@ -36,7 +34,7 @@ public interface PlacesOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Checkin> getCheckins();
+	PagedList<Checkin> getCheckins();
 
 	/**
 	 * Retrieves a list of checkins for the authenticated user.
@@ -47,8 +45,21 @@ public interface PlacesOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getCheckins(PagedListParameters)} instead.
 	 */
-	List<Checkin> getCheckins(int offset, int limit);
+	@Deprecated
+	PagedList<Checkin> getCheckins(int offset, int limit);
+
+	/**
+	 * Retrieves a list of checkins for the authenticated user.
+	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list {@link Checkin}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Checkin> getCheckins(PagedListParameters pagedListParameters);
 
 	/**
 	 * Retrieves a list of up to 25 recent checkins for the specified object.
@@ -61,7 +72,7 @@ public interface PlacesOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Checkin> getCheckins(String objectId);
+	PagedList<Checkin> getCheckins(String objectId);
 
 	/**
 	 * Retrieves a list of checkins for the specified object.
@@ -75,8 +86,24 @@ public interface PlacesOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getCheckins(String, PagedListParameters)} instead.
 	 */
-	List<Checkin> getCheckins(String objectId, int offset, int limit);
+	@Deprecated
+	PagedList<Checkin> getCheckins(String objectId, int offset, int limit);
+
+	/**
+	 * Retrieves a list of checkins for the specified object.
+	 * If the object is a user, this returns checkins for places the user has checked into.
+	 * If the object is a page, then this returns checkins that the user's friends has made to the location that the page represents.
+	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * @param objectId either a Facebook user ID or page ID
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list {@link Checkin}s, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Checkin> getCheckins(String objectId, PagedListParameters pagedListParameters);
 
 	/**
 	 * Retrieves details for a single checkin.
@@ -125,5 +152,5 @@ public interface PlacesOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> search(String query, double latitude, double longitude, long distance);
+	PagedList<Page> search(String query, double latitude, double longitude, long distance);
 }
