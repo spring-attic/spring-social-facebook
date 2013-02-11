@@ -24,7 +24,7 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.Invitation;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagedListParameters;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -45,7 +45,7 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		return getInvitations("me", offset, limit);
 	}
 
-	public PagedList<Invitation> getInvitations(PagedListParameters pagedListParameters) {
+	public PagedList<Invitation> getInvitations(PagingParameters pagedListParameters) {
 		return getInvitations("me", pagedListParameters);
 	}
 
@@ -54,10 +54,10 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public PagedList<Invitation> getInvitations(String userId, int offset, int limit) {
-		return getInvitations(userId, new PagedListParameters(limit, offset, null, null));
+		return getInvitations(userId, new PagingParameters(limit, offset, null, null));
 	}
 	
-	public PagedList<Invitation> getInvitations(String userId, PagedListParameters pagedListParameters) {
+	public PagedList<Invitation> getInvitations(String userId, PagingParameters pagedListParameters) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = getPagingParameters(pagedListParameters);
 		return graphApi.fetchConnections(userId, "events", Invitation.class, parameters);
@@ -129,10 +129,10 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public PagedList<Event> search(String query, int offset, int limit) {
-		return search(query, new PagedListParameters(limit, offset, null, null));
+		return search(query, new PagingParameters(limit, offset, null, null));
 	}
 	
-	public PagedList<Event> search(String query, PagedListParameters pagedListParameters) {
+	public PagedList<Event> search(String query, PagingParameters pagedListParameters) {
 		MultiValueMap<String, String> queryMap = getPagingParameters(pagedListParameters);
 		queryMap.add("q", query);
 		queryMap.add("type", "event");

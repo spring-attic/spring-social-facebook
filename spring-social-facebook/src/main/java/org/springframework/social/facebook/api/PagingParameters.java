@@ -19,7 +19,7 @@ package org.springframework.social.facebook.api;
  * Carries parameters to describe a paged set of results.
  * @author Craig Walls
  */
-public class PagedListParameters {
+public class PagingParameters {
 	
 	private final Integer limit;
 
@@ -36,7 +36,7 @@ public class PagedListParameters {
 	 * @param since The beginning timestamp bound for time-sensitive content (e.g., posts, comments, etc).
 	 * @param until The ending timestamp bound for time-sensitive content (e.g., posts, comments, etc).
 	 */
-	public PagedListParameters(Integer limit, Integer offset, Long since, Long until) {
+	public PagingParameters(Integer limit, Integer offset, Long since, Long until) {
 		this.limit = limit;
 		this.offset = offset;
 		this.since = since;

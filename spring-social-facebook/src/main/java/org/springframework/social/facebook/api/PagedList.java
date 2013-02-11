@@ -21,21 +21,21 @@ import java.util.List;
 public class PagedList<T> extends ArrayList<T> {
 	private static final long serialVersionUID = 1L;
 
-	private final PagedListParameters previousPage;
+	private final PagingParameters previousPage;
 	
-	private final PagedListParameters nextPage;
+	private final PagingParameters nextPage;
 
-	public PagedList(List<T> unpagedList, PagedListParameters previousPage, PagedListParameters nextPage) {
+	public PagedList(List<T> unpagedList, PagingParameters previousPage, PagingParameters nextPage) {
 		super(unpagedList);
 		this.previousPage = previousPage;
 		this.nextPage = nextPage;
 	}
 
-	public PagedListParameters getPreviousPage() {
+	public PagingParameters getPreviousPage() {
 		return previousPage;
 	}
 
-	public PagedListParameters getNextPage() {
+	public PagingParameters getNextPage() {
 		return nextPage;
 	}
 

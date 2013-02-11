@@ -45,7 +45,7 @@ import org.springframework.social.facebook.api.MediaOperations;
 import org.springframework.social.facebook.api.OpenGraphOperations;
 import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagedListParameters;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.PlacesOperations;
 import org.springframework.social.facebook.api.QuestionOperations;
 import org.springframework.social.facebook.api.UserOperations;
@@ -233,8 +233,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		List<T> data = deserializeDataList(jsonNode.get("data"), type);
 		if (jsonNode.has("paging")) {
 			JsonNode pagingNode = jsonNode.get("paging");
-			PagedListParameters previousPage = getPagedListParameters(pagingNode, "previous");
-			PagedListParameters nextPage = getPagedListParameters(pagingNode, "next");
+			PagingParameters previousPage = getPagedListParameters(pagingNode, "previous");
+			PagingParameters nextPage = getPagedListParameters(pagingNode, "next");
 			return new PagedList<T>(data, previousPage, nextPage);
 		}
 		return new PagedList<T>(data, null, null);

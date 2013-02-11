@@ -16,13 +16,13 @@
 package org.springframework.social.facebook.api.impl;
 
 import org.codehaus.jackson.JsonNode;
-import org.springframework.social.facebook.api.PagedListParameters;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 class PagedListUtils {
 
-	public static PagedListParameters getPagedListParameters(JsonNode pagingNode, String pageKey) {
+	public static PagingParameters getPagedListParameters(JsonNode pagingNode, String pageKey) {
 		if (pagingNode == null || pagingNode.get(pageKey) == null) {
 			return null;
 		}
@@ -31,14 +31,14 @@ class PagedListUtils {
 		String sinceString = extractParameterValueFromUrl(pageNode, "since");
 		String untilString = extractParameterValueFromUrl(pageNode, "until");
 		String offsetString = extractParameterValueFromUrl(pageNode, "offset");
-		return new PagedListParameters(
+		return new PagingParameters(
 				offsetString != null ? Integer.valueOf(offsetString) : null,
 				limitString != null ? Integer.valueOf(limitString) : null, 
 				sinceString != null ? Long.valueOf(sinceString) : null, 
 				untilString != null ? Long.valueOf(untilString) : null);
 	}
 
-	public static MultiValueMap<String, String> getPagingParameters(PagedListParameters pagedListParameters) {
+	public static MultiValueMap<String, String> getPagingParameters(PagingParameters pagedListParameters) {
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		if (pagedListParameters.getOffset() != null) {
 			parameters.add("offset", String.valueOf(pagedListParameters.getOffset()));
