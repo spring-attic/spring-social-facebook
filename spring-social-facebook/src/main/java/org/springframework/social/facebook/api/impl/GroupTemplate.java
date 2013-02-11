@@ -23,7 +23,7 @@ import org.springframework.social.facebook.api.GroupMembership;
 import org.springframework.social.facebook.api.GroupOperations;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagedListParameters;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.MultiValueMap;
 
 class GroupTemplate extends AbstractFacebookOperations implements GroupOperations {
@@ -71,10 +71,10 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 	}
 	
 	public PagedList<Group> search(String query, int offset, int limit) {
-		return search(query, new PagedListParameters(limit, offset, null, null));
+		return search(query, new PagingParameters(limit, offset, null, null));
 	}
 	
-	public PagedList<Group> search(String query, PagedListParameters pagedListParameters) {
+	public PagedList<Group> search(String query, PagingParameters pagedListParameters) {
 		MultiValueMap<String, String> queryMap = PagedListUtils.getPagingParameters(pagedListParameters);
 		queryMap.add("q", query);
 		queryMap.add("type", "group");
