@@ -71,7 +71,7 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 	}
 	
 	public PagedList<Group> search(String query, int offset, int limit) {
-		return search(query, new PagedListParameters(offset, limit, null, null));
+		return search(query, new PagedListParameters(limit, offset, null, null));
 	}
 	
 	public PagedList<Group> search(String query, PagedListParameters pagedListParameters) {

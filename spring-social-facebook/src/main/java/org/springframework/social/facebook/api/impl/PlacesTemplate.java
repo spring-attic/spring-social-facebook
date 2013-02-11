@@ -40,7 +40,7 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 	}
 
 	public PagedList<Checkin> getCheckins(int offset, int limit) {
-		return getCheckins("me", new PagedListParameters(offset, limit, null, null));
+		return getCheckins("me", new PagedListParameters(limit, offset, null, null));
 	}
 
 	public PagedList<Checkin> getCheckins(PagedListParameters pagedListParameters) {
@@ -52,7 +52,7 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 	}
 	
 	public PagedList<Checkin> getCheckins(String objectId, int offset, int limit) {
-		return getCheckins(objectId, new PagedListParameters(offset, limit, null, null));
+		return getCheckins(objectId, new PagedListParameters(limit, offset, null, null));
 	}
 		
 	public PagedList<Checkin> getCheckins(String objectId, PagedListParameters pagedListParameters) {

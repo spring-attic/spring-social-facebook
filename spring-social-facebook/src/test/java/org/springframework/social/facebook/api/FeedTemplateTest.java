@@ -71,7 +71,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
-		List<Post> feed = facebook.feedOperations().getFeed(new PagedListParameters(null, 25, 1360384019L, null));
+		List<Post> feed = facebook.feedOperations().getFeed(new PagedListParameters(25, null, 1360384019L, null));
 		assertEquals(5, feed.size());
 		assertTrue(feed.get(0) instanceof StatusPost);
 		assertTrue(feed.get(1) instanceof PhotoPost);
@@ -87,7 +87,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
-		List<Post> feed = facebook.feedOperations().getFeed(new PagedListParameters(null, 25, null, 1360384019L));
+		List<Post> feed = facebook.feedOperations().getFeed(new PagedListParameters(25, null, null, 1360384019L));
 		assertEquals(5, feed.size());
 		assertTrue(feed.get(0) instanceof StatusPost);
 		assertTrue(feed.get(1) instanceof PhotoPost);

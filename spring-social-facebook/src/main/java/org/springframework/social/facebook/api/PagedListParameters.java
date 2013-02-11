@@ -23,27 +23,34 @@ public class PagedListParameters {
 	
 	private final Integer limit;
 
+	private final Integer offset;
+
 	private final Long since;
 	
 	private final Long until;
 
-	private Integer offset;
-
-	public PagedListParameters(Integer offset, Integer limit, Long since, Long until) {
-		this.offset = offset;
+	/**
+	 * Constructs a PagedListParameters.
+	 * @param limit The number of items to limit the list to.
+	 * @param offset The offset into the full result list to start this list at.
+	 * @param since The beginning timestamp bound for time-sensitive content (e.g., posts, comments, etc).
+	 * @param until The ending timestamp bound for time-sensitive content (e.g., posts, comments, etc).
+	 */
+	public PagedListParameters(Integer limit, Integer offset, Long since, Long until) {
 		this.limit = limit;
+		this.offset = offset;
 		this.since = since;
 		this.until = until;
+	}
+
+	public Integer getLimit() {
+		return limit;
 	}
 
 	public Integer getOffset() {
 		return offset;
 	}
 	
-	public Integer getLimit() {
-		return limit;
-	}
-
 	public Long getSince() {
 		return since;
 	}

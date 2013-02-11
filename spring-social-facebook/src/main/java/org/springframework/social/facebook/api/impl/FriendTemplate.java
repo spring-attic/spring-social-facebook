@@ -133,7 +133,7 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 
 	public PagedList<FacebookProfile> getFriendProfiles(String userId, int offset, int limit) {
-		return getFriendProfiles(userId, new PagedListParameters(offset, limit, null, null));
+		return getFriendProfiles(userId, new PagedListParameters(limit, offset, null, null));
 	}
 
 	public PagedList<FacebookProfile> getFriendProfiles(String userId, PagedListParameters pagedListParameters) {

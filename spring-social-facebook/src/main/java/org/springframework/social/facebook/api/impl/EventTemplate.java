@@ -54,7 +54,7 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public PagedList<Invitation> getInvitations(String userId, int offset, int limit) {
-		return getInvitations(userId, new PagedListParameters(offset, limit, null, null));
+		return getInvitations(userId, new PagedListParameters(limit, offset, null, null));
 	}
 	
 	public PagedList<Invitation> getInvitations(String userId, PagedListParameters pagedListParameters) {
@@ -129,7 +129,7 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public PagedList<Event> search(String query, int offset, int limit) {
-		return search(query, new PagedListParameters(offset, limit, null, null));
+		return search(query, new PagedListParameters(limit, offset, null, null));
 	}
 	
 	public PagedList<Event> search(String query, PagedListParameters pagedListParameters) {

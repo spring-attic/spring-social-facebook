@@ -40,7 +40,7 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 	}
 
 	public PagedList<Comment> getComments(String objectId, int offset, int limit) {
-		return getComments(objectId, new PagedListParameters(offset, limit, null, null));
+		return getComments(objectId, new PagedListParameters(limit, offset, null, null));
 	}
 
 	public PagedList<Comment> getComments(String objectId, PagedListParameters pagedListParameters) {

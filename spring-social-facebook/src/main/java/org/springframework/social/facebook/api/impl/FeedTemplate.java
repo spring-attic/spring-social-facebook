@@ -46,7 +46,7 @@ import org.springframework.web.client.RestTemplate;
 
 class FeedTemplate extends AbstractFacebookOperations implements FeedOperations {
 
-	private static final PagedListParameters FIRST_PAGE = new PagedListParameters(null, 25, null, null);
+	private static final PagedListParameters FIRST_PAGE = new PagedListParameters(25, null, null, null);
 
 	private final GraphApi graphApi;
 	

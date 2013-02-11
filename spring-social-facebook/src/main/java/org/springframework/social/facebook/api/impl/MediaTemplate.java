@@ -61,7 +61,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public PagedList<Album> getAlbums(String userId, int offset, int limit) {
-		return getAlbums(userId, new PagedListParameters(offset, limit, null, null));
+		return getAlbums(userId, new PagedListParameters(limit, offset, null, null));
 	}
 	
 	public PagedList<Album> getAlbums(String userId, PagedListParameters pagedListParameters) {
@@ -101,7 +101,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public PagedList<Photo> getPhotos(String objectId, int offset, int limit) {
-		return getPhotos(objectId, new PagedListParameters(offset, limit, null, null));
+		return getPhotos(objectId, new PagedListParameters(limit, offset, null, null));
 	}
 	
 	public PagedList<Photo> getPhotos(String objectId, PagedListParameters pagedListParameters) {
@@ -158,7 +158,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 
 	public PagedList<Video> getVideos(int offset, int limit) {
-		return getVideos("me", new PagedListParameters(offset, limit, null, null));
+		return getVideos("me", new PagedListParameters(limit, offset, null, null));
 	}
 
 	public PagedList<Video> getVideos(PagedListParameters pagedListParameters) {
@@ -170,7 +170,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public PagedList<Video> getVideos(String userId, int offset, int limit) {
-		return getVideos(userId, new PagedListParameters(offset, limit, null, null));
+		return getVideos(userId, new PagedListParameters(limit, offset, null, null));
 	}
 
 	public PagedList<Video> getVideos(String userId, PagedListParameters pagedListParameters) {
