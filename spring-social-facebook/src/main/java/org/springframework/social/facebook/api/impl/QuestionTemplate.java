@@ -15,9 +15,8 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import java.util.List;
-
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Question;
 import org.springframework.social.facebook.api.QuestionOperations;
 import org.springframework.social.facebook.api.QuestionOption;
@@ -47,11 +46,11 @@ class QuestionTemplate extends AbstractFacebookOperations implements QuestionOpe
 		return graphApi.publish(questionId, "options", data);
 	}
 	
-	public List<Question> getQuestions() {
+	public PagedList<Question> getQuestions() {
 		return getQuestions("me");
 	}
 	
-	public List<Question> getQuestions(String userId) {
+	public PagedList<Question> getQuestions(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "questions", Question.class);
 	}
@@ -71,7 +70,7 @@ class QuestionTemplate extends AbstractFacebookOperations implements QuestionOpe
 		return graphApi.fetchObject(optionId, QuestionOption.class);
 	}
 
-	public List<QuestionOption> getOptions(String questionId) {
+	public PagedList<QuestionOption> getOptions(String questionId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(questionId, "options", QuestionOption.class);
 	}
