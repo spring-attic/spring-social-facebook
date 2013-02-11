@@ -3,6 +3,7 @@ Spring Social Facebook 1.1.0.M2 (February 12, 2012)
 Miscellaneous
   * Changes to support Spring Social/Spring Security integration.
      (SOCIAL-232)
+
 Improvements
   * New CanvasSignInController to handle authentication via signed_request
     parameter in Facebook Canvas applications. (SOCIALFB-110)
@@ -10,6 +11,11 @@ Improvements
     (SOCIALFB-65)
   * Support for paging through API results with since and until parameters.
     (SOCIALFB-45)
+
+Compatibility notes
+  * All API binding methods that take offset and limit for paging purposes are
+    deprecated effective this release. Instead, use the equivalent methods
+    that accept PagingParameters.
 
 Spring Social Facebook 1.1.0.M1 (November 26, 2012)
 ===================================================
