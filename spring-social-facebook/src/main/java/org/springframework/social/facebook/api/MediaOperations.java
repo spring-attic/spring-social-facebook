@@ -48,7 +48,9 @@ public interface MediaOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getAlbums(PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<Album> getAlbums(int offset, int limit);
 
 	/**
@@ -83,7 +85,9 @@ public interface MediaOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getAlbums(String, PagedListParameters)} instead
 	 */
+	@Deprecated
 	PagedList<Album> getAlbums(String ownerId, int offset, int limit);
 
 	/**
@@ -168,7 +172,9 @@ public interface MediaOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getPhotos(String, PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<Photo> getPhotos(String objectId, int offset, int limit);
 
 	/**
@@ -288,7 +294,9 @@ public interface MediaOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getVideos(PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<Video> getVideos(int offset, int limit);
 
 	/**
@@ -323,7 +331,9 @@ public interface MediaOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" or "friends_videos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getVideos(String, PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<Video> getVideos(String userId, int offset, int limit);
 
 	/**

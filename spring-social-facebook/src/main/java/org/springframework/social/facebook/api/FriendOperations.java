@@ -154,7 +154,9 @@ public interface FriendOperations {
 	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getFriendProfiles(PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<FacebookProfile> getFriendProfiles(int offset, int limit);
 
 	/**
@@ -206,7 +208,9 @@ public interface FriendOperations {
 	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getFriendProfiles(String, PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<FacebookProfile> getFriendProfiles(String userId, int offset, int limit);
 	
 	/**

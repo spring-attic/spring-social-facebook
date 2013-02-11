@@ -41,7 +41,9 @@ public interface CommentOperations {
 	 * @param limit the maximum number of comments to retrieve
 	 * @return a list of {@link Comment}s for the specified object
 	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @deprecated Use {@link CommentOperations#getComments(String, PagedListParameters)} instead
 	 */
+	@Deprecated
 	PagedList<Comment> getComments(String objectId, int offset, int limit);
 
 	/**

@@ -45,7 +45,9 @@ public interface PlacesOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getCheckins(PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<Checkin> getCheckins(int offset, int limit);
 
 	/**
@@ -84,7 +86,9 @@ public interface PlacesOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getCheckins(String, PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<Checkin> getCheckins(String objectId, int offset, int limit);
 
 	/**

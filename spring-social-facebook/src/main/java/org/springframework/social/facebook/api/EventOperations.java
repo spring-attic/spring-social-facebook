@@ -45,7 +45,9 @@ public interface EventOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link EventOperations#getInvitations(PagedListParameters)} instead
 	 */
+	@Deprecated
 	PagedList<Invitation> getInvitations(int offset, int limit);
 
 	/**
@@ -80,7 +82,9 @@ public interface EventOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link EventOperations#getInvitations(String, PagedListParameters)} instead
 	 */
+	@Deprecated
 	PagedList<Invitation> getInvitations(String userId, int offset, int limit);
 
 	/**
@@ -239,7 +243,9 @@ public interface EventOperations {
 	 * @param limit the maximum number of events to return
 	 * @return a list of {@link Event}s matching the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @deprecated Use {@link EventOperations#search(String, PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<Event> search(String query, int offset, int limit);
 
 	/**

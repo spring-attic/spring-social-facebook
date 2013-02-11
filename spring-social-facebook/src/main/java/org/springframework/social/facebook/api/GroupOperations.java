@@ -106,7 +106,9 @@ public interface GroupOperations {
 	 * @param limit	the maximum number of groups to return
 	 * @return a list of {@link Group}s matching the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @deprecated Use {@link #search(String, PagedListParameters)} instead.
 	 */
+	@Deprecated
 	PagedList<Group> search(String query, int offset, int limit);
 
 	/**
