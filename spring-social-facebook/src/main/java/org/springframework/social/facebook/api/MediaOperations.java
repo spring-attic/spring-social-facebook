@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.List;
-
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -39,7 +37,7 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Album> getAlbums();
+	PagedList<Album> getAlbums();
 
 	/**
 	 * Retrieves a list of albums belonging to the authenticated user.
@@ -51,7 +49,18 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Album> getAlbums(int offset, int limit);
+	PagedList<Album> getAlbums(int offset, int limit);
+
+	/**
+	 * Retrieves a list of albums belonging to the authenticated user.
+	 * Requires "user_photos" or "friends_photos" permission.
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list {@link Album}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Album> getAlbums(PagedListParameters pagedListParameters);
 
 	/**
 	 * Retrieves a list of albums belonging to a specific owner (user, page, etc).
@@ -62,7 +71,7 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Album> getAlbums(String ownerId);
+	PagedList<Album> getAlbums(String ownerId);
 
 	/**
 	 * Retrieves a list of albums belonging to a specific owner (user, page, etc).
@@ -75,7 +84,19 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Album> getAlbums(String ownerId, int offset, int limit);
+	PagedList<Album> getAlbums(String ownerId, int offset, int limit);
+
+	/**
+	 * Retrieves a list of albums belonging to a specific owner (user, page, etc).
+	 * Requires "user_photos" or "friends_photos" permission.
+	 * @param ownerId the album owner's ID
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list {@link Album}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Album> getAlbums(String ownerId, PagedListParameters pagedListParameters);
 
 	/**
 	 * Retrieves data for a specific album.
@@ -133,7 +154,7 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Photo> getPhotos(String objectId);
+	PagedList<Photo> getPhotos(String objectId);
 
 	/**
 	 * Retrieves photo data from a specific album or that a user is tagged in.
@@ -148,7 +169,21 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Photo> getPhotos(String objectId, int offset, int limit);
+	PagedList<Photo> getPhotos(String objectId, int offset, int limit);
+
+	/**
+	 * Retrieves photo data from a specific album or that a user is tagged in.
+	 * If the objectId parameter is the ID of an album, the photos returned are the photos from that album.
+	 * If the objectId parameter is the ID of a user, the photos returned are the photos that the user is tagged in.
+	 * Requires "user_photos" or "friends_photos" permission if the album is not public.
+	 * @param objectId either an album ID or a user ID
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list of {@link Photo}s in the specified album.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Photo> getPhotos(String objectId, PagedListParameters pagedListParameters);
 
 	/**
 	 * Retrieve data for a specified photo.
@@ -242,7 +277,7 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Video> getVideos();
+	PagedList<Video> getVideos();
 
 	/**
 	 * Retrieves a list of videos that the authenticated user is tagged in.
@@ -254,8 +289,19 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Video> getVideos(int offset, int limit);
+	PagedList<Video> getVideos(int offset, int limit);
 
+	/**
+	 * Retrieves a list of videos that the authenticated user is tagged in.
+	 * Requires "user_videos" permission.
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list of {@link Video} belonging to the authenticated user.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_videos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Video> getVideos(PagedListParameters pagedListParameters);	
+	
 	/**
 	 * Retrieves a list of up to 25 videos that a specified user is tagged in.
 	 * Requires "user_videos" or "friends_videos" permission.
@@ -265,7 +311,7 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" or "friends_videos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Video> getVideos(String userId);
+	PagedList<Video> getVideos(String userId);
 
 	/**
 	 * Retrieves a list of videos that a specified user is tagged in.
@@ -278,7 +324,19 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_videos" or "friends_videos" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Video> getVideos(String userId, int offset, int limit);
+	PagedList<Video> getVideos(String userId, int offset, int limit);
+
+	/**
+	 * Retrieves a list of videos that a specified user is tagged in.
+	 * Requires "user_videos" or "friends_videos" permission.
+	 * @param userId the ID of the user who is tagged in the videos
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list of {@link Video} which the specified user is tagged in.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_videos" or "friends_videos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Video> getVideos(String userId, PagedListParameters pagedListParameters);
 
 	/**
 	 * Retrieves data for a specific video.

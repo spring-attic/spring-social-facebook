@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.List;
-
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
@@ -34,7 +32,7 @@ public interface CommentOperations {
 	 * @return a list of {@link Comment}s for the specified object
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<Comment> getComments(String objectId);
+	PagedList<Comment> getComments(String objectId);
 
 	/**
 	 * Retrieves comments for a given object.
@@ -44,7 +42,16 @@ public interface CommentOperations {
 	 * @return a list of {@link Comment}s for the specified object
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<Comment> getComments(String objectId, int offset, int limit);
+	PagedList<Comment> getComments(String objectId, int offset, int limit);
+
+	/**
+	 * Retrieves comments for a given object.
+	 * @param objectId the ID of the object
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list of {@link Comment}s for the specified object
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Comment> getComments(String objectId, PagedListParameters pagedListParameters);
 
 	/**
 	 * Retrieves a single comment
@@ -82,6 +89,6 @@ public interface CommentOperations {
 	 * @return a list of {@link Reference}s
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<Reference> getLikes(String objectId);
+	PagedList<Reference> getLikes(String objectId);
 
 }

@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.List;
-
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
@@ -36,7 +34,7 @@ public interface EventOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Invitation> getInvitations();
+	PagedList<Invitation> getInvitations();
 
 	/**
 	 * Retrieves a list of events that the authenticated user has been invited to.
@@ -48,7 +46,18 @@ public interface EventOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Invitation> getInvitations(int offset, int limit);
+	PagedList<Invitation> getInvitations(int offset, int limit);
+
+	/**
+	 * Retrieves a list of events that the authenticated user has been invited to.
+	 * Requires "user_events" or "friends_events" permission.
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Invitation> getInvitations(PagedListParameters pagedListParameters);
 
 	/**
 	 * Retrieves a list of events that the specified user has been invited to.
@@ -59,7 +68,7 @@ public interface EventOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Invitation> getInvitations(String userId);
+	PagedList<Invitation> getInvitations(String userId);
 
 	/**
 	 * Retrieves a list of events that the specified user has been invited to.
@@ -72,7 +81,19 @@ public interface EventOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Invitation> getInvitations(String userId, int offset, int limit);
+	PagedList<Invitation> getInvitations(String userId, int offset, int limit);
+
+	/**
+	 * Retrieves a list of events that the specified user has been invited to.
+	 * Requires "user_events" or "friends_events" permission.
+	 * @param userId the user's ID
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Invitation> getInvitations(String userId, PagedListParameters pagedListParameters);
 
 	/**
 	 * Retrieves event data for a specified event.
@@ -139,7 +160,7 @@ public interface EventOperations {
 	 * @return a list of {@link EventInvitee}s for the event.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<EventInvitee> getInvited(String eventId);
+	PagedList<EventInvitee> getInvited(String eventId);
 	
 	/**
 	 * Retrieves the list of an event's invitees who have accepted the invitation.
@@ -147,7 +168,7 @@ public interface EventOperations {
 	 * @return a list of {@link EventInvitee}s for the event.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<EventInvitee> getAttending(String eventId);
+	PagedList<EventInvitee> getAttending(String eventId);
 	
 	/**
 	 * Retrieves the list of an event's invitees who have indicated that they may attend the event.
@@ -155,7 +176,7 @@ public interface EventOperations {
 	 * @return a list of {@link EventInvitee}s for the event.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<EventInvitee> getMaybeAttending(String eventId);
+	PagedList<EventInvitee> getMaybeAttending(String eventId);
 	
 	/**
 	 * Retrieves the list of an event's invitees who have not yet RSVP'd.
@@ -163,7 +184,7 @@ public interface EventOperations {
 	 * @return a list of {@link EventInvitee}s for the event.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<EventInvitee> getNoReplies(String eventId);
+	PagedList<EventInvitee> getNoReplies(String eventId);
 	
 	/**
 	 * Retrieves the list of an event's invitees who have declined the invitation.
@@ -171,7 +192,7 @@ public interface EventOperations {
 	 * @return a list of {@link EventInvitee}s for the event.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<EventInvitee> getDeclined(String eventId);
+	PagedList<EventInvitee> getDeclined(String eventId);
 
 	/**
 	 * Accepts an invitation to an event.
@@ -209,7 +230,7 @@ public interface EventOperations {
 	 * @return a list of {@link Event}s matching the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<Event> search(String query);
+	PagedList<Event> search(String query);
 
 	/**
 	 * Search for events.
@@ -219,6 +240,15 @@ public interface EventOperations {
 	 * @return a list of {@link Event}s matching the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<Event> search(String query, int offset, int limit);
+	PagedList<Event> search(String query, int offset, int limit);
+
+	/**
+	 * Search for events.
+	 * @param query the search query (e.g., "Spring User Group")
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list of {@link Event}s matching the search query
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Event> search(String query, PagedListParameters pagedListParameters);
 
 }

@@ -15,32 +15,41 @@
  */
 package org.springframework.social.facebook.api;
 
-public class StoryTag {
-	private final String id;
-	private final String name;
-	private final Integer offset;
-	private final Integer length;
+/**
+ * Carries parameters to describe a paged set of results.
+ * @author Craig Walls
+ */
+public class PagedListParameters {
 	
-	public StoryTag(String id, String name, Integer offset, Integer length) {
-		this.id = id;
-		this.name = name;
+	private final Integer limit;
+
+	private final Long since;
+	
+	private final Long until;
+
+	private Integer offset;
+
+	public PagedListParameters(Integer offset, Integer limit, Long since, Long until) {
 		this.offset = offset;
-		this.length = length;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
+		this.limit = limit;
+		this.since = since;
+		this.until = until;
 	}
 
 	public Integer getOffset() {
 		return offset;
 	}
-
-	public Integer getLength() {
-		return length;
+	
+	public Integer getLimit() {
+		return limit;
 	}
+
+	public Long getSince() {
+		return since;
+	}
+
+	public Long getUntil() {
+		return until;
+	}
+	
 }

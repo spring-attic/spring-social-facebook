@@ -24,6 +24,8 @@ import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.FamilyMember;
 import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagedListParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
@@ -42,11 +44,11 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		this.restTemplate = restTemplate;
 	}
 	
-	public List<Reference> getFriendLists() {
+	public PagedList<Reference> getFriendLists() {
 		return getFriendLists("me");
 	}
 
-	public List<Reference> getFriendLists(String userId) {
+	public PagedList<Reference> getFriendLists(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "friendlists", Reference.class);
 	}
@@ -56,7 +58,7 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		return graphApi.fetchObject(friendListId, Reference.class);
 	}
 	
-	public List<Reference> getFriendListMembers(String friendListId) {
+	public PagedList<Reference> getFriendListMembers(String friendListId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(friendListId, "members", Reference.class);
 	}
@@ -88,84 +90,90 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		restTemplate.delete(uri);
 	}
 	
-	public List<Reference> getFriends() {
+	public PagedList<Reference> getFriends() {
 		return getFriends("me");
 	}
 	
-	public List<String> getFriendIds() {
+	public PagedList<String> getFriendIds() {
 		return getFriendIds("me");
 	}
 	
-	public List<FacebookProfile> getFriendProfiles() {
+	public PagedList<FacebookProfile> getFriendProfiles() {
 		return getFriendProfiles("me", 0, 100);
 	}
 
-	public List<FacebookProfile> getFriendProfiles(int offset, int limit) {
+	public PagedList<FacebookProfile> getFriendProfiles(int offset, int limit) {
 		return getFriendProfiles("me", offset, limit);
 	}
 	
-	public List<Reference> getFriends(String userId) {
+	public PagedList<FacebookProfile> getFriendProfiles(PagedListParameters pagedListParameters) {
+		return getFriendProfiles("me", pagedListParameters);
+	}
+	
+	public PagedList<Reference> getFriends(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "friends", Reference.class);
 	}
 	
-	public List<String> getFriendIds(String userId) {
+	public PagedList<String> getFriendIds(String userId) {
 		requireAuthorization();		
 		URI uri = URIBuilder.fromUri("https://graph.facebook.com/" + userId + "/friends").queryParam("fields", "id").build();
 		@SuppressWarnings("unchecked")
-		Map<String,List<Map<String, String>>> response = restTemplate.getForObject(uri, Map.class);
+		Map<String,PagedList<Map<String, String>>> response = restTemplate.getForObject(uri, Map.class);
 		List<Map<String,String>> entryList = response.get("data");
 		List<String> idList = new ArrayList<String>(entryList.size());
 		for (Map<String, String> entry : entryList) {
 			idList.add(entry.get("id"));
 		}	
-		return idList;
+		return new PagedList<String>(idList, null, null);
 	}
 	
-	public List<FacebookProfile> getFriendProfiles(String userId) {
+	public PagedList<FacebookProfile> getFriendProfiles(String userId) {
 		return getFriendProfiles(userId, 0, 100);
 	}
 
-	public List<FacebookProfile> getFriendProfiles(String userId, int offset, int limit) {
+	public PagedList<FacebookProfile> getFriendProfiles(String userId, int offset, int limit) {
+		return getFriendProfiles(userId, new PagedListParameters(offset, limit, null, null));
+	}
+
+	public PagedList<FacebookProfile> getFriendProfiles(String userId, PagedListParameters pagedListParameters) {
 		requireAuthorization();
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("offset", String.valueOf(offset));
-		parameters.set("limit", String.valueOf(limit));
+		MultiValueMap<String, String> parameters = PagedListUtils.getPagingParameters(pagedListParameters);
 		parameters.set("fields", FULL_PROFILE_FIELDS);
 		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
 	}
 
-	public List<FamilyMember> getFamily() {
+	public PagedList<FamilyMember> getFamily() {
 		requireAuthorization();
 		return graphApi.fetchConnections("me", "family", FamilyMember.class);
 	}
 
-	public List<FamilyMember> getFamily(String userId) {
+	public PagedList<FamilyMember> getFamily(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "family", FamilyMember.class);
 	}
 
-	public List<Reference> getMutualFriends(String userId) {
+	public PagedList<Reference> getMutualFriends(String userId) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("user", String.valueOf(userId));
 		return graphApi.fetchConnections("me", "mutualfriends", Reference.class, parameters);
 	}
 	
-	public List<Reference> getSubscribedTo() {
+	public PagedList<Reference> getSubscribedTo() {
 		return getSubscribedTo("me");
 	}
 	
-	public List<Reference> getSubscribedTo(String userId) {
+	public PagedList<Reference> getSubscribedTo(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "subscribedTo", Reference.class);
 	}
 	
-	public List<Reference> getSubscribers() {
+	public PagedList<Reference> getSubscribers() {
 		return getSubscribers("me");
 	}
 	
-	public List<Reference> getSubscribers(String userId) {
+	public PagedList<Reference> getSubscribers(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "subscribers", Reference.class);
 	}
