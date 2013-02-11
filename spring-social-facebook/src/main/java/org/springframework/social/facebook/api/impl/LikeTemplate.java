@@ -15,11 +15,10 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import java.util.List;
-
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.LikeOperations;
 import org.springframework.social.facebook.api.Page;
+import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -42,79 +41,79 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		graphApi.delete(objectId, "likes");
 	}
 
-	public List<Reference> getLikes(String objectId) {
+	public PagedList<Reference> getLikes(String objectId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(objectId, "likes", Reference.class);
 	}
 	
-	public List<Page> getPagesLiked() {
+	public PagedList<Page> getPagesLiked() {
 		return getPagesLiked("me");
 	}
 
-	public List<Page> getPagesLiked(String userId) {
+	public PagedList<Page> getPagesLiked(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "likes", Page.class, PAGE_FIELDS);
 	}
 	
-	public List<Page> getBooks() {
+	public PagedList<Page> getBooks() {
 		return getBooks("me");
 	}
 
-	public List<Page> getBooks(String userId) {
+	public PagedList<Page> getBooks(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "books", Page.class, PAGE_FIELDS);
 	}
 
-	public List<Page> getMovies() {
+	public PagedList<Page> getMovies() {
 		return getMovies("me");
 	}
 
-	public List<Page> getMovies(String userId) {
+	public PagedList<Page> getMovies(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "movies", Page.class, PAGE_FIELDS);
 	}
 
-	public List<Page> getMusic() {
+	public PagedList<Page> getMusic() {
 		return getMusic("me");
 	}
 
-	public List<Page> getMusic(String userId) {
+	public PagedList<Page> getMusic(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "music", Page.class, PAGE_FIELDS);
 	}
 
-	public List<Page> getTelevision() {
+	public PagedList<Page> getTelevision() {
 		return getTelevision("me");
 	}
 
-	public List<Page> getTelevision(String userId) {
+	public PagedList<Page> getTelevision(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "television", Page.class, PAGE_FIELDS);
 	}
 
-	public List<Page> getActivities() {
+	public PagedList<Page> getActivities() {
 		return getActivities("me");
 	}
 
-	public List<Page> getActivities(String userId) {
+	public PagedList<Page> getActivities(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "activities", Page.class, PAGE_FIELDS);
 	}
 
-	public List<Page> getInterests() {
+	public PagedList<Page> getInterests() {
 		return getInterests("me");
 	}
 
-	public List<Page> getInterests(String userId) {
+	public PagedList<Page> getInterests(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "interests", Page.class, PAGE_FIELDS);
 	}
 
-	public List<Page> getGames() {
+	public PagedList<Page> getGames() {
 		return getGames("me");
 	}
 
-	public List<Page> getGames(String userId) {
+	public PagedList<Page> getGames(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "games", Page.class, PAGE_FIELDS);
 	}
