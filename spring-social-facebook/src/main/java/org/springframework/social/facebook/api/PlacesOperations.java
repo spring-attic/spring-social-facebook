@@ -45,7 +45,7 @@ public interface PlacesOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getCheckins(PagedListParameters)} instead.
+	 * @deprecated Use {@link #getCheckins(PagingParameters)} instead.
 	 */
 	@Deprecated
 	PagedList<Checkin> getCheckins(int offset, int limit);
@@ -59,7 +59,7 @@ public interface PlacesOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<Checkin> getCheckins(PagedListParameters pagedListParameters);
+	PagedList<Checkin> getCheckins(PagingParameters pagedListParameters);
 
 	/**
 	 * Retrieves a list of up to 25 recent checkins for the specified object.
@@ -86,7 +86,7 @@ public interface PlacesOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getCheckins(String, PagedListParameters)} instead.
+	 * @deprecated Use {@link #getCheckins(String, PagingParameters)} instead.
 	 */
 	@Deprecated
 	PagedList<Checkin> getCheckins(String objectId, int offset, int limit);
@@ -103,7 +103,7 @@ public interface PlacesOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<Checkin> getCheckins(String objectId, PagedListParameters pagedListParameters);
+	PagedList<Checkin> getCheckins(String objectId, PagingParameters pagedListParameters);
 
 	/**
 	 * Retrieves details for a single checkin.

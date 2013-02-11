@@ -21,7 +21,7 @@ import org.springframework.social.facebook.api.Checkin;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagedListParameters;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.PlacesOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -40,10 +40,10 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 	}
 
 	public PagedList<Checkin> getCheckins(int offset, int limit) {
-		return getCheckins("me", new PagedListParameters(limit, offset, null, null));
+		return getCheckins("me", new PagingParameters(limit, offset, null, null));
 	}
 
-	public PagedList<Checkin> getCheckins(PagedListParameters pagedListParameters) {
+	public PagedList<Checkin> getCheckins(PagingParameters pagedListParameters) {
 		return getCheckins("me", pagedListParameters);
 	}
 
@@ -52,10 +52,10 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 	}
 	
 	public PagedList<Checkin> getCheckins(String objectId, int offset, int limit) {
-		return getCheckins(objectId, new PagedListParameters(limit, offset, null, null));
+		return getCheckins(objectId, new PagingParameters(limit, offset, null, null));
 	}
 		
-	public PagedList<Checkin> getCheckins(String objectId, PagedListParameters pagedListParameters) {
+	public PagedList<Checkin> getCheckins(String objectId, PagingParameters pagedListParameters) {
 		requireAuthorization();
 		return graphApi.fetchConnections(objectId, "checkins", Checkin.class, getPagingParameters(pagedListParameters));
 	}

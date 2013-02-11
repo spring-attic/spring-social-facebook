@@ -21,7 +21,7 @@ import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.CommentOperations;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagedListParameters;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -40,10 +40,10 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 	}
 
 	public PagedList<Comment> getComments(String objectId, int offset, int limit) {
-		return getComments(objectId, new PagedListParameters(limit, offset, null, null));
+		return getComments(objectId, new PagingParameters(limit, offset, null, null));
 	}
 
-	public PagedList<Comment> getComments(String objectId, PagedListParameters pagedListParameters) {
+	public PagedList<Comment> getComments(String objectId, PagingParameters pagedListParameters) {
 		return graphApi.fetchConnections(objectId, "comments", Comment.class, getPagingParameters(pagedListParameters));
 	}
 

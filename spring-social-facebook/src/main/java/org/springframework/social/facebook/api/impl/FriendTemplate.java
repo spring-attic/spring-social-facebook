@@ -25,7 +25,7 @@ import org.springframework.social.facebook.api.FamilyMember;
 import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagedListParameters;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
@@ -106,7 +106,7 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		return getFriendProfiles("me", offset, limit);
 	}
 	
-	public PagedList<FacebookProfile> getFriendProfiles(PagedListParameters pagedListParameters) {
+	public PagedList<FacebookProfile> getFriendProfiles(PagingParameters pagedListParameters) {
 		return getFriendProfiles("me", pagedListParameters);
 	}
 	
@@ -133,10 +133,10 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 
 	public PagedList<FacebookProfile> getFriendProfiles(String userId, int offset, int limit) {
-		return getFriendProfiles(userId, new PagedListParameters(limit, offset, null, null));
+		return getFriendProfiles(userId, new PagingParameters(limit, offset, null, null));
 	}
 
-	public PagedList<FacebookProfile> getFriendProfiles(String userId, PagedListParameters pagedListParameters) {
+	public PagedList<FacebookProfile> getFriendProfiles(String userId, PagingParameters pagedListParameters) {
 		requireAuthorization();
 		MultiValueMap<String, String> parameters = PagedListUtils.getPagingParameters(pagedListParameters);
 		parameters.set("fields", FULL_PROFILE_FIELDS);

@@ -24,7 +24,7 @@ import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagedListParameters;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.util.LinkedMultiValueMap;
@@ -96,8 +96,8 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		
 		JsonNode pagingNode = jsonNode.get("paging");
 		if (pagingNode != null) {
-			PagedListParameters previousPage = PagedListUtils.getPagedListParameters(pagingNode, "previous");
-			PagedListParameters nextPage = PagedListUtils.getPagedListParameters(pagingNode, "next");
+			PagingParameters previousPage = PagedListUtils.getPagedListParameters(pagingNode, "previous");
+			PagingParameters nextPage = PagedListUtils.getPagedListParameters(pagingNode, "next");
 			return new PagedList<String>(permissions, previousPage, nextPage);
 		}
 		
