@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.List;
-
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
@@ -66,7 +64,7 @@ public interface QuestionOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Question> getQuestions();
+	PagedList<Question> getQuestions();
 
 	/**
 	 * Retrieves all questions asked by the specified user.
@@ -77,7 +75,7 @@ public interface QuestionOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Question> getQuestions(String userId);
+	PagedList<Question> getQuestions(String userId);
 
 	/**
 	 * Removes a question.
@@ -111,7 +109,7 @@ public interface QuestionOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<QuestionOption> getOptions(String questionId);
+	PagedList<QuestionOption> getOptions(String questionId);
 
 	/**
 	 * Removes a question option.

@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.List;
-
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
@@ -35,7 +33,7 @@ public interface LikeOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getLikes(String objectId);
+	PagedList<Reference> getLikes(String objectId);
 	
 	/**
 	 * Retrieves a list of pages that the authenticated user has liked.
@@ -45,7 +43,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getPagesLiked();
+	PagedList<Page> getPagesLiked();
 
 	/**
 	 * Retrieves a list of pages that the given user has liked. 
@@ -57,7 +55,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" or "friends_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getPagesLiked(String userId);
+	PagedList<Page> getPagesLiked(String userId);
 
 	/**
 	 * Like an object on behalf of the authenticated user.
@@ -92,7 +90,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getBooks();
+	PagedList<Page> getBooks();
 
 	/**
 	 * Retrieves a list of books that the given user has liked. Requires
@@ -105,7 +103,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getBooks(String userId);
+	PagedList<Page> getBooks(String userId);
 
 	/**
 	 * Retrieves a list of movies that the authenticated user likes. 
@@ -116,7 +114,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getMovies();
+	PagedList<Page> getMovies();
 
 	/**
 	 * Retrieves a list of movies that the given user has liked. 
@@ -128,7 +126,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getMovies(String userId);
+	PagedList<Page> getMovies(String userId);
 
 	/**
 	 * Retrieves a list of music that the authenticated user likes. 
@@ -139,7 +137,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getMusic();
+	PagedList<Page> getMusic();
 
 	/**
 	 * Retrieves a list of music that the given user has liked. 
@@ -151,7 +149,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getMusic(String userId);
+	PagedList<Page> getMusic(String userId);
 
 	/**
 	 * Retrieves a list of television shows that the authenticated user likes.
@@ -162,7 +160,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getTelevision();
+	PagedList<Page> getTelevision();
 
 	/**
 	 * Retrieves a list of television shows that the given user has liked.
@@ -174,7 +172,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" or "friends_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getTelevision(String userId);
+	PagedList<Page> getTelevision(String userId);
 
 	/**
 	 * Retrieves a list of activities that the authenticated user likes.
@@ -185,7 +183,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_activities" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getActivities();
+	PagedList<Page> getActivities();
 
 	/**
 	 * Retrieves a list of activities that the given user likes. 
@@ -197,7 +195,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_activities" or "friends_activities" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getActivities(String userId);
+	PagedList<Page> getActivities(String userId);
 
 	/**
 	 * Retrieves a list of interests that the authenticated user likes. 
@@ -208,7 +206,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_interests" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getInterests();
+	PagedList<Page> getInterests();
 
 	/**
 	 * Retrieves a list of interests that the given user likes. 
@@ -220,7 +218,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_interests" or "friends_interests" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getInterests(String userId);
+	PagedList<Page> getInterests(String userId);
 
 	/**
 	 * Retrieves a list of games that the authenticated user likes. 
@@ -231,7 +229,7 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getGames();
+	PagedList<Page> getGames();
 
 	/**
 	 * Retrieves a list of games that the given user likes. 
@@ -243,6 +241,6 @@ public interface LikeOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "user_likes" or "friends_likes" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Page> getGames(String userId);
+	PagedList<Page> getGames(String userId);
 
 }

@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.List;
-
 import org.springframework.social.ApiException;
 import org.springframework.social.MissingAuthorizationException;
 
@@ -80,7 +78,7 @@ public interface UserOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<String> getUserPermissions();
+	PagedList<String> getUserPermissions();
 	
 	/**
 	 * Searches for users.
@@ -89,5 +87,5 @@ public interface UserOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> search(String query);
+	PagedList<Reference> search(String query);
 }
