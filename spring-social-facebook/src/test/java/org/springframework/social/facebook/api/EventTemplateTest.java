@@ -259,7 +259,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=event&offset=0&limit=25"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?offset=0&limit=25&q=Spring+User+Group&type=event"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/event-list"), MediaType.APPLICATION_JSON));
@@ -274,7 +274,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search_withOffsetAndLimit() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=event&offset=30&limit=15"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?offset=30&limit=15&q=Spring+User+Group&type=event"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/event-list"), MediaType.APPLICATION_JSON));

@@ -15,11 +15,15 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import static org.springframework.social.facebook.api.impl.PagedListUtils.*;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -30,6 +34,8 @@ import org.springframework.social.facebook.api.FeedOperations;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.LinkPost;
 import org.springframework.social.facebook.api.NotePost;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagedListParameters;
 import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.StatusPost;
@@ -39,6 +45,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 class FeedTemplate extends AbstractFacebookOperations implements FeedOperations {
+
+	private static final PagedListParameters FIRST_PAGE = new PagedListParameters(25, null, null, null);
 
 	private final GraphApi graphApi;
 	
@@ -53,103 +61,159 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		this.objectMapper = objectMapper;
 	}
 
-	public List<Post> getFeed() {
-		return getFeed("me", 0, 25);
+	public PagedList<Post> getFeed() {
+		return getFeed("me", FIRST_PAGE);
 	}
 
-	public List<Post> getFeed(int offset, int limit) {
+	public PagedList<Post> getFeed(int offset, int limit) {
 		return getFeed("me", offset, limit);
 	}
 
-	public List<Post> getFeed(String ownerId) {
-		return getFeed(ownerId, 0, 25);
+	public PagedList<Post> getFeed(PagedListParameters pagedListParameters) {
+		return getFeed("me", pagedListParameters);
+	}
+	
+	public PagedList<Post> getFeed(String ownerId) {
+		return getFeed(ownerId, FIRST_PAGE);
 	}
 		
-	public List<Post> getFeed(String ownerId, int offset, int limit) {
+	public PagedList<Post> getFeed(String ownerId, int offset, int limit) {
 		requireAuthorization();
 		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + ownerId + "/feed", offset, limit);
 		return deserializeList(responseNode, null, Post.class);
 	}
 
-	public List<Post> getHomeFeed() {
-		return getHomeFeed(0, 25);
+	public PagedList<Post> getFeed(String ownerId, PagedListParameters pagedListParameters) {
+		requireAuthorization();
+		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + ownerId + "/feed", pagedListParameters);
+		return deserializeList(responseNode, null, Post.class);
+	}
+
+	public PagedList<Post> getHomeFeed() {
+		return getHomeFeed(FIRST_PAGE);
 	}
 	
-	public java.util.List<Post> getHomeFeed(int offset, int limit) {
+	public PagedList<Post> getHomeFeed(int offset, int limit) {
 		requireAuthorization();
 		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/me/home", offset, limit);
 		return deserializeList(responseNode, null, Post.class);
 	}
 
-	public List<StatusPost> getStatuses() {
-		return getStatuses("me", 0, 25);
+	public PagedList<Post> getHomeFeed(PagedListParameters pagedListParameters) {
+		requireAuthorization();
+		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/me/home", pagedListParameters);
+		return deserializeList(responseNode, null, Post.class);
+	}
+
+	public PagedList<StatusPost> getStatuses() {
+		return getStatuses("me", FIRST_PAGE);
 	}
 	
-	public List<StatusPost> getStatuses(int offset, int limit) {
+	public PagedList<StatusPost> getStatuses(int offset, int limit) {
 		return getStatuses("me", offset, limit);
 	}
 
-	public List<StatusPost> getStatuses(String userId) {
-		return getStatuses(userId, 0, 25);
+	public PagedList<StatusPost> getStatuses(PagedListParameters pagedListParameters) {
+		return getStatuses("me", pagedListParameters);
+	}
+
+	public PagedList<StatusPost> getStatuses(String userId) {
+		return getStatuses(userId, FIRST_PAGE);
 	}
 	
-	public List<StatusPost> getStatuses(String userId, int offset, int limit) {
+	public PagedList<StatusPost> getStatuses(String userId, int offset, int limit) {
 		requireAuthorization();
 		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + userId + "/statuses", offset, limit);
 		return deserializeList(responseNode, "status", StatusPost.class);
 	}
 
-	public List<LinkPost> getLinks() {
-		return getLinks("me", 0, 25);
+	public PagedList<StatusPost> getStatuses(String userId, PagedListParameters pagedListParameters) {
+		requireAuthorization();
+		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + userId + "/statuses", pagedListParameters);
+		return deserializeList(responseNode, "status", StatusPost.class);
 	}
 
-	public List<LinkPost> getLinks(int offset, int limit) {
+	public PagedList<LinkPost> getLinks() {
+		return getLinks("me", FIRST_PAGE);
+	}
+
+	public PagedList<LinkPost> getLinks(int offset, int limit) {
 		return getLinks("me", offset, limit);
 	}
 
-	public List<LinkPost> getLinks(String ownerId) {
-		return getLinks(ownerId, 0, 25);
+	public PagedList<LinkPost> getLinks(PagedListParameters pagedListParameters) {
+		return getLinks("me", pagedListParameters);
+	}
+
+	public PagedList<LinkPost> getLinks(String ownerId) {
+		return getLinks(ownerId, FIRST_PAGE);
 	}
 	
-	public List<LinkPost> getLinks(String ownerId, int offset, int limit) {
+	public PagedList<LinkPost> getLinks(String ownerId, int offset, int limit) {
 		requireAuthorization();
 		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + ownerId + "/links", offset, limit);
 		return deserializeList(responseNode, "link", LinkPost.class);
 	}
 
-	public List<NotePost> getNotes() {
-		return getNotes("me", 0, 25);
+	public PagedList<LinkPost> getLinks(String ownerId, PagedListParameters pagedListParameters) {
+		requireAuthorization();
+		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + ownerId + "/links", pagedListParameters);
+		return deserializeList(responseNode, "link", LinkPost.class);
 	}
 
-	public List<NotePost> getNotes(int offset, int limit) {
+	public PagedList<NotePost> getNotes() {
+		return getNotes("me", FIRST_PAGE);
+	}
+
+	public PagedList<NotePost> getNotes(int offset, int limit) {
 		return getNotes("me", offset, limit);
 	}
 
-	public List<NotePost> getNotes(String ownerId) {
-		return getNotes(ownerId, 0, 25);
+	public PagedList<NotePost> getNotes(PagedListParameters pagedListParameters) {
+		return getNotes("me", pagedListParameters);
+	}
+
+	public PagedList<NotePost> getNotes(String ownerId) {
+		return getNotes(ownerId, FIRST_PAGE);
 	}
 	
-	public List<NotePost> getNotes(String ownerId, int offset, int limit) {
+	public PagedList<NotePost> getNotes(String ownerId, int offset, int limit) {
 		requireAuthorization();
 		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + ownerId + "/notes", offset, limit);
 		return deserializeList(responseNode, "note", NotePost.class);
 	}
 	
-	public List<Post> getPosts() {
-		return getPosts("me", 0, 25);
+	public PagedList<NotePost> getNotes(String ownerId, PagedListParameters pagedListParameters) {
+		requireAuthorization();
+		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + ownerId + "/notes", pagedListParameters);
+		return deserializeList(responseNode, "note", NotePost.class);
+	}
+	
+	public PagedList<Post> getPosts() {
+		return getPosts("me", FIRST_PAGE);
 	}
 
-	public List<Post> getPosts(int offset, int limit) {
+	public PagedList<Post> getPosts(int offset, int limit) {
 		return getPosts("me", offset, limit);
 	}
 
-	public List<Post> getPosts(String ownerId) {
-		return getPosts(ownerId, 0, 25);
+	public PagedList<Post> getPosts(PagedListParameters pagedListParameters) {
+		return getPosts("me", pagedListParameters);
+	}
+
+	public PagedList<Post> getPosts(String ownerId) {
+		return getPosts(ownerId, FIRST_PAGE);
 	}
 	
-	public List<Post> getPosts(String ownerId, int offset, int limit) {
+	public PagedList<Post> getPosts(String ownerId, int offset, int limit) {
 		requireAuthorization();
 		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + ownerId + "/posts", offset, limit);
+		return deserializeList(responseNode, null, Post.class);
+	}
+	
+	public PagedList<Post> getPosts(String ownerId, PagedListParameters pagedListParameters) {
+		requireAuthorization();
+		JsonNode responseNode = fetchConnectionList("https://graph.facebook.com/" + ownerId + "/posts", pagedListParameters);
 		return deserializeList(responseNode, null, Post.class);
 	}
 	
@@ -190,20 +254,40 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		graphApi.delete(id);
 	}
 
-	public List<Post> searchPublicFeed(String query) {
-		return searchPublicFeed(query, 0, 25);
+	public PagedList<Post> searchPublicFeed(String query) {
+		return searchPublicFeed(query, FIRST_PAGE);
 	}
 	
-	public List<Post> searchPublicFeed(String query, int offset, int limit) {
+	public PagedList<Post> searchPublicFeed(String query, int offset, int limit) {
 		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/search?q={query}&type=post&offset={offset}&limit={limit}", JsonNode.class, query, offset, limit);
 		return deserializeList(responseNode, null, Post.class);
 	}
 	
-	public List<Post> searchHomeFeed(String query) {
-		return searchHomeFeed(query, 0, 25);
+	public PagedList<Post> searchPublicFeed(String query, PagedListParameters pagedListParameters) {
+		String url = "https://graph.facebook.com/search?q={query}&type=post";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("query", query);
+		if (pagedListParameters.getLimit() != null) {
+			url += "&limit={limit}";
+			params.put("limit", pagedListParameters.getLimit());
+		}
+		if (pagedListParameters.getSince() != null) {
+			url += "&since={since}";
+			params.put("since", pagedListParameters.getSince());
+		}
+		if (pagedListParameters.getUntil() != null) {
+			url += "&until={until}";
+			params.put("until", pagedListParameters.getUntil());
+		}
+		JsonNode responseNode = restTemplate.getForObject(url, JsonNode.class, params);
+		return deserializeList(responseNode, null, Post.class);
 	}
 	
-	public List<Post> searchHomeFeed(String query, int offset, int limit) {
+	public PagedList<Post> searchHomeFeed(String query) {
+		return searchHomeFeed(query, FIRST_PAGE);
+	}
+	
+	public PagedList<Post> searchHomeFeed(String query, int offset, int limit) {
 		requireAuthorization();
 		URI uri = URIBuilder.fromUri("https://graph.facebook.com/me/home")
 				.queryParam("q", query)
@@ -214,25 +298,47 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		return deserializeList(responseNode, null, Post.class);
 	}
 	
-	public List<Post> searchUserFeed(String query) {
-		return searchUserFeed("me", query, 0, 25);
+	public PagedList<Post> searchHomeFeed(String query, PagedListParameters pagedListParameters) {
+		requireAuthorization();
+		URIBuilder uriBuilder = URIBuilder.fromUri("https://graph.facebook.com/me/home").queryParam("q", query);
+		uriBuilder = appendPagedListParameters(pagedListParameters, uriBuilder);
+		URI uri = uriBuilder.build();
+		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
+		return deserializeList(responseNode, null, Post.class);
 	}
 
-	public List<Post> searchUserFeed(String query, int offset, int limit) {
+	public PagedList<Post> searchUserFeed(String query) {
+		return searchUserFeed("me", query, FIRST_PAGE);
+	}
+
+	public PagedList<Post> searchUserFeed(String query, int offset, int limit) {
 		return searchUserFeed("me", query, offset, limit);
 	}
 
-	public List<Post> searchUserFeed(String userId, String query) {
-		return searchUserFeed(userId, query, 0, 25);
+	public PagedList<Post> searchUserFeed(String query, PagedListParameters pagedListParameters) {
+		return searchUserFeed("me", query, pagedListParameters);
+	}
+
+	public PagedList<Post> searchUserFeed(String userId, String query) {
+		return searchUserFeed(userId, query, FIRST_PAGE);
 	}
 	
-	public List<Post> searchUserFeed(String userId, String query, int offset, int limit) {
+	public PagedList<Post> searchUserFeed(String userId, String query, int offset, int limit) {
 		requireAuthorization();
 		URI uri = URIBuilder.fromUri("https://graph.facebook.com/" + userId + "/feed")
 				.queryParam("q", query)
 				.queryParam("offset", String.valueOf(offset))
 				.queryParam("limit", String.valueOf(limit))
 				.build();
+		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
+		return deserializeList(responseNode, null, Post.class);
+	}
+	
+	public PagedList<Post> searchUserFeed(String userId, String query, PagedListParameters pagedListParameters) {
+		requireAuthorization();
+		URIBuilder uriBuilder = URIBuilder.fromUri("https://graph.facebook.com/" + userId + "/feed").queryParam("q", query);
+		uriBuilder = appendPagedListParameters(pagedListParameters, uriBuilder);		
+		URI uri = uriBuilder.build();
 		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
 		return deserializeList(responseNode, null, Post.class);
 	}
@@ -247,13 +353,28 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		return responseNode;
 	}
 
-	private <T> List<T> deserializeList(JsonNode jsonNode, String postType, Class<T> type) {
+	private JsonNode fetchConnectionList(String baseUri, PagedListParameters pagedListParameters) {
+		URIBuilder uriBuilder = URIBuilder.fromUri(baseUri);
+		uriBuilder = appendPagedListParameters(pagedListParameters, uriBuilder);
+		URI uri = uriBuilder.build();
+		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
+		return responseNode;
+	}
+
+	private <T> PagedList<T> deserializeList(JsonNode jsonNode, String postType, Class<T> type) {
 		JsonNode dataNode = jsonNode.get("data");
 		List<T> posts = new ArrayList<T>();
 		for (Iterator<JsonNode> iterator = dataNode.iterator(); iterator.hasNext();) {
 			posts.add(deserializePost(postType, type, (ObjectNode) iterator.next()));
 		}
-		return posts;
+		if (jsonNode.has("paging")) {
+			JsonNode pagingNode = jsonNode.get("paging");
+			PagedListParameters previousPage = getPagedListParameters(pagingNode, "previous");
+			PagedListParameters nextPage = getPagedListParameters(pagingNode, "next");
+			return new PagedList<T>(posts, previousPage, nextPage);
+		}
+		
+		return new PagedList<T>(posts, null, null);
 	}
 
 	private <T> T deserializePost(String postType, Class<T> type, ObjectNode node) {
@@ -282,6 +403,20 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 			}
 		}
 		return "post";
+	}
+	
+	private URIBuilder appendPagedListParameters(PagedListParameters pagedListParameters,
+			URIBuilder uriBuilder) {
+		if (pagedListParameters.getLimit() != null) {
+			uriBuilder = uriBuilder.queryParam("limit", String.valueOf(pagedListParameters.getLimit()));
+		}
+		if (pagedListParameters.getSince() != null) {
+			uriBuilder = uriBuilder.queryParam("since", String.valueOf(pagedListParameters.getSince()));
+		}
+		if (pagedListParameters.getUntil() != null) {
+			uriBuilder = uriBuilder.queryParam("until", String.valueOf(pagedListParameters.getUntil()));
+		}
+		return uriBuilder;
 	}
 
 }

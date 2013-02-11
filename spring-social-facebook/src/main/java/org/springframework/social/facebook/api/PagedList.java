@@ -15,32 +15,29 @@
  */
 package org.springframework.social.facebook.api;
 
-public class StoryTag {
-	private final String id;
-	private final String name;
-	private final Integer offset;
-	private final Integer length;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PagedList<T> extends ArrayList<T> {
+	private static final long serialVersionUID = 1L;
+
+	private final PagedListParameters previousPage;
 	
-	public StoryTag(String id, String name, Integer offset, Integer length) {
-		this.id = id;
-		this.name = name;
-		this.offset = offset;
-		this.length = length;
+	private final PagedListParameters nextPage;
+
+	public PagedList(List<T> unpagedList, PagedListParameters previousPage, PagedListParameters nextPage) {
+		super(unpagedList);
+		this.previousPage = previousPage;
+		this.nextPage = nextPage;
 	}
 
-	public String getId() {
-		return id;
+	public PagedListParameters getPreviousPage() {
+		return previousPage;
 	}
 
-	public String getName() {
-		return name;
+	public PagedListParameters getNextPage() {
+		return nextPage;
 	}
 
-	public Integer getOffset() {
-		return offset;
-	}
 
-	public Integer getLength() {
-		return length;
-	}
 }

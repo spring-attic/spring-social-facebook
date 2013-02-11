@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import java.util.List;
-
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Group;
@@ -24,7 +22,8 @@ import org.springframework.social.facebook.api.GroupMemberReference;
 import org.springframework.social.facebook.api.GroupMembership;
 import org.springframework.social.facebook.api.GroupOperations;
 import org.springframework.social.facebook.api.ImageType;
-import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagedListParameters;
 import org.springframework.util.MultiValueMap;
 
 class GroupTemplate extends AbstractFacebookOperations implements GroupOperations {
@@ -48,36 +47,38 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 		return graphApi.fetchImage(groupId, "picture", imageType);
 	}
 	
-	public List<GroupMemberReference> getMembers(String groupId) {
+	public PagedList<GroupMemberReference> getMembers(String groupId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(groupId, "members", GroupMemberReference.class);
 	}
 
-	public List<FacebookProfile> getMemberProfiles(String groupId) {
+	public PagedList<FacebookProfile> getMemberProfiles(String groupId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(groupId, "members", FacebookProfile.class, FULL_PROFILE_FIELDS);
 	}
 	
-	public List<GroupMembership> getMemberships() {
+	public PagedList<GroupMembership> getMemberships() {
 		return getMemberships("me");
 	}
 	
-	public List<GroupMembership> getMemberships(String userId) {
+	public PagedList<GroupMembership> getMemberships(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "groups", GroupMembership.class);
 	}
 
-	public List<Group> search(String query) {
+	public PagedList<Group> search(String query) {
 		return search(query, 0, 25);
 	}
 	
-	public List<Group> search(String query, int offset, int limit) {
-		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
+	public PagedList<Group> search(String query, int offset, int limit) {
+		return search(query, new PagedListParameters(limit, offset, null, null));
+	}
+	
+	public PagedList<Group> search(String query, PagedListParameters pagedListParameters) {
+		MultiValueMap<String, String> queryMap = PagedListUtils.getPagingParameters(pagedListParameters);
 		queryMap.add("q", query);
 		queryMap.add("type", "group");
 		queryMap.add("fields", "owner,name,description,privacy,icon,updated_time,email,version");
-		queryMap.set("offset", String.valueOf(offset));
-		queryMap.set("limit", String.valueOf(limit));
 		return graphApi.fetchConnections("search", "", Group.class, queryMap);
 	}	
 	

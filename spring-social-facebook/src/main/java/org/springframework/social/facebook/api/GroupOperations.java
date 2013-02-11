@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.List;
-
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
@@ -60,7 +58,7 @@ public interface GroupOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<GroupMemberReference> getMembers(String groupId);
+	PagedList<GroupMemberReference> getMembers(String groupId);
 
 	/**
 	 * Retrieves the profiles for the members of the specified group.
@@ -69,7 +67,7 @@ public interface GroupOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<FacebookProfile> getMemberProfiles(String groupId);
+	PagedList<FacebookProfile> getMemberProfiles(String groupId);
 	
 	/**
 	 * Retrieves a list of group memberships for the authenticated user.
@@ -79,7 +77,7 @@ public interface GroupOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 * @throws InsufficientPermissionException if the user has not granted "user_groups" permission.
 	 */
-	List<GroupMembership> getMemberships();
+	PagedList<GroupMembership> getMemberships();
 
 	/**
 	 * Retrieves a list of group memberships for a specific user.
@@ -90,7 +88,7 @@ public interface GroupOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 * @throws InsufficientPermissionException if the user has not granted "user_groups" or "friends_groups" permission.
 	 */
-	List<GroupMembership> getMemberships(String userId);
+	PagedList<GroupMembership> getMemberships(String userId);
 	
 	/**
 	 * Search for groups.
@@ -99,7 +97,7 @@ public interface GroupOperations {
 	 * @return a list of {@link Group}s matching the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<Group> search(String query);
+	PagedList<Group> search(String query);
 
 	/**
 	 * Search for groups.
@@ -108,7 +106,18 @@ public interface GroupOperations {
 	 * @param limit	the maximum number of groups to return
 	 * @return a list of {@link Group}s matching the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @deprecated Use {@link #search(String, PagedListParameters)} instead.
 	 */
-	List<Group> search(String query, int offset, int limit);
+	@Deprecated
+	PagedList<Group> search(String query, int offset, int limit);
+
+	/**
+	 * Search for groups.
+	 * @param query the search query (e.g., "Spring User Group")
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list of {@link Group}s matching the search query
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Group> search(String query, PagedListParameters pagedListParameters);
 
 }
