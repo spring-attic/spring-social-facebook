@@ -13,22 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.impl;
+package org.springframework.social.facebook.security;
 
-import org.springframework.social.MissingAuthorizationException;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.security.provider.OAuth2AuthenticationService;
 
-class AbstractFacebookOperations {
-	
-	private final boolean isAuthorized;
+public class FacebookAuthenticationService extends OAuth2AuthenticationService<Facebook> {
 
-	public AbstractFacebookOperations(boolean isAuthorized) {
-		this.isAuthorized = isAuthorized;
+	public FacebookAuthenticationService(String apiKey, String appSecret) {
+		super(new FacebookConnectionFactory(apiKey, appSecret));
 	}
-	
-	protected void requireAuthorization() {
-		if (!isAuthorized) {
-			throw new MissingAuthorizationException("facebook");
-		}
-	}
-	
+
 }

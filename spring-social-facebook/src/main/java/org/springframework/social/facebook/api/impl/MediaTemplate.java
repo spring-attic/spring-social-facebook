@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import java.util.List;
+import static org.springframework.social.facebook.api.impl.PagedListUtils.*;
+
 import java.util.Map;
 
 import org.springframework.core.io.Resource;
@@ -23,6 +24,8 @@ import org.springframework.social.facebook.api.Album;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.MediaOperations;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Photo;
 import org.springframework.social.facebook.api.Video;
 import org.springframework.util.LinkedMultiValueMap;
@@ -41,24 +44,29 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		this.restTemplate = restTemplate;
 	}
 
-	public List<Album> getAlbums() {
+	public PagedList<Album> getAlbums() {
 		return getAlbums("me", 0, 25);
 	}
 
-	public List<Album> getAlbums(int offset, int limit) {
+	public PagedList<Album> getAlbums(int offset, int limit) {
 		return getAlbums("me", offset, limit);
 	}
 
-	public List<Album> getAlbums(String userId) {
+	public PagedList<Album> getAlbums(PagingParameters pagedListParameters) {
+		return getAlbums("me", pagedListParameters);
+	}
+
+	public PagedList<Album> getAlbums(String userId) {
 		return getAlbums(userId, 0, 25);
 	}
 	
-	public List<Album> getAlbums(String userId, int offset, int limit) {
+	public PagedList<Album> getAlbums(String userId, int offset, int limit) {
+		return getAlbums(userId, new PagingParameters(limit, offset, null, null));
+	}
+	
+	public PagedList<Album> getAlbums(String userId, PagingParameters pagedListParameters) {
 		requireAuthorization();
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("offset", String.valueOf(offset));
-		parameters.set("limit", String.valueOf(limit));
-		return graphApi.fetchConnections(userId, "albums", Album.class, parameters);
+		return graphApi.fetchConnections(userId, "albums", Album.class, getPagingParameters(pagedListParameters));
 	}
 
 	public Album getAlbum(String albumId) {
@@ -88,16 +96,17 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		return graphApi.fetchImage(albumId, "picture", imageType);
 	}
 	
-	public List<Photo> getPhotos(String objectId) {
+	public PagedList<Photo> getPhotos(String objectId) {
 		return getPhotos(objectId, 0, 25);
 	}
 	
-	public List<Photo> getPhotos(String objectId, int offset, int limit) {
+	public PagedList<Photo> getPhotos(String objectId, int offset, int limit) {
+		return getPhotos(objectId, new PagingParameters(limit, offset, null, null));
+	}
+	
+	public PagedList<Photo> getPhotos(String objectId, PagingParameters pagedListParameters) {
 		requireAuthorization();
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("offset", String.valueOf(offset));
-		parameters.set("limit", String.valueOf(limit));
-		return graphApi.fetchConnections(objectId, "photos", Photo.class, parameters);
+		return graphApi.fetchConnections(objectId, "photos", Photo.class, getPagingParameters(pagedListParameters));
 	}
 	
 	public Photo getPhoto(String photoId) {
@@ -144,24 +153,29 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		return graphApi.publish(albumId, "photos", parts);
 	}
 	
-	public List<Video> getVideos() {
+	public PagedList<Video> getVideos() {
 		return getVideos("me", 0, 25);
 	}
 
-	public List<Video> getVideos(int offset, int limit) {
-		return getVideos("me", offset, limit);
+	public PagedList<Video> getVideos(int offset, int limit) {
+		return getVideos("me", new PagingParameters(limit, offset, null, null));
 	}
 
-	public List<Video> getVideos(String userId) {
+	public PagedList<Video> getVideos(PagingParameters pagedListParameters) {
+		return getVideos("me", pagedListParameters);
+	}
+
+	public PagedList<Video> getVideos(String userId) {
 		return getVideos(userId, 0, 25);
 	}
 	
-	public List<Video> getVideos(String userId, int offset, int limit) {
+	public PagedList<Video> getVideos(String userId, int offset, int limit) {
+		return getVideos(userId, new PagingParameters(limit, offset, null, null));
+	}
+
+	public PagedList<Video> getVideos(String userId, PagingParameters pagedListParameters) {
 		requireAuthorization();
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("offset", String.valueOf(offset));
-		parameters.set("limit", String.valueOf(limit));
-		return graphApi.fetchConnections(userId, "videos", Video.class, parameters);
+		return graphApi.fetchConnections(userId, "videos", Video.class, getPagingParameters(pagedListParameters));
 	}
 	
 	public Video getVideo(String videoId) {

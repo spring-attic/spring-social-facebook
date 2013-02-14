@@ -1,6 +1,10 @@
 /*
+<<<<<<< HEAD
 
  * Copyright 2011 the original author or authors.
+=======
+ * Copyright 2013 the original author or authors.
+>>>>>>> master
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +22,8 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.test.web.client.match.RequestMatchers.*;
-import static org.springframework.test.web.client.response.ResponseCreators.*;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -331,7 +335,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	
 	@Test(expected = ResourceNotFoundException.class)
 	public void notFound() {
-		mockServer.expect(requestTo("https://graph.facebook.com/nobody/feed?offset=0&limit=25"))
+		mockServer.expect(requestTo("https://graph.facebook.com/nobody/feed?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withStatus(HttpStatus.NOT_FOUND).body(jsonResource("testdata/error-unknown-alias")).contentType(MediaType.APPLICATION_JSON));

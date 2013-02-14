@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import java.util.List;
+import static org.springframework.social.facebook.api.impl.PagedListUtils.*;
 
 import org.springframework.social.facebook.api.Checkin;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Page;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.PlacesOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -33,24 +35,29 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 		this.graphApi = graphApi;
 	}
 	
-	public List<Checkin> getCheckins() {
+	public PagedList<Checkin> getCheckins() {
 		return getCheckins("me", 0, 25);
 	}
 
-	public List<Checkin> getCheckins(int offset, int limit) {
-		return getCheckins("me", offset, limit);
+	public PagedList<Checkin> getCheckins(int offset, int limit) {
+		return getCheckins("me", new PagingParameters(limit, offset, null, null));
 	}
 
-	public List<Checkin> getCheckins(String objectId) {
+	public PagedList<Checkin> getCheckins(PagingParameters pagedListParameters) {
+		return getCheckins("me", pagedListParameters);
+	}
+
+	public PagedList<Checkin> getCheckins(String objectId) {
 		return getCheckins(objectId, 0,  25);
 	}
 	
-	public List<Checkin> getCheckins(String objectId, int offset, int limit) {
+	public PagedList<Checkin> getCheckins(String objectId, int offset, int limit) {
+		return getCheckins(objectId, new PagingParameters(limit, offset, null, null));
+	}
+		
+	public PagedList<Checkin> getCheckins(String objectId, PagingParameters pagedListParameters) {
 		requireAuthorization();
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("offset", String.valueOf(offset));
-		parameters.set("limit", String.valueOf(limit));
-		return graphApi.fetchConnections(objectId, "checkins", Checkin.class, parameters);
+		return graphApi.fetchConnections(objectId, "checkins", Checkin.class, getPagingParameters(pagedListParameters));
 	}
 
 	public Checkin getCheckin(String checkinId) {
@@ -81,7 +88,7 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 		return graphApi.publish("me", "checkins", data);
 	}
 	
-	public List<Page> search(String query, double latitude, double longitude, long distance) {
+	public PagedList<Page> search(String query, double latitude, double longitude, long distance) {
 		requireAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);

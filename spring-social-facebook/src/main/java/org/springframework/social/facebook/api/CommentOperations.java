@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.springframework.social.facebook.api;
-
-import java.util.List;
 
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
@@ -34,7 +32,7 @@ public interface CommentOperations {
 	 * @return a list of {@link Comment}s for the specified object
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<Comment> getComments(String objectId);
+	PagedList<Comment> getComments(String objectId);
 
 	/**
 	 * Retrieves comments for a given object.
@@ -43,8 +41,19 @@ public interface CommentOperations {
 	 * @param limit the maximum number of comments to retrieve
 	 * @return a list of {@link Comment}s for the specified object
 	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @deprecated Use {@link CommentOperations#getComments(String, PagingParameters)} instead
 	 */
-	List<Comment> getComments(String objectId, int offset, int limit);
+	@Deprecated
+	PagedList<Comment> getComments(String objectId, int offset, int limit);
+
+	/**
+	 * Retrieves comments for a given object.
+	 * @param objectId the ID of the object
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list of {@link Comment}s for the specified object
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Comment> getComments(String objectId, PagingParameters pagedListParameters);
 
 	/**
 	 * Retrieves a single comment
@@ -82,6 +91,6 @@ public interface CommentOperations {
 	 * @return a list of {@link Reference}s
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	List<Reference> getLikes(String objectId);
+	PagedList<Reference> getLikes(String objectId);
 
 }

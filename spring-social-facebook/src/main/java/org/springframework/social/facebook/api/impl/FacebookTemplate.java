@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package org.springframework.social.facebook.api.impl;
+
+import static org.springframework.social.facebook.api.impl.PagedListUtils.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -42,6 +44,8 @@ import org.springframework.social.facebook.api.LikeOperations;
 import org.springframework.social.facebook.api.MediaOperations;
 import org.springframework.social.facebook.api.OpenGraphOperations;
 import org.springframework.social.facebook.api.PageOperations;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.PlacesOperations;
 import org.springframework.social.facebook.api.QuestionOperations;
 import org.springframework.social.facebook.api.UserOperations;
@@ -202,7 +206,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return getRestTemplate().getForObject(uri, type);
 	}
 
-	public <T> List<T> fetchConnections(String objectId, String connectionType, Class<T> type, String... fields) {
+	public <T> PagedList<T> fetchConnections(String objectId, String connectionType, Class<T> type, String... fields) {
 		MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
 		if(fields.length > 0) {
 			String joinedFields = join(fields);
@@ -211,11 +215,29 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return fetchConnections(objectId, connectionType, type, queryParameters);
 	}
 
-	public <T> List<T> fetchConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters) {
+	public <T> PagedList<T> fetchConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters) {
 		String connectionPath = connectionType != null && connectionType.length() > 0 ? "/" + connectionType : "";
 		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).queryParams(queryParameters);		
-		JsonNode dataNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
-		return deserializeDataList(dataNode.get("data"), type);
+		JsonNode jsonNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
+		return pagify(type, jsonNode);
+	}
+
+	public <T> PagedList<T> fetchPagedConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters) {
+		String connectionPath = connectionType != null && connectionType.length() > 0 ? "/" + connectionType : "";
+		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).queryParams(queryParameters);		
+		JsonNode jsonNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
+		return pagify(type, jsonNode);
+	}
+
+	private <T> PagedList<T> pagify(Class<T> type, JsonNode jsonNode) {
+		List<T> data = deserializeDataList(jsonNode.get("data"), type);
+		if (jsonNode.has("paging")) {
+			JsonNode pagingNode = jsonNode.get("paging");
+			PagingParameters previousPage = getPagedListParameters(pagingNode, "previous");
+			PagingParameters nextPage = getPagedListParameters(pagingNode, "next");
+			return new PagedList<T>(data, previousPage, nextPage);
+		}
+		return new PagedList<T>(data, null, null);
 	}
 
 	public byte[] fetchImage(String objectId, String connectionType, ImageType type) {

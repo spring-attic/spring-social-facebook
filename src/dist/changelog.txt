@@ -1,5 +1,24 @@
-Spring Social Facebook 1.1.0.M1 (October 15, 2012)
-==================================================
+Spring Social Facebook 1.1.0.M2 (February 12, 2012)
+===================================================
+Miscellaneous
+  * Changes to support Spring Social/Spring Security integration.
+     (SOCIAL-232)
+
+Improvements
+  * New CanvasSignInController to handle authentication via signed_request
+    parameter in Facebook Canvas applications. (SOCIALFB-110)
+  * Updated spring-social-canvas sample to use new CanvasSignInController.
+    (SOCIALFB-65)
+  * Support for paging through API results with since and until parameters.
+    (SOCIALFB-45)
+
+Compatibility notes
+  * All API binding methods that take offset and limit for paging purposes are
+    deprecated effective this release. Instead, use the equivalent methods
+    that accept PagingParameters.
+
+Spring Social Facebook 1.1.0.M1 (November 26, 2012)
+===================================================
 Bug Fixes
   * Handle HTTP 404 from Graph API by throwing ResourceNotFoundException
     (SOCIALFB-42)
@@ -18,6 +37,8 @@ Bug Fixes
 Improvements
   * Added XML configuration support for Facebook connection factory and API
     binding beans. (SOCIAL-292)
+  * Added Java configuration support for Facebook connection factory and API
+    binding beans. (SOCIAL-293)
   * Added a sharesCount attribute to Post. (SOCIALFB-56)
   * Added a commentCount property to Post. (SOCIALFB-51)
   * Added coverPhotoId property to Album class that can be used to retrieve

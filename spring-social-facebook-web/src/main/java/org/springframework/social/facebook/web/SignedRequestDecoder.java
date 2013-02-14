@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package org.springframework.social.facebook.web;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -31,10 +30,10 @@ import org.codehaus.jackson.map.PropertyNamingStrategy;
 import org.springframework.security.crypto.codec.Base64;
 
 /**
- * Helper class for extracting the payload of a signed request sent by Facebook.
+ * Utility class for extracting the payload of a signed request sent by Facebook.
  * @author Craig Walls
  */
-class SignedRequestDecoder {
+public class SignedRequestDecoder {
 	
 	private String secret;
 
@@ -70,10 +69,11 @@ class SignedRequestDecoder {
 		String[] split = signedRequest.split("\\.");
 		String encodedSignature = split[0];
 		String payload = split[1];		
+		String decoded = base64DecodeToString(payload);		
 		byte[] signature = base64DecodeToBytes(encodedSignature);
 		try {
-			T data = objectMapper.readValue(base64DecodeToString(payload), type);
-			String algorithm = getAlgorithm(data);
+			T data = objectMapper.readValue(decoded, type);			
+			String algorithm = objectMapper.readTree(decoded).get("algorithm").getTextValue();
 			if (algorithm == null || !algorithm.equals("HMAC-SHA256")) {
 				throw new SignedRequestException("Unknown encryption algorithm: " + algorithm);
 			}			
@@ -87,21 +87,6 @@ class SignedRequestDecoder {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
-	private String getAlgorithm(Object data) {
-		if (data instanceof Map) {
-			return (String) ((Map) data).get("algorithm");
-		} else {
-			try {
-				Field field = data.getClass().getDeclaredField("algorithm");
-				field.setAccessible(true);
-				return (String) field.get(data);
-			} catch (Exception e) {
-				return null;
-			}
-		}
-	}
-	
 	private String padForBase64(String base64) {
 		return base64 + PADDING.substring(0, (4-base64.length() % 4) % 4);
 	}

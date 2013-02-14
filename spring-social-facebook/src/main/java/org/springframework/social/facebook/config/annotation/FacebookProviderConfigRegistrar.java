@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,23 +18,30 @@ package org.springframework.social.facebook.config.annotation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
-import org.springframework.social.config.annotation.ProviderConfigRegistrarSupport;
+import org.springframework.social.UserIdSource;
+import org.springframework.social.config.annotation.AbstractProviderConfigRegistrarSupport;
 import org.springframework.social.config.xml.ApiHelper;
-import org.springframework.social.config.xml.UserIdSource;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.facebook.security.FacebookAuthenticationService;
+import org.springframework.social.security.provider.SocialAuthenticationService;
 
 /**
  * {@link ImportBeanDefinitionRegistrar} for configuring a {@link FacebookConnectionFactory} bean and a request-scoped {@link Facebook} bean.
  * @author Craig Walls
  */
-public class FacebookProviderConfigRegistrar extends ProviderConfigRegistrarSupport {
+public class FacebookProviderConfigRegistrar extends AbstractProviderConfigRegistrarSupport {
 
 	public FacebookProviderConfigRegistrar() {
 		super(EnableFacebook.class, FacebookConnectionFactory.class, FacebookApiHelper.class);
+	}
+	
+	@Override
+	protected Class<? extends SocialAuthenticationService<?>> getAuthenticationServiceClass() {
+		return FacebookAuthenticationService.class;
 	}
 	
 	static class FacebookApiHelper implements ApiHelper<Facebook> {

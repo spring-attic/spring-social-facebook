@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.springframework.social.facebook.api;
-
-import java.util.List;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -52,7 +50,7 @@ public interface PageOperations {
 	 * Retrieves a list of Account objects for the pages that the authenticated user is an administrator.
 	 * Requires "manage_pages" permission.
 	 */
-	List<Account> getAccounts();
+	PagedList<Account> getAccounts();
 	
 	/**
 	 * Posts a message to a page's feed as a page administrator.

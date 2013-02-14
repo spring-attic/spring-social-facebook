@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import java.util.List;
+import static org.springframework.social.facebook.api.impl.PagedListUtils.*;
 
 import org.springframework.social.facebook.api.Event;
 import org.springframework.social.facebook.api.EventInvitee;
@@ -23,6 +23,8 @@ import org.springframework.social.facebook.api.EventOperations;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.Invitation;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -35,23 +37,29 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		this.graphApi = graphApi;
 	}
 
-	public List<Invitation> getInvitations() {
+	public PagedList<Invitation> getInvitations() {
 		return getInvitations("me", 0, 25);
 	}
 
-	public List<Invitation> getInvitations(int offset, int limit) {
+	public PagedList<Invitation> getInvitations(int offset, int limit) {
 		return getInvitations("me", offset, limit);
 	}
 
-	public List<Invitation> getInvitations(String userId) {
+	public PagedList<Invitation> getInvitations(PagingParameters pagedListParameters) {
+		return getInvitations("me", pagedListParameters);
+	}
+
+	public PagedList<Invitation> getInvitations(String userId) {
 		return getInvitations(userId, 0, 25);
 	}
 	
-	public List<Invitation> getInvitations(String userId, int offset, int limit) {
+	public PagedList<Invitation> getInvitations(String userId, int offset, int limit) {
+		return getInvitations(userId, new PagingParameters(limit, offset, null, null));
+	}
+	
+	public PagedList<Invitation> getInvitations(String userId, PagingParameters pagedListParameters) {
 		requireAuthorization();
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("offset", String.valueOf(offset));
-		parameters.set("limit", String.valueOf(limit));
+		MultiValueMap<String, String> parameters = getPagingParameters(pagedListParameters);
 		return graphApi.fetchConnections(userId, "events", Invitation.class, parameters);
 	}
 	
@@ -81,23 +89,23 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		graphApi.delete(eventId);
 	}
 
-	public List<EventInvitee> getInvited(String eventId) {
+	public PagedList<EventInvitee> getInvited(String eventId) {
 		return graphApi.fetchConnections(eventId, "invited", EventInvitee.class);
 	}
 
-	public List<EventInvitee> getAttending(String eventId) {
+	public PagedList<EventInvitee> getAttending(String eventId) {
 		return graphApi.fetchConnections(eventId, "attending", EventInvitee.class);
 	}
 	
-	public List<EventInvitee> getMaybeAttending(String eventId) {
+	public PagedList<EventInvitee> getMaybeAttending(String eventId) {
 		return graphApi.fetchConnections(eventId, "maybe", EventInvitee.class);
 	}
 	
-	public List<EventInvitee> getNoReplies(String eventId) {
+	public PagedList<EventInvitee> getNoReplies(String eventId) {
 		return graphApi.fetchConnections(eventId, "noreply", EventInvitee.class);
 	}
 
-	public List<EventInvitee> getDeclined(String eventId) {
+	public PagedList<EventInvitee> getDeclined(String eventId) {
 		return graphApi.fetchConnections(eventId, "declined", EventInvitee.class);
 	}
 	
@@ -116,16 +124,18 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		graphApi.post(eventId, "declined", new LinkedMultiValueMap<String, String>());
 	}
 	
-	public List<Event> search(String query) {
+	public PagedList<Event> search(String query) {
 		return search(query, 0, 25);
 	}
 	
-	public List<Event> search(String query, int offset, int limit) {
-		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
+	public PagedList<Event> search(String query, int offset, int limit) {
+		return search(query, new PagingParameters(limit, offset, null, null));
+	}
+	
+	public PagedList<Event> search(String query, PagingParameters pagedListParameters) {
+		MultiValueMap<String, String> queryMap = getPagingParameters(pagedListParameters);
 		queryMap.add("q", query);
 		queryMap.add("type", "event");
-		queryMap.add("offset", String.valueOf(offset));
-		queryMap.add("limit", String.valueOf(limit));
 		return graphApi.fetchConnections("search", null, Event.class, queryMap);
 	}
 	

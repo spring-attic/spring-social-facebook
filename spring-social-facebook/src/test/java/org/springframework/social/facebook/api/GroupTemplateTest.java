@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.test.web.client.match.RequestMatchers.*;
-import static org.springframework.test.web.client.response.ResponseCreators.*;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 import java.util.List;
 
@@ -104,7 +104,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion&offset=0&limit=25"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?offset=0&limit=25&q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/group-list"), MediaType.APPLICATION_JSON));
@@ -114,7 +114,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search_withOffsetAndLimit() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion&offset=45&limit=15"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?offset=45&limit=15&q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/group-list"), MediaType.APPLICATION_JSON));

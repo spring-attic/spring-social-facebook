@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.PageAdministrationException;
 import org.springframework.social.facebook.api.PageOperations;
+import org.springframework.social.facebook.api.PagedList;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -47,7 +48,7 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 		return getAccount(pageId) != null;
 	}
 	
-	public List<Account> getAccounts() {
+	public PagedList<Account> getAccounts() {
 		requireAuthorization();
 		return graphApi.fetchConnections("me", "accounts", Account.class);
 	}

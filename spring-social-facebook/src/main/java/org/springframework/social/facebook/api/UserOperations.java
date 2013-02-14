@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.springframework.social.facebook.api;
-
-import java.util.List;
 
 import org.springframework.social.ApiException;
 import org.springframework.social.MissingAuthorizationException;
@@ -80,7 +78,7 @@ public interface UserOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<String> getUserPermissions();
+	PagedList<String> getUserPermissions();
 	
 	/**
 	 * Searches for users.
@@ -89,5 +87,5 @@ public interface UserOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> search(String query);
+	PagedList<Reference> search(String query);
 }

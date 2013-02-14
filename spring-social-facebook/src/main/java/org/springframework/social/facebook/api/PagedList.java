@@ -15,36 +15,29 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
+public class PagedList<T> extends ArrayList<T> {
+	private static final long serialVersionUID = 1L;
 
-/**
- * Model class representing a Post announcing a Video to a feed. This is not the Video itself.
- * To get the Video object, get the video's ID by calling getVideoId() then pass it to MediaOperations.getVideo(videoId).
- * @author Craig Walls
- */
-public class VideoPost extends Post {
+	private final PagingParameters previousPage;
 	
-	private String source;
-	
-	private String videoId;
-	
-	private List<Tag> tags;
-	
-	public VideoPost(String id, Reference from, Date createdTime, Date updatedTime) {
-		super(id, from, createdTime, updatedTime);
+	private final PagingParameters nextPage;
+
+	public PagedList(List<T> unpagedList, PagingParameters previousPage, PagingParameters nextPage) {
+		super(unpagedList);
+		this.previousPage = previousPage;
+		this.nextPage = nextPage;
 	}
-	
-	public String getSource() {
-		return source;
+
+	public PagingParameters getPreviousPage() {
+		return previousPage;
 	}
-	
-	public String getVideoId() {
-		return videoId;
+
+	public PagingParameters getNextPage() {
+		return nextPage;
 	}
-	
-	public List<Tag> getTags() {
-		return tags;
-	}
+
+
 }

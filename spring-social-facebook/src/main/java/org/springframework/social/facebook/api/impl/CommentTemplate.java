@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import java.util.List;
+import static org.springframework.social.facebook.api.impl.PagedListUtils.*;
 
 import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.CommentOperations;
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -33,17 +35,18 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 		this.graphApi = graphApi;
 	}
 
-	public List<Comment> getComments(String objectId) {
+	public PagedList<Comment> getComments(String objectId) {
 		return getComments(objectId, 0, 25);
 	}
 
-	public List<Comment> getComments(String objectId, int offset, int limit) {
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("offset", String.valueOf(offset));
-		parameters.set("limit", String.valueOf(limit));
-		return graphApi.fetchConnections(objectId, "comments", Comment.class, parameters);
+	public PagedList<Comment> getComments(String objectId, int offset, int limit) {
+		return getComments(objectId, new PagingParameters(limit, offset, null, null));
 	}
-	
+
+	public PagedList<Comment> getComments(String objectId, PagingParameters pagedListParameters) {
+		return graphApi.fetchConnections(objectId, "comments", Comment.class, getPagingParameters(pagedListParameters));
+	}
+
 	public Comment getComment(String commentId) {
 		return graphApi.fetchObject(commentId, Comment.class);
 	}
@@ -60,7 +63,7 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 		graphApi.delete(objectId);
 	}
 
-	public List<Reference> getLikes(String objectId) {
+	public PagedList<Reference> getLikes(String objectId) {
 		return graphApi.fetchConnections(objectId, "likes", Reference.class);
 	}
 

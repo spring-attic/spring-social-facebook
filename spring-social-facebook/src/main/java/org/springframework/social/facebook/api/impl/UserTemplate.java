@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import org.codehaus.jackson.JsonNode;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.util.LinkedMultiValueMap;
@@ -68,13 +70,13 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		return graphApi.fetchImage(userId, "picture", imageType);
 	}
 
-	public List<String> getUserPermissions() {
+	public PagedList<String> getUserPermissions() {
 		requireAuthorization();
 		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/me/permissions", JsonNode.class);		
 		return deserializePermissionsNodeToList(responseNode);
 	}
 
-	public List<Reference> search(String query) {
+	public PagedList<Reference> search(String query) {
 		requireAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
@@ -82,7 +84,7 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		return graphApi.fetchConnections("search", null, Reference.class, queryMap);
 	}
 
-	private List<String> deserializePermissionsNodeToList(JsonNode jsonNode) {
+	private PagedList<String> deserializePermissionsNodeToList(JsonNode jsonNode) {
 		JsonNode dataNode = jsonNode.get("data");			
 		List<String> permissions = new ArrayList<String>();
 		for (Iterator<JsonNode> elementIt = dataNode.getElements(); elementIt.hasNext(); ) {
@@ -91,6 +93,14 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 				permissions.add(fieldNamesIt.next());
 			}
 		}			
-		return permissions;
+		
+		JsonNode pagingNode = jsonNode.get("paging");
+		if (pagingNode != null) {
+			PagingParameters previousPage = PagedListUtils.getPagedListParameters(pagingNode, "previous");
+			PagingParameters nextPage = PagedListUtils.getPagedListParameters(pagingNode, "next");
+			return new PagedList<String>(permissions, previousPage, nextPage);
+		}
+		
+		return new PagedList<String>(permissions, null, null);
 	}
 }

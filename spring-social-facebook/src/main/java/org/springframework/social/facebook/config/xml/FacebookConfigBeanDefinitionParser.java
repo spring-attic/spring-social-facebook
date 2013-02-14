@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.social.UserIdSource;
 import org.springframework.social.config.xml.AbstractProviderConfigBeanDefinitionParser;
 import org.springframework.social.config.xml.ApiHelper;
-import org.springframework.social.config.xml.UserIdSource;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.facebook.security.FacebookAuthenticationService;
+import org.springframework.social.security.provider.SocialAuthenticationService;
 
 /**
  * Implementation of {@link AbstractConnectionFactoryBeanDefinitionParser} that creates a {@link FacebookConnectionFactory}.
@@ -41,7 +43,12 @@ class FacebookConfigBeanDefinitionParser extends AbstractProviderConfigBeanDefin
 	}
 	
 	@Override
-	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId, String appSecret, Map<String, String> allAttributes) {
+	protected Class<? extends SocialAuthenticationService<?>> getAuthenticationServiceClass() {
+		return FacebookAuthenticationService.class;
+	}
+	
+	@Override
+	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId, String appSecret, Map<String, Object> allAttributes) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FacebookConnectionFactory.class).addConstructorArgValue(appId).addConstructorArgValue(appSecret);
 		if (allAttributes.containsKey("app-namespace")) {
 			builder.addConstructorArgValue(allAttributes.get("app-namespace"));			

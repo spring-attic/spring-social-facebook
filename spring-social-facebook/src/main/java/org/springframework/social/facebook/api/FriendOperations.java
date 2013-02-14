@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.springframework.social.facebook.api;
-
-import java.util.List;
 
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
@@ -36,7 +34,7 @@ public interface FriendOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "read_friendlists" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getFriendLists();
+	PagedList<Reference> getFriendLists();
 
 	/**
 	 * Retrieves a list of custom friend lists belonging to the specified user.
@@ -47,7 +45,7 @@ public interface FriendOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "read_friendlists" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getFriendLists(String userId);
+	PagedList<Reference> getFriendLists(String userId);
 
 	/**
 	 * Retrieves a reference to the specified friend list.
@@ -65,7 +63,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getFriendListMembers(String friendListId);
+	PagedList<Reference> getFriendListMembers(String friendListId);
 
 	/**
 	 * Creates a new friend list for the authenticated user.
@@ -128,7 +126,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getFriends();
+	PagedList<Reference> getFriends();
 	
 	/**
 	 * Retrieves a list of the authenticating user's friends' IDs.
@@ -136,7 +134,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<String> getFriendIds();
+	PagedList<String> getFriendIds();
 	
 	/**
 	 * Retrieves profile data for up to 100 of the authenticated user's friends.
@@ -146,7 +144,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<FacebookProfile> getFriendProfiles();
+	PagedList<FacebookProfile> getFriendProfiles();
 
 	/**
 	 * Retrieves profile data for the authenticated user's friends.
@@ -156,8 +154,20 @@ public interface FriendOperations {
 	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getFriendProfiles(PagingParameters)} instead.
 	 */
-	List<FacebookProfile> getFriendProfiles(int offset, int limit);
+	@Deprecated
+	PagedList<FacebookProfile> getFriendProfiles(int offset, int limit);
+
+	/**
+	 * Retrieves profile data for the authenticated user's friends.
+	 * The list of profiles is ordered by each user's Facebook ID.
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<FacebookProfile> getFriendProfiles(PagingParameters pagedListParameters);
 
 	/**
 	 * Retrieves a list of user references for the specified user's friends.
@@ -167,7 +177,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getFriends(String userId);
+	PagedList<Reference> getFriends(String userId);
 
 	/**
 	 * Retrieves a list of the authenticating user's friends' IDs.
@@ -177,7 +187,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<String> getFriendIds(String userId);
+	PagedList<String> getFriendIds(String userId);
 	
 	/**
 	 * Retrieves profile data for up to 100 of the specified user's friends.
@@ -187,7 +197,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<FacebookProfile> getFriendProfiles(String userId);
+	PagedList<FacebookProfile> getFriendProfiles(String userId);
 
 	/**
 	 * Retrieves profile data for the specified user's friends.
@@ -198,8 +208,21 @@ public interface FriendOperations {
 	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 * @deprecated Use {@link #getFriendProfiles(String, PagingParameters)} instead.
 	 */
-	List<FacebookProfile> getFriendProfiles(String userId, int offset, int limit);
+	@Deprecated
+	PagedList<FacebookProfile> getFriendProfiles(String userId, int offset, int limit);
+	
+	/**
+	 * Retrieves profile data for the specified user's friends.
+	 * The list of profiles is ordered by each user's Facebook ID.
+	 * @param userId the user's ID
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<FacebookProfile> getFriendProfiles(String userId, PagingParameters pagedListParameters);
 	
 	/**
 	 * Retrieves a list of FamilyMember references for the authenticated user.
@@ -207,7 +230,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<FamilyMember> getFamily();
+	PagedList<FamilyMember> getFamily();
 	
 	/**
 	 * Retrieves a list of FamilyMember references for the specified user.
@@ -216,7 +239,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<FamilyMember> getFamily(String userId);
+	PagedList<FamilyMember> getFamily(String userId);
 	
 	/**
 	 * Retrieves a list of user references that the authenticated user and the specified user have in common as friends.
@@ -225,7 +248,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getMutualFriends(String userId);
+	PagedList<Reference> getMutualFriends(String userId);
 
 	/**
 	 * Retrieves a list of user reference for the users that the authenticated user is subscribed to.
@@ -234,7 +257,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getSubscribedTo();
+	PagedList<Reference> getSubscribedTo();
 
 	/**
 	 * Retrieves a list of user reference for the users that the specified user is subscribed to.
@@ -244,7 +267,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getSubscribedTo(String userId);
+	PagedList<Reference> getSubscribedTo(String userId);
 
 	/**
 	 * Retrieves a list of user reference for the users that are subscribed to the authenticated user.
@@ -253,7 +276,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getSubscribers();
+	PagedList<Reference> getSubscribers();
 
 	/**
 	 * Retrieves a list of user reference for the users that are subscribed to the specified user.
@@ -263,6 +286,6 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<Reference> getSubscribers(String userId);
+	PagedList<Reference> getSubscribers(String userId);
 
 }

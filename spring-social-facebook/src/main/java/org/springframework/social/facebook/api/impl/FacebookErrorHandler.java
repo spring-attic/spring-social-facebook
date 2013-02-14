@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,14 +133,14 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		if (message.contains("Session has expired at unix time")) {
 			throw new ExpiredAuthorizationException("facebook");
 		} else if (message.contains("The session has been invalidated because the user has changed the password.")) {
-			throw new RevokedAuthorizationException(message);
+			throw new RevokedAuthorizationException("facebook", message);
 		} else if (message.contains("The session is invalid because the user logged out.")) {
-			throw new RevokedAuthorizationException(message);
+			throw new RevokedAuthorizationException("facebook", message);
 		} else if (message.contains("has not authorized application")) {
 			// Per https://developers.facebook.com/blog/post/500/, this could be in the message when the user removes the application.
 			// In reality, "The session has been invalidated because the user has changed the password." is what you get in that case.
 			// Leaving this check in place in case there FB does return this message (could be a bug in FB?)
-			throw new RevokedAuthorizationException(message);
+			throw new RevokedAuthorizationException("facebook", message);
 		} else {
 			throw new InvalidAuthorizationException("facebook", message);
 		}

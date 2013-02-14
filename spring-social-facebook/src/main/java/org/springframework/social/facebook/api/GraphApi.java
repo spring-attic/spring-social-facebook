@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.springframework.social.facebook.api;
-
-import java.util.List;
 
 import org.springframework.util.MultiValueMap;
 
@@ -53,7 +51,7 @@ public interface GraphApi {
 	 * @param fields the fields to include in the response.
 	 * @return a list of Java objects representing the Facebook objects in the connections.
 	 */
-	<T> List<T> fetchConnections(String objectId, String connectionName, Class<T> type, String... fields);
+	<T> PagedList<T> fetchConnections(String objectId, String connectionName, Class<T> type, String... fields);
 	
 	/**
 	 * Fetches connections, extracting them into a collection of the given Java type 
@@ -64,7 +62,7 @@ public interface GraphApi {
 	 * @param queryParameters query parameters to include in the request
 	 * @return a list of Java objects representing the Facebook objects in the connections.
 	 */
-	<T> List<T> fetchConnections(String objectId, String connectionName, Class<T> type, MultiValueMap<String, String> queryParameters);
+	<T> PagedList<T> fetchConnections(String objectId, String connectionName, Class<T> type, MultiValueMap<String, String> queryParameters);
 	
 	/**
 	 * Fetches an image as an array of bytes.
