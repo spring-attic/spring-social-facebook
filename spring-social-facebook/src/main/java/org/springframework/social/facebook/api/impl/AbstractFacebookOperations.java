@@ -27,7 +27,7 @@ class AbstractFacebookOperations {
 	
 	protected void requireAuthorization() {
 		if (!isAuthorized) {
-			throw new MissingAuthorizationException();
+			throw new MissingAuthorizationException("facebook");
 		}
 	}
 	

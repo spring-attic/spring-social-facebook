@@ -388,7 +388,7 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 			node.put("type", postType); // used to set Post's type property
 			return objectMapper.readValue(node, type);
 		} catch (IOException shouldntHappen) {
-			throw new UncategorizedApiException("Error deserializing " + postType + " post", shouldntHappen);
+			throw new UncategorizedApiException("facebook", "Error deserializing " + postType + " post", shouldntHappen);
 		}
 	}
 

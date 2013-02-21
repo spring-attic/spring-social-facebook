@@ -26,7 +26,7 @@ import org.springframework.social.OperationNotPermittedException;
 public class ResourceOwnershipException extends OperationNotPermittedException {
 
 	public ResourceOwnershipException(String message) {
-		super(message);
+		super("facebook", message);
 	}
 
 }
