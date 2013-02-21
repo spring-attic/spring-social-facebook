@@ -25,7 +25,7 @@ import org.springframework.social.OperationNotPermittedException;
 public class PageAdministrationException extends OperationNotPermittedException {
 
 	public PageAdministrationException(String pageId) {
-		super("The user is not an administrator of the page with ID " + pageId);
+		super("facebook", "The user is not an administrator of the page with ID " + pageId);
 	}
 	
 }
