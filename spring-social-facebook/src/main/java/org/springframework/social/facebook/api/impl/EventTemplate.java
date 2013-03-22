@@ -25,6 +25,7 @@ import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.Invitation;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
+import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -87,6 +88,30 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	public void deleteEvent(String eventId) {
 		requireAuthorization();
 		graphApi.delete(eventId);
+	}
+	
+	public void sendInvitation(String eventId, String... userIds) {
+		requireAuthorization();
+		Assert.notEmpty(userIds, "At least one user ID must be given when sending an invitation.");
+		if (userIds.length == 1) {
+			graphApi.post(eventId, "invited/" + userIds[0], new LinkedMultiValueMap<String, String>());
+		} else {
+			MultiValueMap<String, String> data = new LinkedMultiValueMap<String, String>();
+			data.set("users", join(userIds));
+			graphApi.post(eventId, "invited", data);
+		}
+	}
+	
+	private String join(String... strings) {
+		Assert.notEmpty(strings);
+		StringBuilder builder = new StringBuilder();
+		builder.append(strings[0]);
+		if (strings.length > 1) {
+			for (int i=1; i<strings.length; i++) {
+				builder.append(",").append(strings[i]);
+			}
+		}
+		return builder.toString();
 	}
 
 	public PagedList<EventInvitee> getInvited(String eventId) {
