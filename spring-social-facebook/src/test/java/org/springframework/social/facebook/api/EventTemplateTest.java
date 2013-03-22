@@ -148,6 +148,39 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	}
 	
 	@Test
+	public void sendInvitation_toOneUser() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/invited/123123123"))
+			.andExpect(method(POST))
+			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
+		facebook.eventOperations().sendInvitation("123456789", "123123123");
+	}
+
+	@Test
+	public void sendInvitation_toManyUsers() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/invited"))
+			.andExpect(method(POST))
+			.andExpect(content().string("users=12345%2C54321"))
+			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
+		facebook.eventOperations().sendInvitation("123456789", "12345", "54321");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void sendInvitation_noUsersGiven() {
+		try {
+			facebook.eventOperations().sendInvitation("123456789");
+			fail();
+		} catch (IllegalArgumentException e) {
+			assertEquals("At least one user ID must be given when sending an invitation.", e.getMessage());
+			throw e;
+		}
+	}
+	
+	@Test(expected = NotAuthorizedException.class)
+	public void sendInvitation_unauthorized() {
+		unauthorizedFacebook.eventOperations().sendInvitation("123456789", "123123123");
+	}
+	
+	@Test
 	public void getInvited() {
 		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/invited"))
 			.andExpect(method(GET))
