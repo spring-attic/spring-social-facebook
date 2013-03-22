@@ -159,6 +159,17 @@ public interface EventOperations {
 	void deleteEvent(String eventId);
 	
 	/**
+	 * Sends an event invitation to one or more users.
+	 * Requires "create_event" permission.
+	 * @param eventId the ID of the event
+	 * @param userIds a list of one or more users to invite to the event
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "create_event" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	void sendInvitation(String eventId, String... userIds);
+	
+	/**
 	 * Retrieves the list of an event's invitees.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
