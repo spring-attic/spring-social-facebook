@@ -62,7 +62,7 @@ abstract class FacebookProfileMixin {
 	String thirdPartyId;
 	
 	@JsonProperty("timezone")
-	Integer timezone;
+	Float timezone;
 	
 	@JsonProperty("updated_time")
 	Date updatedTime;
