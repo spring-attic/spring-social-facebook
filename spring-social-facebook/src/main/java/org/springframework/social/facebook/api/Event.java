@@ -88,6 +88,6 @@ public class Event {
 		return updatedTime;
 	}
 
-	public static enum Privacy { OPEN, SECRET, CLOSED }
+	public static enum Privacy { OPEN, SECRET, CLOSED, FRIENDS }
 	
 }
