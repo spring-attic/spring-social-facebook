@@ -15,11 +15,14 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.io.Serializable;
+
 /**
  * A simple reference to another Facebook object without the complete set of object data.
  * @author Craig Walls
  */
-public class Reference {
+@SuppressWarnings("serial")
+public class Reference implements Serializable {
 
 	private final String id;
 
