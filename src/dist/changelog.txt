@@ -3,6 +3,8 @@ Spring Social Facebook 1.0.2 (June 18, 2013)
 Improvements
   * Support July 2013 Breaking Changes in Facebook's Graph API. (SOCIALFB-116)
   * Add several missing properties to Page object. (SOCIALFB-122)
+  * Change FriendOperations.getFriendProfiles() to return all friends. 
+    (SOCIALFB-105)
 
 Bug Fixes
   * Add FRIENDS constant to Privacy enum. (SOCIALFB-108)
