@@ -15,12 +15,15 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.io.Serializable;
+
 
 /**
  * Model class representing an entry in the user's work history.
  * @author Craig Walls
  */
-public class WorkEntry {
+@SuppressWarnings("serial")
+public class WorkEntry implements Serializable {
 
 	private final Reference employer;
 
