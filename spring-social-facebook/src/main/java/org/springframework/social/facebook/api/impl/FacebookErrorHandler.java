@@ -21,6 +21,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -49,6 +51,8 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
  * @author Craig Walls
  */
 class FacebookErrorHandler extends DefaultResponseErrorHandler {
+
+	private final static Log logger = LogFactory.getLog(FacebookErrorHandler.class);
 
 	@Override
 	public void handleError(ClientHttpResponse response) throws IOException {
@@ -167,6 +171,10 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		ObjectMapper mapper = new ObjectMapper(new JsonFactory());
 		String json = readFully(response.getBody());
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("Error from Facebook: " + json);
+		}
+		
 		if (json.equals("false")) {
 			// Sometimes FB returns "false" when requesting an object that the access token doesn't have permission for.
 			throw new InsufficientPermissionException("facebook");
