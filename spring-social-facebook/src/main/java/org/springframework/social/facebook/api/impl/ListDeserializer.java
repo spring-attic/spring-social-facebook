@@ -17,7 +17,7 @@ package org.springframework.social.facebook.api.impl;
 
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Strategy interface for deserializing lists of data returned from Facebook as JSON.

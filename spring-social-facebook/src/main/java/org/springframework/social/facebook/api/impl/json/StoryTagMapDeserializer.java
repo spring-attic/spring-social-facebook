@@ -20,14 +20,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.springframework.social.facebook.api.StoryTag;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class StoryTagMapDeserializer extends JsonDeserializer<Map<Integer,List<StoryTag>>> {
 
@@ -36,12 +37,12 @@ public class StoryTagMapDeserializer extends JsonDeserializer<Map<Integer,List<S
 	public Map<Integer,List<StoryTag>> deserialize(JsonParser jp, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.setDeserializationConfig(ctxt.getConfig());
+		mapper.registerModule(new FacebookModule());
 		jp.setCodec(mapper);
 		if (jp.hasCurrentToken()) {
 			JsonNode dataNode = jp.readValueAsTree();
 			if (dataNode != null) {
-				return (Map<Integer,List<StoryTag>>) mapper.readValue(dataNode, new TypeReference<Map<Integer,List<StoryTag>>>() {});
+				return (Map<Integer,List<StoryTag>>) mapper.reader(new TypeReference<Map<Integer,List<StoryTag>>>() {}).readValue(dataNode);
 			}
 		}
 		

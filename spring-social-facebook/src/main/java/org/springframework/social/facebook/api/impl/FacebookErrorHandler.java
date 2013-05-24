@@ -23,10 +23,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.social.DuplicateStatusException;
@@ -44,6 +40,11 @@ import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.NotAFriendException;
 import org.springframework.social.facebook.api.ResourceOwnershipException;
 import org.springframework.web.client.DefaultResponseErrorHandler;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Subclass of {@link DefaultResponseErrorHandler} that handles errors from Facebook's

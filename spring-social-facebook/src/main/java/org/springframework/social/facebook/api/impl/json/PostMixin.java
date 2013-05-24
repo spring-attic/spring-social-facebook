@@ -20,20 +20,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonSubTypes.Type;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.annotate.JsonTypeInfo.As;
-import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.social.facebook.api.CheckinPost;
 import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.LinkPost;
@@ -49,12 +35,27 @@ import org.springframework.social.facebook.api.StoryTag;
 import org.springframework.social.facebook.api.SwfPost;
 import org.springframework.social.facebook.api.VideoPost;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * Annotated mixin to add Jackson annotations to Post.
  * Also defines Post subtypes to deserialize into based on the "type" attribute. 
  * @author Craig Walls
  */
-@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="postType")
+@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="postType", visible=true)
 @JsonSubTypes({
 				@Type(name="checkin", value=CheckinPost.class),
 				@Type(name="link", value=LinkPost.class),
