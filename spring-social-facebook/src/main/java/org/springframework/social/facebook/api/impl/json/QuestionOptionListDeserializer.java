@@ -18,26 +18,29 @@ package org.springframework.social.facebook.api.impl.json;
 import java.io.IOException;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.springframework.social.facebook.api.QuestionOption;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.TreeNode;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class QuestionOptionListDeserializer extends JsonDeserializer<List<QuestionOption>> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<QuestionOption> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.setDeserializationConfig(ctxt.getConfig());
+		mapper.registerModule(new FacebookModule());
 		jp.setCodec(mapper);
 		if (jp.hasCurrentToken()) {
-			JsonNode dataNode = jp.readValueAsTree().get("data");
+			TreeNode dataNode = jp.readValueAsTree().get("data");
 			if (dataNode != null) {
-				return (List<QuestionOption>) mapper.readValue(dataNode, new TypeReference<List<QuestionOption>>() {});
+				// TODO: THIS PROBABLY ISN"T RIGHT
+				return (List<QuestionOption>) mapper.reader(new TypeReference<List<QuestionOption>>() {}).readValue((JsonNode) dataNode);
 			}
 		}
 		

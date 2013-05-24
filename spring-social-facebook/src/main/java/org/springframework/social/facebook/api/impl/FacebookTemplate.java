@@ -22,14 +22,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.CollectionType;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.CommentOperations;
@@ -58,6 +54,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 /**
  * <p>This is the central class for interacting with Facebook.</p>
@@ -289,8 +290,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 
 	@Override
-	protected MappingJacksonHttpMessageConverter getJsonMessageConverter() {
-		MappingJacksonHttpMessageConverter converter = super.getJsonMessageConverter();
+	protected MappingJackson2HttpMessageConverter getJsonMessageConverter() {
+		MappingJackson2HttpMessageConverter converter = super.getJsonMessageConverter();
 		objectMapper = new ObjectMapper();				
 		objectMapper.registerModule(new FacebookModule());
 		converter.setObjectMapper(objectMapper);		
@@ -324,7 +325,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	private <T> List<T> deserializeDataList(JsonNode jsonNode, final Class<T> elementType) {
 		try {
 			CollectionType listType = TypeFactory.defaultInstance().constructCollectionType(List.class, elementType);
-			return (List<T>) objectMapper.readValue(jsonNode, listType);
+			return (List<T>) objectMapper.reader(listType).readValue(jsonNode.toString()); // TODO: EXTREMELY HACKY--TEMPORARY UNTIL I FIGURE OUT HOW JACKSON 2 DOES THIS
 		} catch (IOException e) {
 			throw new UncategorizedApiException("facebook", "Error deserializing data from Facebook: " + e.getMessage(), e);
 		}
