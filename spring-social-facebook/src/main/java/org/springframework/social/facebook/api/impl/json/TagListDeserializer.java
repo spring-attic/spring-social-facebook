@@ -36,7 +36,7 @@ class TagListDeserializer extends JsonDeserializer<List<Tag>> {
 		mapper.registerModule(new FacebookModule());
 		jp.setCodec(mapper);
 		if(jp.hasCurrentToken()) {
-			JsonNode dataNode = (JsonNode) jp.readValueAsTree().get("data");
+			JsonNode dataNode = (JsonNode) jp.readValueAs(JsonNode.class).get("data");
 			return (List<Tag>) mapper.reader(new TypeReference<List<Tag>>() {}).readValue(dataNode);
 		}
 		

@@ -27,11 +27,11 @@ class PictureDeserializer extends JsonDeserializer<String> {
 
 	@Override
 	public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-		JsonNode tree = jp.readValueAsTree();
-		if (tree.isObject() && tree.has("data")) {
-			return tree.get("data").get("url").asText();
-		} else if (tree.isTextual()) {
-			return tree.asText();
+		JsonNode node = jp.readValueAs(JsonNode.class);
+		if (node.isObject() && node.has("data")) {
+			return node.get("data").get("url").asText();
+		} else if (node.isTextual()) {
+			return node.asText();
 		}
 		return null;
 	}	

@@ -37,7 +37,7 @@ class QuestionOptionListDeserializer extends JsonDeserializer<List<QuestionOptio
 		mapper.registerModule(new FacebookModule());
 		jp.setCodec(mapper);
 		if (jp.hasCurrentToken()) {
-			TreeNode dataNode = jp.readValueAsTree().get("data");
+			TreeNode dataNode = jp.readValueAs(JsonNode.class).get("data");
 			if (dataNode != null) {
 				// TODO: THIS PROBABLY ISN"T RIGHT
 				return (List<QuestionOption>) mapper.reader(new TypeReference<List<QuestionOption>>() {}).readValue((JsonNode) dataNode);

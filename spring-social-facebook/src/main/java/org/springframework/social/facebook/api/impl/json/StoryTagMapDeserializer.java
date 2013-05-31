@@ -40,7 +40,7 @@ public class StoryTagMapDeserializer extends JsonDeserializer<Map<Integer,List<S
 		mapper.registerModule(new FacebookModule());
 		jp.setCodec(mapper);
 		if (jp.hasCurrentToken()) {
-			JsonNode dataNode = jp.readValueAsTree();
+			JsonNode dataNode = jp.readValueAs(JsonNode.class);
 			if (dataNode != null) {
 				return (Map<Integer,List<StoryTag>>) mapper.reader(new TypeReference<Map<Integer,List<StoryTag>>>() {}).readValue(dataNode);
 			}

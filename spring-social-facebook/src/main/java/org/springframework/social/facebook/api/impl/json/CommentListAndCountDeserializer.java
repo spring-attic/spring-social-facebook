@@ -39,7 +39,7 @@ class CommentListAndCountDeserializer extends JsonDeserializer<ListAndCount<Comm
 		mapper.registerModule(new FacebookModule());
 		jp.setCodec(mapper);
 		if(jp.hasCurrentToken()) {
-			JsonNode commentsNode = jp.readValueAsTree();
+			JsonNode commentsNode = jp.readValueAs(JsonNode.class);
 			JsonNode dataNode = commentsNode.get("data");
 			List<Comment> commentsList = dataNode != null ? 
 					(List<Comment>) mapper.reader(new TypeReference<List<Comment>>() {}).readValue(dataNode) : 

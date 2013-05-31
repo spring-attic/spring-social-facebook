@@ -37,7 +37,7 @@ class ReferenceListDeserializer extends JsonDeserializer<List<Reference>> {
 		mapper.registerModule(new FacebookModule());
 		jp.setCodec(mapper);
 		if (jp.hasCurrentToken()) {
-			JsonNode dataNode = (JsonNode) jp.readValueAsTree().get("data");
+			JsonNode dataNode = (JsonNode) jp.readValueAs(JsonNode.class).get("data");
 			if (dataNode != null) {
 				return (List<Reference>) mapper.reader(new TypeReference<List<Reference>>() {}).readValue(dataNode);
 			}
