@@ -24,10 +24,11 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.PropertyNamingStrategy;
 import org.springframework.security.crypto.codec.Base64;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
 /**
  * Utility class for extracting the payload of a signed request sent by Facebook.
@@ -45,7 +46,7 @@ public class SignedRequestDecoder {
 	public SignedRequestDecoder(String secret) {
 		this.secret = secret;
 		this.objectMapper = new ObjectMapper();
-		this.objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		this.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 	}
 	
@@ -73,7 +74,7 @@ public class SignedRequestDecoder {
 		byte[] signature = base64DecodeToBytes(encodedSignature);
 		try {
 			T data = objectMapper.readValue(decoded, type);			
-			String algorithm = objectMapper.readTree(decoded).get("algorithm").getTextValue();
+			String algorithm = objectMapper.readTree(decoded).get("algorithm").textValue();
 			if (algorithm == null || !algorithm.equals("HMAC-SHA256")) {
 				throw new SignedRequestException("Unknown encryption algorithm: " + algorithm);
 			}			

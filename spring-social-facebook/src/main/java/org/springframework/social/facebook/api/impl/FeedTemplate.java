@@ -25,9 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ObjectNode;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.FacebookLink;
 import org.springframework.social.facebook.api.FeedOperations;
@@ -43,6 +40,10 @@ import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class FeedTemplate extends AbstractFacebookOperations implements FeedOperations {
 
@@ -382,11 +383,12 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 			if (postType == null) {
 				postType = determinePostType(node);
 			}
+			
 			// Must have separate postType field for polymorphic deserialization. If we key off of the "type" field, then it will
 			// be null when trying to deserialize the type property.
 			node.put("postType", postType); // used for polymorphic deserialization
 			node.put("type", postType); // used to set Post's type property
-			return objectMapper.readValue(node, type);
+			return objectMapper.reader(type).readValue(node.toString()); // TODO: EXTREMELY HACKY--TEMPORARY UNTIL I FIGURE OUT HOW JACKSON 2 DOES THIS
 		} catch (IOException shouldntHappen) {
 			throw new UncategorizedApiException("facebook", "Error deserializing " + postType + " post", shouldntHappen);
 		}
@@ -395,7 +397,7 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 	private String determinePostType(ObjectNode node) {
 		if (node.has("type")) {
 			try {
-				String type = node.get("type").getTextValue();
+				String type = node.get("type").textValue();
 				PostType.valueOf(type.toUpperCase());
 				return type;
 			} catch (IllegalArgumentException e) {

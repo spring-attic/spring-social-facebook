@@ -15,10 +15,11 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import org.codehaus.jackson.JsonNode;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 class PagedListUtils {
 
@@ -26,7 +27,7 @@ class PagedListUtils {
 		if (pagingNode == null || pagingNode.get(pageKey) == null) {
 			return null;
 		}
-		String pageNode = pagingNode.get(pageKey).getTextValue();
+		String pageNode = pagingNode.get(pageKey).textValue();
 		String limitString = extractParameterValueFromUrl(pageNode, "limit");
 		String sinceString = extractParameterValueFromUrl(pageNode, "since");
 		String untilString = extractParameterValueFromUrl(pageNode, "until");

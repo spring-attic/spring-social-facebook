@@ -15,8 +15,6 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.module.SimpleModule;
 import org.springframework.social.facebook.api.Account;
 import org.springframework.social.facebook.api.Album;
 import org.springframework.social.facebook.api.Checkin;
@@ -52,6 +50,8 @@ import org.springframework.social.facebook.api.VideoPost;
 import org.springframework.social.facebook.api.WorkEntry;
 import org.springframework.social.facebook.api.impl.json.PhotoMixin.ImageMixin;
 
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 /**
  * Jackson module for setting up mixin annotations on Facebook model types. This enables the use of Jackson annotations without
  * directly annotating the model classes themselves.
@@ -59,8 +59,10 @@ import org.springframework.social.facebook.api.impl.json.PhotoMixin.ImageMixin;
  */
 public class FacebookModule extends SimpleModule {
 
+	private static final long serialVersionUID = 1L;
+
 	public FacebookModule() {
-		super("FacebookModule", new Version(1, 0, 0, null));
+		super("FacebookModule");
 	}
 	
 	@Override
