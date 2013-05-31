@@ -19,15 +19,16 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.ListAndCount;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class CommentListAndCountDeserializer extends JsonDeserializer<ListAndCount<Comment>> {
 
@@ -35,16 +36,16 @@ class CommentListAndCountDeserializer extends JsonDeserializer<ListAndCount<Comm
 	@Override
 	public ListAndCount<Comment> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.setDeserializationConfig(ctxt.getConfig());
+		mapper.registerModule(new FacebookModule());
 		jp.setCodec(mapper);
 		if(jp.hasCurrentToken()) {
-			JsonNode commentsNode = jp.readValueAsTree();
+			JsonNode commentsNode = jp.readValueAs(JsonNode.class);
 			JsonNode dataNode = commentsNode.get("data");
 			List<Comment> commentsList = dataNode != null ? 
-					(List<Comment>) mapper.readValue(dataNode, new TypeReference<List<Comment>>() {}) : 
+					(List<Comment>) mapper.reader(new TypeReference<List<Comment>>() {}).readValue(dataNode) : 
 					Collections.<Comment>emptyList();
 			JsonNode countNode = commentsNode.get("count");
-			int commentCount = countNode != null ? countNode.getIntValue() : 0;
+			int commentCount = countNode != null ? countNode.intValue() : 0;
 			return new ListAndCount<Comment>(commentsList, commentCount);
 		}
 		

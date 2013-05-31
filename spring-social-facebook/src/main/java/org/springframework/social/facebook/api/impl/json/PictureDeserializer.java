@@ -17,21 +17,21 @@ package org.springframework.social.facebook.api.impl.json;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
 
 class PictureDeserializer extends JsonDeserializer<String> {
 
 	@Override
 	public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-		JsonNode tree = jp.readValueAsTree();
-		if (tree.isObject() && tree.has("data")) {
-			return tree.get("data").get("url").asText();
-		} else if (tree.isTextual()) {
-			return tree.asText();
+		JsonNode node = jp.readValueAs(JsonNode.class);
+		if (node.isObject() && node.has("data")) {
+			return node.get("data").get("url").asText();
+		} else if (node.isTextual()) {
+			return node.asText();
 		}
 		return null;
 	}	
