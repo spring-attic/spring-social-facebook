@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -22,7 +23,8 @@ import java.util.List;
  * Model class representing an entry in a user's education history.
  * @author Craig Walls
  */
-public class EducationEntry {
+@SuppressWarnings("serial")
+public class EducationEntry implements Serializable {
 
 	private final Reference school;
 
