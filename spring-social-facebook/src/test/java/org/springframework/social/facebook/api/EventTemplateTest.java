@@ -85,16 +85,17 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/simple-event"), MediaType.APPLICATION_JSON));
 		Event event = facebook.eventOperations().getEvent("193482154020832");
-		assertEquals("193482154020832", event.getId());
-		assertEquals("100001387295207", event.getOwner().getId());
-		assertEquals("Art Names", event.getOwner().getName());
-		assertEquals("Breakdancing Class", event.getName());
-		assertEquals(Event.Privacy.OPEN, event.getPrivacy());
-		assertEquals(toDate("2011-03-30T14:30:00+0000"), event.getStartTime());
-		assertEquals(toDate("2011-03-30T17:30:00+0000"), event.getEndTime());
-		assertEquals(toDate("2011-03-30T14:30:28+0000"), event.getUpdatedTime());
-		assertNull(event.getDescription());
-		assertNull(event.getLocation());
+		assertSimpleEvent(event, Event.Privacy.OPEN);
+	}
+	
+	@Test
+	public void getEvent_withFriendPrivacyLevel() {
+		mockServer.expect(requestTo("https://graph.facebook.com/193482154020832"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/simple-event-friend-privacy"), MediaType.APPLICATION_JSON));
+		Event event = facebook.eventOperations().getEvent("193482154020832");
+		assertSimpleEvent(event, Event.Privacy.FRIENDS);
 	}
 	
 	@Test
@@ -309,6 +310,19 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-26T15:00:00+0000"), events.get(1).getStartTime());
 		assertEquals(toDate("2011-03-26T16:00:00+0000"), events.get(1).getEndTime());
 		assertEquals(RsvpStatus.NOT_REPLIED, events.get(1).getRsvpStatus());
+	}
+	
+	private void assertSimpleEvent(Event event, Event.Privacy privacy) {
+		assertEquals("193482154020832", event.getId());
+		assertEquals("100001387295207", event.getOwner().getId());
+		assertEquals("Art Names", event.getOwner().getName());
+		assertEquals("Breakdancing Class", event.getName());
+		assertEquals(privacy, event.getPrivacy());
+		assertEquals(toDate("2011-03-30T14:30:00+0000"), event.getStartTime());
+		assertEquals(toDate("2011-03-30T17:30:00+0000"), event.getEndTime());
+		assertEquals(toDate("2011-03-30T14:30:28+0000"), event.getUpdatedTime());
+		assertNull(event.getDescription());
+		assertNull(event.getLocation());
 	}
 	
 }
