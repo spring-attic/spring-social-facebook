@@ -44,9 +44,7 @@ class CommentListAndCountDeserializer extends JsonDeserializer<ListAndCount<Comm
 			List<Comment> commentsList = dataNode != null ? 
 					(List<Comment>) mapper.reader(new TypeReference<List<Comment>>() {}).readValue(dataNode) : 
 					Collections.<Comment>emptyList();
-			JsonNode countNode = commentsNode.get("count");
-			int commentCount = countNode != null ? countNode.intValue() : 0;
-			return new ListAndCount<Comment>(commentsList, commentCount);
+			return new ListAndCount<Comment>(commentsList, commentsList.size());
 		}
 		
 		return null;
