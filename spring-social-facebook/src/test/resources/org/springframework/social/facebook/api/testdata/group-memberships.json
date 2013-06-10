@@ -1,20 +1,17 @@
 {
   "data": [
     {
-      "version": 1,
       "name": "Test Group",
       "id": "12345",
       "bookmark_order": 1,
       "administrator": true
     },
     {
-      "version": 0,
       "name": "Test Group 2",
       "bookmark_order": 2,
       "id": "54321"
     },
     {
-      "version": 1,
       "name": "Test Group 3",
       "bookmark_order": 999999999,
       "id": "24680",

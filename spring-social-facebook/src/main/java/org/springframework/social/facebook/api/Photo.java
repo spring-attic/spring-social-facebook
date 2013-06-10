@@ -30,6 +30,10 @@ public class Photo {
 	
 	private Reference from;
 	
+	private String picture;
+	
+	private String source;
+	
 	private String link;
 	
 	private String icon;
@@ -44,9 +48,11 @@ public class Photo {
 	
 	private List<Image> images;
 	
-	private Photo(String id, Reference from, String link, String icon, Date createdTime, List<Image> images) {
+	private Photo(String id, Reference from, String picture, String source, String link, String icon, Date createdTime, List<Image> images) {
 		this.id = id;
 		this.from = from;
+		this.picture = picture;
+		this.source = source;
 		this.link = link;
 		this.icon = icon;
 		this.createdTime = createdTime;
@@ -63,6 +69,14 @@ public class Photo {
 
 	public Reference getFrom() {
 		return from;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public String getSource() {
+		return source;
 	}
 
 	public String getLink() {
@@ -94,24 +108,80 @@ public class Photo {
 		return images;
 	}
 
+	/**
+	 * <p>The Image object for the oversized image.</p>
+	 * 
+	 * <p>Note that as of the July 2013 breaking changes in Facebook's API, Facebook will no longer return images larger than the originally uploaded image. Therefore,
+	 * there is no way of knowing which index the oversized image is at, if it exists at all. Consequently, this method has been deprecated and will be removed in
+	 * Spring Social Facebook 1.1.0. Until then, it will return the image at index 0 in the images list, which may or may not be the source image.</p>
+	 * 
+	 * @return the 0th image in the images list, previously assumed to be the tiny image. null if there is no 0th image. 
+	 * @deprecated With July 2013 breaking changes, Facebook will no longer return images larger than the original image. Therefore, there's no way of knowing what sized images will or won't be in the image list. 
+	 */
+	@Deprecated
 	public Image getOversizedImage() {
-		return images.get(0);
+		return images.size() > 0 ? images.get(0) : null;
 	}
 	
+	/**
+	 * <p>The Image object for the source image.</p>
+	 * 
+	 * <p>Note that as of the July 2013 breaking changes in Facebook's API, Facebook will no longer return images larger than the originally uploaded image. Therefore,
+	 * there is no way of knowing which index the source image is at, if it exists at all. Consequently, this method has been deprecated and will be removed in
+	 * Spring Social Facebook 1.1.0. Until then, it will return the image at index 1 in the images list, which may or may not be the source image.</p>
+	 * 
+	 * @return the 1th image in the images list, previously assumed to be the tiny image. null if there is no 1th image. 
+	 * @deprecated With July 2013 breaking changes, Facebook will no longer return images larger than the original image. Therefore, there's no way of knowing what sized images will or won't be in the image list.
+	 */
+	@Deprecated
 	public Image getSourceImage() {
-		return images.get(1);
+		return images.size() > 1 ? images.get(1) : null;
 	}
 	
+	/**
+	 * <p>The Image object for the small image.</p>
+	 * 
+	 * <p>Note that as of the July 2013 breaking changes in Facebook's API, Facebook will no longer return images larger than the originally uploaded image. Therefore,
+	 * there is no way of knowing which index the small image is at, if it exists at all. Consequently, this method has been deprecated and will be removed in
+	 * Spring Social Facebook 1.1.0. Until then, it will return the image at index 6 in the images list, which may or may not be the small image.</p>
+	 * 
+	 * @return the 6th image in the images list, previously assumed to be the tiny image. null if there is no 6th image. 
+	 * @deprecated With July 2013 breaking changes, Facebook will no longer return images larger than the original image. Therefore, there's no way of knowing what sized images will or won't be in the image list.
+	 */
+	@Deprecated
 	public Image getSmallImage() {
-		return images.get(6);
+		return images.size() > 6 ? images.get(6) : null;
 	}
 	
+	/**
+	 * <p>The Image object for the album image.</p>
+	 * 
+	 * <p>Note that as of the July 2013 breaking changes in Facebook's API, Facebook will no longer return images larger than the originally uploaded image. Therefore,
+	 * there is no way of knowing which index the album image is at, if it exists at all. Consequently, this method has been deprecated and will be removed in
+	 * Spring Social Facebook 1.1.0. Until then, it will return the image at index 5 in the images list, which may or may not be the album image.</p>
+	 * 
+	 * @return the 5th image in the images list, previously assumed to be the tiny image. null if there is no 5th image. 
+	 * @deprecated With July 2013 breaking changes, Facebook will no longer return images larger than the original image. Therefore, there's no way of knowing what sized images will or won't be in the image list.
+	 */
+	@Deprecated
 	public Image getAlbumImage() {
-		return images.get(5);
+		return images.size() > 5 ? images.get(5) : null;
 	}
 	
+	/**
+	 * <p>The Image object for the tiny image.</p>
+	 * 
+	 * <p>Note that as of the July 2013 breaking changes in Facebook's API, Facebook will no longer return images larger than the originally uploaded image. Therefore,
+	 * there is no way of knowing which index the tiny image is at, if it exists at all. Consequently, this method has been deprecated and will be removed in
+	 * Spring Social Facebook 1.1.0. Until then, it will return the image at index 7 in the images list, which may or may not be the tiny image.</p>
+	 * 
+	 * @return the 7th image in the images list, previously assumed to be the tiny image. null if there is no 7th image. 
+	 * @deprecated With July 2013 breaking changes, Facebook will no longer return images larger than the original image. Therefore, there's no way of knowing what sized images will or won't be in the image list.
+	 */
+	@Deprecated
 	public Image getTinyImage() {
-		return images.get(7);
+		
+		return images.size() > 7 ? images.get(7) : null;
 	}
 	
 	public List<Tag> getTags() {

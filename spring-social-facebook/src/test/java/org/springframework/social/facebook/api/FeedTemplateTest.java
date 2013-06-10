@@ -415,7 +415,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("1322692345", likes.get(1).getId());
 		assertEquals("Jim Smith", likes.get(1).getName());
 		assertEquals(2, feedEntry.getComments().size());
-		assertEquals(22, feedEntry.getCommentCount());
+		assertEquals(2, feedEntry.getCommentCount());
 		assertNull(feedEntry.getComments().get(1).getLikes());
 		assertEquals(3, feedEntry.getComments().get(1).getLikesCount());
 	}
@@ -435,7 +435,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertNull(feedEntry.getLikeCount());
 		assertNull(feedEntry.getLikes());
 		assertEquals(2, feedEntry.getComments().size());
-		assertEquals(22, feedEntry.getCommentCount());
+		assertEquals(2, feedEntry.getCommentCount());
 		assertNull(feedEntry.getComments().get(1).getLikes());
 		assertEquals(3, feedEntry.getComments().get(1).getLikesCount());
 	}
