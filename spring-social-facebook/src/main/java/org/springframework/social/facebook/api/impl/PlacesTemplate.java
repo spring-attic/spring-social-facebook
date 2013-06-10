@@ -57,7 +57,9 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 		
 	public PagedList<Checkin> getCheckins(String objectId, PagingParameters pagedListParameters) {
 		requireAuthorization();
-		return graphApi.fetchConnections(objectId, "checkins", Checkin.class, getPagingParameters(pagedListParameters));
+		MultiValueMap<String, String> params = getPagingParameters(pagedListParameters);
+		params.set("with", "location");
+		return graphApi.fetchConnections(objectId, "posts", Checkin.class, params);
 	}
 
 	public Checkin getCheckin(String checkinId) {
@@ -85,7 +87,7 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 			}
 			data.set("tags", tagsValue);
 		}
-		return graphApi.publish("me", "checkins", data);
+		return graphApi.publish("me", "feed", data);
 	}
 	
 	public PagedList<Page> search(String query, double latitude, double longitude, long distance) {
