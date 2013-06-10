@@ -155,7 +155,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 	public void getPhoto_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getPhoto("192837465");
 	}
-
+	
 	@Test
 	public void postPhoto_noCaption() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/photos"))
@@ -350,18 +350,12 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Craig Walls", photos.get(0).getFrom().getName());
 		assertNull(photos.get(0).getName());
 		assertNull(photos.get(0).getTags());
-		assertEquals("http://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684114_n.jpg", photos.get(0).getSourceImage().getSource());
-		assertEquals(400, photos.get(0).getSourceImage().getWidth());
-		assertEquals(300, photos.get(0).getSourceImage().getHeight());
-		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684114_s.jpg", photos.get(0).getSmallImage().getSource());
-		assertEquals(130, photos.get(0).getSmallImage().getWidth());
-		assertEquals(97, photos.get(0).getSmallImage().getHeight());
-		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684114_a.jpg", photos.get(0).getAlbumImage().getSource());
-		assertEquals(180, photos.get(0).getAlbumImage().getWidth());
-		assertEquals(135, photos.get(0).getAlbumImage().getHeight());
-		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684114_t.jpg", photos.get(0).getTinyImage().getSource());
-		assertEquals(75, photos.get(0).getTinyImage().getWidth());
-		assertEquals(56, photos.get(0).getTinyImage().getHeight());
+		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684114_a.jpg", photos.get(0).getSourceImage().getSource());
+		assertEquals(180, photos.get(0).getSourceImage().getWidth());
+		assertEquals(135, photos.get(0).getSourceImage().getHeight());
+		assertNull(photos.get(0).getSmallImage());
+		assertNull(photos.get(0).getAlbumImage());
+		assertNull(photos.get(0).getTinyImage());
 		assertEquals("http://www.facebook.com/photo.php?pid=17698198&id=738140578", photos.get(0).getLink());
 		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yz/r/StEh3RhPvjk.gif", photos.get(0).getIcon());
 		assertEquals(0, (int) photos.get(0).getPosition());
@@ -398,18 +392,14 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Craig Walls", photo.getTags().get(0).getName());
 		assertEquals((Integer) 47, photo.getTags().get(0).getX());
 		assertEquals((Integer) 24, photo.getTags().get(0).getY());
-		assertEquals("http://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_n.jpg", photo.getSourceImage().getSource());
-		assertEquals(400, photo.getSourceImage().getWidth());
-		assertEquals(300, photo.getSourceImage().getHeight());
-		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_s.jpg", photo.getSmallImage().getSource());
-		assertEquals(130, photo.getSmallImage().getWidth());
-		assertEquals(97, photo.getSmallImage().getHeight());
-		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_a.jpg", photo.getAlbumImage().getSource());
-		assertEquals(180, photo.getAlbumImage().getWidth());
-		assertEquals(135, photo.getAlbumImage().getHeight());
-		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_t.jpg", photo.getTinyImage().getSource());
-		assertEquals(75, photo.getTinyImage().getWidth());
-		assertEquals(56, photo.getTinyImage().getHeight());
+		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_a.jpg", photo.getSourceImage().getSource());
+		assertEquals(180, photo.getSourceImage().getWidth());
+		assertEquals(135, photo.getSourceImage().getHeight());
+		assertNull(photo.getSmallImage());
+		assertNull(photo.getAlbumImage());
+		assertNull(photo.getTinyImage());
+		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_s.jpg", photo.getPicture());
+		assertEquals("http://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_n.jpg", photo.getSource());
 		assertEquals("http://www.facebook.com/photo.php?pid=17698198&id=738140579", photo.getLink());
 		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yz/r/StEh3RhPvjl.gif", photo.getIcon());
 		assertEquals(0, (int) photo.getPosition());

@@ -37,6 +37,8 @@ abstract class PhotoMixin {
 	PhotoMixin(
 			@JsonProperty("id") String id, 
 			@JsonProperty("from") Reference from, 
+			@JsonProperty("picture") String picture, 
+			@JsonProperty("source") String source, 
 			@JsonProperty("link") String link, 
 			@JsonProperty("icon") String icon, 
 			@JsonProperty("created_time") Date createdTime,
