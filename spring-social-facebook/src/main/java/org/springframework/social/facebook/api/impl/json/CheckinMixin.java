@@ -52,7 +52,7 @@ abstract class CheckinMixin {
 	@JsonDeserialize(using = ReferenceListDeserializer.class)
 	List<Reference> likes;
 
-	@JsonProperty("tags")
+	@JsonProperty("with_tags")
 	@JsonDeserialize(using = ReferenceListDeserializer.class)
 	List<Reference> tags;
 

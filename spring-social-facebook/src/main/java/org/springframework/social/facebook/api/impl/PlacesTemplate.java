@@ -50,7 +50,8 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("offset", String.valueOf(offset));
 		parameters.set("limit", String.valueOf(limit));
-		return graphApi.fetchConnections(objectId, "checkins", Checkin.class, parameters);
+		parameters.set("with", "location");
+		return graphApi.fetchConnections(objectId, "posts", Checkin.class, parameters);
 	}
 
 	public Checkin getCheckin(String checkinId) {
@@ -78,7 +79,7 @@ class PlacesTemplate extends AbstractFacebookOperations implements PlacesOperati
 			}
 			data.set("tags", tagsValue);
 		}
-		return graphApi.publish("me", "checkins", data);
+		return graphApi.publish("me", "feed", data);
 	}
 	
 	public List<Page> search(String query, double latitude, double longitude, long distance) {
