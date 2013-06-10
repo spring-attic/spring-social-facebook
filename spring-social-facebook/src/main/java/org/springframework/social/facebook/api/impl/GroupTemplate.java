@@ -78,7 +78,7 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 		MultiValueMap<String, String> queryMap = PagedListUtils.getPagingParameters(pagedListParameters);
 		queryMap.add("q", query);
 		queryMap.add("type", "group");
-		queryMap.add("fields", "owner,name,description,privacy,icon,updated_time,email,version");
+		queryMap.add("fields", "owner,name,description,privacy,icon,updated_time,email");
 		return graphApi.fetchConnections("search", "", Group.class, queryMap);
 	}	
 	

@@ -21,18 +21,23 @@ public class GroupMembership {
 	
 	private final String name;
 	
-	private final int version;
-	
 	private final int bookmarkOrder;
 	
 	private final boolean administrator;
 	
 	private int unread;
 
+	public GroupMembership(String id, String name, int bookmarkOrder, boolean administrator) {
+		this(id, name, 1, bookmarkOrder, administrator);
+	}
+	
+	/**
+	 * @deprecated The Facebook Graph API no longer maintains a version for groups. The group version will always be 1.
+	 */
+	@Deprecated
 	public GroupMembership(String id, String name, int version, int bookmarkOrder, boolean administrator) {
 		this.id = id;
 		this.name = name;
-		this.version = version;
 		this.bookmarkOrder = bookmarkOrder;
 		this.administrator = administrator;
 	}
@@ -52,10 +57,11 @@ public class GroupMembership {
 	}
 
 	/**
-	 * The group version (either 0 or 1)
+	 * The group version (always 1)
+	 * @deprecated No longer maintained in the Graph API. Will always be 1
 	 */
 	public int getVersion() {
-		return version;
+		return 1;
 	}
 
 	/**
