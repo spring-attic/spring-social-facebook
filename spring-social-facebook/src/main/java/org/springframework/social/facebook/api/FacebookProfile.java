@@ -53,7 +53,7 @@ public class FacebookProfile implements Serializable {
 	
 	private String thirdPartyId;
 
-	private Integer timezone;
+	private Float timezone;
 	
 	private Date updatedTime;
 
@@ -212,7 +212,7 @@ public class FacebookProfile implements Serializable {
 	 * Available only for the authenticated user.
 	 * @return the user's timezone offset from UTC or null if the user isn't the authenticated user
 	 */
-	public Integer getTimezone() {
+	public Float getTimezone() {
 		return timezone;
 	}
 	

@@ -137,8 +137,7 @@ public interface FriendOperations {
 	PagedList<String> getFriendIds();
 	
 	/**
-	 * Retrieves profile data for up to 100 of the authenticated user's friends.
-	 * For additional friend profiles, you must specify the offset and limit.
+	 * Retrieves the profile data for all of an authenticated user's friends.
 	 * The list of profiles is ordered by each user's Facebook ID.
 	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -190,7 +189,7 @@ public interface FriendOperations {
 	PagedList<String> getFriendIds(String userId);
 	
 	/**
-	 * Retrieves profile data for up to 100 of the specified user's friends.
+	 * Retrieves profile data for all of an authenticated user's friends.
 	 * The list of profiles is ordered by each user's Facebook ID.
 	 * @param userId the user's ID
 	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
