@@ -155,7 +155,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 	public void getPhoto_unauthorized() {
 		unauthorizedFacebook.mediaOperations().getPhoto("192837465");
 	}
-
+	
 	@Test
 	public void postPhoto_noCaption() {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/photos"))
@@ -415,6 +415,8 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("https://fbcdn-photos-a.akamaihd.net/hphotos-ak-snc6/s75x225/200110_10150447271355580_738140579_17698198_7684115_s.jpg", photo.getTinyImage().getSource());
 		assertEquals(130, photo.getTinyImage().getWidth());
 		assertEquals(97, photo.getTinyImage().getHeight());
+		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_s.jpg", photo.getPicture());
+		assertEquals("http://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_n.jpg", photo.getSource());
 		assertEquals("http://www.facebook.com/photo.php?pid=17698198&id=738140579", photo.getLink());
 		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yz/r/StEh3RhPvjl.gif", photo.getIcon());
 		assertEquals(0, (int) photo.getPosition());
