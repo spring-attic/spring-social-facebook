@@ -75,7 +75,7 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "group");
-		queryMap.add("fields", "owner,name,description,privacy,icon,updated_time,email,version");
+		queryMap.add("fields", "owner,name,description,privacy,icon,updated_time,email");
 		queryMap.set("offset", String.valueOf(offset));
 		queryMap.set("limit", String.valueOf(limit));
 		return graphApi.fetchConnections("search", "", Group.class, queryMap);

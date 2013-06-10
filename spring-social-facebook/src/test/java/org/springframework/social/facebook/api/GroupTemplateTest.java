@@ -104,7 +104,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion&offset=0&limit=25"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail&offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/group-list"), MediaType.APPLICATION_JSON));
@@ -114,7 +114,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search_withOffsetAndLimit() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail%2Cversion&offset=45&limit=15"))
+		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Spring+User+Group&type=group&fields=owner%2Cname%2Cdescription%2Cprivacy%2Cicon%2Cupdated_time%2Cemail&offset=45&limit=15"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/group-list"), MediaType.APPLICATION_JSON));
@@ -169,19 +169,16 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(3, memberships.size());
 		assertEquals("12345", memberships.get(0).getId());
 		assertEquals("Test Group", memberships.get(0).getName());
-		assertEquals(1, memberships.get(0).getVersion());
 		assertEquals(1, memberships.get(0).getBookmarkOrder());
 		assertTrue(memberships.get(0).isAdministrator());
 		assertEquals(0, memberships.get(0).getUnread());
 		assertEquals("54321", memberships.get(1).getId());
 		assertEquals("Test Group 2", memberships.get(1).getName());
-		assertEquals(0, memberships.get(1).getVersion());
 		assertEquals(2, memberships.get(1).getBookmarkOrder());
 		assertFalse(memberships.get(1).isAdministrator());
 		assertEquals(0, memberships.get(1).getUnread());
 		assertEquals("24680", memberships.get(2).getId());
 		assertEquals("Test Group 3", memberships.get(2).getName());
-		assertEquals(1, memberships.get(2).getVersion());
 		assertEquals(999999999, memberships.get(2).getBookmarkOrder());
 		assertFalse(memberships.get(2).isAdministrator());
 		assertEquals(24, memberships.get(2).getUnread());

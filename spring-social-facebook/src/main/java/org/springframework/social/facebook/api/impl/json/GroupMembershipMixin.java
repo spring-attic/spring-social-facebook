@@ -30,7 +30,6 @@ abstract class GroupMembershipMixin {
 	GroupMembershipMixin(
 			@JsonProperty("id") String id, 
 			@JsonProperty("name") String name,
-			@JsonProperty("version") int version,
 			@JsonProperty("bookmark_order") int bookmarkOrder,
 			@JsonProperty("administrator") boolean administrator) {}
 	
