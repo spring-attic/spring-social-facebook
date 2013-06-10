@@ -45,7 +45,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("cwalls@vmware.com", profile.getEmail());
 		assertEquals("http://www.facebook.com/habuma", profile.getLink());
 		assertEquals("xyz123abc987", profile.getThirdPartyId());
-		assertEquals(Integer.valueOf(-5), profile.getTimezone());  // should be -6 ???
+		assertEquals(Float.valueOf(-5), profile.getTimezone());  // should be -6 ???
 		assertEquals(toDate("2010-08-22T00:01:59+0000"), profile.getUpdatedTime());
 		assertTrue(profile.isVerified());
 		assertEquals("Just some dude", profile.getAbout());
@@ -122,6 +122,18 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 
 		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
 		assertBasicProfileData(profile, false);
+	}
+	
+	@Test
+	public void getUserProfile_specificUserByUserId_withRealTimezone() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("testdata/minimal-profile-with-timezone"), MediaType.APPLICATION_JSON));
+
+		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		assertBasicProfileData(profile, true);
+		assertEquals(Float.valueOf("-4.5"), profile.getTimezone()); 
 	}
 
 	@Test
