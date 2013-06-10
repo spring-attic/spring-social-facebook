@@ -99,7 +99,7 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public PagedList<FacebookProfile> getFriendProfiles() {
-		return getFriendProfiles("me", 0, 100);
+		return getFriendProfiles("me");
 	}
 
 	public PagedList<FacebookProfile> getFriendProfiles(int offset, int limit) {
@@ -129,7 +129,10 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public PagedList<FacebookProfile> getFriendProfiles(String userId) {
-		return getFriendProfiles(userId, 0, 100);
+		requireAuthorization();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		parameters.set("fields", FULL_PROFILE_FIELDS);
+		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
 	}
 
 	public PagedList<FacebookProfile> getFriendProfiles(String userId, int offset, int limit) {
