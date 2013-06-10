@@ -159,7 +159,7 @@ public class Post {
 	 * The most recent comments for the post.
 	 */
 	public List<Comment> getComments() {
-		return comments.getList();
+		return comments != null ? comments.getList() : null;
 	}
 	
 	public String getStory() {
@@ -171,7 +171,7 @@ public class Post {
 	}
 
 	public int getCommentCount() {
-		return comments.getCount();
+		return comments != null ? comments.getCount() : null;
 	}
 	
 	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }
