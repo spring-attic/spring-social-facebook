@@ -17,8 +17,8 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.test.web.client.RequestMatchers.*;
-import static org.springframework.test.web.client.ResponseCreators.*;
+import static org.springframework.test.web.client.match.RequestMatchers.*;
+import static org.springframework.test.web.client.response.ResponseCreators.*;
 
 import java.util.List;
 import java.util.Locale;
