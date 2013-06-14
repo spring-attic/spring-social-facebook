@@ -1,4 +1,4 @@
-Spring Social Facebook 1.0.2 (June 18, 2013)
+Spring Social Facebook 1.0.2 (June 19, 2013)
 ============================================
 Compatibility notes:
   This release includes changes to enable Spring Social Facebook to work
