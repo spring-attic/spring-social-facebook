@@ -8,7 +8,8 @@ Improvements
 
 Bug Fixes
   * Add FRIENDS constant to Privacy enum. (SOCIALFB-108)
-
+  * Make Reference, WorkEntry, and EducationEntry serializable so that
+    FacebookProfile will be serializable. (SOCIALFB-111)
 
 
 Spring Social Facebook 1.0.2 (September 3, 2012)
