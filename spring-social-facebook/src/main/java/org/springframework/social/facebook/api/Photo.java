@@ -104,6 +104,9 @@ public class Photo {
 		return updatedTime;
 	}
 	
+	/**
+	 * @return A list of all Image objects for this photo, ordered largest to smallest.
+	 */
 	public List<Image> getImages() {
 		return images;
 	}

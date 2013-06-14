@@ -1,5 +1,12 @@
 {
    "id": "21278871488",
+   "can_post": true,
+   "cover": {
+      "cover_id": "10151582481816489",
+      "source": "http://sphotos-g.ak.fbcdn.net/hphotos-ak-ash3/s720x720/942964_10151582481816489_61037109_n.jpg",
+      "offset_y": 10,
+      "offset_x": 20
+   },
    "name": "Mountain Dew",
    "picture": "http://profile.ak.fbcdn.net/hprofile-ak-snc4/203494_21278871488_3106566_s.jpg",
    "link": "http://www.facebook.com/mountaindew",
@@ -9,5 +16,9 @@
    "username": "mountaindew",
    "mission": "Join The Official Mountain Dew Facebook page for a \u201cpeek under the cap\u201d at the latest and greatest from DEW.\n",
    "products": "Mountain Dew, Diet Mountain Dew, Mountain Dew Voltage, Mountain Dew White Out, Mountain Dew Code Red, Diet Mountain Dew Code Red, Mountain Dew LiveWire, BajaBlast",
-   "about": "This is How We DEW"
+   "about": "This is How We DEW",
+   "is_community_page": true,
+   "is_published": true,
+   "has_added_app": true,
+   "talking_about_count": 32597
 }

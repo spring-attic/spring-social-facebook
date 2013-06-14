@@ -478,6 +478,18 @@ public interface FeedOperations {
 	String post(String ownerId, String message);
 	
 	/**
+	 * Adds a Post to a feed.
+	 * @param post the new post
+	 * @return the id of the new feed entry.
+	 * @throws DuplicateStatusException if the post duplicates a previous post.
+	 * @throws RateLimitExceededException if the per-user/per-app rate limit is exceeded.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	String post(NewPost post);
+	
+	/**
 	 * Posts a link to a feed.
 	 * Requires "publish_stream" permission.
 	 * @param ownerId the feed owner ID. Could be a user ID or a page ID.

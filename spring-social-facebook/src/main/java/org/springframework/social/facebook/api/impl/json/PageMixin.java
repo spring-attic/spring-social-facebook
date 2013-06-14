@@ -15,6 +15,9 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
+import java.util.Map;
+
+import org.springframework.social.facebook.api.CoverPhoto;
 import org.springframework.social.facebook.api.Location;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -52,6 +55,9 @@ abstract class PageMixin {
 	@JsonDeserialize(using=PictureDeserializer.class)
 	String picture;
 	
+	@JsonProperty("cover")
+	CoverPhoto cover;
+	
 	@JsonProperty("phone")
 	String phone;
 
@@ -61,13 +67,28 @@ abstract class PageMixin {
 	@JsonProperty("company_overview")
 	String companyOverview;
 
-	@JsonProperty("fan_count")
-	int fanCount;
-
 	@JsonProperty("likes")
 	int likes;
+	
+	@JsonProperty("talking_about_count")
+	int talkingAboutCount;
 	
 	@JsonProperty("checkins")
 	int checkins;
 	
+	@JsonProperty("can_post")
+	boolean canPost;
+	
+	@JsonProperty("is_published")
+	private boolean isPublished;
+	
+	@JsonProperty("is_community_page")
+	private boolean isCommunityPage;
+	
+	@JsonProperty("has_added_app")
+	private boolean hasAddedApp;
+
+	@JsonProperty("hours")
+	private Map<String, String> hours;
+
 }

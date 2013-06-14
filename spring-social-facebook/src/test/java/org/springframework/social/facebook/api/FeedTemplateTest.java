@@ -506,6 +506,36 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		unauthorizedFacebook.feedOperations().postLink("Hello Facebook World", link);
 	}
+	
+	@Test
+	public void post_NewPost_messageOnly() throws Exception {
+		String requestBody = "message=Hello+Facebook+World";
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World")));
+		mockServer.verify();		
+	}
+
+	@Test
+	public void post_NewPost_link() throws Exception {
+		String requestBody = "message=Hello+Facebook+World&link=someLink&name=some+name&caption=some+caption&description=some+description";
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
+		NewPost newPost = new NewPost("123456789")
+				.link("someLink")
+				.name("some name")
+				.caption("some caption")
+				.description("some description")
+				.message("Hello Facebook World");
+		assertEquals("123456_78901234", facebook.feedOperations().post(newPost));
+		mockServer.verify();		
+	}
 
 	@Test
 	public void post_link_toAnotherFeed() throws Exception {
