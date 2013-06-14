@@ -64,6 +64,27 @@ Improvements
     factory. This makes it possible to use OpenGraph operations when working with
     a FacebookTemplate provided via the connection factory. (SOCIALFB-96)
 
+Spring Social Facebook 1.0.3 (June 19, 2013)
+============================================
+Compatibility notes:
+  This release includes changes to enable Spring Social Facebook to work
+  after the July 2013 Breaking Changes. In order for this version of Spring
+  Social Facebook to work prior to July 10, 2013, you'll need to configure
+  your application at Facebook to enable the July 2013 Breaking Changes.
+  Within Facebook's application configuration, go to "Settings->Advanced"
+  and click the "Enabled" radio button next to "July 2013 Breaking Changes".
+
+Improvements
+  * Support July 2013 Breaking Changes in Facebook's Graph API. (SOCIALFB-116)
+  * Add several missing properties to Page object. (SOCIALFB-122)
+  * Change FriendOperations.getFriendProfiles() to return all friends. 
+    (SOCIALFB-105)
+
+Bug Fixes
+  * Add FRIENDS constant to Privacy enum. (SOCIALFB-108)
+  * Make Reference, WorkEntry, and EducationEntry serializable so that
+    FacebookProfile will be serializable. (SOCIALFB-111)
+
 Spring Social Facebook 1.0.2 (September 3, 2012)
 ================================================
 Bug Fixes

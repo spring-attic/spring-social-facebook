@@ -1,12 +1,15 @@
 {
    "id": "150263434985489",
+   "can_post": false,
    "name": "Denver International Airport",
    "picture": "http://profile.ak.fbcdn.net/static-ak/rsrc.php/v1/yZ/r/u3l2nEuXNsK.png",
    "link": "http://www.facebook.com/pages/Denver-International-Airport/150263434985489",
    "category": "Local business",
    "likes": 1052,
    "website": "http://flydenver.com",
-   "is_community_page": true,
+   "is_community_page": false,
+   "is_published": false,
+   "has_added_app": false,
    "location": {
       "city": "Denver",
       "state": "CO",
@@ -15,5 +18,6 @@
       "longitude": -104.67384947947
    },
    "phone": "(303) 342-2000",
-   "checkins": 121661
+   "checkins": 121661,
+   "talking_about_count": 15062
 }

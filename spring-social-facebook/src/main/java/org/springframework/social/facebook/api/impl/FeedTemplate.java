@@ -30,6 +30,7 @@ import org.springframework.social.facebook.api.FacebookLink;
 import org.springframework.social.facebook.api.FeedOperations;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.LinkPost;
+import org.springframework.social.facebook.api.NewPost;
 import org.springframework.social.facebook.api.NotePost;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
@@ -241,6 +242,11 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		map.set("description", link.getDescription());
 		map.set("message", message);
 		return graphApi.publish(ownerId, "feed", map);
+	}
+	
+	public String post(NewPost post) {
+		requireAuthorization();
+		return graphApi.publish(post.getTargetFeedId(), "feed", post.toRequestParameters());
 	}
 	
 	public String post(String ownerId, String message) {

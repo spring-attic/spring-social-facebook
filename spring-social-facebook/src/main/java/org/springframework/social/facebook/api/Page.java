@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.Map;
+
 /**
  * Model class representing a Facebook page.
  * A Facebook page could represent any number of things, including businesses, government agencies, people, organizations, etc.
@@ -42,17 +44,29 @@ public class Page {
 	
 	private String picture;
 	
+	private CoverPhoto cover;
+	
 	private String phone;
 	
 	private String affiliation;
 	
 	private String companyOverview;
 	
-	private int fanCount;
-	
 	private int likes;
 	
+	private int talkingAboutCount;
+	
 	private int checkins;
+	
+	private boolean canPost;
+	
+	private boolean isPublished;
+	
+	private boolean isCommunityPage;
+	
+	private boolean hasAddedApp;
+	
+	private Map<String, String> hours;
 
 	public Page(String id, String name, String link, String category) {
 		this.id = id;
@@ -61,34 +75,58 @@ public class Page {
 		this.category = category;
 	}
 
+	/**
+	 * @return The page's ID.
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * @return The page's name.
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * @return Link to the page on Facebook.
+	 */
 	public String getLink() {
 		return link;
 	}
 
+	/**
+	 * @return The page's category.
+	 */
 	public String getCategory() {
 		return category;
 	}
 	
+	/**
+	 * @return A description of this page.
+	 */
 	public String getDescription() {
 		return description;
 	}
 	
+	/**
+	 * @return Text telling what this page is about.
+	 */
 	public String getAbout() {
 		return about;
 	}
 	
+	/**
+	 * @return The page's street address and longitude/latitude coordinates (if available).
+	 */
 	public Location getLocation() {
 		return location;
 	}
 
+	/**
+	 * @return Link to the external website for the page.
+	 */
 	public String getWebsite() {
 		return website;
 	}
@@ -101,29 +139,85 @@ public class Page {
 	public String getPicture() {
 		return picture;
 	}
+	
+	/**
+	 * The page's cover photo.
+	 */
+	public CoverPhoto getCover() {
+		return cover;
+	}
 
+	/**
+	 * @return The phone number for the page.
+	 */
 	public String getPhone() {
 		return phone;
 	}
 
+	/**
+	 * @return The name of an organization that this page is affiliated with.
+	 */
 	public String getAffiliation() {
 		return affiliation;
 	}
 
+	/**
+	 * @return Text giving a brief description of the company this page serves.
+	 */
 	public String getCompanyOverview() {
 		return companyOverview;
 	}
 	
-	public int getFanCount() {
-		return fanCount;
-	}
-
+	/**
+	 * @return The number of users who like this page. For Global Brand pages, this count is fall all pages across the brand.
+	 */
 	public int getLikes() {
 		return likes;
 	}
 	
+	
+	public int getTalkingAboutCount() {
+		return talkingAboutCount;
+	}
+
+	/**
+	 * @return The total number of users that have checked in to the page.
+	 */
 	public int getCheckins() {
 		return checkins;
 	}
 
+	/**
+	 * Indicates whether or not the authenticated user can post on this page.
+	 * @return true if the user can post to the page; false otherwise
+	 */
+	public boolean canPost() {
+		return canPost;
+	}
+	
+	/**
+	 * @return true if the page has been published; false otherwise.
+	 */
+	public boolean isPublished() {
+		return isPublished;
+	}
+	
+	/**
+	 * @return true if the page is a community page; false otherwise.
+	 */
+	public boolean isCommunityPage() {
+		return isCommunityPage;
+	}
+	
+	/**
+	 * @return true if the page has added the app making the query in a Page tab; false otherwise.
+	 */
+	public boolean hasAddedApp() {
+		return hasAddedApp;
+	}
+
+	public Map<String, String> getHours() {
+		return hours;
+	}
+	
 }

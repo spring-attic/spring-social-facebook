@@ -20,6 +20,7 @@ import org.springframework.social.facebook.api.Album;
 import org.springframework.social.facebook.api.Checkin;
 import org.springframework.social.facebook.api.CheckinPost;
 import org.springframework.social.facebook.api.Comment;
+import org.springframework.social.facebook.api.CoverPhoto;
 import org.springframework.social.facebook.api.EducationEntry;
 import org.springframework.social.facebook.api.Event;
 import org.springframework.social.facebook.api.EventInvitee;
@@ -100,5 +101,6 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(Question.class, QuestionMixin.class);
 		context.setMixInAnnotations(QuestionOption.class, QuestionOptionMixin.class);
 		context.setMixInAnnotations(StoryTag.class, StoryTagMixin.class);
+		context.setMixInAnnotations(CoverPhoto.class, CoverPhotoMixin.class);
 	}
 }
