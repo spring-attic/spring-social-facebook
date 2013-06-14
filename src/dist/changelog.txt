@@ -1,3 +1,9 @@
+Spring Social Facebook 1.0.2 (June 18, 2013)
+============================================
+Improvements
+  * Support July 2013 Breaking Changes in Facebook's Graph API. (SOCIALFB-116)
+  * Add several missing properties to Page object. (SOCIALFB-122)
+
 Spring Social Facebook 1.0.2 (September 3, 2012)
 ================================================
 Bug Fixes
