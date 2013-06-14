@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.Map;
+
 /**
  * Model class representing a Facebook page.
  * A Facebook page could represent any number of things, including businesses, government agencies, people, organizations, etc.
@@ -33,13 +35,17 @@ public class Page {
 	private final String link;
 
 	private String description;
-	
+
+	private String about;
+
 	private Location location;
 	
 	private String website;
 	
 	private String picture;
-	
+
+	private CoverPhoto cover;
+
 	private String phone;
 	
 	private String affiliation;
@@ -50,8 +56,20 @@ public class Page {
 	
 	private int likes;
 	
+	private int talkingAboutCount;
+
 	private int checkins;
 
+	private boolean canPost;
+	
+	private boolean isPublished;
+	
+	private boolean isCommunityPage;
+	
+	private boolean hasAddedApp;
+	
+	private Map<String, String> hours;
+	
 	public Page(String id, String name, String link, String category) {
 		this.id = id;
 		this.name = name;
@@ -78,7 +96,11 @@ public class Page {
 	public String getDescription() {
 		return description;
 	}
-	
+
+	public String getAbout() {
+		return about;
+	}
+
 	public Location getLocation() {
 		return location;
 	}
@@ -96,6 +118,10 @@ public class Page {
 		return picture;
 	}
 
+	public CoverPhoto getCover() {
+		return cover;
+	}
+
 	public String getPhone() {
 		return phone;
 	}
@@ -108,6 +134,10 @@ public class Page {
 		return companyOverview;
 	}
 	
+	/**
+	 * @deprecated The fan_count property is no longer returned from Facebook's Graph API and so this will always be zero. This property will be removed in Spring Social Facebook 1.1.0.
+	 */
+	@Deprecated
 	public int getFanCount() {
 		return fanCount;
 	}
@@ -115,9 +145,46 @@ public class Page {
 	public int getLikes() {
 		return likes;
 	}
+
+	public int getTalkingAboutCount() {
+		return talkingAboutCount;
+	}
 	
 	public int getCheckins() {
 		return checkins;
 	}
 
+	/**
+	 * Indicates whether or not the authenticated user can post on this page.
+	 * @return true if the user can post to the page; false otherwise
+	 */
+	public boolean canPost() {
+		return canPost;
+	}
+	
+	/**
+	 * @return true if the page has been published; false otherwise.
+	 */
+	public boolean isPublished() {
+		return isPublished;
+	}
+	
+	/**
+	 * @return true if the page is a community page; false otherwise.
+	 */
+	public boolean isCommunityPage() {
+		return isCommunityPage;
+	}
+	
+	/**
+	 * @return true if the page has added the app making the query in a Page tab; false otherwise.
+	 */
+	public boolean hasAddedApp() {
+		return hasAddedApp;
+	}
+
+	public Map<String, String> getHours() {
+		return hours;
+	}
+	
 }

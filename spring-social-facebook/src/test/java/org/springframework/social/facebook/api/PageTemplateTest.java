@@ -34,6 +34,7 @@ import org.springframework.social.NotAuthorizedException;
 public class PageTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
+	@SuppressWarnings("deprecation")
 	public void getPage_organization() {
 		mockServer.expect(requestTo("https://graph.facebook.com/140804655931206"))
 			.andExpect(method(GET))
@@ -48,9 +49,16 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(33, page.getLikes());
 		assertEquals("Organization", page.getCategory());
 		assertEquals("<p><b>SpringSource</b> is a division of <a href=\"http://en.wikipedia.org/wiki/VMware\" class=\"wikipedia\">VMware</a> that provides...</p>", page.getDescription());
+		assertEquals("SpringSource offers a product suite to build, run & manage enterprise Java applications.  Please join the SpringSource Group here: http://www.facebook.com/groups/10463298884/", page.getAbout());
+		assertFalse(page.canPost());
+		assertTrue(page.isPublished());
+		assertFalse(page.isCommunityPage());
+		assertFalse(page.hasAddedApp());
+		assertEquals(19, page.getTalkingAboutCount());
 	}
 
 	@Test
+	@SuppressWarnings("deprecation")
 	public void getPage_product() {
 		mockServer.expect(requestTo("https://graph.facebook.com/21278871488"))
 			.andExpect(method(GET))
@@ -65,9 +73,21 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(5083988, page.getLikes());
 		assertEquals("Food/beverages", page.getCategory());
 		assertEquals("www.mountaindew.com\nwww.greenlabelsound.com\nwww.greenlabelart.com\nwww.honorthecode.com\nwww.dietdewchallenge.com\nwww.twitter.com/mtn_dew\nwww.youtube.com/mountaindew", page.getWebsite());
+		assertEquals("This is How We DEW", page.getAbout());
+		assertTrue(page.canPost());
+		CoverPhoto coverPhoto = page.getCover();
+		assertEquals("10151582481816489", coverPhoto.getId());
+		assertEquals("http://sphotos-g.ak.fbcdn.net/hphotos-ak-ash3/s720x720/942964_10151582481816489_61037109_n.jpg", coverPhoto.getSource());
+		assertEquals(20, coverPhoto.getOffsetX());
+		assertEquals(10, coverPhoto.getOffsetY());
+		assertTrue(page.isPublished());
+		assertTrue(page.isCommunityPage());
+		assertTrue(page.hasAddedApp());
+		assertEquals(32597, page.getTalkingAboutCount());
 	}
 
 	@Test
+	@SuppressWarnings("deprecation")
 	public void getPage_place() {
 		mockServer.expect(requestTo("https://graph.facebook.com/150263434985489"))
 			.andExpect(method(GET))
@@ -89,6 +109,56 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(-104.67384947947, page.getLocation().getLongitude(), 0.0001);
 		assertEquals("(303) 342-2000", page.getPhone());
 		assertEquals(121661, page.getCheckins());
+		assertFalse(page.canPost());
+		assertFalse(page.isPublished());
+		assertFalse(page.isCommunityPage());
+		assertFalse(page.hasAddedApp());
+		assertEquals(15062, page.getTalkingAboutCount());
+		assertNull(page.getHours());
+	}
+
+	@Test
+	@SuppressWarnings("deprecation")
+	public void getPage_place_with_hours() {
+		mockServer.expect(requestTo("https://graph.facebook.com/220817147947513"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("testdata/place-with-hours-page"), MediaType.APPLICATION_JSON));
+
+		Page page = facebook.pageOperations().getPage("220817147947513");
+		assertEquals("220817147947513", page.getId());
+		assertEquals("Denton Square Donuts", page.getName());
+		assertEquals("https://www.facebook.com/DentonSquareDonuts", page.getLink());
+		assertEquals(3078, page.getLikes());
+		assertEquals("Restaurant/cafe", page.getCategory());
+		assertEquals("www.dsdonuts.com", page.getWebsite());
+		assertEquals("Denton", page.getLocation().getCity());
+		assertEquals("TX", page.getLocation().getState());
+		assertEquals("United States", page.getLocation().getCountry());
+		assertEquals(33.21556, page.getLocation().getLatitude(), 0.0001);
+		assertEquals(-97.13414, page.getLocation().getLongitude(), 0.0001);
+		assertEquals("940-220-9447", page.getPhone());
+		assertEquals(959, page.getCheckins());
+		assertFalse(page.canPost());
+		assertTrue(page.isPublished());
+		assertFalse(page.isCommunityPage());
+		assertFalse(page.hasAddedApp());
+		assertEquals(68, page.getTalkingAboutCount());
+		assertNotNull(page.getHours());
+		assertEquals("07:30", page.getHours().get("mon_1_open"));
+		assertEquals("13:00", page.getHours().get("mon_1_close"));
+		assertEquals("07:30", page.getHours().get("tue_1_open"));
+		assertEquals("13:00", page.getHours().get("tue_1_close"));
+		assertEquals("07:30", page.getHours().get("wed_1_open"));
+		assertEquals("13:00", page.getHours().get("wed_1_close"));
+		assertEquals("07:30", page.getHours().get("thu_1_open"));
+		assertEquals("13:00", page.getHours().get("thu_1_close"));
+		assertEquals("07:30", page.getHours().get("fri_1_open"));
+		assertEquals("13:00", page.getHours().get("fri_1_close"));
+		assertEquals("07:30", page.getHours().get("sat_1_open"));
+		assertEquals("13:00", page.getHours().get("sat_1_close"));
+		assertEquals("07:30", page.getHours().get("sun_1_open"));
+		assertEquals("13:00", page.getHours().get("sun_1_close"));
 	}
 
 	@Test
@@ -103,6 +173,8 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Greenhouse", page.getName());
 		assertEquals("http://www.facebook.com/apps/application.php?id=140372495981006", page.getLink());
 		assertEquals("The social destination for Spring application developers.", page.getDescription());
+		assertTrue(page.canPost());
+		assertEquals(0, page.getTalkingAboutCount());
 	}
 	
 	@Test
@@ -141,7 +213,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/feed"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body(requestBody))
+				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		assertEquals("123456_78901234", facebook.pageOperations().post("987654321", "Hello Facebook World"));
 		mockServer.verify();
@@ -164,7 +236,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World&access_token=pageAccessToken";
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/feed")).andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(body(requestBody))
+				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
 		assertEquals("123456_78901234", facebook.pageOperations().post("987654321", "Hello Facebook World", link));
