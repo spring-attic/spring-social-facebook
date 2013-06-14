@@ -1,5 +1,13 @@
 Spring Social Facebook 1.0.2 (June 18, 2013)
 ============================================
+Compatibility notes:
+  This release includes changes to enable Spring Social Facebook to work
+  after the July 2013 Breaking Changes. In order for this version of Spring
+  Social Facebook to work prior to July 10, 2013, you'll need to configure
+  your application at Facebook to enable the July 2013 Breaking Changes.
+  Within Facebook's application configuration, go to "Settings->Advanced"
+  and click the "Enabled" radio button next to "July 2013 Breaking Changes".
+
 Improvements
   * Support July 2013 Breaking Changes in Facebook's Graph API. (SOCIALFB-116)
   * Add several missing properties to Page object. (SOCIALFB-122)
