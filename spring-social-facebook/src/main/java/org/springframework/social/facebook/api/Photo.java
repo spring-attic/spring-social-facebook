@@ -104,6 +104,9 @@ public class Photo {
 		return updatedTime;
 	}
 	
+	/**
+	 * @return A list of all Image objects for this photo, ordered largest to smallest.
+	 */
 	public List<Image> getImages() {
 		return images;
 	}
@@ -182,13 +185,6 @@ public class Photo {
 	public Image getTinyImage() {
 		
 		return images.size() > 7 ? images.get(7) : null;
-	}
-
-	/**
-	 * @return A list of all Image objects for this photo, ordered largest to smallest.
-	 */
-	public List<Image> getImages() {
-		return images;
 	}
 	
 	public List<Tag> getTags() {
