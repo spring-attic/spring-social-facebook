@@ -16,6 +16,7 @@
 package org.springframework.social.facebook.api.impl.json;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
@@ -40,7 +41,6 @@ class CommentListDeserializer extends JsonDeserializer<List<Comment>> {
 				return (List<Comment>) mapper.readValue(dataNode, new TypeReference<List<Comment>>() {});
 			}
 		}
-		
-		return null;
+		return Collections.emptyList();
 	}
 }

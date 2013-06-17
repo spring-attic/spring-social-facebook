@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -134,7 +135,11 @@ public class Post {
 	 * The most recent comments for the post.
 	 */
 	public List<Comment> getComments() {
-		return comments;
+		if (comments != null) {
+			return comments;
+		} else {
+			return Collections.emptyList();
+		}
 	}
 
 	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }
