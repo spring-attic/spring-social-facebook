@@ -21,6 +21,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
@@ -175,6 +176,37 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("The social destination for Spring application developers.", page.getDescription());
 		assertTrue(page.canPost());
 		assertEquals(0, page.getTalkingAboutCount());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void getPage_withExtraData() {
+		mockServer.expect(requestTo("https://graph.facebook.com/11803178355"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/page-with-extra-data"), MediaType.APPLICATION_JSON));
+
+		Page page = facebook.pageOperations().getPage("11803178355");
+		assertEquals("11803178355", page.getId());
+		assertEquals("A Scanner Darkly", page.getName());
+		assertEquals("https://www.facebook.com/pages/A-Scanner-Darkly/11803178355", page.getLink());
+		assertNull(page.getDescription());
+		Map<String, Object> extraData = page.getExtraData();
+		assertEquals("Warner Independent Pictures", extraData.get("studio"));
+		assertEquals(0, extraData.get("were_here_count"));
+		assertEquals("Keanu Reeves, Robert Downey Jr., Woody Harrelson, Winona Ryder, Rory Cochrane", extraData.get("starring"));
+		assertEquals("Richard Linklater based on Philip K. Dick's novel", extraData.get("screenplay_by"));
+		assertEquals("2007", extraData.get("release_date"));
+		assertEquals("Steven Soderbergh and George Clooney (Executive Producers)", extraData.get("produced_by"));
+		assertTrue(extraData.get("plot_outline").toString().startsWith("In the future \"seven years from now\", America has lost the war on drugs. A highly addictive and debilitating illegal drug called Substance D, distilled from small blue flowers"));
+		assertEquals("Science Fiction", extraData.get("genre"));
+		assertEquals("Richard Linklater", extraData.get("directed_by"));
+		assertEquals("Winner of Best Animation award OFCS Awards 2007", extraData.get("awards"));
+		Map<String, Object> embedded = (Map<String, Object>) extraData.get("embedded");
+		assertEquals("y", embedded.get("x"));
+		assertEquals(2, embedded.get("a"));
+		Map<String, Object> deeper = (Map<String, Object>) embedded.get("deeper");
+		assertEquals("bar", deeper.get("foo"));
 	}
 	
 	@Test
