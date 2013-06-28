@@ -27,6 +27,7 @@ import org.springframework.http.MediaType;
 import org.springframework.social.DuplicateStatusException;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.Post.PostType;
+import org.springframework.social.facebook.api.Post.Privacy;
 
 /**
  * @author Craig Walls
@@ -516,6 +517,59 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World")));
+		mockServer.verify();		
+	}
+
+	@Test
+	public void post_NewPost_withPrivacy() throws Exception {
+		String requestBody = "message=Hello+Facebook+World&privacy=%7B%27value%27%3A+%27ALL_FRIENDS%27%7D";
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.ALL_FRIENDS)));
+		mockServer.verify();		
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void post_NewPost_withCustomPrivacy_noAllowOrDeny() throws Exception {
+		facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM));
+	}
+	
+	@Test
+	public void post_NewPost_withCustomPrivacy_allow() throws Exception {
+		String requestBody = "message=Hello+Facebook+World&privacy=%7B%27value%27%3A+%27CUSTOM%27%2C%27allow%27%3A+%2712345%2C54321%27%7D";
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM).allow("12345","54321")));
+		mockServer.verify();		
+	}
+
+	@Test
+	public void post_NewPost_withCustomPrivacy_deny() throws Exception {
+		String requestBody = "message=Hello+Facebook+World&privacy=%7B%27value%27%3A+%27CUSTOM%27%2C%27deny%27%3A+%2712345%2C54321%27%7D";
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM).deny("12345","54321")));
+		mockServer.verify();		
+	}
+
+	@Test
+	public void post_NewPost_withCustomPrivacy_allowAndDeny() throws Exception {
+		String requestBody = "message=Hello+Facebook+World&privacy=%7B%27value%27%3A+%27CUSTOM%27%2C%27allow%27%3A+%2712345%2C54321%27%2C%27deny%27%3A+%2767890%2C98765%27%7D";
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM).deny("67890","98765").allow("12345", "54321")));
 		mockServer.verify();		
 	}
 

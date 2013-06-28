@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api;
 
+import org.springframework.social.facebook.api.Post.Privacy;
+import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -44,6 +46,12 @@ public class NewPost {
 	private String placeId;
 	
 	private String picture;
+	
+	private Post.Privacy privacy;
+	
+	private String[] allow;
+	
+	private String[] deny;
 
 	/**
 	 * Creates a new {@link NewPost}.
@@ -120,6 +128,30 @@ public class NewPost {
 		this.picture = picture;
 		return this;
 	}
+	
+	/**
+	 * @param privacy The privacy setting for the post. If CUSTOM, then you must also set at least one of allow() or deny().
+	 */
+	public NewPost privacy(Post.Privacy privacy) {
+		this.privacy = privacy;
+		return this;
+	}
+	
+	/**
+	 * @param allow One or more Facebook User IDs and friend list IDs that can see the post. Ignored unless privacy is CUSTOM.
+	 */
+	public NewPost allow(String... allow) {
+		this.allow = allow;
+		return this;
+	}
+
+	/**
+	 * @param deny One or more Facebook User IDs and friend list IDs that cannot see the post. Ignored unless privacy is CUSTOM.
+	 */
+	public NewPost deny(String... deny) {
+		this.deny = deny;
+		return this;
+	}
 
 	public MultiValueMap<String, Object> toRequestParameters() {
 		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
@@ -134,7 +166,38 @@ public class NewPost {
 			// tags are only allowed if a place is given
 			if (tags != null) { parameters.add("tags", StringUtils.arrayToCommaDelimitedString(tags)); }
 		}
+		if (privacy != null) {
+			StringBuffer privacyBuffer = new StringBuffer();
+			privacyBuffer.append("{'value': '").append(privacy.toString()).append("'");
+			if (privacy == Privacy.CUSTOM) {
+				if (allow == null && deny == null) {
+					throw new IllegalArgumentException("At least one of 'deny' or 'allow' must be specified when privacy is CUSTOM.");
+				}
+				if (allow != null) {
+					privacyBuffer.append(",'allow': '").append(join(allow)).append("'");
+				}
+				if (deny != null) {
+					privacyBuffer.append(",'deny': '").append(join(deny)).append("'");
+				}
+			}
+			privacyBuffer.append("}");
+			parameters.add("privacy", privacyBuffer.toString());
+		}
+
 		return parameters;
+	}
+
+	// TODO: Extract this into some utility, as it comes in handy in several places
+	private String join(String... strings) {
+		Assert.notEmpty(strings);
+		StringBuilder builder = new StringBuilder();
+		builder.append(strings[0]);
+		if (strings.length > 1) {
+			for (int i=1; i<strings.length; i++) {
+				builder.append(",").append(strings[i]);
+			}
+		}
+		return builder.toString();
 	}
 
 }

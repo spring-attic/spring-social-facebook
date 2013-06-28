@@ -57,6 +57,6 @@ public class FacebookOAuth2Template extends OAuth2Template {
 	protected AccessGrant postForAccessGrant(String accessTokenUrl, MultiValueMap<String, String> parameters) {
 		MultiValueMap<String, String> response = getRestTemplate().postForObject(accessTokenUrl, parameters, MultiValueMap.class);
 		String expires = response.getFirst("expires");
-		return new AccessGrant(response.getFirst("access_token"), null, null, expires != null ? Integer.valueOf(expires) : null);
+		return new AccessGrant(response.getFirst("access_token"), null, null, expires != null ? Long.valueOf(expires) : null);
 	}
 }
