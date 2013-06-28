@@ -1,3 +1,25 @@
+Spring Social Facebook 1.1.0.M3 (July 8, 2012)
+==============================================
+Bug Fixes
+  * Change timezone on user profile from Integer to Float to support
+    half-timezones. (SOCIALFB-90)
+  * Changed Reference, WorkEntry, and EducationEntry to implement
+    Serializable so that FacebookProfile will truly be Serializable.
+    (SOCIALFB-111)
+  * Add FRIENDS privacy to Event.Privacy enum. (SOCIALFB-108)
+
+Improvements
+  * Updated comments structure to support Facebook's July 2013 API
+    changes. (SOCIALFB-116)
+  * Create and read checkins as Posts with a location to support
+    Facebook's July 2013 API changes. (SOCIALFB-115)
+  * Added several missing properties to the Page object. (SOCIALFB-122)
+  * FriendOperations.getFriendProfiles() now returns all friends.
+    (SOCIALFB-105)
+  * Add ability to create invitations to an event. (SOCIALFB-112)
+  * Capture otherwise unbound properties for Page object in a new
+    'extraData' property. (SOCIALFB-73)
+
 Spring Social Facebook 1.1.0.M2 (February 12, 2012)
 ===================================================
 Miscellaneous

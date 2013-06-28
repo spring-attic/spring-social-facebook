@@ -1,0 +1,34 @@
+
+{
+   "awards": "Winner of Best Animation award OFCS Awards 2007",
+   "category": "Movie",
+   "directed_by": "Richard Linklater",
+   "genre": "Science Fiction",
+   "is_published": true,
+   "plot_outline": "In the future \"seven years from now\", America has lost the war on drugs. A highly addictive and debilitating illegal drug called Substance D, distilled from small blue flowers, has swept across the country. In response, the government develops an invasive, high-tech surveillance system and puts in place a network of informants and undercover agents.\n\nBob Arctor (Reeves) is an undercover agent assigned to immerse himself in the drug underworld and infiltrate the drug supply chain. Arctor and his housemates live in a suburban tract house in a poor Anaheim, California neighborhood. They are heavy drug users, and they pass their days by taking drugs and having long, drug-induced conversations.",
+   "produced_by": "Steven Soderbergh and George Clooney (Executive Producers)",
+   "release_date": "2007",
+   "screenplay_by": "Richard Linklater based on Philip K. Dick's novel",
+   "starring": "Keanu Reeves, Robert Downey Jr., Woody Harrelson, Winona Ryder, Rory Cochrane",
+   "studio": "Warner Independent Pictures",
+   "talking_about_count": 8,
+   "website": "http://wip.warnerbros.com/ascannerdarkly/",
+   "were_here_count": 0,
+   "id": "11803178355",
+   "name": "A Scanner Darkly",
+   "link": "https://www.facebook.com/pages/A-Scanner-Darkly/11803178355",
+   "likes": 12843,
+   "cover": {
+      "cover_id": "10150886096113356",
+      "source": "http://sphotos-a.xx.fbcdn.net/hphotos-ash3/s720x720/539647_10150886096113356_1243801443_n.jpg",
+      "offset_y": 0,
+      "offset_x": 0
+   },
+   "embedded": {
+      "x":"y",
+      "a": 2,
+      "deeper": {
+         "foo":"bar"
+   }
+   }
+}
