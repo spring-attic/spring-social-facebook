@@ -180,4 +180,7 @@ public class Post {
 	}
 	
 	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }
+	
+	public static enum Privacy { EVERYONE, ALL_FRIENDS, FRIENDS_OF_FRIENDS, CUSTOM, SELF };
+	
 }
