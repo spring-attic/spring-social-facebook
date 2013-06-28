@@ -17,6 +17,8 @@ Improvements
   * FriendOperations.getFriendProfiles() now returns all friends.
     (SOCIALFB-105)
   * Add ability to create invitations to an event. (SOCIALFB-112)
+  * Capture otherwise unbound properties for Page object in a new
+    'extraData' property. (SOCIALFB-73)
 
 Spring Social Facebook 1.1.0.M2 (February 12, 2012)
 ===================================================
