@@ -26,7 +26,7 @@ configure(allprojects) {
       mockitoVersion = '1.9.5'
       servletApiVersion = '2.5'
       springSecurityCryptoVersion = '3.1.4.RELEASE'
-      springVersion = '3.2.2.RELEASE'
+      springVersion = '3.2.3.RELEASE'
     }
 
     [compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint:none']

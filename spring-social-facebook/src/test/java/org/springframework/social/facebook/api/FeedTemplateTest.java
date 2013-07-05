@@ -516,7 +516,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World")));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new PostData("123456789").message("Hello Facebook World")));
 		mockServer.verify();		
 	}
 
@@ -528,13 +528,13 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.ALL_FRIENDS)));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new PostData("123456789").message("Hello Facebook World").privacy(Privacy.ALL_FRIENDS)));
 		mockServer.verify();		
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void post_NewPost_withCustomPrivacy_noAllowOrDeny() throws Exception {
-		facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM));
+		facebook.feedOperations().post(new PostData("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM));
 	}
 	
 	@Test
@@ -545,7 +545,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM).allow("12345","54321")));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new PostData("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM).allow("12345","54321")));
 		mockServer.verify();		
 	}
 
@@ -557,7 +557,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM).deny("12345","54321")));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new PostData("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM).deny("12345","54321")));
 		mockServer.verify();		
 	}
 
@@ -569,7 +569,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		assertEquals("123456_78901234", facebook.feedOperations().post(new NewPost("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM).deny("67890","98765").allow("12345", "54321")));
+		assertEquals("123456_78901234", facebook.feedOperations().post(new PostData("123456789").message("Hello Facebook World").privacy(Privacy.CUSTOM).deny("67890","98765").allow("12345", "54321")));
 		mockServer.verify();		
 	}
 
@@ -581,7 +581,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		NewPost newPost = new NewPost("123456789")
+		PostData newPost = new PostData("123456789")
 				.link("someLink")
 				.name("some name")
 				.caption("some caption")

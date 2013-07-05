@@ -13,12 +13,16 @@ Improvements
     changes. (SOCIALFB-116)
   * Create and read checkins as Posts with a location to support
     Facebook's July 2013 API changes. (SOCIALFB-115)
-  * Added several missing properties to the Page object. (SOCIALFB-122)
+  * Added several missing properties to the Page object. (SOCIALFB-122
+    and SOCIALFB-104)
   * FriendOperations.getFriendProfiles() now returns all friends.
     (SOCIALFB-105)
   * Add ability to create invitations to an event. (SOCIALFB-112)
   * Capture otherwise unbound properties for Page object in a new
     'extraData' property. (SOCIALFB-73)
+  * Ability to create a new Post using a builder-style API.
+    (SOCIALFB-118)
+  * Ability to create a Post with a picture. (SOCIALFB-54)
 
 Spring Social Facebook 1.1.0.M2 (February 12, 2012)
 ===================================================
