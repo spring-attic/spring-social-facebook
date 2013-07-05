@@ -66,7 +66,7 @@ public class PostData {
 	}
 	
 	/**
-	 * @param picture A message for the post.
+	 * @param message A message for the post.
 	 */
 	public PostData message(String message) {
 		this.message = message;
@@ -74,7 +74,7 @@ public class PostData {
 	}
 
 	/**
-	 * @param picture A link to include in the post.
+	 * @param linkUrl A link to include in the post.
 	 */
 	public PostData link(String linkUrl) {
 		this.linkUrl = linkUrl;
@@ -82,7 +82,7 @@ public class PostData {
 	}
 	
 	/**
-	 * @param picture A name (e.g., title) for the post.
+	 * @param name A name (e.g., title) for the post.
 	 */
 	public PostData name(String name) {
 		this.name = name;
@@ -90,7 +90,7 @@ public class PostData {
 	}
 	
 	/**
-	 * @param picture A caption for the post.
+	 * @param caption A caption for the post.
 	 */
 	public PostData caption(String caption) {
 		this.caption = caption;
@@ -98,7 +98,7 @@ public class PostData {
 	}
 	
 	/**
-	 * @param picture A description of the post.
+	 * @param description A description of the post.
 	 */
 	public PostData description(String description) {
 		this.description = description;
@@ -106,7 +106,7 @@ public class PostData {
 	}
 	
 	/**
-	 * @param picture The ID of a place to associate with the post.
+	 * @param placeId The ID of a place to associate with the post.
 	 */
 	public PostData place(String placeId) {
 		this.placeId = placeId;
@@ -114,7 +114,7 @@ public class PostData {
 	}
 	
 	/**
-	 * @param picture One or more Facebook user IDs to tag in the post. Will be ignored unless a place is specified.
+	 * @param tags One or more Facebook user IDs to tag in the post. Will be ignored unless a place is specified.
 	 */
 	public PostData tags(String... tags) {
 		this.tags = tags;
