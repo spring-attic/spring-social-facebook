@@ -487,7 +487,7 @@ public interface FeedOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	String post(NewPost post);
+	String post(PostData post);
 	
 	/**
 	 * Posts a link to a feed.
