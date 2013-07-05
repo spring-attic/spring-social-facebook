@@ -24,10 +24,10 @@ import org.springframework.util.StringUtils;
 /**
  * An object that represents a new post to be created. 
  * Offers a builder-like way of creating a new post.
- * Given to {@link FeedOperations#post(NewPost)}.
+ * Given to {@link FeedOperations#post(PostData)}.
  * @author Craig Walls
  */
-public class NewPost {
+public class PostData {
 
 	private final String targetFeedId;
 	
@@ -54,10 +54,10 @@ public class NewPost {
 	private String[] deny;
 
 	/**
-	 * Creates a new {@link NewPost}.
+	 * Creates a new {@link PostData}.
 	 * @param targetFeedId The ID of the owner of the post.
 	 */
-	public NewPost(String targetFeedId) {
+	public PostData(String targetFeedId) {
 		this.targetFeedId = targetFeedId;
 	}
 	
@@ -68,7 +68,7 @@ public class NewPost {
 	/**
 	 * @param picture A message for the post.
 	 */
-	public NewPost message(String message) {
+	public PostData message(String message) {
 		this.message = message;
 		return this;
 	}
@@ -76,7 +76,7 @@ public class NewPost {
 	/**
 	 * @param picture A link to include in the post.
 	 */
-	public NewPost link(String linkUrl) {
+	public PostData link(String linkUrl) {
 		this.linkUrl = linkUrl;
 		return this;
 	}
@@ -84,7 +84,7 @@ public class NewPost {
 	/**
 	 * @param picture A name (e.g., title) for the post.
 	 */
-	public NewPost name(String name) {
+	public PostData name(String name) {
 		this.name = name;
 		return this;
 	}
@@ -92,7 +92,7 @@ public class NewPost {
 	/**
 	 * @param picture A caption for the post.
 	 */
-	public NewPost caption(String caption) {
+	public PostData caption(String caption) {
 		this.caption = caption;
 		return this;
 	}
@@ -100,7 +100,7 @@ public class NewPost {
 	/**
 	 * @param picture A description of the post.
 	 */
-	public NewPost description(String description) {
+	public PostData description(String description) {
 		this.description = description;
 		return this;
 	}
@@ -108,7 +108,7 @@ public class NewPost {
 	/**
 	 * @param picture The ID of a place to associate with the post.
 	 */
-	public NewPost place(String placeId) {
+	public PostData place(String placeId) {
 		this.placeId = placeId;
 		return this;
 	}
@@ -116,7 +116,7 @@ public class NewPost {
 	/**
 	 * @param picture One or more Facebook user IDs to tag in the post. Will be ignored unless a place is specified.
 	 */
-	public NewPost tags(String... tags) {
+	public PostData tags(String... tags) {
 		this.tags = tags;
 		return this;
 	}
@@ -124,7 +124,7 @@ public class NewPost {
 	/**
 	 * @param picture The URL to a picture to embed in the post
 	 */
-	public NewPost picture(String picture) {
+	public PostData picture(String picture) {
 		this.picture = picture;
 		return this;
 	}
@@ -132,7 +132,7 @@ public class NewPost {
 	/**
 	 * @param privacy The privacy setting for the post. If CUSTOM, then you must also set at least one of allow() or deny().
 	 */
-	public NewPost privacy(Post.Privacy privacy) {
+	public PostData privacy(Post.Privacy privacy) {
 		this.privacy = privacy;
 		return this;
 	}
@@ -140,7 +140,7 @@ public class NewPost {
 	/**
 	 * @param allow One or more Facebook User IDs and friend list IDs that can see the post. Ignored unless privacy is CUSTOM.
 	 */
-	public NewPost allow(String... allow) {
+	public PostData allow(String... allow) {
 		this.allow = allow;
 		return this;
 	}
@@ -148,7 +148,7 @@ public class NewPost {
 	/**
 	 * @param deny One or more Facebook User IDs and friend list IDs that cannot see the post. Ignored unless privacy is CUSTOM.
 	 */
-	public NewPost deny(String... deny) {
+	public PostData deny(String... deny) {
 		this.deny = deny;
 		return this;
 	}
