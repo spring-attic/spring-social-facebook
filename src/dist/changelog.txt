@@ -1,4 +1,4 @@
-Spring Social Facebook 1.1.0.M3 (July 8, 2012)
+Spring Social Facebook 1.1.0.M3 (July 8, 2013)
 ==============================================
 Bug Fixes
   * Change timezone on user profile from Integer to Float to support
@@ -24,7 +24,7 @@ Improvements
     (SOCIALFB-118)
   * Ability to create a Post with a picture. (SOCIALFB-54)
 
-Spring Social Facebook 1.1.0.M2 (February 12, 2012)
+Spring Social Facebook 1.1.0.M2 (February 12, 2013)
 ===================================================
 Miscellaneous
   * Changes to support Spring Social/Spring Security integration.
