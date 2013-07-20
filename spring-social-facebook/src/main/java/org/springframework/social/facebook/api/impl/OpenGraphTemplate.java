@@ -31,12 +31,15 @@ class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphO
 	}
 
 	public String publishAction(String action, String objectType, String objectUrl) {
+		return publishAction(action, objectType, objectUrl, new LinkedMultiValueMap<String, Object>());
+	}
+	
+	public String publishAction(String action, String objectType, String objectUrl, MultiValueMap<String, Object> parameters) {
 		requireAuthorization();
 		requireApplicationNamespace();
-		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
 		parameters.set(objectType, objectUrl);
 		return graphApi.publish("me", graphApi.getApplicationNamespace() + ":" + action, parameters);
-	}
+	}	
 
 	private void requireApplicationNamespace() {
 		String applicationNamespace = graphApi.getApplicationNamespace();
