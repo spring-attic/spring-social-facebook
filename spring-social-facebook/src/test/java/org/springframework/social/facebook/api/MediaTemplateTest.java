@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.NotAuthorizedException;
 
 public class MediaTemplateTest extends AbstractFacebookApiTest {
@@ -75,9 +76,16 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertAlbums(albums);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
+	@Test
 	public void getAlbums_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.mediaOperations().getAlbums("192837465");
+		try {
+			unauthorizedMockServer.expect(requestTo("https://graph.facebook.com/192837465/albums?offset=0&limit=25"))
+				.andExpect(method(GET))
+				.andRespond(withSuccess(jsonResource("testdata/albums"), MediaType.APPLICATION_JSON));
+			unauthorizedFacebook.mediaOperations().getAlbums("192837465");
+		} catch (MissingAuthorizationException e) {
+			fail("Fetching albums for a specific owner does not require authorization.");
+		}
 	}
 
 	@Test
@@ -137,9 +145,16 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertPhotos(photos);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
+	@Test
 	public void getPhotos_unauthorized() {
-		unauthorizedFacebook.mediaOperations().getPhotos("192837465");
+		try {
+			unauthorizedMockServer.expect(requestTo("https://graph.facebook.com/192837465/photos?offset=0&limit=25"))
+				.andExpect(method(GET))
+				.andRespond(withSuccess(jsonResource("testdata/photos"), MediaType.APPLICATION_JSON));
+			unauthorizedFacebook.mediaOperations().getPhotos("192837465");
+		} catch (MissingAuthorizationException e) {
+			fail("Fetching photos for a specific owner does not require authorization.");
+		}
 	}
 
 	@Test
@@ -151,9 +166,17 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertSinglePhoto(facebook.mediaOperations().getPhoto("10150447271355581"));		
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
+	@Test
 	public void getPhoto_unauthorized() {
-		unauthorizedFacebook.mediaOperations().getPhoto("192837465");
+		try {
+			unauthorizedMockServer.expect(requestTo("https://graph.facebook.com/10150447271355581"))
+				.andExpect(method(GET))
+				.andRespond(withSuccess(jsonResource("testdata/photo"), MediaType.APPLICATION_JSON));
+			unauthorizedFacebook.mediaOperations().getPhoto("10150447271355581");
+		} catch (MissingAuthorizationException e) {
+			fail("Fetching photo data does not require authorization.");
+		}
+
 	}
 	
 	@Test

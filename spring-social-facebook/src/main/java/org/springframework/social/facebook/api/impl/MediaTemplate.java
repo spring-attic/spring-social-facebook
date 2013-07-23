@@ -45,14 +45,17 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 
 	public PagedList<Album> getAlbums() {
+		requireAuthorization();
 		return getAlbums("me", 0, 25);
 	}
 
 	public PagedList<Album> getAlbums(int offset, int limit) {
+		requireAuthorization();
 		return getAlbums("me", offset, limit);
 	}
 
 	public PagedList<Album> getAlbums(PagingParameters pagedListParameters) {
+		requireAuthorization();
 		return getAlbums("me", pagedListParameters);
 	}
 
@@ -65,7 +68,6 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public PagedList<Album> getAlbums(String userId, PagingParameters pagedListParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "albums", Album.class, getPagingParameters(pagedListParameters));
 	}
 
@@ -105,12 +107,10 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public PagedList<Photo> getPhotos(String objectId, PagingParameters pagedListParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(objectId, "photos", Photo.class, getPagingParameters(pagedListParameters));
 	}
 	
 	public Photo getPhoto(String photoId) {
-		requireAuthorization();
 		return graphApi.fetchObject(photoId, Photo.class);
 	}
 	
@@ -119,7 +119,6 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public byte[] getPhotoImage(String photoId, ImageType imageType) {
-		requireAuthorization();
 		return graphApi.fetchImage(photoId, "picture", imageType);
 	}
 

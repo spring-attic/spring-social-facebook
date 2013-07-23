@@ -1,3 +1,9 @@
+Spring Social Facebook 1.1.0.M3 (August 5, 2013)
+================================================
+Bug Fixes
+  * Remove authorization requirement for certain media-related operations
+    that do not strictly require authorization. (SOCIALFB-129)
+
 Spring Social Facebook 1.1.0.M3 (July 8, 2013)
 ==============================================
 Bug Fixes
