@@ -71,7 +71,6 @@ public interface MediaOperations {
 	 * @return a list {@link Album}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Album> getAlbums(String ownerId);
 
@@ -84,7 +83,6 @@ public interface MediaOperations {
 	 * @return a list {@link Album}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 * @deprecated Use {@link #getAlbums(String, PagingParameters)} instead
 	 */
 	@Deprecated
@@ -98,7 +96,6 @@ public interface MediaOperations {
 	 * @return a list {@link Album}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Album> getAlbums(String ownerId, PagingParameters pagedListParameters);
 
@@ -109,7 +106,6 @@ public interface MediaOperations {
 	 * @return the requested {@link Album} object.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	Album getAlbum(String albumId);
 	
@@ -156,7 +152,6 @@ public interface MediaOperations {
 	 * @return a list of {@link Photo}s in the specified album.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Photo> getPhotos(String objectId);
 
@@ -171,7 +166,6 @@ public interface MediaOperations {
 	 * @return a list of {@link Photo}s in the specified album.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 * @deprecated Use {@link #getPhotos(String, PagingParameters)} instead.
 	 */
 	@Deprecated
@@ -187,7 +181,6 @@ public interface MediaOperations {
 	 * @return a list of {@link Photo}s in the specified album.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the album is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Photo> getPhotos(String objectId, PagingParameters pagedListParameters);
 
@@ -198,7 +191,6 @@ public interface MediaOperations {
 	 * @return the requested {@link Photo}
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the photo is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	Photo getPhoto(String photoId);
 	
@@ -209,7 +201,6 @@ public interface MediaOperations {
 	 * @return an array of bytes containing the photo's image.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the photo is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getPhotoImage(String photoId);
 
@@ -221,7 +212,6 @@ public interface MediaOperations {
 	 * @return an array of bytes containing the photo's image.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the photo is not public and if the user has not granted "user_photos" or "friends_photos" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	byte[] getPhotoImage(String photoId, ImageType imageType);
 	
