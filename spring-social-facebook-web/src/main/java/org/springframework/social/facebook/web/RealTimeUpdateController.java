@@ -74,7 +74,7 @@ public class RealTimeUpdateController {
 			@RequestParam("hub.challenge") String challenge,
 			@RequestParam("hub.verify_token") String verifyToken) {
 		logger.debug("Received subscription verification request for '" + subscription + "'.");
-		return tokens.get(subscription).equals(verifyToken) ? challenge : "";
+		return tokens.containsKey(subscription) && tokens.get(subscription).equals(verifyToken) ? challenge : "";
 	}
 	
 	/**
