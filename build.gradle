@@ -111,6 +111,7 @@ project('spring-social-facebook-web') {
     description = 'Facebook Web'
     dependencies {
         compile ("org.springframework:spring-web:$springVersion")
+        compile ("org.springframework:spring-webmvc:$springVersion")
         compile ("org.springframework.social:spring-social-core:$springSocialVersion", optional)
         compile project(':spring-social-facebook', optional)
         compile ("org.springframework.security:spring-security-crypto:$springSecurityCryptoVersion", optional)
