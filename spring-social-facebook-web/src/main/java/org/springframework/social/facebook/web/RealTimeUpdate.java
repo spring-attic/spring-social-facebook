@@ -70,7 +70,7 @@ public class RealTimeUpdate {
 		}
 
 		/**
-		 * The time of the change.
+		 * The time of the change in seconds since Jan 1, 1970.
 		 */
 		public long getTime() {
 			return time;

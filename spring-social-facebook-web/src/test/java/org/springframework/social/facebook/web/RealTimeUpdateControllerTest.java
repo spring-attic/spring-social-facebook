@@ -43,7 +43,7 @@ public class RealTimeUpdateControllerTest {
 		Map<String, String> tokens = new HashMap<String, String>();
 		tokens.put("foo", "yabbadabbadoo");
 		List<UpdateHandler> updateHandlers = new ArrayList<UpdateHandler>();
-		RealTimeUpdateController controller = new RealTimeUpdateController(tokens, updateHandlers);
+		RealTimeUpdateController controller = new RealTimeUpdateController(tokens, updateHandlers, "signature");
 		
 		MockMvc mockMvc = standaloneSetup(controller).build();
 		mockMvc.perform(get("/realtime/facebook/foo")
@@ -57,7 +57,7 @@ public class RealTimeUpdateControllerTest {
 		Map<String, String> tokens = new HashMap<String, String>();
 		tokens.put("foo", "yabbadabbadoo");
 		List<UpdateHandler> updateHandlers = new ArrayList<UpdateHandler>();
-		RealTimeUpdateController controller = new RealTimeUpdateController(tokens, updateHandlers);
+		RealTimeUpdateController controller = new RealTimeUpdateController(tokens, updateHandlers, "shhhhh!!!!");
 		
 		MockMvc mockMvc = standaloneSetup(controller).build();
 		mockMvc.perform(get("/realtime/facebook/foo")
@@ -71,13 +71,14 @@ public class RealTimeUpdateControllerTest {
 		TestUpdateHandler handler = new TestUpdateHandler();
 		List<UpdateHandler> handlers = new ArrayList<UpdateHandler>();
 		handlers.add(handler);
-		RealTimeUpdateController controller = new RealTimeUpdateController(new HashMap<String, String>(), handlers);
+		RealTimeUpdateController controller = new RealTimeUpdateController(new HashMap<String, String>(), handlers, "shhhhh!!!!");
 		MockMvc mockMvc = 
 				standaloneSetup(controller)
 				.build();
 		mockMvc.perform(post("/realtime/facebook/foo")
 							.contentType(APPLICATION_JSON)
-							.content(jsonFromFile("rtupdate-simple")))
+							.content(jsonFromFile("rtupdate-simple"))
+							.header("X-Hub-Signature", "sha1=765aa709e93724268969ad0cd922d6e0acbb3f35"))
 			.andExpect(content().string(""));
 		
 		MultiValueMap<String, RealTimeUpdate> updates = handler.getUpdates();
@@ -97,13 +98,14 @@ public class RealTimeUpdateControllerTest {
 		TestUpdateHandler handler = new TestUpdateHandler();
 		List<UpdateHandler> handlers = new ArrayList<UpdateHandler>();
 		handlers.add(handler);
-		RealTimeUpdateController controller = new RealTimeUpdateController(new HashMap<String, String>(), handlers);
+		RealTimeUpdateController controller = new RealTimeUpdateController(new HashMap<String, String>(), handlers, "shhhhh!!!!");
 		MockMvc mockMvc = 
 				standaloneSetup(controller)
 				.build();
 		mockMvc.perform(post("/realtime/facebook/foo")
 							.contentType(APPLICATION_JSON)
-							.content(jsonFromFile("rtupdate-many")))
+							.content(jsonFromFile("rtupdate-many"))
+							.header("X-Hub-Signature", "sha1=816505e95f33287950e8992488637871085164c2"))
 			.andExpect(content().string(""));
 		MultiValueMap<String, RealTimeUpdate> updates = handler.getUpdates();
 		assertEquals(1, updates.size());
@@ -125,17 +127,19 @@ public class RealTimeUpdateControllerTest {
 		TestUpdateHandler handler = new TestUpdateHandler();
 		List<UpdateHandler> handlers = new ArrayList<UpdateHandler>();
 		handlers.add(handler);
-		RealTimeUpdateController controller = new RealTimeUpdateController(new HashMap<String, String>(), handlers);
+		RealTimeUpdateController controller = new RealTimeUpdateController(new HashMap<String, String>(), handlers, "shhhhh!!!!");
 		MockMvc mockMvc = 
 				standaloneSetup(controller)
 				.build();
 		mockMvc.perform(post("/realtime/facebook/foo")
 							.contentType(APPLICATION_JSON)
-							.content(jsonFromFile("rtupdate-simple")))
+							.content(jsonFromFile("rtupdate-simple"))
+							.header("X-Hub-Signature", "sha1=765aa709e93724268969ad0cd922d6e0acbb3f35"))
 			.andExpect(content().string(""));
 		mockMvc.perform(post("/realtime/facebook/bar")
 				.contentType(APPLICATION_JSON)
-				.content(jsonFromFile("rtupdate-simple")))
+				.content(jsonFromFile("rtupdate-simple"))
+				.header("X-Hub-Signature", "sha1=765aa709e93724268969ad0cd922d6e0acbb3f35"))
 			.andExpect(content().string(""));
 		
 		MultiValueMap<String, RealTimeUpdate> updates = handler.getUpdates();
@@ -156,6 +160,43 @@ public class RealTimeUpdateControllerTest {
 		assertEquals(183562555, update.getEntries().get(0).getId());
 		assertEquals(1374559990, update.getEntries().get(0).getTime());
 		assertEquals(asList("friends"), update.getEntries().get(0).getChangedFields());
+	}
+
+	@Test
+	public void receiveUpdate_badSignature() throws Exception {		
+		TestUpdateHandler handler = new TestUpdateHandler();
+		List<UpdateHandler> handlers = new ArrayList<UpdateHandler>();
+		handlers.add(handler);
+		RealTimeUpdateController controller = new RealTimeUpdateController(new HashMap<String, String>(), handlers, "shhhhh!!!!");
+		MockMvc mockMvc = 
+				standaloneSetup(controller)
+				.build();
+		mockMvc.perform(post("/realtime/facebook/foo")
+							.contentType(APPLICATION_JSON)
+							.content(jsonFromFile("rtupdate-simple"))
+							.header("X-Hub-Signature", "sha1=765aa709e93724268969ad0cd922d6e0acbb3f36"))
+			.andExpect(content().string(""));
+		
+		MultiValueMap<String, RealTimeUpdate> updates = handler.getUpdates();
+		assertEquals(0, updates.size());
+	}
+
+	@Test
+	public void receiveUpdate_missingSignature() throws Exception {		
+		TestUpdateHandler handler = new TestUpdateHandler();
+		List<UpdateHandler> handlers = new ArrayList<UpdateHandler>();
+		handlers.add(handler);
+		RealTimeUpdateController controller = new RealTimeUpdateController(new HashMap<String, String>(), handlers, "shhhhh!!!!");
+		MockMvc mockMvc = 
+				standaloneSetup(controller)
+				.build();
+		mockMvc.perform(post("/realtime/facebook/foo")
+							.contentType(APPLICATION_JSON)
+							.content(jsonFromFile("rtupdate-simple")))
+			.andExpect(content().string(""));
+		
+		MultiValueMap<String, RealTimeUpdate> updates = handler.getUpdates();
+		assertEquals(0, updates.size());
 	}
 
 	private String jsonFromFile(String filename) throws IOException {
