@@ -25,4 +25,8 @@ public class FacebookAuthenticationService extends OAuth2AuthenticationService<F
 		super(new FacebookConnectionFactory(apiKey, appSecret));
 	}
 
+	public FacebookAuthenticationService(String apiKey, String appSecret, String appNamespace) {
+		super(new FacebookConnectionFactory(apiKey, appSecret, appNamespace));
+	}
+
 }

@@ -51,4 +51,9 @@ public @interface EnableFacebook {
 	 */
 	String appSecret();
 	
+	/**
+	 * The application's namespace.
+	 */
+	String appNamespace() default "";
+	
 }

@@ -44,7 +44,7 @@ class FacebookConfigBeanDefinitionParser extends AbstractProviderConfigBeanDefin
 	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId, String appSecret, Map<String, Object> allAttributes) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FacebookConnectionFactory.class).addConstructorArgValue(appId).addConstructorArgValue(appSecret);
 		if (allAttributes.containsKey("app-namespace")) {
-			builder.addConstructorArgValue(allAttributes.get("app-namespace"));			
+			builder.addConstructorArgValue(allAttributes.get("app-namespace"));
 		}
 		return builder.getBeanDefinition();
 	}
