@@ -46,7 +46,10 @@ public class FacebookProviderConfigRegistrar extends AbstractProviderConfigRegis
 	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId, String appSecret, Map<String, Object> allAttributes) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FacebookConnectionFactory.class).addConstructorArgValue(appId).addConstructorArgValue(appSecret);
 		if (allAttributes.containsKey("appNamespace")) {
-			builder.addConstructorArgValue(allAttributes.get("appNamespace"));
+			String appNamespace = String.valueOf(allAttributes.get("appNamespace"));
+			if (appNamespace.length() > 0) {
+				builder.addConstructorArgValue(appNamespace);
+			}
 		}
 		return builder.getBeanDefinition();
 	}

@@ -1,8 +1,15 @@
-Spring Social Facebook 1.1.0.M3 (August 5, 2013)
+Spring Social Facebook 1.1.0.M4 (August 5, 2013)
 ================================================
 Bug Fixes
   * Remove authorization requirement for certain media-related operations
     that do not strictly require authorization. (SOCIALFB-129)
+  * Fix CanvasSignInController to handle all possible requests coming
+    from Facebook, including deny-authorization case. (SOCIALFB-128)
+
+Improvement
+  * Ensure that application namespace is set on FacebookTemplate
+    when configured with @EnableFacebook or with
+    <facebook:config/> element. (SOCIALFB-83)
 
 Spring Social Facebook 1.1.0.M3 (July 8, 2013)
 ==============================================

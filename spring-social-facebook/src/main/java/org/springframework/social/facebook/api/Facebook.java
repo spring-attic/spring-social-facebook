@@ -97,5 +97,10 @@ public interface Facebook extends GraphApi, ApiBinding {
 	 * The RestOperations object returned is configured to include an OAuth 2 "Authorization" header on all requests.
 	 */
 	RestOperations restOperations();
+	
+	/**
+	 * @return the application namespace that this FacebookTemplate was created for. May be null if no namespace was given.
+	 */
+	String getApplicationNamespace();
 
 }
