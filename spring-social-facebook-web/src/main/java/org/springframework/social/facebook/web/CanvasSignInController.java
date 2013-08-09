@@ -37,6 +37,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
@@ -66,6 +67,8 @@ public class CanvasSignInController {
 	private final SignedRequestDecoder signedRequestDecoder;
 	
 	private String postSignInUrl = "/";
+	
+	private String postDeclineUrl = "http://www.facebook.com";
 
 	private String scope;
 
@@ -88,6 +91,16 @@ public class CanvasSignInController {
 	}
 	
 	/**
+	 * The URL or path to redirect to if a user declines authorization.
+	 * The redirect will happen in the top-level window. 
+	 * If you want the redirect to happen in the canvas iframe, then override the {@link #postDeclineView()} method to return a different implementation of {@link View}.
+	 * Defaults to "http://www.facebook.com".
+	 */
+	public void setPostDeclineUrl(String postDeclineUrl) {
+		this.postDeclineUrl = postDeclineUrl;
+	}
+	
+	/**
 	 * The scope to request during authorization.
 	 * Defaults to null (no scope will be requested; Facebook will offer their default scope).
 	 */
@@ -95,36 +108,74 @@ public class CanvasSignInController {
 		this.scope = scope;
 	}
 
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method={ RequestMethod.POST, RequestMethod.GET }, params={"signed_request", "!error"})
 	public View signin(Model model, NativeWebRequest request) throws SignedRequestException {
 		String signedRequest = request.getParameter("signed_request");
 		if (signedRequest == null) {
-			logger.info("Expected a signed_request parameter, but none given. Redirecting to the application's Canvas Page: " + canvasPage);
+			debug("Expected a signed_request parameter, but none given. Redirecting to the application's Canvas Page: " + canvasPage);
 			return new RedirectView(canvasPage, false);
 		}
 		
 		Map<String, ?> decodedSignedRequest = signedRequestDecoder.decodeSignedRequest(signedRequest);
 		String accessToken = (String) decodedSignedRequest.get("oauth_token");
 		if (accessToken == null) {
-			logger.info("No access token in the signed_request parameter. Redirecting to the authorization dialog.");
+			debug("No access token in the signed_request parameter. Redirecting to the authorization dialog.");
 			model.addAttribute("clientId", clientId);
 			model.addAttribute("canvasPage", canvasPage);
 			if (scope != null) {
 				model.addAttribute("scope", scope);
 			}
-			return new AuthorizationDialogRedirectView();
+			return new TopLevelWindowRedirect() {
+				@Override
+				protected String getRedirectUrl(Map<String, ?> model) {
+					String clientId = (String) model.get("clientId");
+					String canvasPage = (String) model.get("canvasPage");
+					String scope = (String) model.get("scope");
+					String redirectUrl = "https://www.facebook.com/dialog/oauth?client_id=" + clientId + "&redirect_uri=" + canvasPage;
+					if (scope != null) {
+						redirectUrl += "&scope=" + formEncode(scope);
+					}
+					return redirectUrl;
+				}
+			};
 		}
 
-		logger.info("Access token available in signed_request parameter. Creating connection and signing in.");
+		debug("Access token available in signed_request parameter. Creating connection and signing in.");
 		OAuth2ConnectionFactory<Facebook> connectionFactory = (OAuth2ConnectionFactory<Facebook>) connectionFactoryLocator.getConnectionFactory(Facebook.class);
 		AccessGrant accessGrant = new AccessGrant(accessToken);
+		// TODO: Maybe should create via ConnectionData instead?
 		Connection<Facebook> connection = connectionFactory.createConnection(accessGrant);
 		handleSignIn(connection, request);
-		logger.info("Signed in. Redirecting to post-signin page.");
+		debug("Signed in. Redirecting to post-signin page.");
 		return new RedirectView(postSignInUrl, true); 
 	}
 
+	@RequestMapping(method={ RequestMethod.POST, RequestMethod.GET }, params="error")
+	public View error(@RequestParam("error") String error, @RequestParam("error_description") String errorDescription) {
+		String string = "User declined authorization: '" + errorDescription + "'. Redirecting to " + postDeclineUrl;
+		debug(string);
+		return postDeclineView();
+	}
+
+	/**
+	 * View that redirects the top level window to the URL defined in postDeclineUrl property after user declines to authorize application.
+	 * May be overridden for custom views, particularly in the case where the post-decline view should be rendered in-canvas.
+	 */
+	protected View postDeclineView() {
+		return new TopLevelWindowRedirect() {
+			@Override
+			protected String getRedirectUrl(Map<String, ?> model) {
+				return postDeclineUrl;
+			}
+		};
+	}
 	
+	private void debug(String string) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(string);
+		}
+	}
+
 	private void handleSignIn(Connection<Facebook> connection, NativeWebRequest request) {
 		List<String> userIds = usersConnectionRepository.findUserIdsWithConnection(connection);
 		if (userIds.size() == 1) {
@@ -136,34 +187,31 @@ public class CanvasSignInController {
 		}
 	}
 	
-	private static final class AuthorizationDialogRedirectView implements View {
+	private static abstract class TopLevelWindowRedirect implements View {
+		
 		public String getContentType() {
 			return "text/html";
 		}
 
 		public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-			String clientId = (String) model.get("clientId");
-			String canvasPage = (String) model.get("canvasPage");
-			String scope = (String) model.get("scope");
 			response.getWriter().write("<script>");
-			response.getWriter().write("top.location.href='https://www.facebook.com/dialog/oauth?client_id=" + clientId + "&redirect_uri=" + canvasPage);
-			if (scope != null) {
-				response.getWriter().write("&scope=" + formEncode(scope));
-			}
-			response.getWriter().write("';");
+			response.getWriter().write("top.location.href='" + getRedirectUrl(model) + "';");
 			response.getWriter().write("</script>");
 			response.flushBuffer();
 		}
+		
+		protected abstract String getRedirectUrl(Map<String, ?> model);
 
-		private String formEncode(String data) {
-			try {
-				return URLEncoder.encode(data, "UTF-8");
-			}
-			catch (UnsupportedEncodingException ex) {
-				// should not happen, UTF-8 is always supported
-				throw new IllegalStateException(ex);
-			}
+	}
+
+	private String formEncode(String data) {
+		try {
+			return URLEncoder.encode(data, "UTF-8");
+		}
+		catch (UnsupportedEncodingException ex) {
+			// should not happen, UTF-8 is always supported
+			throw new IllegalStateException(ex);
 		}
 	}
-	
+
 }
