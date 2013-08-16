@@ -31,6 +31,8 @@ import org.springframework.social.NotAuthorizedException;
 
 public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
+	private static final PagingParameters PAGING_PARAMS_25_50 = new PagingParameters(25, 50, null, null);
+
 	@Test
 	public void like() {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456/likes"))
@@ -97,6 +99,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
+	@Test
+	public void getPagesLiked_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/likes?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getPagesLiked(PAGING_PARAMS_25_50);
+		assertLikes(likes);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getPagesLiked_unauthorized() {
 		unauthorizedFacebook.likeOperations().getPagesLiked();
@@ -110,7 +121,16 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		List<Page> likes = facebook.likeOperations().getPagesLiked("123456789");
 		assertLikes(likes);
 	}
-	
+
+	@Test
+	public void getPagesLiked_forSpecificUser_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/likes?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getPagesLiked("123456789", PAGING_PARAMS_25_50);
+		assertLikes(likes);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getLikes_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getPagesLiked("123456789");
@@ -122,6 +142,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getBooks();
+		assertLikes(likes);
+	}
+
+	@Test
+	public void getBooks_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/books?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getBooks(PAGING_PARAMS_25_50);
 		assertLikes(likes);
 	}
 
@@ -139,6 +168,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}	
 	
+	@Test
+	public void getBooks_forSpecificUser_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/books?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getBooks("123456789", PAGING_PARAMS_25_50);
+		assertLikes(likes);
+	}	
+	
 	@Test(expected = NotAuthorizedException.class)
 	public void getBooks_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getBooks("123456789");
@@ -150,6 +188,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getMovies();
+		assertLikes(likes);
+	}
+	
+	@Test
+	public void getMovies_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/movies?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getMovies(PAGING_PARAMS_25_50);
 		assertLikes(likes);
 	}
 	
@@ -167,6 +214,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 	
+	@Test
+	public void getMovies_forSpecificUser_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/movies?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getMovies("123456789", PAGING_PARAMS_25_50);
+		assertLikes(likes);
+	}
+	
 	@Test(expected = NotAuthorizedException.class)
 	public void getMovies_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getMovies("123456789");
@@ -178,6 +234,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getMusic();
+		assertLikes(likes);
+	}
+
+	@Test
+	public void getMusic_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/music?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getMusic(PAGING_PARAMS_25_50);
 		assertLikes(likes);
 	}
 
@@ -195,6 +260,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
+	@Test
+	public void getMusic_forSpecificUser_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/music?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getMusic("123456789", PAGING_PARAMS_25_50);
+		assertLikes(likes);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getMusic_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getMusic("123456789");
@@ -206,6 +280,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getTelevision();
+		assertLikes(likes);
+	}
+
+	@Test
+	public void getTelevision_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/television?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getTelevision(PAGING_PARAMS_25_50);
 		assertLikes(likes);
 	}
 
@@ -223,6 +306,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 		
+	@Test
+	public void getTelevision_forSpecificUser_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/television?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getTelevision("123456789", PAGING_PARAMS_25_50);
+		assertLikes(likes);
+	}
+		
 	@Test(expected = NotAuthorizedException.class)
 	public void getTelevision_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getTelevision("123456789");
@@ -234,6 +326,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getActivities();
+		assertLikes(likes);
+	}
+
+	@Test
+	public void getActivities_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/activities?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getActivities(PAGING_PARAMS_25_50);
 		assertLikes(likes);
 	}
 
@@ -251,6 +352,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 	
+	@Test
+	public void getActivities_forSpecificUser_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/activities?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getActivities("123456789", PAGING_PARAMS_25_50);
+		assertLikes(likes);
+	}
+	
 	@Test(expected = NotAuthorizedException.class)
 	public void getActivities_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getActivities("123456789");
@@ -262,6 +372,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getInterests();
+		assertLikes(likes);
+	}
+
+	@Test
+	public void getInterests_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/interests?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getInterests(PAGING_PARAMS_25_50);
 		assertLikes(likes);
 	}
 
@@ -279,6 +398,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 	
+	@Test
+	public void getInterests_forSpecificUser_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/interests?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/new-user-likes"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getInterests("123456789", PAGING_PARAMS_25_50);
+		assertLikes(likes);
+	}
+	
 	@Test(expected = NotAuthorizedException.class)
 	public void getInterests_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.likeOperations().getInterests("123456789");
@@ -293,6 +421,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertGames(likes);
 	}
 
+	@Test
+	public void getGames_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/me/games?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/games"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getGames(PAGING_PARAMS_25_50);
+		assertGames(likes);
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getGames_unauthorized() {
 		unauthorizedFacebook.likeOperations().getGames();
@@ -304,6 +441,15 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/games"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getGames("123456789");
+		assertGames(likes);
+	}
+	
+	@Test
+	public void getGames_forSpecificUser_withPagingParameters() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789/games?limit=25&offset=50&fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins")).andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("testdata/games"), MediaType.APPLICATION_JSON));
+		List<Page> likes = facebook.likeOperations().getGames("123456789", PAGING_PARAMS_25_50);
 		assertGames(likes);
 	}
 	
