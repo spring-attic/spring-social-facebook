@@ -10,6 +10,7 @@ Improvement
   * Ensure that application namespace is set on FacebookTemplate
     when configured with @EnableFacebook or with
     <facebook:config/> element. (SOCIALFB-83)
+  * Add pagination support to methods in LikeOperations. (SOCIALFB-133)
 
 Spring Social Facebook 1.1.0.M3 (July 8, 2013)
 ==============================================
