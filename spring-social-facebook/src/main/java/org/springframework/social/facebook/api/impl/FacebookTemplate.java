@@ -225,9 +225,17 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 
 	public <T> PagedList<T> fetchPagedConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters) {
 		String connectionPath = connectionType != null && connectionType.length() > 0 ? "/" + connectionType : "";
-		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).queryParams(queryParameters);		
+		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).queryParams(queryParameters);
 		JsonNode jsonNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
 		return pagify(type, jsonNode);
+	}
+
+	public <T> PagedList<T> fetchConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters, String... fields) {
+		if(fields.length > 0) {
+			String joinedFields = join(fields);
+			queryParameters.set("fields", joinedFields);
+		}
+		return fetchPagedConnections(objectId, connectionType, type, queryParameters);
 	}
 
 	private <T> PagedList<T> pagify(Class<T> type, JsonNode jsonNode) {

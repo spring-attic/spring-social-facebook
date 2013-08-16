@@ -15,6 +15,9 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -32,11 +35,15 @@ class PagedListUtils {
 		String sinceString = extractParameterValueFromUrl(pageNode, "since");
 		String untilString = extractParameterValueFromUrl(pageNode, "until");
 		String offsetString = extractParameterValueFromUrl(pageNode, "offset");
+		String after = extractEncodedParameterValueFromUrl(pageNode, "after");
+		String before = extractEncodedParameterValueFromUrl(pageNode, "before");
+		
 		return new PagingParameters(
-				offsetString != null ? Integer.valueOf(offsetString) : null,
 				limitString != null ? Integer.valueOf(limitString) : null, 
+				offsetString != null ? Integer.valueOf(offsetString) : null,
 				sinceString != null ? Long.valueOf(sinceString) : null, 
-				untilString != null ? Long.valueOf(untilString) : null);
+				untilString != null ? Long.valueOf(untilString) : null,
+				after, before);
 	}
 
 	public static MultiValueMap<String, String> getPagingParameters(PagingParameters pagedListParameters) {
@@ -56,6 +63,16 @@ class PagedListUtils {
 		return parameters;
 	}
 
+	private static String extractEncodedParameterValueFromUrl(String url, String paramName) {
+		try {
+			String value = extractParameterValueFromUrl(url, paramName);
+			return value != null ? URLDecoder.decode(value, "UTF-8") : null;
+		} catch (UnsupportedEncodingException e) {
+			// shouldn't happen
+			return null;
+		}
+	}
+	
 	private static String extractParameterValueFromUrl(String url, String paramName) {
 		int queryStart = url.indexOf('?') >= 0 ? url.indexOf('?') : 0;
 		int startPos = url.indexOf(paramName + "=", queryStart);

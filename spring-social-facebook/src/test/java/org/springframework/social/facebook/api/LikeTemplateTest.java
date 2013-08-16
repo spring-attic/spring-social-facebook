@@ -78,7 +78,7 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/12345678/likes")).andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("testdata/user-references"), MediaType.APPLICATION_JSON));
-		List<Reference> likes = facebook.likeOperations().getLikes("12345678");
+		PagedList<Reference> likes = facebook.likeOperations().getLikes("12345678");
 		assertEquals(3, likes.size());
 		assertEquals("Michael Scott", likes.get(0).getName());
 		assertEquals("100000737708615", likes.get(0).getId());

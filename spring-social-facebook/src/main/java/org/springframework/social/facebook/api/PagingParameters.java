@@ -15,6 +15,9 @@
  */
 package org.springframework.social.facebook.api;
 
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 /**
  * Carries parameters to describe a paged set of results.
  * @author Craig Walls
@@ -29,6 +32,10 @@ public class PagingParameters {
 	
 	private final Long until;
 
+	private final String after;
+
+	private final String before;
+
 	/**
 	 * Constructs a PagedListParameters.
 	 * @param limit The number of items to limit the list to.
@@ -37,12 +44,18 @@ public class PagingParameters {
 	 * @param until The ending timestamp bound for time-sensitive content (e.g., posts, comments, etc).
 	 */
 	public PagingParameters(Integer limit, Integer offset, Long since, Long until) {
+		this(limit, offset, since, until, null, null);
+	}
+	
+	public PagingParameters(Integer limit, Integer offset, Long since, Long until, String after, String before) {
 		this.limit = limit;
 		this.offset = offset;
 		this.since = since;
 		this.until = until;
+		this.after = after;
+		this.before = before;
 	}
-
+	
 	public Integer getLimit() {
 		return limit;
 	}
@@ -57,6 +70,25 @@ public class PagingParameters {
 
 	public Long getUntil() {
 		return until;
+	}
+	
+	public String getAfter() {
+		return after;
+	}
+	
+	public String getBefore() {
+		return before;
+	}
+	
+	public MultiValueMap<String, String> toMap() {
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+		if (limit != null) { map.set("limit", String.valueOf(limit)); }
+		if (offset != null) { map.set("offset", String.valueOf(offset)); }
+		if (since != null) { map.set("since", String.valueOf(since)); }
+		if (until != null) { map.set("until", String.valueOf(until)); }
+		if (after != null) { map.set("after", after); }
+		if (before != null) { map.set("before", before); }
+		return map;
 	}
 	
 }

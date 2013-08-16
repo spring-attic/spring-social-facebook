@@ -19,6 +19,7 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.LikeOperations;
 import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -45,18 +46,36 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		requireAuthorization();
 		return graphApi.fetchConnections(objectId, "likes", Reference.class);
 	}
-	
+
+	public PagedList<Reference> getLikes(String objectId, PagingParameters pagingParameters) {
+		requireAuthorization();
+		return graphApi.fetchConnections(objectId, "likes", Reference.class, pagingParameters.toMap());
+	}
+
 	public PagedList<Page> getPagesLiked() {
 		return getPagesLiked("me");
+	}
+
+	public PagedList<Page> getPagesLiked(PagingParameters pagingParameters) {
+		return getPagesLiked("me", pagingParameters);
 	}
 
 	public PagedList<Page> getPagesLiked(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "likes", Page.class, PAGE_FIELDS);
 	}
-	
+
+	public PagedList<Page> getPagesLiked(String userId, PagingParameters pagingParameters) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "likes", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
+	}
+
 	public PagedList<Page> getBooks() {
 		return getBooks("me");
+	}
+
+	public PagedList<Page> getBooks(PagingParameters pagingParameters) {
+		return getBooks("me", pagingParameters);
 	}
 
 	public PagedList<Page> getBooks(String userId) {
@@ -64,8 +83,17 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		return graphApi.fetchConnections(userId, "books", Page.class, PAGE_FIELDS);
 	}
 
+	public PagedList<Page> getBooks(String userId, PagingParameters pagingParameters) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "books", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
+	}
+
 	public PagedList<Page> getMovies() {
 		return getMovies("me");
+	}
+
+	public PagedList<Page> getMovies(PagingParameters pagingParameters) {
+		return getMovies("me", pagingParameters);
 	}
 
 	public PagedList<Page> getMovies(String userId) {
@@ -73,8 +101,17 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		return graphApi.fetchConnections(userId, "movies", Page.class, PAGE_FIELDS);
 	}
 
+	public PagedList<Page> getMovies(String userId, PagingParameters pagingParameters) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "movies", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
+	}
+
 	public PagedList<Page> getMusic() {
 		return getMusic("me");
+	}
+
+	public PagedList<Page> getMusic(PagingParameters pagingParameters) {
+		return getMusic("me", pagingParameters);
 	}
 
 	public PagedList<Page> getMusic(String userId) {
@@ -82,17 +119,35 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		return graphApi.fetchConnections(userId, "music", Page.class, PAGE_FIELDS);
 	}
 
+	public PagedList<Page> getMusic(String userId, PagingParameters pagingParameters) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "music", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
+	}
+
 	public PagedList<Page> getTelevision() {
 		return getTelevision("me");
+	}
+
+	public PagedList<Page> getTelevision(PagingParameters pagingParameters) {
+		return getTelevision("me", pagingParameters);
 	}
 
 	public PagedList<Page> getTelevision(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "television", Page.class, PAGE_FIELDS);
 	}
-
+	
+	public PagedList<Page> getTelevision(String userId, PagingParameters pagingParameters) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "television", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
+	}
+	
 	public PagedList<Page> getActivities() {
 		return getActivities("me");
+	}
+
+	public PagedList<Page> getActivities(PagingParameters pagingParameters) {
+		return getActivities("me", pagingParameters);
 	}
 
 	public PagedList<Page> getActivities(String userId) {
@@ -100,8 +155,17 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		return graphApi.fetchConnections(userId, "activities", Page.class, PAGE_FIELDS);
 	}
 
+	public PagedList<Page> getActivities(String userId, PagingParameters pagingParameters) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "activities", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
+	}
+
 	public PagedList<Page> getInterests() {
 		return getInterests("me");
+	}
+
+	public PagedList<Page> getInterests(PagingParameters pagingParameters) {
+		return getInterests("me", pagingParameters);
 	}
 
 	public PagedList<Page> getInterests(String userId) {
@@ -109,13 +173,27 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		return graphApi.fetchConnections(userId, "interests", Page.class, PAGE_FIELDS);
 	}
 
+	public PagedList<Page> getInterests(String userId, PagingParameters pagingParameters) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "interests", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
+	}
+
 	public PagedList<Page> getGames() {
 		return getGames("me");
+	}
+
+	public PagedList<Page> getGames(PagingParameters pagingParameters) {
+		return getGames("me", pagingParameters);
 	}
 
 	public PagedList<Page> getGames(String userId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "games", Page.class, PAGE_FIELDS);
+	}
+
+	public PagedList<Page> getGames(String userId, PagingParameters pagingParameters) {
+		requireAuthorization();
+		return graphApi.fetchConnections(userId, "games", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
 	}
 
 	private static final String PAGE_FIELDS = "id,name,category,description,location,website,picture,phone,affiliation,company_overview,likes,checkins";
