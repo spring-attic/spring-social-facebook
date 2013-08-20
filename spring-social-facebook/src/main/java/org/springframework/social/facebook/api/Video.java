@@ -23,7 +23,7 @@ import java.util.List;
  * Model class representing a video.
  * @author Craig Walls
  */
-public class Video {
+public class Video extends FacebookObject {
 	private String id;
 	
 	private Reference from;

@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class QuestionOptionMixin {
+abstract class QuestionOptionMixin extends FacebookObjectMixin {
 
 	@JsonCreator
 	QuestionOptionMixin(

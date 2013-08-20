@@ -67,7 +67,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 				@Type(name="music", value=MusicPost.class)
 				})
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class PostMixin {
+abstract class PostMixin extends FacebookObjectMixin {
 	
 	@JsonCreator
 	PostMixin(

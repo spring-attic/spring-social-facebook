@@ -23,7 +23,7 @@ import java.util.List;
  * Model class representing a comment.
  * @author Craig Walls
  */
-public class Comment {
+public class Comment extends FacebookObject {
 	private final String id;
 	
 	private final String message;

@@ -22,7 +22,7 @@ import java.io.Serializable;
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class Reference implements Serializable {
+public class Reference extends FacebookObject implements Serializable {
 
 	private final String id;
 

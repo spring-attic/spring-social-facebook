@@ -22,7 +22,7 @@ import java.util.Date;
  * Model class representing a Facebook photo album.
  * @author Craig Walls
  */
-public class Album {
+public class Album extends FacebookObject {
 
 	private String id;
 

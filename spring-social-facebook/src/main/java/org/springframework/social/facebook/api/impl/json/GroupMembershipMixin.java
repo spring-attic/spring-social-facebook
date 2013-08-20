@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class GroupMembershipMixin {
+abstract class GroupMembershipMixin extends FacebookObjectMixin {
 
 	@JsonCreator
 	GroupMembershipMixin(

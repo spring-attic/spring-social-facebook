@@ -22,7 +22,7 @@ import java.util.Date;
  * Model class representing a Group.
  * @author Craig Walls
  */
-public class Group {
+public class Group extends FacebookObject {
 	
 	private final String id;
 	

@@ -15,7 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,7 +24,7 @@ import java.util.Map;
  * The data available for a page will vary depending on the category it belongs to and what data the page administrator has entered.
  * @author Craig Walls
  */
-public class Page {
+public class Page extends FacebookObject {
 
 	private final String id;
 
@@ -69,14 +68,12 @@ public class Page {
 	
 	private Map<String, String> hours;
 	
-	private Map<String, Object> extraData;
-
 	public Page(String id, String name, String link, String category) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.link = link;
 		this.category = category;
-		this.extraData = new HashMap<String, Object>();
 	}
 
 	/**
@@ -224,11 +221,4 @@ public class Page {
 		return hours;
 	}
 	
-	public Map<String, Object> getExtraData() {
-		return extraData;
-	}
-	
-	public void add(String key, Object value) {
-		extraData.put(key, value);
-	}
 }

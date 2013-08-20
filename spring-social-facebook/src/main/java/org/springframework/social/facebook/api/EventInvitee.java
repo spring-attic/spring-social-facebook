@@ -19,7 +19,7 @@ package org.springframework.social.facebook.api;
  * Model class representing someone who has been invited to an event.
  * @author Craig Walls
  */
-public class EventInvitee {
+public class EventInvitee extends FacebookObject {
 	private String id;
 	
 	private String name;

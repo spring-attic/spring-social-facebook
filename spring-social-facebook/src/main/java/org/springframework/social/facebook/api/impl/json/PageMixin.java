@@ -20,7 +20,6 @@ import java.util.Map;
 import org.springframework.social.facebook.api.CoverPhoto;
 import org.springframework.social.facebook.api.Location;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,7 +30,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class PageMixin {
+abstract class PageMixin extends FacebookObjectMixin {
 
 	@JsonCreator
 	PageMixin(
@@ -92,7 +91,4 @@ abstract class PageMixin {
 	@JsonProperty("hours")
 	private Map<String, String> hours;
 	
-	@JsonAnySetter
-	abstract void add(String key, Object value);
-
 }

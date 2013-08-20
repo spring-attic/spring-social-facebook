@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class CoverPhotoMixin {
+abstract class CoverPhotoMixin extends FacebookObjectMixin {
 
 	// TODO: For this to be reused for user cover photos, the "cover_id" mapping needs to be "id"
 	public CoverPhotoMixin(

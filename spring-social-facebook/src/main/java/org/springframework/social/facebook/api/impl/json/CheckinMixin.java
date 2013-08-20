@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class CheckinMixin {
+abstract class CheckinMixin extends FacebookObjectMixin {
 
 	@JsonCreator
 	CheckinMixin(

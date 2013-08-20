@@ -36,7 +36,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class AlbumMixin {
+abstract class AlbumMixin extends FacebookObjectMixin {
 
 	@JsonCreator
 	AlbumMixin(

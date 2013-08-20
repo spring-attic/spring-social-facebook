@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class FacebookProfileMixin {
+abstract class FacebookProfileMixin extends FacebookObjectMixin {
 
 	@JsonCreator
 	FacebookProfileMixin(

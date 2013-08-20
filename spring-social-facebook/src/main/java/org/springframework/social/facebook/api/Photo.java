@@ -23,7 +23,7 @@ import java.util.List;
  * Model class representing a photo.
  * @author Craig Walls
  */
-public class Photo {
+public class Photo extends FacebookObject {
 	private String id;
 	
 	private String name;

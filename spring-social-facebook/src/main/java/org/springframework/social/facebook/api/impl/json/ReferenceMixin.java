@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
+import org.springframework.social.facebook.api.FacebookObject;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class ReferenceMixin {
+abstract class ReferenceMixin extends FacebookObject {
 
 	@JsonCreator
 	ReferenceMixin(

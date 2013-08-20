@@ -19,7 +19,7 @@ package org.springframework.social.facebook.api;
  * Model class representing a user's or a page's cover photo.
  * @author Craig Walls
  */
-public class CoverPhoto {
+public class CoverPhoto extends FacebookObject {
 	
 	private final String id;
 	

@@ -27,7 +27,7 @@ import java.util.Locale;
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class FacebookProfile implements Serializable {
+public class FacebookProfile extends FacebookObject implements Serializable {
 
 	private final String id;
 

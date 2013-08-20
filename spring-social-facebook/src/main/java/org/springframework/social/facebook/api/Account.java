@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
-public class Account {
+public class Account extends FacebookObject {
 
 	private final String id;
 	

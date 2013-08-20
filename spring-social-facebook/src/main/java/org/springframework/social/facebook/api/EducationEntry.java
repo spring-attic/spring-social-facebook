@@ -24,7 +24,7 @@ import java.util.List;
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class EducationEntry implements Serializable {
+public class EducationEntry extends FacebookObject implements Serializable {
 
 	private final Reference school;
 

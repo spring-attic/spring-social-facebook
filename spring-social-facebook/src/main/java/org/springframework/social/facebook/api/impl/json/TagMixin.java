@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class TagMixin {
+abstract class TagMixin extends FacebookObjectMixin {
 	
 	@JsonCreator
 	TagMixin(

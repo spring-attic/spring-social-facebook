@@ -24,7 +24,7 @@ import java.util.List;
  * Model class representing a user checkin on Facebook Places.
  * @author Craig Walls
  */
-public class Checkin {
+public class Checkin extends FacebookObject {
 	private String id;
 
 	private Page place;

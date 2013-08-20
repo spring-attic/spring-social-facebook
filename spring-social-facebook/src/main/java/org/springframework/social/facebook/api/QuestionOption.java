@@ -17,7 +17,7 @@ package org.springframework.social.facebook.api;
 
 import java.util.Date;
 
-public class QuestionOption {
+public class QuestionOption extends FacebookObject {
 	
 	private final String id;
 	private final String name;

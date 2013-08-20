@@ -23,7 +23,7 @@ import java.io.Serializable;
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class WorkEntry implements Serializable {
+public class WorkEntry extends FacebookObject implements Serializable {
 
 	private final Reference employer;
 

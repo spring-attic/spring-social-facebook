@@ -26,7 +26,7 @@ import java.util.Map;
  * Model class representing an entry in a feed. 
  * @author Craig Walls
  */
-public class Post {
+public class Post extends FacebookObject {
 	
 	private final String id;
 

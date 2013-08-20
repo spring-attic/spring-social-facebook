@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
-public class GroupMembership {
+public class GroupMembership extends FacebookObject {
 
 	private final String id;
 	

@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class EventInviteeMixin {
+abstract class EventInviteeMixin extends FacebookObjectMixin {
 	
 	@JsonCreator
 	EventInviteeMixin(

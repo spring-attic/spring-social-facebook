@@ -21,7 +21,7 @@ import java.util.Date;
  * Model class representing a tagged user in a video, photo, or checkin. 
  * @author Craig Walls
  */
-public class Tag {
+public class Tag extends FacebookObject {
 	private final String id;
 
 	private final String name;

@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
-public class StoryTag {
+public class StoryTag extends FacebookObject {
 	private final String id;
 	private final String name;
 	private final Integer offset;

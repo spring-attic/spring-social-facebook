@@ -23,7 +23,7 @@ import java.util.List;
  * Model class representing a question asked by a Facebook user.
  * @author habuma
  */
-public class Question {
+public class Question extends FacebookObject {
 
 	private final String id;
 	

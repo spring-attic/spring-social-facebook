@@ -22,7 +22,7 @@ import java.util.Date;
  * Model class representing an event.
  * @author Craig Walls
  */
-public class Event {
+public class Event extends FacebookObject {
 	
 	private final String id;
 

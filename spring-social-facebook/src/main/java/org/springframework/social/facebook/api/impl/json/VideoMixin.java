@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class VideoMixin {
+abstract class VideoMixin extends FacebookObjectMixin {
 
 	@JsonCreator
 	VideoMixin(

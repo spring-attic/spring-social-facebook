@@ -21,7 +21,7 @@ import java.util.Date;
  * Model class representing an invitation to an event.
  * @author Craig Walls
  */
-public class Invitation {
+public class Invitation extends FacebookObject {
 
 	private final String eventId;
 
