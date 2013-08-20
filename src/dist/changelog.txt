@@ -1,5 +1,5 @@
-Spring Social Facebook 1.1.0.M4 (August 19, 2013)
-=================================================
+Spring Social Facebook 1.1.0.RC1 (September 2, 2013)
+====================================================
 Improvments
   * Added a catch-all getExtraData() method to all Facebook model
     types to capture any data returned from Facebook that is otherwise
