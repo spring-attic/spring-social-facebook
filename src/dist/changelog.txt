@@ -1,12 +1,19 @@
 Spring Social Facebook 1.1.0.M4 (August 19, 2013)
 =================================================
+Improvments
+  * Added a catch-all getExtraData() method to all Facebook model
+    types to capture any data returned from Facebook that is otherwise
+    unmapped to known properties. (SOCIALFB-125)
+
+Spring Social Facebook 1.1.0.M4 (August 19, 2013)
+=================================================
 Bug Fixes
   * Remove authorization requirement for certain media-related operations
     that do not strictly require authorization. (SOCIALFB-129)
   * Fix CanvasSignInController to handle all possible requests coming
     from Facebook, including deny-authorization case. (SOCIALFB-128)
 
-Improvement
+Improvements
   * Ensure that application namespace is set on FacebookTemplate
     when configured with @EnableFacebook or with
     <facebook:config/> element. (SOCIALFB-83)
