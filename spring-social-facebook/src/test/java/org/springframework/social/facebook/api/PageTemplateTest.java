@@ -40,7 +40,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/140804655931206"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("testdata/organization-page"), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(jsonResource("organization-page"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("140804655931206");
 		assertEquals("140804655931206", page.getId());
@@ -64,7 +64,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/21278871488"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("testdata/product-page"), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(jsonResource("product-page"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("21278871488");
 		assertEquals("21278871488", page.getId());
@@ -93,7 +93,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/150263434985489"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("testdata/place-page"), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(jsonResource("place-page"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("150263434985489");
 		assertEquals("150263434985489", page.getId());
@@ -124,7 +124,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/220817147947513"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("testdata/place-with-hours-page"), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(jsonResource("place-with-hours-page"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("220817147947513");
 		assertEquals("220817147947513", page.getId());
@@ -167,7 +167,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/140372495981006"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/application-page"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("application-page"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("140372495981006");
 		assertEquals("140372495981006", page.getId());
@@ -184,7 +184,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/11803178355"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/page-with-extra-data"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("page-with-extra-data"), MediaType.APPLICATION_JSON));
 
 		Page page = facebook.pageOperations().getPage("11803178355");
 		assertEquals("11803178355", page.getId());
@@ -330,7 +330,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/accounts"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("testdata/accounts"), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(jsonResource("accounts"), MediaType.APPLICATION_JSON));
 	}
 
 	private Resource getUploadResource(final String filename, String content) {

@@ -39,7 +39,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed?limit=25"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getFeed();
 		assertEquals(5, feed.size());
 		assertTrue(feed.get(0) instanceof StatusPost);
@@ -55,7 +55,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed?offset=40&limit=20"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getFeed(40, 20);
 		assertEquals(5, feed.size());
 		assertTrue(feed.get(0) instanceof StatusPost);
@@ -71,7 +71,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed?limit=25&since=1360384019"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getFeed(new PagingParameters(25, null, 1360384019L, null));
 		assertEquals(5, feed.size());
 		assertTrue(feed.get(0) instanceof StatusPost);
@@ -87,7 +87,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed?limit=25&until=1360384019"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getFeed(new PagingParameters(25, null, null, 1360384019L));
 		assertEquals(5, feed.size());
 		assertTrue(feed.get(0) instanceof StatusPost);
@@ -103,7 +103,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed?limit=25"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed-with-unknown-type"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed-with-unknown-type"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getFeed();
 		assertEquals(1, feed.size());		
 		assertTrue(feed.get(0) instanceof Post);
@@ -125,7 +125,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/12345678/feed?limit=25"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getFeed("12345678");
 		assertEquals(5, feed.size());
 		assertFeedEntries(feed);
@@ -136,7 +136,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/12345678/feed?offset=100&limit=50"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getFeed("12345678", 100, 50);
 		assertEquals(5, feed.size());
 		assertFeedEntries(feed);
@@ -152,7 +152,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/home?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> homeFeed = facebook.feedOperations().getHomeFeed();
 		assertEquals(5, homeFeed.size());
 		assertFeedEntries(homeFeed);
@@ -163,7 +163,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/home?offset=40&limit=20"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> homeFeed = facebook.feedOperations().getHomeFeed(40, 20);
 		assertEquals(5, homeFeed.size());
 		assertFeedEntries(homeFeed);
@@ -179,7 +179,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/statuses?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/user-statuses"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("user-statuses"), MediaType.APPLICATION_JSON));
 		assertStatuses(facebook.feedOperations().getStatuses());
 	}
 
@@ -188,7 +188,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/statuses?offset=30&limit=10"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/user-statuses"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("user-statuses"), MediaType.APPLICATION_JSON));
 		assertStatuses(facebook.feedOperations().getStatuses(30, 10));
 	}
 
@@ -202,7 +202,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/24680/statuses?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/user-statuses"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("user-statuses"), MediaType.APPLICATION_JSON));
 		assertStatuses(facebook.feedOperations().getStatuses("24680"));
 	}
 
@@ -211,7 +211,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/24680/statuses?offset=15&limit=5"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/user-statuses"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("user-statuses"), MediaType.APPLICATION_JSON));
 		assertStatuses(facebook.feedOperations().getStatuses("24680", 15, 5));
 	}
 
@@ -225,7 +225,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/links?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/links_preOct2012"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("links_preOct2012"), MediaType.APPLICATION_JSON));
 		assertLinks(facebook.feedOperations().getLinks());
 	}
 
@@ -234,7 +234,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/links?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/links"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("links"), MediaType.APPLICATION_JSON));
 		assertLinks(facebook.feedOperations().getLinks());
 	}
 
@@ -243,7 +243,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/links?offset=40&limit=20"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/links"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("links"), MediaType.APPLICATION_JSON));
 		assertLinks(facebook.feedOperations().getLinks(40, 20));
 	}
 
@@ -257,7 +257,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/13579/links?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/links"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("links"), MediaType.APPLICATION_JSON));
 		assertLinks(facebook.feedOperations().getLinks("13579"));
 	}
 
@@ -266,7 +266,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/13579/links?offset=40&limit=20"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/links"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("links"), MediaType.APPLICATION_JSON));
 		assertLinks(facebook.feedOperations().getLinks("13579", 40, 20));
 	}
 
@@ -280,7 +280,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/notes?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/user-notes"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("user-notes"), MediaType.APPLICATION_JSON));
 		List<NotePost> notes = facebook.feedOperations().getNotes();
 		assertNotes(notes);
 	}
@@ -290,7 +290,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/notes?offset=60&limit=20"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/user-notes"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("user-notes"), MediaType.APPLICATION_JSON));
 		List<NotePost> notes = facebook.feedOperations().getNotes(60, 20);
 		assertNotes(notes);
 	}
@@ -305,7 +305,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/12345/notes?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/user-notes"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("user-notes"), MediaType.APPLICATION_JSON));
 		List<NotePost> notes = facebook.feedOperations().getNotes("12345");
 		assertNotes(notes);
 	}
@@ -315,7 +315,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/12345/notes?offset=60&limit=20"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/user-notes"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("user-notes"), MediaType.APPLICATION_JSON));
 		List<NotePost> notes = facebook.feedOperations().getNotes("12345", 60, 20);
 		assertNotes(notes);
 	}
@@ -330,7 +330,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/posts?limit=25"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getPosts();
 		assertEquals(5, feed.size());
 		assertFeedEntries(feed);
@@ -341,7 +341,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/posts?offset=30&limit=15"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getPosts(30, 15);
 		assertEquals(5, feed.size());
 		assertFeedEntries(feed);
@@ -357,7 +357,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/12345678/posts?limit=25"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getPosts("12345678");
 		assertEquals(5, feed.size());
 		assertFeedEntries(feed);
@@ -368,7 +368,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/12345678/posts?offset=30&limit=15"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().getPosts("12345678", 30, 15);
 		assertEquals(5, feed.size());
 		assertFeedEntries(feed);
@@ -384,7 +384,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/100001387295207_123939024341978"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/post_preSept2012"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("post_preSept2012"), MediaType.APPLICATION_JSON));
 		Post feedEntry = facebook.feedOperations().getPost("100001387295207_123939024341978");
 		assertEquals(PostType.STATUS, feedEntry.getType());
 		assertEquals("100001387295207_123939024341978", feedEntry.getId());
@@ -402,7 +402,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/100001387295207_123939024341978"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/post"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("post"), MediaType.APPLICATION_JSON));
 		Post feedEntry = facebook.feedOperations().getPost("100001387295207_123939024341978");
 		assertEquals(PostType.STATUS, feedEntry.getType());
 		assertEquals("100001387295207_123939024341978", feedEntry.getId());
@@ -426,7 +426,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/100001387295207_123939024341978"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/post_nolikes"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("post_nolikes"), MediaType.APPLICATION_JSON));
 		Post feedEntry = facebook.feedOperations().getPost("100001387295207_123939024341978");
 		assertEquals(PostType.STATUS, feedEntry.getType());
 		assertEquals("100001387295207_123939024341978", feedEntry.getId());
@@ -469,7 +469,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string("message=Duplicate"))
-			.andRespond(withBadRequest().body(jsonResource("testdata/error-duplicate-status")).contentType(MediaType.APPLICATION_JSON));
+			.andRespond(withBadRequest().body(jsonResource("error-duplicate-status")).contentType(MediaType.APPLICATION_JSON));
 		facebook.feedOperations().updateStatus("Duplicate");
 	}
 
@@ -630,7 +630,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Dr%20Seuss&type=post&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/post-list"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("post-list"), MediaType.APPLICATION_JSON));
 		List<Post> posts = facebook.feedOperations().searchPublicFeed("Dr Seuss");
 		assertPostList(posts);
 	}
@@ -640,7 +640,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=Dr%20Seuss&type=post&offset=40&limit=10"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/post-list"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("post-list"), MediaType.APPLICATION_JSON));
 		List<Post> posts = facebook.feedOperations().searchPublicFeed("Dr Seuss", 40, 10);
 		assertPostList(posts);
 	}
@@ -650,7 +650,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/home?q=Dr+Seuss&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/post-list"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("post-list"), MediaType.APPLICATION_JSON));
 		List<Post> posts = facebook.feedOperations().searchHomeFeed("Dr Seuss");
 		assertPostList(posts);
 	}
@@ -660,7 +660,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/home?q=Dr+Seuss&offset=20&limit=5"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/post-list"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("post-list"), MediaType.APPLICATION_JSON));
 		List<Post> posts = facebook.feedOperations().searchHomeFeed("Dr Seuss", 20, 5);
 		assertPostList(posts);
 	}
@@ -675,7 +675,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed?q=Football&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().searchUserFeed("Football");		
 		assertEquals(5, feed.size());		
 		assertTrue(feed.get(0) instanceof StatusPost);
@@ -691,7 +691,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/feed?q=Football&offset=50&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().searchUserFeed("Football", 50, 25);		
 		assertEquals(5, feed.size());		
 		assertTrue(feed.get(0) instanceof StatusPost);
@@ -712,7 +712,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed?q=Football&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().searchUserFeed("123456789", "Football");		
 		assertEquals(5, feed.size());		
 		assertTrue(feed.get(0) instanceof StatusPost);
@@ -728,7 +728,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/123456789/feed?q=Football&offset=80&limit=20"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/feed"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
 		List<Post> feed = facebook.feedOperations().searchUserFeed("123456789", "Football", 80, 20);		
 		assertEquals(5, feed.size());		
 		assertTrue(feed.get(0) instanceof StatusPost);

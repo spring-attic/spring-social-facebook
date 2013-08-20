@@ -33,7 +33,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/posts?offset=0&limit=25&with=location"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/checkins"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("checkins"), MediaType.APPLICATION_JSON));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins();
 		assertCheckins(checkins);
 	}
@@ -43,7 +43,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/posts?offset=50&limit=10&with=location"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/checkins"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("checkins"), MediaType.APPLICATION_JSON));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins(50, 10);
 		assertCheckins(checkins);
 	}
@@ -58,7 +58,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/posts?offset=0&limit=25&with=location"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/checkins"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("checkins"), MediaType.APPLICATION_JSON));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins("987654321");
 		assertCheckins(checkins);
 	}
@@ -68,7 +68,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/987654321/posts?offset=50&limit=10&with=location"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/checkins"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("checkins"), MediaType.APPLICATION_JSON));
 		List<Checkin> checkins = facebook.placesOperations().getCheckins("987654321", 50, 10);
 		assertCheckins(checkins);
 	}
@@ -83,7 +83,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/10150431253050580"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/checkin"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("checkin"), MediaType.APPLICATION_JSON));
 		Checkin checkin = facebook.placesOperations().getCheckin("10150431253050580");
 		assertSingleCheckin(checkin);		
 	}
@@ -144,7 +144,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/search?q=coffee&type=place&center=33.050278%2C-96.745833&distance=5280"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/places-list"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("places-list"), MediaType.APPLICATION_JSON));
 		List<Page> places = facebook.placesOperations().search("coffee", 33.050278, -96.745833, 5280);
 		assertEquals(2, places.size());
 		assertEquals("117723491586638", places.get(0).getId());

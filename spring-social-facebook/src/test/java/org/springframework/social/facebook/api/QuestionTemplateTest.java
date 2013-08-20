@@ -37,7 +37,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(POST))
 				.andExpect(content().string(requestBody))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("testdata/id-only"), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(jsonResource("id-only"), MediaType.APPLICATION_JSON));
 		assertEquals("297875170268724", facebook.questionOperations().askQuestion("What is your favorite color?"));
 	}
 
@@ -48,7 +48,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(POST))
 				.andExpect(content().string(requestBody))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("testdata/id-only"), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(jsonResource("id-only"), MediaType.APPLICATION_JSON));
 		assertEquals("297875170268724", facebook.questionOperations().addOption("297875170268725", "Dallas Cowboys"));
 	}
 
@@ -57,7 +57,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/297875170268724"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("testdata/question-without-options"), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(jsonResource("question-without-options"), MediaType.APPLICATION_JSON));
 		Question question = facebook.questionOperations().getQuestion("297875170268724");
 		assertSingleQuestion(question);
 		List<QuestionOption> options = question.getOptions();
@@ -69,7 +69,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/297875170268724"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("testdata/question-with-options"), MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess(jsonResource("question-with-options"), MediaType.APPLICATION_JSON));
 		Question question = facebook.questionOperations().getQuestion("297875170268724");
 		assertSingleQuestion(question);
 		List<QuestionOption> options = question.getOptions();
@@ -81,7 +81,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/me/questions"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/questions"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("questions"), MediaType.APPLICATION_JSON));
 		List<Question> questions = facebook.questionOperations().getQuestions();
 		assertQuestionList(questions);		
 	}
@@ -91,7 +91,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/100001387295207/questions"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/questions"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("questions"), MediaType.APPLICATION_JSON));
 		List<Question> questions = facebook.questionOperations().getQuestions("100001387295207");
 		assertQuestionList(questions);		
 	}
@@ -112,7 +112,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/338689702832185"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/question-option"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("question-option"), MediaType.APPLICATION_JSON));
 		QuestionOption option = facebook.questionOperations().getOption("338689702832185");
 		assertSingleOption(option);
 	}
@@ -122,7 +122,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/338689702832185/options"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("testdata/question-options"), MediaType.APPLICATION_JSON));
+			.andRespond(withSuccess(jsonResource("question-options"), MediaType.APPLICATION_JSON));
 		List<QuestionOption> options = facebook.questionOperations().getOptions("338689702832185");
 		assertOptionsList(options);
 	}
