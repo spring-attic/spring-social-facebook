@@ -72,7 +72,6 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 
 	public Album getAlbum(String albumId) {
-		requireAuthorization();
 		return graphApi.fetchObject(albumId, Album.class);
 	}
 	

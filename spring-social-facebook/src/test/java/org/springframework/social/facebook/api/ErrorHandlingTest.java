@@ -22,70 +22,39 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.social.DuplicateStatusException;
 import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InsufficientPermissionException;
+import org.springframework.social.InvalidAuthorizationException;
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.OperationNotPermittedException;
 import org.springframework.social.RateLimitExceededException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.RevokedAuthorizationException;
-import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.web.client.HttpClientErrorException;
 
 public class ErrorHandlingTest extends AbstractFacebookApiTest {
 
 	private static final String LOGGED_OUT_REVOKATION = "The authorization has been revoked. Reason: Error validating access token: The session is invalid because the user logged out.";
 	private static final String NOT_AUTHORIZED_REVOKATION = "The authorization has been revoked. Reason: Error validating access token: 123456789 has not authorized application 987654321";
 
+	
 	@Test
-	@Ignore("REVISIT THIS")
-	public void insufficientPrivileges() {		
+	public void unknownAlias() {
 		try {
-			mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/declined"))
-				.andExpect(method(POST))
+			mockServer.expect(requestTo("https://graph.facebook.com/dummyalias"))
+				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withStatus(HttpStatus.FORBIDDEN).body(jsonResource("error-insufficient-privilege")).contentType(MediaType.APPLICATION_JSON));
-			facebook.eventOperations().declineInvitation("193482154020832");
-			fail();
-		} catch (InsufficientPermissionException e) {
-			assertEquals("The operation requires 'rsvp_event' permission.", e.getMessage());
-			assertEquals("rsvp_event", e.getRequiredPermission());
-		}
-	}
-
-	@Test
-	public void userHasntAuthorized() {
-		try {
-			mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
-				.andExpect(method(POST))
-				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withStatus(HttpStatus.FORBIDDEN).body(jsonResource("error-user-hasnt-authorized")).contentType(MediaType.APPLICATION_JSON));
-			facebook.feedOperations().postLink("Test message", new FacebookLink("http://test.com", "Test", "Test this", "Testing some stuff"));
-			fail();
-		} catch (InsufficientPermissionException e) {
-			assertEquals("Insufficient permission for this operation.", e.getMessage());
-		}
-	}
-
-	@Test
-	public void notAFriend() {
-		try {
-			mockServer.expect(requestTo("https://graph.facebook.com/119297590579/members/100001387295207"))
-				.andExpect(method(POST))
-				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withServerError().body(jsonResource("error-not-a-friend")).contentType(MediaType.APPLICATION_JSON));
-			facebook.friendOperations().addToFriendList("119297590579", "100001387295207");
-			fail();
-		} catch (NotAFriendException e) {
-			assertEquals("The member must be a friend of the current user.", e.getMessage());
-		}		
+				.andRespond(withStatus(HttpStatus.NOT_FOUND).body(jsonResource("error-404-unknown-alias")).contentType(MediaType.APPLICATION_JSON));
+			facebook.fetchObject("dummyalias", FacebookProfile.class);
+			fail("Expected GraphAPIException when fetching an unknown object alias");
+		} catch (ResourceNotFoundException e) {
+			assertEquals("(#803) Some of the aliases you requested do not exist: dummyalias", e.getMessage());
+		}				
 	}
 	
 	@Test
@@ -94,43 +63,22 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			mockServer.expect(requestTo("https://graph.facebook.com/me/boguspath"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withBadRequest().body(jsonResource("error-unknown-path")).contentType(MediaType.APPLICATION_JSON));
+				.andRespond(withBadRequest().body(jsonResource("error-400-unknown-path")).contentType(MediaType.APPLICATION_JSON));
 			facebook.fetchConnections("me", "boguspath", String.class);
 			fail();
 		} catch (ResourceNotFoundException e) {
 			assertEquals("Unknown path components: /boguspath", e.getMessage());
 		}
 	}
-	
-	@Test
-	public void notTheOwner() {
-		try {
-			mockServer.expect(requestTo("https://graph.facebook.com/1234567890"))
-				.andExpect(method(POST))
-				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(content().string("method=delete"))
-				.andRespond(withServerError().body(jsonResource("error-not-the-owner")).contentType(MediaType.APPLICATION_JSON));
-			facebook.friendOperations().deleteFriendList("1234567890");
-			fail();
-		} catch (ResourceOwnershipException e) {
-			assertEquals("User must be an owner of the friendlist", e.getMessage());
-		}		
-	}
-	
-	@Test
-	@Ignore("This doesn't seem to be true anymore...It looks like FB fixed their status code.")
-	public void unknownAlias_HTTP200() {
-		// yes, Facebook really does return this error as HTTP 200 (probably should be 404)
-		try {
-			mockServer.expect(requestTo("https://graph.facebook.com/dummyalias"))
-				.andExpect(method(GET))
-				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("error-unknown-alias"), MediaType.APPLICATION_JSON));
-			facebook.fetchObject("dummyalias", FacebookProfile.class);
-			fail("Expected GraphAPIException when fetching an unknown object alias");
-		} catch (ResourceNotFoundException e) {
-			assertEquals("(#803) Some of the aliases you requested do not exist: dummyalias", e.getMessage());
-		}				
+
+	@Test(expected = MissingAuthorizationException.class)
+	public void resource_noAccessToken() {
+		FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
+		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andRespond(withBadRequest().body(jsonResource("error-400-resource-no-access-token")).contentType(MediaType.APPLICATION_JSON));
+		facebook.userOperations().getUserProfile();
 	}
 	
 	@Test(expected = MissingAuthorizationException.class)
@@ -139,124 +87,121 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
-			.andRespond(withBadRequest().body(jsonResource("error-current-user-no-token")).contentType(MediaType.APPLICATION_JSON));
+			.andRespond(withBadRequest().body(jsonResource("error-400-current-user-no-token")).contentType(MediaType.APPLICATION_JSON));
 		facebook.userOperations().getUserProfile();
-	}
-		
-	@Test(expected=UncategorizedApiException.class)
-	public void htmlErrorResponse() {
-		try {
-			FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
-			MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-			mockServer.expect(requestTo("https://graph.facebook.com/123456/picture?type=normal"))
-				.andExpect(method(GET))
-				.andRespond(withBadRequest().body(new ClassPathResource("error-not-json.html", getClass())).contentType(MediaType.TEXT_HTML));
-			facebook.userOperations().getUserProfileImage("123456");
-			fail("Expected UncategorizedApiException");
-		} catch (UncategorizedApiException e) {
-			assertTrue(e.getCause() instanceof HttpClientErrorException);
-			throw e;
-		}
 	}
 	
 	@Test(expected = ExpiredAuthorizationException.class)
-	public void tokenInvalid_tokenExpired() {
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
+	public void currentUser_expiredToken() { // The token has expired
 		mockServer.expect(requestTo("https://graph.facebook.com/me"))
 			.andExpect(method(GET))
-			.andRespond(withBadRequest().body(jsonResource("error-expired-token")).contentType(MediaType.APPLICATION_JSON));
-		facebook.userOperations().getUserProfile();
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withUnauthorizedRequest().body(jsonResource("error-401-token-expired")).contentType(MediaType.APPLICATION_JSON));
+		facebook.fetchObject("me", String.class);
+		fail();
+	}
+	
+	@Test(expected = RevokedAuthorizationException.class)
+	public void currentUser_removedApp() { // The user removed the app via Facebook's web application
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withUnauthorizedRequest().body(jsonResource("error-401-invalid-token-removed-app")).contentType(MediaType.APPLICATION_JSON));
+		facebook.fetchObject("me", String.class);
+		fail();
+	}
+	
+	@Test(expected = RevokedAuthorizationException.class)
+	public void currentUser_loggedOut() { // The user logged out of Facebook
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withUnauthorizedRequest().body(jsonResource("error-401-invalid-token-logged-out")).contentType(MediaType.APPLICATION_JSON));
+		facebook.fetchObject("me", String.class);
+		fail();
+	}
+	
+	@Test(expected = RevokedAuthorizationException.class)
+	public void currentUser_sessionDoesNotMatch() { // The user logged out of Facebook and another user has logged in (?)
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withUnauthorizedRequest().body(jsonResource("error-401-session-does-not-match")).contentType(MediaType.APPLICATION_JSON));
+		facebook.fetchObject("me", String.class);
+		fail();
+	}
+	
+	@Test(expected = RevokedAuthorizationException.class)
+	public void currentUser_changedPassword() { // The user has changed their password
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withUnauthorizedRequest().body(jsonResource("error-401-invalid-token-changed-password")).contentType(MediaType.APPLICATION_JSON));
+		facebook.fetchObject("me", String.class);
+		fail();
+	}
+	
+	@Test(expected = InvalidAuthorizationException.class)
+	public void currentUser_unknownInvalidAuthorization() { // The token is invalid, but the reason is not one otherwise expected by this error handler.
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withUnauthorizedRequest().body(jsonResource("error-401-invalid-token-unknown-reason")).contentType(MediaType.APPLICATION_JSON));
+		facebook.fetchObject("me", String.class);
+		fail();
+	}
+	
+	@Test(expected = InvalidAuthorizationException.class)
+	public void currentUser_unknownInvalidAppId() { // This shouldn't happen normally, but could if the access token is manually typed and a mistake is made
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withUnauthorizedRequest().body(jsonResource("error-401-invalid-token-invalid-appid")).contentType(MediaType.APPLICATION_JSON));
+		facebook.fetchObject("me", String.class);
+		fail();
+	}
+	
+	@Test(expected = InvalidAuthorizationException.class)
+	public void currentUser_unknownInvalidToken() { // This shouldn't happen normally, but could if the access token is manually typed and a mistake is made
+		mockServer.expect(requestTo("https://graph.facebook.com/me"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withUnauthorizedRequest().body(jsonResource("error-401-invalid-oauth-access-token")).contentType(MediaType.APPLICATION_JSON));
+		facebook.fetchObject("me", String.class);
+		fail();
 	}
 	
 	@Test
-	@Ignore("REVISIT THIS")
-	public void tokenInvalid_passwordChanged_badRequest() {
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo("https://graph.facebook.com/me"))
-			.andExpect(method(GET))			
-			.andRespond(withBadRequest().body(jsonResource("error-invalid-token-password")).contentType(MediaType.APPLICATION_JSON));
+	public void userHasntAuthorized() {
 		try {
-			facebook.userOperations().getUserProfile();
-			fail("Expected RevokedAuthorizationException");
-		} catch (RevokedAuthorizationException e) {
-			assertEquals(CHANGED_PASSWORD_REVOKATION, e.getMessage());
+			mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withStatus(HttpStatus.FORBIDDEN).body(jsonResource("error-403-not-authorized-for-action")).contentType(MediaType.APPLICATION_JSON));
+			facebook.feedOperations().postLink("Test message", new FacebookLink("http://test.com", "Test", "Test this", "Testing some stuff"));
+			fail();
+		} catch (InsufficientPermissionException e) {
+			assertEquals("Insufficient permission for this operation.", e.getMessage());
 		}
 	}
 	
 	@Test
-	@Ignore("REVISIT THIS")
-	public void tokenInvalid_applicationDeauthorized_badRequest() {
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo("https://graph.facebook.com/me"))
-			.andExpect(method(GET))
-			.andRespond(withBadRequest().body(jsonResource("error-invalid-token-deauth")).contentType(MediaType.APPLICATION_JSON));
+	public void notAuthorizedForAction() {		
 		try {
-			facebook.userOperations().getUserProfile();
-			fail("Expected RevokedAuthorizationException");
-		} catch (RevokedAuthorizationException e) {
-			assertEquals(NOT_AUTHORIZED_REVOKATION, e.getMessage());
+			mockServer.expect(requestTo("https://graph.facebook.com/193482154020832/declined"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withStatus(HttpStatus.FORBIDDEN).body(jsonResource("error-403-requires-extended-permission")).contentType(MediaType.APPLICATION_JSON));
+			facebook.eventOperations().declineInvitation("193482154020832");
+			fail();
+		} catch (InsufficientPermissionException e) {
+			assertEquals("The operation requires 'rsvp_event' permission.", e.getMessage());
+			assertEquals("rsvp_event", e.getRequiredPermission());
 		}
 	}
 
-	@Test
-	@Ignore("REVISIT THIS")
-	public void tokenInvalid_signedOutOfFacebook_badRequest() {
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo("https://graph.facebook.com/me"))
-			.andExpect(method(GET))
-			.andRespond(withBadRequest().body(jsonResource("error-invalid-token-signout")).contentType(MediaType.APPLICATION_JSON));
-		try {
-			facebook.userOperations().getUserProfile();
-			fail("Expected RevokedAuthorizationException");
-		} catch (RevokedAuthorizationException e) {
-			assertEquals(LOGGED_OUT_REVOKATION, e.getMessage());
-		}
-	}
 
-	@Test
-	@Ignore("REVISIT THIS")
-	public void tokenInvalid_passwordChanged_unauthorized() {
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo("https://graph.facebook.com/me"))
-			.andExpect(method(GET))
-			.andRespond(withBadRequest().body(jsonResource("error-invalid-token-password")).contentType(MediaType.APPLICATION_JSON));
-		try {
-			facebook.userOperations().getUserProfile();
-			fail("Expected RevokedAuthorizationException");
-		} catch (RevokedAuthorizationException e) {
-			assertEquals(CHANGED_PASSWORD_REVOKATION, e.getMessage());
-		}
-	}
 	
-	@Test
-	@Ignore("REVISIT THIS")
-	public void tokenInvalid_applicationDeauthorized_unauthorized() {
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo("https://graph.facebook.com/me"))
-			.andExpect(method(GET))
-			.andRespond(withStatus(HttpStatus.UNAUTHORIZED).body(jsonResource("error-invalid-token-deauth")).contentType(MediaType.APPLICATION_JSON));
-		try {
-			facebook.userOperations().getUserProfile();
-			fail("Expected RevokedAuthorizationException");
-		} catch (RevokedAuthorizationException e) {
-			assertEquals(NOT_AUTHORIZED_REVOKATION, e.getMessage());
-		}
-	}
-
-	@Test
-	@Ignore("REVISIT THIS")
-	public void tokenInvalid_signedOutOfFacebook_unauthorized() {
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo("https://graph.facebook.com/me"))
-			.andExpect(method(GET))
-			.andRespond(withStatus(HttpStatus.UNAUTHORIZED).body(jsonResource("error-invalid-token-signout")).contentType(MediaType.APPLICATION_JSON));
-		try {
-			facebook.userOperations().getUserProfile();
-			fail("Expected RevokedAuthorizationException");
-		} catch (RevokedAuthorizationException e) {
-			assertEquals(LOGGED_OUT_REVOKATION, e.getMessage());
-		}
-	}
 	
 	@Test(expected = OperationNotPermittedException.class)
 	public void appDoesNotHaveCapability() {
@@ -333,9 +278,50 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo("https://graph.facebook.com/nobody/feed?limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withStatus(HttpStatus.NOT_FOUND).body(jsonResource("error-unknown-alias")).contentType(MediaType.APPLICATION_JSON));
+			.andRespond(withStatus(HttpStatus.NOT_FOUND).body(jsonResource("error-404-unknown-alias")).contentType(MediaType.APPLICATION_JSON));
 		facebook.feedOperations().getFeed("nobody");		
 	}
+	
+	
+	// PENDING REMOVAL
+	
+	@Test
+	public void notAFriend() {
+		// TODO: (8/29/13) This was to handle a case where a user adds a non-friend to a friend list. At one time, Facebook returned
+		//       an error. From all indications, Facebook no longer fails on this case and may even add the non-friend to the friend
+		//       list. I'm leaving the test and code for it in place pending further review.
+		try {
+			mockServer.expect(requestTo("https://graph.facebook.com/119297590579/members/100001387295207"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withServerError().body(jsonResource("error-not-a-friend")).contentType(MediaType.APPLICATION_JSON));
+			facebook.friendOperations().addToFriendList("119297590579", "100001387295207");
+			fail();
+		} catch (NotAFriendException e) {
+			assertEquals("The member must be a friend of the current user.", e.getMessage());
+		}		
+	}
+	
+	@Test
+	public void notTheOwner() {
+		// TODO: (8/29/13) This was to handle a case where a user adds a person to a friend list that the user does not own. 
+		//       At one time, Facebook returned an error specific to the fact that the user was not the owner of the list.
+		//       From all indications, Facebook no longer returns that error and instead indicates that the user doesn't have
+		//       manage_friendlists permission (even if they do). I'm leaving the test and code for it in place pending further review.
+		try {
+			mockServer.expect(requestTo("https://graph.facebook.com/1234567890"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string("method=delete"))
+				.andRespond(withServerError().body(jsonResource("error-not-the-owner")).contentType(MediaType.APPLICATION_JSON));
+			facebook.friendOperations().deleteFriendList("1234567890");
+			fail();
+		} catch (ResourceOwnershipException e) {
+			assertEquals("User must be an owner of the friendlist", e.getMessage());
+		}		
+	}
+	
+
 
 	private static final String CHANGED_PASSWORD_REVOKATION = "The authorization has been revoked. Reason: Error validating access token: " +
 			"The session has been invalidated because the user has changed the password.";

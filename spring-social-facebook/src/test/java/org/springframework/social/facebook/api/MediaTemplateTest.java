@@ -118,11 +118,6 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(Album.Type.UNKNOWN, album.getType());
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void getAlbum_unauthorized() {
-		unauthorizedFacebook.mediaOperations().getAlbum("192837465");
-	}
-
 	@Test
 	public void getPhotos() {
 		mockServer.expect(requestTo("https://graph.facebook.com/10151447271460580/photos?offset=0&limit=25"))

@@ -54,6 +54,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 class FacebookErrorHandler extends DefaultResponseErrorHandler {
 
 	private final static Log logger = LogFactory.getLog(FacebookErrorHandler.class);
+	private final static String FACEBOOK = "facebook";
 
 	@Override
 	public void handleError(ClientHttpResponse response) throws IOException {
@@ -61,7 +62,6 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		if (errorDetails == null) {
 			handleUncategorizedError(response, errorDetails);
 		}
-
 		handleFacebookError(response.getStatusCode(), errorDetails);
 		
 		// if not otherwise handled, do default handling and wrap with UncategorizedApiException
@@ -79,57 +79,58 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 
 		if (statusCode == HttpStatus.NOT_FOUND) {
 			if (message.contains("Some of the aliases you requested do not exist")) {
-				throw new ResourceNotFoundException("facebook", message);
+				throw new ResourceNotFoundException(FACEBOOK, message);
 			}
 		} else if (statusCode == HttpStatus.BAD_REQUEST) {
 			if (message.contains("Unknown path components")) {
-				throw new ResourceNotFoundException("facebook", message);
+				throw new ResourceNotFoundException(FACEBOOK, message);
 			} else if (message.equals("An access token is required to request this resource.")) {
-				throw new MissingAuthorizationException("facebook");
+				throw new MissingAuthorizationException(FACEBOOK);
 			} else if (message.equals("An active access token must be used to query information about the current user.")) {
-				throw new MissingAuthorizationException("facebook");				
+				throw new MissingAuthorizationException(FACEBOOK);
 			} else if (message.startsWith("Error validating access token")) {
 				handleInvalidAccessToken(message);
-			} else if (message.equals("Error validating application.")) { // Access token with incorrect app ID
-				throw new InvalidAuthorizationException("facebook", message);
 			} else if (message.equals("Invalid access token signature.")) { // Access token that fails signature validation
-				throw new InvalidAuthorizationException("facebook", message);				
+				throw new InvalidAuthorizationException(FACEBOOK, message);
 			} else if (message.contains("Application does not have the capability to make this API call.") || message.contains("App must be on whitelist")) {
-				throw new OperationNotPermittedException("facebook", message);
+				throw new OperationNotPermittedException(FACEBOOK, message);
 			} else if (message.contains("Invalid fbid") || message.contains("The parameter url is required")) { 
-				throw new OperationNotPermittedException("facebook", "Invalid object for this operation");
+				throw new OperationNotPermittedException(FACEBOOK, "Invalid object for this operation");
 			} else if (message.contains("Duplicate status message") ) {
-				throw new DuplicateStatusException("facebook", message);
+				throw new DuplicateStatusException(FACEBOOK, message);
 			} else if (message.contains("Feed action request limit reached")) {
-				throw new RateLimitExceededException("facebook");
+				throw new RateLimitExceededException(FACEBOOK);
 			} else if (message.contains("The status you are trying to publish is a duplicate of, or too similar to, one that we recently posted to Twitter")) {
-				throw new DuplicateStatusException("facebook", message);
+				throw new DuplicateStatusException(FACEBOOK, message);
 			}
 		} else if (statusCode == HttpStatus.UNAUTHORIZED) {
 			if (message.startsWith("Error validating access token")) {
 				handleInvalidAccessToken(message);
+			} else if (message.equals("Invalid OAuth access token.")) {  // Bogus access token
+				throw new InvalidAuthorizationException(FACEBOOK, message);
+			} else if (message.startsWith("Error validating application.")) { // Access token with incorrect app ID
+				throw new InvalidAuthorizationException(FACEBOOK, message);
 			}
-			throw new NotAuthorizedException("facebook", message);
+			throw new NotAuthorizedException(FACEBOOK, message);
 		} else if (statusCode == HttpStatus.FORBIDDEN) {
 			if (message.contains("Requires extended permission")) {
-				String requiredPermission = message.split(": ")[1];
-				throw new InsufficientPermissionException(requiredPermission);
+				throw new InsufficientPermissionException(FACEBOOK, message.split(": ")[1]);
 			} else if (message.contains("Permissions error")) {
-				throw new InsufficientPermissionException("facebook");
+				throw new InsufficientPermissionException(FACEBOOK);
 			} else if (message.contains("The user hasn't authorized the application to perform this action")) {
-				throw new InsufficientPermissionException("facebook");
+				throw new InsufficientPermissionException(FACEBOOK);
 			} else {
-				throw new OperationNotPermittedException("facebook", message);
+				throw new OperationNotPermittedException(FACEBOOK, message);
 			}
 		} else if (statusCode == HttpStatus.NOT_FOUND) {
-			throw new ResourceNotFoundException("facebook", message);
+			throw new ResourceNotFoundException(FACEBOOK, message);
 		} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR) {
 			if (message.equals("User must be an owner of the friendlist")) { // watch for pattern in similar message in other resources
 				throw new ResourceOwnershipException(message);
 			} else if (message.equals("The member must be a friend of the current user.")) {
 				throw new NotAFriendException(message);
 			} else {
-				throw new InternalServerErrorException("facebook", message);
+				throw new InternalServerErrorException(FACEBOOK, message);
 			}
 		}
 	}
@@ -141,10 +142,9 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 			throw new RevokedAuthorizationException("facebook", message);
 		} else if (message.contains("The session is invalid because the user logged out.")) {
 			throw new RevokedAuthorizationException("facebook", message);
-		} else if (message.contains("has not authorized application")) {
-			// Per https://developers.facebook.com/blog/post/500/, this could be in the message when the user removes the application.
-			// In reality, "The session has been invalidated because the user has changed the password." is what you get in that case.
-			// Leaving this check in place in case there FB does return this message (could be a bug in FB?)
+		} else if (message.contains("The session was invalidated explicitly using an API call.")) {
+			throw new RevokedAuthorizationException("facebook", message);
+		} else if (message.contains("Session does not match current stored session.")) {
 			throw new RevokedAuthorizationException("facebook", message);
 		} else {
 			throw new InvalidAuthorizationException("facebook", message);
@@ -171,11 +171,9 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 	private Map<String, String> extractErrorDetailsFromResponse(ClientHttpResponse response) throws IOException {
 		ObjectMapper mapper = new ObjectMapper(new JsonFactory());
 		String json = readFully(response.getBody());
-
 		if (logger.isDebugEnabled()) {
 			logger.debug("Error from Facebook: " + json);
 		}
-		
 		if (json.equals("false")) {
 			// Sometimes FB returns "false" when requesting an object that the access token doesn't have permission for.
 			throw new InsufficientPermissionException("facebook");
