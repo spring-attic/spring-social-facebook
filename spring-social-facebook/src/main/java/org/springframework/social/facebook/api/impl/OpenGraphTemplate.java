@@ -15,27 +15,80 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import org.springframework.social.facebook.api.ActionMetadata;
+import org.springframework.social.facebook.api.BookActions;
+import org.springframework.social.facebook.api.FitnessActions;
+import org.springframework.social.facebook.api.GeneralActions;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.MissingNamespaceException;
+import org.springframework.social.facebook.api.MusicActions;
 import org.springframework.social.facebook.api.OpenGraphOperations;
+import org.springframework.social.facebook.api.VideoActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphOperations {
 	
+	private static final ActionMetadata EMPTY_ACTION_METADATA = new ActionMetadata();
+	
 	private GraphApi graphApi;
 	
+	private GeneralActions generalActions;
+	
+	private MusicActions musicActions;
+	
+	private BookActions bookActions;
+	
+	private VideoActions videoActions;
+	
+	private FitnessActions fitnessActions;
+
 	public OpenGraphTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
 		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
+		this.generalActions = new GeneralActionsTemplate(this);
+		this.bookActions = new BookActionsTemplate(this);
+		this.musicActions = new MusicActionsTemplate(this);
+		this.videoActions = new VideoActionsTemplate(this);
+		this.fitnessActions = new FitnessActionsTemplate(this);
+	} 
+	
+	public GeneralActions generalActions() {
+		return generalActions;
+	}
+	
+	public MusicActions musicActions() {
+		return musicActions;
 	}
 
+	public BookActions bookActions() {
+		return bookActions;
+	}
+
+	public VideoActions videoActions() {
+		return videoActions;
+	}
+	
+	public FitnessActions fitnessActions() {
+		return fitnessActions;
+	}
+	
+	public void deleteAction(String actionId) {
+		graphApi.delete(actionId);
+	}
+	
 	public String publishAction(String action, String objectType, String objectUrl) {
-		requireAuthorization();
-		requireApplicationNamespace();
 		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
 		parameters.set(objectType, objectUrl);
-		return graphApi.publish("me", graphApi.getApplicationNamespace() + ":" + action, parameters);
+		return publishAction(graphApi.getApplicationNamespace() + ":" + action, parameters, false);
+	}
+	
+	public String publishAction(String action, MultiValueMap<String, Object> parameters, boolean builtInAction) {
+		requireAuthorization();
+		if (!builtInAction) {
+			requireApplicationNamespace();
+		}
+		return graphApi.publish("me", action, parameters);
 	}
 
 	private void requireApplicationNamespace() {
@@ -44,5 +97,5 @@ class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphO
 			throw new MissingNamespaceException();
 		}
 	}
-
+	
 }
