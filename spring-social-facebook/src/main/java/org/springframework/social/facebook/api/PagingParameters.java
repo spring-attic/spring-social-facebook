@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.io.Serializable;
+
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -22,7 +24,8 @@ import org.springframework.util.MultiValueMap;
  * Carries parameters to describe a paged set of results.
  * @author Craig Walls
  */
-public class PagingParameters {
+@SuppressWarnings("serial")
+public class PagingParameters implements Serializable{
 	
 	private final Integer limit;
 
