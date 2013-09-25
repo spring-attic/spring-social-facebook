@@ -21,9 +21,9 @@ package org.springframework.social.facebook.api;
  */
 public class Location extends FacebookObject {
 
-	private final double latitude;
+	private double latitude;
 
-	private final double longitude;
+	private double longitude;
 
 	private String street;
 
@@ -35,9 +35,15 @@ public class Location extends FacebookObject {
 
 	private String zip;
 
-	private Location(double latitude, double longitude) {
+	private String description;
+	
+	public Location(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
+	}
+	
+	public Location(String description) {
+		this.description = description;
 	}
 
 	public double getLatitude() {
@@ -68,4 +74,7 @@ public class Location extends FacebookObject {
 		return zip;
 	}
 
+	public String getDescription() {
+		return description;
+	}
 }

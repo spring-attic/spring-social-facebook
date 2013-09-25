@@ -5,6 +5,11 @@ Improvments
     types to capture any data returned from Facebook that is otherwise
     unmapped to known properties. (SOCIALFB-125)
 
+Bug Fixes
+  * Flexibly deserialize a Location as either an object or as a String,
+    for the rare cases where the data in a checkin or place page appears
+    as a simple String. (SOCIALFB-138)
+
 Spring Social Facebook 1.1.0.M4 (August 19, 2013)
 =================================================
 Bug Fixes

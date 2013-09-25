@@ -1,0 +1,20 @@
+{
+  "id": "10150811140650580", 
+  "from": {
+    "name": "Craig Walls", 
+    "id": "738140579"
+  }, 
+  "message": "Many will check in using Facebook today. I am checking in AT Facebook", 
+  "place": {
+    "id": "218213061560639", 
+    "name": "f8 HACK 2011", 
+    "location": "Facebook", 
+    "start_time": "2011-09-23T11:00:00"
+  }, 
+  "application": {
+    "name": "Facebook for iPhone", 
+    "namespace": "fbiphone", 
+    "id": "6628568379"
+  }, 
+  "created_time": "2011-09-23T18:16:19+0000"
+}

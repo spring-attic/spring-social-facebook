@@ -88,6 +88,25 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 		assertSingleCheckin(checkin);		
 	}
 
+	@Test
+	public void getCheckin_withStringLocation() {
+		mockServer.expect(requestTo("https://graph.facebook.com/10150431253050580"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("checkin-with-string-location"), MediaType.APPLICATION_JSON));
+		Checkin checkin = facebook.placesOperations().getCheckin("10150431253050580");
+		assertEquals("10150811140650580", checkin.getId());
+		assertEquals("738140579", checkin.getFrom().getId());
+		assertEquals("Craig Walls", checkin.getFrom().getName());
+		Page place1 = checkin.getPlace();
+		assertEquals("218213061560639", place1.getId());
+		assertEquals("f8 HACK 2011", place1.getName());
+		assertEquals("Facebook", checkin.getPlace().getLocation().getDescription());
+		assertEquals("6628568379", checkin.getApplication().getId());
+		assertEquals("Facebook for iPhone", checkin.getApplication().getName());
+		assertEquals(toDate("2011-09-23T18:16:19+0000"), checkin.getCreatedTime());
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getCheckin_unauthorized() {
 		unauthorizedFacebook.placesOperations().getCheckin("987654321");
