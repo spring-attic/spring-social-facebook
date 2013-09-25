@@ -53,6 +53,16 @@ configure(allprojects) {
     // to changing APIs across these versions
     eclipse.classpath.file.whenMerged { classpath ->
         classpath.entries.findAll { entry -> entry.path.contains('servlet-api') }*.exported = false
+
+        // When the root project's name is the same as a dependency project's name, the name ends
+        // up being duplicated in the classpath entry. For example a dependency on "spring-social-facebook"
+        // would have a path of "/spring-social-facebook-spring-social-facebook".
+        // The following lines set the path properly in that case.
+        classpath.entries.findAll { entry -> 
+            if (entry.path.equals("/" + rootProject.name + "-" + rootProject.name)) {
+                entry.path = "/" + rootProject.name;
+            }
+        }
     }
 }
 
