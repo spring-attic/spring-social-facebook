@@ -63,7 +63,7 @@ public class SocialConfig {
 	</para>	
 		
 	<para>
-		Refer to <ulink url="http://static.springsource.org/spring-social/docs/1.0.x/reference/html/connecting.html">Spring Social's reference documentation</ulink> for complete details on configuring <classname>ConnectController</classname> and its dependencies.
+		Refer to <ulink url="http://docs.spring.io/spring-social/docs/1.0.x/reference/html/connecting.html">Spring Social's reference documentation</ulink> for complete details on configuring <classname>ConnectController</classname> and its dependencies.
 	</para>
 		
 </chapter>

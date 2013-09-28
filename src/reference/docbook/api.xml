@@ -27,7 +27,7 @@ Facebook facebook = new FacebookTemplate();]]>
 	</para>
 
 	<para>
-		If you are using Spring Social's <ulink url="http://static.springsource.org/spring-social/docs/1.0.x/reference/html/serviceprovider.html">service provider framework</ulink>, you can get an instance of <interfacename>Facebook</interfacename> from a <interfacename>Connection</interfacename>. 
+		If you are using Spring Social's <ulink url="http://docs.spring.io/spring-social/docs/1.0.x/reference/html/serviceprovider.html">service provider framework</ulink>, you can get an instance of <interfacename>Facebook</interfacename> from a <interfacename>Connection</interfacename>. 
 		For example, the following snippet calls <methodname>getApi()</methodname> on a connection to retrieve a <interfacename>Facebook</interfacename>:
 	</para>				
 
