@@ -282,7 +282,7 @@ FacebookLink link = new FacebookLink("http://www.springsource.org/spring-social"
         "Spring Social", 
         "The Spring Social Project", 
         "Spring Social is an extension to Spring to enable applications to connect with service providers.");
-facebook.feedOperations().updateStatus("I'm trying out Spring Social!", link);]]>
+facebook.feedOperations().postLink("I'm trying out Spring Social!", link);]]>
 		</programlisting>
 			
 		<para>
