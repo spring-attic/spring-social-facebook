@@ -26,9 +26,9 @@ configure(allprojects) {
       jspApiVersion = '2.2.1'
       junitVersion = '4.11'
       mockitoVersion = '1.9.5'
-      servletApiVersion = '2.5'
-      springSecurityCryptoVersion = '3.2.0.RC1'
-      springVersion = '3.2.3.RELEASE'
+      servletApiVersion = '3.0.1'
+      springSecurityCryptoVersion = '3.2.0.RELEASE'
+      springVersion = '4.0.1.RELEASE'
     }
 
     [compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint:none']
@@ -114,7 +114,7 @@ project('spring-social-facebook') {
         compile ("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
         compile ("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
         compile ("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
-        compile ("javax.servlet:servlet-api:$servletApiVersion", provided)
+        compile ("javax.servlet:javax.servlet-api:$servletApiVersion", provided)
         testCompile ("org.springframework:spring-test:$springVersion")
     }
 }
@@ -130,7 +130,7 @@ project('spring-social-facebook-web') {
         compile ("com.fasterxml.jackson.core:jackson-core:$jacksonVersion", optional)
         compile ("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion", optional)
         compile ("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion", optional)
-        compile ("javax.servlet:servlet-api:$servletApiVersion", provided)
+        compile ("javax.servlet:javax.servlet-api:$servletApiVersion", provided)
         compile ("javax.servlet.jsp:javax.servlet.jsp-api:$jspApiVersion", provided)
         testCompile ("org.springframework:spring-test:$springVersion")
     }
