@@ -15,6 +15,8 @@
  */
 package org.springframework.social.facebook.api;
 
+import org.springframework.util.MultiValueMap;
+
 /**
  * Defines operations for working with Facebook OpenGraph actions.
  * @author habuma
@@ -29,5 +31,15 @@ public interface OpenGraphOperations {
 	 * @return the ID of the posted action.
 	 */
 	String publishAction(String action, String objectType, String objectUrl);
+
+    /**
+     * Posts an action for an object specified by the given object URL.
+     * @param action The application specific action to post, without the application's namespace. (eg, "drink")
+     * @param objectType The application specific object type, without the application's namespace. (eg, "beverage")
+     * @param objectUrl The URL of the object that is the target of the action.
+     * @param parameters Optional parameters - see https://developers.facebook.com/docs/opengraph/using-actions/#publish
+     * @return the ID of the posted action.
+     */
+    String publishAction(String action, String objectType, String objectUrl, MultiValueMap<String, Object> parameters);
 	
 }
