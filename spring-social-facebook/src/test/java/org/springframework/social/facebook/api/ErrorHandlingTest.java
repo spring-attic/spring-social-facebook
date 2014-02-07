@@ -321,9 +321,4 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		}		
 	}
 	
-
-
-	private static final String CHANGED_PASSWORD_REVOKATION = "The authorization has been revoked. Reason: Error validating access token: " +
-			"The session has been invalidated because the user has changed the password.";
-
 }

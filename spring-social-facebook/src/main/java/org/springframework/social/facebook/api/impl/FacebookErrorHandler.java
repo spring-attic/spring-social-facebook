@@ -76,7 +76,6 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 		// Can't trust the type to be useful. It's often OAuthException, even for things not OAuth-related. 
 		// Can rely only on the message (which itself isn't very consistent).
 		String message = errorDetails.get("message");
-
 		if (statusCode == HttpStatus.NOT_FOUND) {
 			if (message.contains("Some of the aliases you requested do not exist")) {
 				throw new ResourceNotFoundException(FACEBOOK, message);
@@ -171,6 +170,9 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 	private Map<String, String> extractErrorDetailsFromResponse(ClientHttpResponse response) throws IOException {
 		ObjectMapper mapper = new ObjectMapper(new JsonFactory());
 		String json = readFully(response.getBody());
+		
+		System.out.println(json);
+		
 		if (logger.isDebugEnabled()) {
 			logger.debug("Error from Facebook: " + json);
 		}

@@ -112,7 +112,6 @@ abstract class PostMixin extends FacebookObjectMixin {
 	@JsonDeserialize(using = TypeDeserializer.class)
 	PostType type;
 
-	// TODO: THIS IS BREAKING TYPE DESERIALIZATION...BUT WHY???
 	@JsonProperty("shares")
 	@JsonDeserialize(using = CountDeserializer.class)
 	int sharesCount;
