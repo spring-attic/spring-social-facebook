@@ -67,4 +67,19 @@ public interface OpenGraphOperations {
 	String publishAction(String action, String objectType, String objectUrl);
 	
 	String publishAction(String action, MultiValueMap<String, Object> parameters, boolean builtInAction);
+	
+	/**
+	 * The way a application sends notification to users
+	 * 
+	 * @param userId the facebook user id
+	 * @param href The relative path/GET params of the  canvas APP
+	 * @param template The customized text of the notification. See 
+	 * https://developers.facebook.com/docs/games/notifications/#templating for
+	 * customized messages
+	 * 
+	 * @return true if the user received the notification false otherwise
+	 * 
+	 * @see https://developers.facebook.com/docs/games/notifications/
+	 */
+	void sendAppNotification(String userId, String href, String template);
 }

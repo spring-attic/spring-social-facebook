@@ -27,6 +27,8 @@ import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 public class FacebookServiceProvider extends AbstractOAuth2ServiceProvider<Facebook> {
 
 	private String appNamespace;
+	private String appId;
+	private String appSecret;
 
 	/**
 	 * Creates a FacebookServiceProvider for the given application ID, secret, and namespace.
@@ -36,11 +38,13 @@ public class FacebookServiceProvider extends AbstractOAuth2ServiceProvider<Faceb
 	 */
 	public FacebookServiceProvider(String appId, String appSecret, String appNamespace) {
 		super(new FacebookOAuth2Template(appId, appSecret));
+		this.appId = appId;
+		this.appSecret = appSecret;
 		this.appNamespace = appNamespace;
 	}
 
 	public Facebook getApi(String accessToken) {
-		return new FacebookTemplate(accessToken, appNamespace);
+		return new FacebookTemplate(accessToken, appId, appSecret, appNamespace);
 	}
 	
 }
