@@ -35,6 +35,9 @@ configure(allprojects) {
       servletApiVersion = '3.0.1'
       springSecurityCryptoVersion = '3.2.0.RELEASE'
       springVersion = '4.0.2.RELEASE'
+      springVersion = '4.0.1.RELEASE'
+      springReleaseVersion    = "latest.release"
+      springSnapshotVersion   = "latest.integration"
     }
 
     [compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint:none']
@@ -112,6 +115,47 @@ configure(subprojects) { subproject ->
     artifacts {
         archives sourcesJar
         archives javadocJar
+    }
+
+    configurations {
+        springReleaseTestRuntime.extendsFrom testRuntime
+        springSnapshotTestRuntime.extendsFrom testRuntime
+    }
+
+    // Test against latest Spring Framework release
+    configurations.springReleaseTestRuntime {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'org.springframework') {
+                details.useVersion springReleaseVersion
+            }
+        }
+    }
+
+    // Test against latest Spring Framework snapshot
+    configurations.springSnapshotTestRuntime {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'org.springframework') {
+                details.useVersion springSnapshotVersion
+            }
+        }
+    }
+
+    task springReleaseTest(type: Test) {
+        classpath = sourceSets.test.output + sourceSets.main.output + configurations.springReleaseTestRuntime
+        getReports().getJunitXml().setDestination(file("$buildDir/spring-release-test-results/"))
+        getReports().getHtml().setDestination(file("$buildDir/reports/spring-release-tests/"))
+    }
+    check.dependsOn springReleaseTest
+
+    task springSnapshotTest(type: Test) {
+        classpath = sourceSets.test.output + sourceSets.main.output + configurations.springSnapshotTestRuntime
+        getReports().getJunitXml().setDestination(file("$buildDir/spring-snapshot-test-results/"))
+        getReports().getHtml().setDestination(file("$buildDir/reports/spring-snapshot-tests/"))
+    }
+    check.dependsOn springSnapshotTest
+
+    configure([test, springReleaseTest, springSnapshotTest]) {
+        systemProperties['springVersion'] = springVersion
     }
 }
 
@@ -209,7 +253,10 @@ configure(rootProject) {
     }    
 
     task wrapper(type: Wrapper) {
+<<<<<<< HEAD
         description = 'Generates gradlew[.bat] scripts'
+=======
+>>>>>>> a1d011acf17b5ef93a476aa9fcd4accaf332e621
         gradleVersion = '1.11'
     }
 
