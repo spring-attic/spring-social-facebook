@@ -45,7 +45,7 @@ project('manual') {
 
 task apidocs(type: Javadoc) {
     destinationDir = new File(buildDir, 'apidocs')
-    title = "Spring Social $version API"
+    title = "Spring Social Facebook $version API"
 
     source coreModuleProjects.collect { project ->
         project.sourceSets.main.allJava
