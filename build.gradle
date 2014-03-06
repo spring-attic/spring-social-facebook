@@ -253,10 +253,7 @@ configure(rootProject) {
     }    
 
     task wrapper(type: Wrapper) {
-<<<<<<< HEAD
         description = 'Generates gradlew[.bat] scripts'
-=======
->>>>>>> a1d011acf17b5ef93a476aa9fcd4accaf332e621
         gradleVersion = '1.11'
     }
 
