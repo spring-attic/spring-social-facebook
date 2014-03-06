@@ -1,0 +1,62 @@
+[[]]
+Spring Social Facebook Overview
+-------------------------------
+
+[[]]
+Introduction
+------------
+
+The Spring Social Facebook project is an extension to
+http://www.springframework.org/spring-social[Spring Social] that enables
+integration with Facebook.
+
+With over 700 million users (and growing),
+http://www.facebook.com[Facebook] is the largest online social network.
+While bringing together friends and family, Facebook also offers a rich
+platform on which to develop applications.
+
+Spring Social Facebook enables integration with Facebook with
+FacebookConnectionFactory, a connection factory that can be plugged into
+Spring Social's service provider connection framework, and with an API
+binding to Facebook's REST API.
+
+[[]]
+How to get
+----------
+
+The following Maven dependency will add Spring Social Facebook to your
+project:
+
+code,xml-------------------------------------------------------------------
+code,xml
+<dependency>
+  <groupId>org.springframework.social</groupId>
+  <artifactId>spring-social-facebook</artifactId>
+  <version>${org.springframework.social-facebook-version}</version>
+</dependency>
+        
+-------------------------------------------------------------------
+
+As an extension to Spring Social, Spring Social Facebook depends on
+Spring Social. Spring Social's core module will be transitively resolved
+from the Spring Social Facebook dependency. If you'll be using Spring
+Social's web module, you'll need to add that dependency yourself:
+
+code,xml----------------------------------------------------------
+code,xml
+<dependency>
+  <groupId>org.springframework.social</groupId>
+  <artifactId>spring-social-web</artifactId>
+  <version>${org.springframework.social-version}</version>
+</dependency>
+        
+----------------------------------------------------------
+
+Note that Spring Social Facebook may release on a different schedule
+than Spring Social. Consequently, Spring Social's version may differ
+from that of Spring Social Facebook.
+
+Consult
+http://docs.spring.io/spring-social/docs/1.0.x/reference/html/overview.html#overview-howtoget[Spring
+Social's reference documentation] for more information on Spring Social
+dependencies.
