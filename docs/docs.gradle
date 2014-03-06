@@ -65,18 +65,11 @@ apidocs.options.links = [
 ]
 
 apidocs.options.groups = [
-    'Spring Social Core':[
-        'org.springframework.social',
-        'org.springframework.social.connect',
-        'org.springframework.social.connect.jdbc',
-        'org.springframework.social.connect.mem',
-        'org.springframework.social.connect.support',
-        'org.springframework.social.oauth1*',
-        'org.springframework.social.oauth2*',
-        'org.springframework.social.support*'],
-    'Spring Social Config':['org.springframework.social.config*'],
-    'Spring Social Security':['org.springframework.social.security*'],
-    'Spring Social Web':['org.springframework.social.connect.web*']
+    'API Binding':['org.springframework.social.facebook.api*'],
+    'Connection Framework Support':['org.springframework.social.facebook.connect'],
+    'Configuration Support':['org.springframework.social.facebook.config*'],
+    'Spring Security Integration':['org.springframework.social.facebook.security'],
+    'Web Support':['org.springframework.social.facebook.web']
 ]
 
 ext.apiSpec = copySpec {
