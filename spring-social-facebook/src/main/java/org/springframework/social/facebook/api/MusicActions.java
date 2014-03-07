@@ -17,6 +17,8 @@ package org.springframework.social.facebook.api;
 
 /**
  * Defines operations for publishing OpenGraph actions pertaining to listening to music.
+ * Many OpenGraph operations require approval from Facebook.
+ * See https://developers.facebook.com/docs/opengraph/submission-process for details.
  * @author Craig Walls
  */
 public interface MusicActions {

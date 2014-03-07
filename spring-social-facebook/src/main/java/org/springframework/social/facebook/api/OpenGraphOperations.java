@@ -20,6 +20,8 @@ import org.springframework.util.MultiValueMap;
 
 /**
  * Defines operations for working with Facebook OpenGraph actions.
+ * Many OpenGraph operations require approval from Facebook.
+ * See https://developers.facebook.com/docs/opengraph/submission-process for details.
  * @author habuma
  */
 public interface OpenGraphOperations {
