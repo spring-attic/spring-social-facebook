@@ -225,7 +225,7 @@ For complete details on all of the operations available, refer to the JavaDoc.
 
 [[]]
 === Retrieving a user's profile data
-You can retrieve a user's Facebook profile data using the `Facebook#userOperations.getUserProfile()` method:
+You can retrieve the authenticated user's Facebook profile data using the `Facebook#userOperations.getUserProfile()` method:
 
 ```java
 FacebookProfile profile = facebook.userOperations().getUserProfile();
@@ -236,17 +236,12 @@ Depending on what authorization scope has been granted to the application, it ma
 For example, `getBirthday()` will return the current user's birthday if the application has been granted "user_birthday" permission; null otherwise. 
 Consult the JavaDoc for `FacebookProfile` for details on which permissions are required for each property.
 
-If all you need is the user's Facebook ID, you can call `getProfileId()` instead:
+You can also ask for a Facebook profile for a specific Facebook user (not necessarily the authenticated user) by passing a user ID (or Facebook alias) to `getUserProfile()`:
 
 ```java
-String profileId = facebook.userOperations().getProfileId();
+FacebookProfile profile = facebook.userOperations().getUserProfile("4");
 ```
 
-Or if you want the user's Facebook URL, you can call `getProfileUrl()`:
-
-```java
-String profileUrl = facebook.userOperations().getProfileUrl();
-```
 
 [[]]
 === Getting a user's Facebook friends
@@ -353,9 +348,11 @@ The `Post` class has six subtypes to represent different kinds of posts:
 
 * `CheckinPost` - Reports a user's checkin in Facebook Places.
 * `LinkPost` - Shares a link the user has posted.
+* `MusicPost` - A post that has an attached music file.
 * `NotePost` - Publicizes a note that the user has written.
 * `PhotoPost` - Announces a photo that the user has uploaded.
 * `StatusPost` - A simple status.
+* `SwfPost` - A post that has an attached Flash animation or movie.
 * `VideoPost` - Announces a video that the user has uploaded.
 
 The `Post`'s `getType()` method identifies the type of `Post`.
