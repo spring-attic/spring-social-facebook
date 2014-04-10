@@ -60,6 +60,12 @@ class PagedListUtils {
 		if (pagedListParameters.getUntil() != null) {
 			parameters.add("until", String.valueOf(pagedListParameters.getUntil()));
 		}
+		if (pagedListParameters.getBefore() != null) {
+			parameters.add("before", String.valueOf(pagedListParameters.getBefore()));
+		}
+		if (pagedListParameters.getAfter() != null) {
+			parameters.add("after", String.valueOf(pagedListParameters.getAfter()));
+		}
 		return parameters;
 	}
 
