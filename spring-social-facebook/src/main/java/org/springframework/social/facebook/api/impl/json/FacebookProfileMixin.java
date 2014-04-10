@@ -15,10 +15,12 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.social.facebook.api.AgeRange;
 import org.springframework.social.facebook.api.EducationEntry;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.WorkEntry;
@@ -26,6 +28,12 @@ import org.springframework.social.facebook.api.WorkEntry;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Annotated mixin to add Jackson annotations to FacebookProfile. 
@@ -121,4 +129,20 @@ abstract class FacebookProfileMixin extends FacebookObjectMixin {
 	
 	@JsonProperty("website")
 	String website;
+	
+	@JsonProperty("age_range")
+	@JsonDeserialize(using=AgeRangeDeserializer.class)
+	AgeRange ageRange;
+
+	private static class AgeRangeDeserializer extends JsonDeserializer<AgeRange> {
+		@Override
+		public AgeRange deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+			JsonNode ageRangeNode = jp.readValueAs(JsonNode.class);
+			JsonNode minNode = (JsonNode) ageRangeNode.get("min");
+			JsonNode maxNode = (JsonNode) ageRangeNode.get("max");
+			Integer min = minNode != null ? minNode.asInt() : null;
+			Integer max = maxNode != null ? maxNode.asInt() : null;
+			return AgeRange.fromMinMax(min, max);
+		}
+	}
 }

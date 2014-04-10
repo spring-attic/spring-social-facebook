@@ -94,6 +94,8 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	private List<WorkEntry> work;
 	
 	private List<EducationEntry> education;
+	
+	private AgeRange ageRange = AgeRange.UNKNOWN;
 
 	public FacebookProfile(String id, String username, String name, String firstName, String lastName, String gender, Locale locale) {
 		this.id = id;
@@ -389,4 +391,13 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	public List<EducationEntry> getEducation() {
 		return education;
 	}
+	
+	/**
+	 * The user's age range.
+	 * @return an {@link AgeRange} for the user. Will be {@link AgeRange#UNKNOWN} if the age_range isn't available or if the range given does match the known ranges.
+	 */
+	public AgeRange getAgeRange() {
+		return ageRange;
+	}
+	
 }

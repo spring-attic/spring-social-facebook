@@ -135,6 +135,71 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertBasicProfileData(profile, true);
 		assertEquals(Float.valueOf("-4.5"), profile.getTimezone()); 
 	}
+	
+	@Test
+	public void getUserProfile_withAgeRange_13_17() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-13-17"), MediaType.APPLICATION_JSON));
+		
+		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		assertEquals(AgeRange.AGE_13_17, profile.getAgeRange());
+		assertEquals(13, profile.getAgeRange().getMin().intValue());
+		assertEquals(17, profile.getAgeRange().getMax().intValue());
+	}
+
+	@Test
+	public void getUserProfile_withAgeRange_18_20() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-18-20"), MediaType.APPLICATION_JSON));
+		
+		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		assertEquals(AgeRange.AGE_18_20, profile.getAgeRange());
+		assertEquals(18, profile.getAgeRange().getMin().intValue());
+		assertEquals(20, profile.getAgeRange().getMax().intValue());
+	}
+
+	@Test
+	public void getUserProfile_withAgeRange_21_plus() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-21-plus"), MediaType.APPLICATION_JSON));
+		
+		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		assertEquals(AgeRange.AGE_21_PLUS, profile.getAgeRange());
+		assertEquals(21, profile.getAgeRange().getMin().intValue());
+		assertNull(profile.getAgeRange().getMax());
+	}
+
+	@Test
+	public void getUserProfile_withAgeRange_unknown() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-unknown"), MediaType.APPLICATION_JSON));
+		
+		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		assertEquals(AgeRange.UNKNOWN, profile.getAgeRange());
+		assertEquals(33, profile.getAgeRange().getMin().intValue());
+		assertEquals(42, profile.getAgeRange().getMax().intValue());
+	}
+
+	@Test
+	public void getUserProfile_withAgeRange_null() {
+		mockServer.expect(requestTo("https://graph.facebook.com/123456789"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("minimal-profile"), MediaType.APPLICATION_JSON));
+		
+		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		assertEquals(AgeRange.UNKNOWN, profile.getAgeRange());
+		assertNull(profile.getAgeRange().getMin());
+		assertNull(profile.getAgeRange().getMax());
+	}
 
 	@Test
 	public void getUserProfileImage() {
@@ -218,7 +283,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 	public void search_unauthorized() {
 		unauthorizedFacebook.userOperations().search("Michael Scott");
 	}
-
+	
 	private void assertBasicProfileData(FacebookProfile profile, boolean withMiddleName) {
 		assertEquals("123456789", profile.getId());
 		assertEquals("Michael", profile.getFirstName());
