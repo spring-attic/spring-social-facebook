@@ -25,7 +25,7 @@ import org.springframework.util.MultiValueMap;
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class PagingParameters implements Serializable{
+public class PagingParameters implements Serializable {
 	
 	private final Integer limit;
 
