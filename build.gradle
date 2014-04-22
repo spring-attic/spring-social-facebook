@@ -25,20 +25,6 @@ configure(allprojects) {
     sourceCompatibility=1.5
     targetCompatibility=1.5
 
-    ext {
-      springSocialVersion = '1.1.0.BUILD-SNAPSHOT'
-      hamcrestVersion = '1.3'
-      jacksonVersion = '2.3.2'
-      jspApiVersion = '2.2.1'
-      junitVersion = '4.11'
-      mockitoVersion = '1.9.5'
-      servletApiVersion = '3.0.1'
-      springSecurityCryptoVersion = '3.2.3.RELEASE'
-      springVersion = '4.0.3.RELEASE'
-      springReleaseVersion    = "latest.release"
-      springSnapshotVersion   = "latest.integration"
-    }
-
     [compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint:none']
 
     sourceSets.test.resources.srcDirs = ['src/test/resources', 'src/test/java']
