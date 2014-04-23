@@ -12,9 +12,10 @@ buildscript {
 
 // Set up different subproject lists for individual configuration
 ext.javaProjects = subprojects.findAll { project -> project.name != 'docs' && project.name != 'manual' }
+ext.docProjects = subprojects.findAll { project -> project.name == 'docs' || project.name == 'manual' }
 ext.coreModuleProjects = javaProjects
 
-configure(allprojects) {
+configure(allprojects - docProjects) {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
@@ -65,7 +66,7 @@ ext.javadocLinks = [
     "http://docs.jboss.org/jbossas/javadoc/4.0.5/connector"
 ] as String[]
 
-configure(subprojects) { subproject ->
+configure(subprojects - docProjects) { subproject ->
     apply from: "${rootProject.projectDir}/publish-maven.gradle"
 
     jar {
