@@ -52,6 +52,12 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 		requireAuthorization();
 		return graphApi.fetchConnections("me", "accounts", Account.class);
 	}
+	
+	public PagedList<Account> getLocations(String pageId)
+	{
+		requireAuthorization();
+		return graphApi.fetchConnections(pageId, "locations", Account.class);
+	}
 
 	public String post(String pageId, String message) {
 		requireAuthorization();
