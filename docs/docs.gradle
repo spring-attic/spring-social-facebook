@@ -1,11 +1,14 @@
     // Docbook and Javadoc building and uploading tasks
 apply plugin: 'base'
 
+description = "Spring Social Facebook - Documentation"
+
 task docs {
     dependsOn 'manual:asciidoctor', 'apidocs'
 }
 
 project('manual') {
+    description = "Spring Social Facebook - Manual"
     apply plugin: 'base'
     apply plugin: 'asciidoctor'
 
