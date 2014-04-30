@@ -43,7 +43,7 @@ public class FacebookAdapter implements ApiAdapter<Facebook> {
 		values.setProviderUserId(profile.getId());
 		values.setDisplayName(profile.getUsername());
 		values.setProfileUrl("http://facebook.com/profile.php?id=" + profile.getId());
-		values.setImageUrl("http://graph.facebook.com/" + profile.getId() + "/picture");
+		values.setImageUrl("http://graph.facebook.com/v1.0/" + profile.getId() + "/picture");
 	}
 
 	public UserProfile fetchUserProfile(Facebook facebook) {

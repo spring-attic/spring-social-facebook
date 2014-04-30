@@ -52,7 +52,7 @@ public class FacebookAdapterTest {
 		TestConnectionValues connectionValues = new TestConnectionValues();
 		apiAdapter.setConnectionValues(facebook, connectionValues);
 		assertEquals("habuma", connectionValues.getDisplayName());
-		assertEquals("http://graph.facebook.com/12345678/picture", connectionValues.getImageUrl());
+		assertEquals("http://graph.facebook.com/v1.0/12345678/picture", connectionValues.getImageUrl());
 		assertEquals("http://facebook.com/profile.php?id=12345678", connectionValues.getProfileUrl());
 		assertEquals("12345678", connectionValues.getProviderUserId());
 	}

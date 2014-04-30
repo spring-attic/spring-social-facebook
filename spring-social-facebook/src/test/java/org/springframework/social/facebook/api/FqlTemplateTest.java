@@ -30,7 +30,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void query_basic() {
-		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=SELECT+uid%2C+status_id%2C+message%2C+time%2C+source+FROM+status+WHERE+uid%3Dme%28%29"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/fql?q=SELECT+uid%2C+status_id%2C+message%2C+time%2C+source+FROM+status+WHERE+uid%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("fql-result-basic"), MediaType.APPLICATION_JSON));
@@ -73,7 +73,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void query_basicWithFloat() {
-		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=SELECT+vid%2C+title%2C+length+FROM+video+WHERE+owner%3Dme%28%29"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/fql?q=SELECT+vid%2C+title%2C+length+FROM+video+WHERE+owner%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("fql-result-basic-with-float"), MediaType.APPLICATION_JSON));
@@ -104,7 +104,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void query_resultsWithAnObjectField() {
-		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+app_id%2C+display_name%2C+restriction_info+from+application+where+app_id%3D162886103757745"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/fql?q=select+app_id%2C+display_name%2C+restriction_info+from+application+where+app_id%3D162886103757745"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("fql-result-with-object-field"), MediaType.APPLICATION_JSON));
@@ -134,7 +134,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void query_resultsWithAnObjectArrayField() {
-		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+uid%2C+name%2C+family+from+user+where+uid%3Dme%28%29"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/fql?q=select+uid%2C+name%2C+family+from+user+where+uid%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("fql-result-list-of-objects"), MediaType.APPLICATION_JSON));
@@ -171,7 +171,7 @@ public class FqlTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void nullChecks() {		
-		mockServer.expect(requestTo("https://graph.facebook.com/fql?q=select+stuff+from+somewhere+where+uid%3Dme%28%29"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/fql?q=select+stuff+from+somewhere+where+uid%3Dme%28%29"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("fql-with-nulls"), MediaType.APPLICATION_JSON));

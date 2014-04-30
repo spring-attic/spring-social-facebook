@@ -127,6 +127,6 @@ public interface GraphApi {
 	 */
 	String getApplicationNamespace();
 	
-	static final String GRAPH_API_URL = "https://graph.facebook.com/";
+	static final String GRAPH_API_URL = "https://graph.facebook.com/v1.0/";
 
 }

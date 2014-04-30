@@ -30,7 +30,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getCheckins() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/posts?offset=0&limit=25&with=location"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/posts?offset=0&limit=25&with=location"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("checkins"), MediaType.APPLICATION_JSON));
@@ -40,7 +40,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getCheckins_withOffsetAndLimit() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/posts?offset=50&limit=10&with=location"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/posts?offset=50&limit=10&with=location"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("checkins"), MediaType.APPLICATION_JSON));
@@ -55,7 +55,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getCheckins_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/987654321/posts?offset=0&limit=25&with=location"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/987654321/posts?offset=0&limit=25&with=location"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("checkins"), MediaType.APPLICATION_JSON));
@@ -65,7 +65,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getCheckins_forSpecificUser_withOffsetAndLimit() {
-		mockServer.expect(requestTo("https://graph.facebook.com/987654321/posts?offset=50&limit=10&with=location"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/987654321/posts?offset=50&limit=10&with=location"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("checkins"), MediaType.APPLICATION_JSON));
@@ -80,7 +80,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getCheckin() {
-		mockServer.expect(requestTo("https://graph.facebook.com/10150431253050580"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/10150431253050580"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("checkin"), MediaType.APPLICATION_JSON));
@@ -90,7 +90,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getCheckin_withStringLocation() {
-		mockServer.expect(requestTo("https://graph.facebook.com/10150431253050580"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/10150431253050580"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("checkin-with-string-location"), MediaType.APPLICATION_JSON));
@@ -114,7 +114,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void checkin() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/feed"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andExpect(content().string("place=123456789&coordinates=%7B%22latitude%22%3A%2232.943860253093%22%2C%22longitude%22%3A%22-96.648515652755%22%7D"))
@@ -129,7 +129,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void checkin_withMessage() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/feed"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andExpect(content().string("place=123456789&coordinates=%7B%22latitude%22%3A%2232.943860253093%22%2C%22longitude%22%3A%22-96.648515652755%22%7D&message=My+favorite+place"))
@@ -144,7 +144,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void checkin_withMessageAndTags() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/feed"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/feed"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andExpect(content().string("place=123456789&coordinates=%7B%22latitude%22%3A%2232.943860253093%22%2C%22longitude%22%3A%22-96.648515652755%22%7D&message=My+favorite+place&tags=24680%2C13579"))
@@ -160,7 +160,7 @@ public class PlacesTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search() {
-		mockServer.expect(requestTo("https://graph.facebook.com/search?q=coffee&type=place&center=33.050278%2C-96.745833&distance=5280"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/search?q=coffee&type=place&center=33.050278%2C-96.745833&distance=5280"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("places-list"), MediaType.APPLICATION_JSON));

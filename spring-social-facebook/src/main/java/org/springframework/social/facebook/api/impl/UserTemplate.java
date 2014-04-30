@@ -73,7 +73,7 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 
 	public PagedList<String> getUserPermissions() {
 		requireAuthorization();
-		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/me/permissions", JsonNode.class);		
+		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/v1.0/me/permissions", JsonNode.class);
 		return deserializePermissionsNodeToList(responseNode);
 	}
 

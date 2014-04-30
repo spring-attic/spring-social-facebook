@@ -33,7 +33,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void askQuestion() {
 		String requestBody = "question=What+is+your+favorite+color%3F";
-		mockServer.expect(requestTo("https://graph.facebook.com/me/questions"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/questions"))
 				.andExpect(method(POST))
 				.andExpect(content().string(requestBody))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -44,7 +44,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void addOption() {
 		String requestBody = "option=Dallas+Cowboys";
-		mockServer.expect(requestTo("https://graph.facebook.com/297875170268725/options"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/297875170268725/options"))
 				.andExpect(method(POST))
 				.andExpect(content().string(requestBody))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -54,7 +54,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getQuestion_noOptions() {
-		mockServer.expect(requestTo("https://graph.facebook.com/297875170268724"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/297875170268724"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("question-without-options"), MediaType.APPLICATION_JSON));
@@ -66,7 +66,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getQuestion_withOptions() {
-		mockServer.expect(requestTo("https://graph.facebook.com/297875170268724"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/297875170268724"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("question-with-options"), MediaType.APPLICATION_JSON));
@@ -78,7 +78,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getQuestions_forAuthenticatedUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/me/questions"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/questions"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("questions"), MediaType.APPLICATION_JSON));
@@ -88,7 +88,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getQuestions_forSpecificUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/100001387295207/questions"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/100001387295207/questions"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("questions"), MediaType.APPLICATION_JSON));
@@ -98,7 +98,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void deleteQuestion() {
-		mockServer.expect(requestTo("https://graph.facebook.com/297875170268725"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/297875170268725"))
 			.andExpect(method(POST))
 			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -109,7 +109,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getOption() {
-		mockServer.expect(requestTo("https://graph.facebook.com/338689702832185"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/338689702832185"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("question-option"), MediaType.APPLICATION_JSON));
@@ -119,7 +119,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getQuestionOptions() {
-		mockServer.expect(requestTo("https://graph.facebook.com/338689702832185/options"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/338689702832185/options"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("question-options"), MediaType.APPLICATION_JSON));
@@ -129,7 +129,7 @@ public class QuestionTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void deleteOption() {
-		mockServer.expect(requestTo("https://graph.facebook.com/297875170268725"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/297875170268725"))
 			.andExpect(method(POST))
 			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
