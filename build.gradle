@@ -245,6 +245,10 @@ configure(rootProject) {
 
 }
 
+configure(docProjects) {
+    tasks.findByPath("artifactoryPublish")?.enabled = false
+}
+
 task updateRootDocs << {
     copy {
         from 'src/dist'
