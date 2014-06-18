@@ -10,14 +10,15 @@
     "start_time":"2011-03-26T14:00:00",
     "end_time":"2011-03-26T15:00:00",
     "location":"On the couch",
-    "venue":
-    {
-        "street":"1234 North Avenue",
-        "city":"Plano",
-        "state":"Texas",
-        "country":"United States",
-        "latitude":33.0197,
-        "longitude":-96.6986
+    "venue": {
+      "id": "215524685134868", 
+      "city": "Fort Worth", 
+      "country": "United States", 
+      "latitude": 32.7493792167, 
+      "longitude": -97.3371771801, 
+      "state": "TX", 
+      "street": "921 Henderson St", 
+      "zip": "76102"
     },
     "privacy":"SECRET",
     "updated_time":"2011-03-24T19:40:43+0000"

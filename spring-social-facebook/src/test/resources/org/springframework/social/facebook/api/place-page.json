@@ -17,6 +17,29 @@
       "latitude": 39.851693483111,
       "longitude": -104.67384947947
    },
+  "restaurant_services": {
+    "delivery": 0, 
+    "catering": 1, 
+    "groups": 1, 
+    "kids": 1, 
+    "outdoor": 0, 
+    "reserve": 0, 
+    "takeout": 1, 
+    "waiter": 1, 
+    "walkins": 1
+  }, 
+  "restaurant_specialties": {
+    "breakfast": 0, 
+    "coffee": 0, 
+    "dinner": 1, 
+    "drinks": 1, 
+    "lunch": 1
+  }, 
+  "parking": {
+    "lot": 1, 
+    "street": 0, 
+    "valet": 0
+  },
    "phone": "(303) 342-2000",
    "checkins": 121661,
    "talking_about_count": 15062

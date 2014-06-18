@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,56 +27,92 @@ import java.util.Map;
  */
 public class Page extends FacebookObject {
 
-	private final String id;
+	private String id;
 
-	private final String name;
-
-	private final String category;
-
-	private final String link;
-
-	private String description;
-	
 	private String about;
-	
-	private Location location;
-	
-	private String website;
-	
-	private String picture;
-	
-	private CoverPhoto cover;
-	
-	private String phone;
 	
 	private String affiliation;
 	
-	private String companyOverview;
+	private String attire;
 	
-	private int likes;
+	private String bandMembers;
 	
-	private int talkingAboutCount;
+	private Page bestPage;
 	
-	private int checkins;
+	private String birthday;
+	
+	private String bookingAgent;
 	
 	private boolean canPost;
 	
-	private boolean isPublished;
+	private String category;
 	
-	private boolean isCommunityPage;
+	private List<Reference> categoryList;
+
+	private int checkins;
+	
+	private String companyOverview;
+	
+	private CoverPhoto cover;
+	
+	private String currentLocation;
+	
+	private String description;
+	
+	private String directedBy;
+	
+	private String founded;
+	
+	private String generalInfo;
+	
+	private String generalManager;
+	
+	private String globalBrandPageName;
 	
 	private boolean hasAddedApp;
 	
+	private String hometown;
+	
 	private Map<String, String> hours;
 	
-	public Page(String id, String name, String link, String category) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.link = link;
-		this.category = category;
-	}
+	private boolean isCommunityPage;
+	
+	private boolean isPermanentlyClosed;
+	
+	private boolean isPublished;
+	
+	private boolean isUnclaimed;
+	
+	private int likes;
+	
+	private String link;
 
+	private Location location;
+	
+	private String mission;
+	
+	private String name;
+	
+	private ParkingInfo parking;
+	
+	private String phone;
+	
+	private String picture;
+	
+	private String pressContact;
+	
+	private PriceRange priceRange;
+	
+	private String products;
+	
+	private RestaurantSpecialties restaurantSpecialties;
+	
+	private int talkingAboutCount;
+	
+	private String website;
+	
+	private int wereHereCount;
+	
 	/**
 	 * @return The page's ID.
 	 */
@@ -133,7 +170,7 @@ public class Page extends FacebookObject {
 	}
 
 	/**
-	 * The page's picture.
+	 * @return the page's picture.
 	 * @deprecated This method will be replaced in Spring 1.1.0 with a new version that returns an object with more details about the picture.
 	 */
 	@Deprecated
@@ -142,7 +179,7 @@ public class Page extends FacebookObject {
 	}
 	
 	/**
-	 * The page's cover photo.
+	 * @return the page's cover photo.
 	 */
 	public CoverPhoto getCover() {
 		return cover;
@@ -219,6 +256,98 @@ public class Page extends FacebookObject {
 
 	public Map<String, String> getHours() {
 		return hours;
+	}
+	
+	public String getAttire() {
+		return attire;
+	}
+	
+	public String getBandMembers() {
+		return bandMembers;
+	}
+	
+	public Page getBestPage() {
+		return bestPage;
+	}
+	
+	public String getBookingAgent() {
+		return bookingAgent;
+	}
+	
+	public String getBirthday() {
+		return birthday;
+	}
+	
+	public List<Reference> getCategoryList() {
+		return categoryList;
+	}
+	
+	public String getCurrentLocation() {
+		return currentLocation;
+	}
+	
+	public String getDirectedBy() {
+		return directedBy;
+	}
+	
+	public String getFounded() {
+		return founded;
+	}
+	
+	public String getGeneralInfo() {
+		return generalInfo;
+	}
+	
+	public String getGeneralManager() {
+		return generalManager;
+	}
+	
+	public String getGlobalBrandPageName() {
+		return globalBrandPageName;
+	}
+	
+	public String getHometown() {
+		return hometown;
+	}
+	
+	public boolean isPermanentlyClosed() {
+		return isPermanentlyClosed;
+	}
+	
+	public boolean isUnclaimed() {
+		return isUnclaimed;
+	}
+	
+	public String getMission() {
+		return mission;
+	}
+	
+	public ParkingInfo getParking() {
+		return parking;
+	}
+	
+	public PriceRange getPriceRange() {
+		return priceRange;
+	}
+	
+	public String getPressContact() {
+		return pressContact;
+	}
+	
+	public String getProducts() {
+		return products;
+	}
+	
+	public RestaurantSpecialties getRestaurantSpecialties() {
+		return restaurantSpecialties;
+	}
+	
+	public int getWereHereCount() {
+		return wereHereCount;
+	}
+	
+	public static enum PriceRange {
+		$,$$, $$$, $$$$, UNSPECIFIED;
 	}
 	
 }

@@ -31,6 +31,7 @@ public class FqlResult {
 
 	/**
 	 * Constructs an FqlResult instance from a map.
+	 * @param resultMap a Map representing the query results
 	 */
 	public FqlResult(Map<String, Object> resultMap) {
 		this.resultMap = resultMap;
@@ -128,6 +129,7 @@ public class FqlResult {
 	 * Returns the value of the identified field as an object mapped by a given {@link FqlResultMapper}.
 	 * @param fieldName the name of the field
 	 * @param mapper an {@link FqlResultMapper} used to map the object date into a specific type.
+	 * @param <T> the Java type to bind the Facebook object to
 	 * @return the value of the field as an object of a type the same as the parameterized type of the given {@link FqlResultMapper}.
 	 * @throws FqlException if the value of the field is not a nested object.
 	 */
@@ -148,6 +150,7 @@ public class FqlResult {
 	 * Returns the value of the identified field as an object mapped by a given {@link FqlResultMapper}.
 	 * @param fieldName the name of the field
 	 * @param mapper an {@link FqlResultMapper} used to map the object date into a specific type.
+	 * @param <T> the Java type to bind the Facebook object to
 	 * @return the value of the field as list of objects whose type is the same as the parameterized type of the given {@link FqlResultMapper}.
 	 * @throws FqlException if the value of the field is not a list.
 	 */

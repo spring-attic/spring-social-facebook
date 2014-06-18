@@ -25,93 +25,94 @@ import java.util.Date;
 public class Album extends FacebookObject {
 
 	private String id;
-
-	private Reference from;
-
-	private String name;
-
-	private String description;
-
-	private String location;
-
-	private String link;
-
-	private Privacy privacy;
+	
+	private boolean canUpload;
 
 	private int count;
 
-	private Type type;
+	private String coverPhoto;
 
 	private Date createdTime;
 
-	private Date updatedTime;
-	
-	private String coverPhotoId;
+	private String description;
 
-	private Album(String id, Reference from, String name, Type type, String link, int count, Privacy privacy, Date createdTime) {
-		this.id = id;
-		this.from = from;
-		this.name = name;
-		this.link = link;
-		this.privacy = privacy;
-		this.count = count;
-		this.type = type;
-		this.createdTime = createdTime;
-	}
+	private Reference from;
+
+	private String link;
+
+	private String location;
+
+	private String name;
+	
+	private Page place;
+
+	private Privacy privacy;
+
+	private Type type;
+
+	private Date updatedTime;
 	
 	public String getId() {
 		return id;
 	}
-
-	public Reference getFrom() {
-		return from;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public Privacy getPrivacy() {
-		return privacy;
+	
+	public boolean canUpload() {
+		return canUpload;
 	}
 
 	public int getCount() {
 		return count;
 	}
 
-	public Type getType() {
-		return type;
+	/**
+	 * The ID of the Photo object that is the cover photo for the album.
+	 * @return A Photo object ID or null if the album does not have a cover photo
+	 */
+	public String getCoverPhoto() {
+		return coverPhoto;
 	}
 
 	public Date getCreatedTime() {
 		return createdTime;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public Reference getFrom() {
+		return from;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Page getPlace() {
+		return place;
+	}
+	
+	public Privacy getPrivacy() {
+		return privacy;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
 	public Date getUpdatedTime() {
 		return updatedTime;
 	}
 	
-	/**
-	 * The ID of the Photo object that is the cover photo for the album.
-	 * @return A Photo object ID or null if the album does not have a cover photo
-	 */
-	public String getCoverPhotoId() {
-		return coverPhotoId;
-	}
-
-	public static enum Type { NORMAL, MOBILE, PROFILE, WALL, FRIENDS_WALLS, UNKNOWN }
+	public static enum Type { APP, COVER, PROFILE, MOBILE, WALL, NORMAL, ALBUM, UNKNOWN }
 	
 	public static enum Privacy { EVERYONE, FRIENDS_OF_FRIENDS, FRIENDS, CUSTOM } 
 

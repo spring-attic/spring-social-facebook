@@ -26,20 +26,13 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class EducationEntry extends FacebookObject implements Serializable {
 
-	private final Reference school;
-
-	private final Reference year;
-
-	private final List<Reference> concentration;
+	private List<Reference> concentration;
 	
-	private final String type;
+	private Reference school;
 
-	public EducationEntry(Reference school, Reference year, List<Reference> concentration, String type) {
-		this.school = school;
-		this.year = year;
-		this.concentration = concentration;
-		this.type = type;
-	}
+	private String type;
+
+	private Reference year;
 
 	public Reference getSchool() {
 		return school;

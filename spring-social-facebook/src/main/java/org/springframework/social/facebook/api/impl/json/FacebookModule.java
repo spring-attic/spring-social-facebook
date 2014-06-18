@@ -16,11 +16,15 @@
 package org.springframework.social.facebook.api.impl.json;
 
 import org.springframework.social.facebook.api.Account;
+import org.springframework.social.facebook.api.Achievement;
+import org.springframework.social.facebook.api.AchievementType;
+import org.springframework.social.facebook.api.Action;
 import org.springframework.social.facebook.api.Album;
-import org.springframework.social.facebook.api.Checkin;
-import org.springframework.social.facebook.api.CheckinPost;
+import org.springframework.social.facebook.api.ApplicationReference;
 import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.CoverPhoto;
+import org.springframework.social.facebook.api.Currency;
+import org.springframework.social.facebook.api.Device;
 import org.springframework.social.facebook.api.EducationEntry;
 import org.springframework.social.facebook.api.Event;
 import org.springframework.social.facebook.api.EventInvitee;
@@ -29,27 +33,28 @@ import org.springframework.social.facebook.api.FamilyMember;
 import org.springframework.social.facebook.api.Group;
 import org.springframework.social.facebook.api.GroupMemberReference;
 import org.springframework.social.facebook.api.GroupMembership;
+import org.springframework.social.facebook.api.ImageSource;
 import org.springframework.social.facebook.api.Invitation;
-import org.springframework.social.facebook.api.LinkPost;
 import org.springframework.social.facebook.api.Location;
-import org.springframework.social.facebook.api.MusicPost;
-import org.springframework.social.facebook.api.NotePost;
+import org.springframework.social.facebook.api.MessageTag;
 import org.springframework.social.facebook.api.Page;
+import org.springframework.social.facebook.api.ParkingInfo;
 import org.springframework.social.facebook.api.Photo;
 import org.springframework.social.facebook.api.Photo.Image;
-import org.springframework.social.facebook.api.PhotoPost;
 import org.springframework.social.facebook.api.Post;
-import org.springframework.social.facebook.api.Question;
-import org.springframework.social.facebook.api.QuestionOption;
+import org.springframework.social.facebook.api.PostProperty;
 import org.springframework.social.facebook.api.Reference;
-import org.springframework.social.facebook.api.StatusPost;
-import org.springframework.social.facebook.api.StoryTag;
-import org.springframework.social.facebook.api.SwfPost;
+import org.springframework.social.facebook.api.RestaurantServices;
+import org.springframework.social.facebook.api.RestaurantSpecialties;
+import org.springframework.social.facebook.api.StoryAttachment;
 import org.springframework.social.facebook.api.Tag;
 import org.springframework.social.facebook.api.Video;
-import org.springframework.social.facebook.api.VideoPost;
+import org.springframework.social.facebook.api.Video.VideoFormat;
 import org.springframework.social.facebook.api.WorkEntry;
+import org.springframework.social.facebook.api.WorkEntry.Project;
 import org.springframework.social.facebook.api.impl.json.PhotoMixin.ImageMixin;
+import org.springframework.social.facebook.api.impl.json.VideoMixin.VideoFormatMixin;
+import org.springframework.social.facebook.api.impl.json.WorkEntryMixin.ProjectMixin;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -68,6 +73,31 @@ public class FacebookModule extends SimpleModule {
 	
 	@Override
 	public void setupModule(SetupContext context) {
+		context.setMixInAnnotations(Achievement.class, AchievementMixin.class);
+		context.setMixInAnnotations(AchievementType.class, AchievementTypeMixin.class);
+		context.setMixInAnnotations(AchievementType.Image.class, AchievementTypeMixin.ImageMixin.class);
+		context.setMixInAnnotations(Action.class, ActionMixin.class);
+		context.setMixInAnnotations(Currency.class, CurrencyMixin.class);
+		context.setMixInAnnotations(Device.class, DeviceMixin.class);
+		context.setMixInAnnotations(ApplicationReference.class, ApplicationReferenceMixin.class);
+		
+		context.setMixInAnnotations(ImageSource.class, ImageSourceMixin.class);
+		
+		context.setMixInAnnotations(Page.class, PageMixin.class);
+		context.setMixInAnnotations(RestaurantServices.class, RestaurantServicesMixin.class);
+		context.setMixInAnnotations(RestaurantSpecialties.class, RestaurantSpecialtiesMixin.class);
+		context.setMixInAnnotations(ParkingInfo.class, ParkingInfoMixin.class);
+		
+		context.setMixInAnnotations(PostProperty.class, PostPropertyMixin.class);
+		
+		context.setMixInAnnotations(StoryAttachment.class, StoryAttachmentMixin.class);
+		context.setMixInAnnotations(StoryAttachment.StoryAttachmentMedia.class, StoryAttachmentMixin.StoryAttachmentMediaMixin.class);
+		context.setMixInAnnotations(StoryAttachment.StoryAttachmentTarget.class, StoryAttachmentMixin.StoryAttachmentTargetMixin.class);
+		
+		context.setMixInAnnotations(VideoFormat.class, VideoFormatMixin.class);
+		
+		context.setMixInAnnotations(Project.class, ProjectMixin.class);
+		
 		context.setMixInAnnotations(FacebookProfile.class, FacebookProfileMixin.class);
 		context.setMixInAnnotations(WorkEntry.class, WorkEntryMixin.class);
 		context.setMixInAnnotations(EducationEntry.class, EducationEntryMixin.class);
@@ -78,8 +108,6 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(Event.class, EventMixin.class);
 		context.setMixInAnnotations(Invitation.class, InvitationMixin.class);
 		context.setMixInAnnotations(EventInvitee.class, EventInviteeMixin.class);
-		context.setMixInAnnotations(Checkin.class, CheckinMixin.class);
-		context.setMixInAnnotations(Page.class, PageMixin.class);
 		context.setMixInAnnotations(Location.class, LocationMixin.class);
 		context.setMixInAnnotations(Comment.class, CommentMixin.class);
 		context.setMixInAnnotations(Tag.class, TagMixin.class);
@@ -87,20 +115,10 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(Photo.class, PhotoMixin.class);
 		context.setMixInAnnotations(Image.class, ImageMixin.class);
 		context.setMixInAnnotations(Post.class, PostMixin.class);
-		context.setMixInAnnotations(CheckinPost.class, CheckinPostMixin.class);
-		context.setMixInAnnotations(LinkPost.class, LinkPostMixin.class);
-		context.setMixInAnnotations(NotePost.class, NotePostMixin.class);
-		context.setMixInAnnotations(PhotoPost.class, PhotoPostMixin.class);
-		context.setMixInAnnotations(StatusPost.class, StatusPostMixin.class);
-		context.setMixInAnnotations(VideoPost.class, VideoPostMixin.class);
 		context.setMixInAnnotations(Account.class, AccountMixin.class);
-		context.setMixInAnnotations(SwfPost.class, SwfPostMixin.class);
-		context.setMixInAnnotations(MusicPost.class, MusicPostMixin.class);
 		context.setMixInAnnotations(GroupMembership.class, GroupMembershipMixin.class);
 		context.setMixInAnnotations(FamilyMember.class, FamilyMemberMixin.class);
-		context.setMixInAnnotations(Question.class, QuestionMixin.class);
-		context.setMixInAnnotations(QuestionOption.class, QuestionOptionMixin.class);
-		context.setMixInAnnotations(StoryTag.class, StoryTagMixin.class);
+		context.setMixInAnnotations(MessageTag.class, MessageTagMixin.class);
 		context.setMixInAnnotations(CoverPhoto.class, CoverPhotoMixin.class);
 	}
 }

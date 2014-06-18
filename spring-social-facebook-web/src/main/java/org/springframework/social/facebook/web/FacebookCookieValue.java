@@ -33,6 +33,7 @@ public @interface FacebookCookieValue {
 	
 	/**
 	 * The specific element of the cookie to be bound (e.g., "uid", "expires", etc)
+	 * @return the cookie element name
 	 */
 	public String value() default "";
 
@@ -40,6 +41,7 @@ public @interface FacebookCookieValue {
 	 * Whether the Facebook cookie value is required.
 	 * Default is true, leading to an exception being thrown in case the Facebook cookie is missing or if the value can't be found in the cookie. 
 	 * Switch this to false if you prefer a null in case of the missing cookie/value.
+	 * @return true if the cookie value is required
 	 */
 	boolean required() default true;
 }

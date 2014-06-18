@@ -35,7 +35,7 @@ import org.springframework.web.client.RestTemplate;
 public class FacebookOAuth2Template extends OAuth2Template {
 
 	public FacebookOAuth2Template(String clientId, String clientSecret) {
-		super(clientId, clientSecret, "https://www.facebook.com/v1.0/dialog/oauth", "https://graph.facebook.com/v1.0/oauth/access_token");
+		super(clientId, clientSecret, "https://www.facebook.com/v2.0/dialog/oauth", "https://graph.facebook.com/v2.0/oauth/access_token");
 		setUseParametersForClientAuthentication(true);
 	}
 

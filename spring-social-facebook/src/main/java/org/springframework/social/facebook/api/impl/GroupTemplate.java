@@ -67,11 +67,7 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 	}
 
 	public PagedList<Group> search(String query) {
-		return search(query, 0, 25);
-	}
-	
-	public PagedList<Group> search(String query, int offset, int limit) {
-		return search(query, new PagingParameters(limit, offset, null, null));
+		return search(query,new PagingParameters(25, 0, null, null));
 	}
 	
 	public PagedList<Group> search(String query, PagingParameters pagedListParameters) {
@@ -82,6 +78,6 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 		return graphApi.fetchConnections("search", "", Group.class, queryMap);
 	}	
 	
-	private static final String[] FULL_PROFILE_FIELDS = {"id", "username", "name", "first_name", "last_name", "gender", "locale", "education", "work", "email", "third_party_id", "link", "timezone", "updated_time", "verified", "about", "bio", "birthday", "location", "hometown", "interested_in", "religion", "political", "quotes", "relationship_status", "significant_other", "website"};
+	private static final String[] FULL_PROFILE_FIELDS = {"id", "name", "first_name", "last_name", "gender", "locale", "education", "work", "email", "third_party_id", "link", "timezone", "updated_time", "verified", "about", "bio", "birthday", "location", "hometown", "interested_in", "religion", "political", "quotes", "relationship_status", "significant_other", "website"};
 
 }

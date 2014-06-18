@@ -31,6 +31,9 @@ abstract class LocationMixin extends FacebookObjectMixin {
 			@JsonProperty("latitude") double latitude, 
 			@JsonProperty("longitude") double longitude) {}
 	
+	@JsonProperty("id")
+	String id;
+	
 	@JsonProperty("street")
 	String street;
 

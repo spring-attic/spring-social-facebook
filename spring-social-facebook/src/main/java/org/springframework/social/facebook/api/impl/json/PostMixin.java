@@ -20,29 +20,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.social.facebook.api.CheckinPost;
-import org.springframework.social.facebook.api.Comment;
-import org.springframework.social.facebook.api.LinkPost;
-import org.springframework.social.facebook.api.ListAndCount;
-import org.springframework.social.facebook.api.MusicPost;
-import org.springframework.social.facebook.api.NotePost;
-import org.springframework.social.facebook.api.PhotoPost;
-import org.springframework.social.facebook.api.Post;
+import org.springframework.social.facebook.api.Action;
+import org.springframework.social.facebook.api.MessageTag;
+import org.springframework.social.facebook.api.Page;
+import org.springframework.social.facebook.api.Post.FriendsPrivacyType;
 import org.springframework.social.facebook.api.Post.PostType;
+import org.springframework.social.facebook.api.Post.Privacy;
+import org.springframework.social.facebook.api.Post.StatusType;
+import org.springframework.social.facebook.api.PostProperty;
 import org.springframework.social.facebook.api.Reference;
-import org.springframework.social.facebook.api.StatusPost;
-import org.springframework.social.facebook.api.StoryTag;
-import org.springframework.social.facebook.api.SwfPost;
-import org.springframework.social.facebook.api.VideoPost;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -54,90 +43,134 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * Also defines Post subtypes to deserialize into based on the "type" attribute. 
  * @author Craig Walls
  */
-@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="postType", visible=true)
-@JsonSubTypes({
-				@Type(name="checkin", value=CheckinPost.class),
-				@Type(name="link", value=LinkPost.class),
-				@Type(name="note", value=NotePost.class),
-				@Type(name="photo", value=PhotoPost.class),
-				@Type(name="status", value=StatusPost.class),
-				@Type(name="video", value=VideoPost.class),
-				@Type(name="post", value=Post.class),
-				@Type(name="swf", value=SwfPost.class),
-				@Type(name="music", value=MusicPost.class)
-				})
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class PostMixin extends FacebookObjectMixin {
 	
-	@JsonCreator
-	PostMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("from") Reference from, 
-			@JsonProperty("created_time") Date createdTime, 
-			@JsonProperty("updated_time") Date updatedTime) {}
-
-	@JsonProperty("to")
-	@JsonDeserialize(using = ReferenceListDeserializer.class)
-	List<Reference> to;
+	@JsonProperty("id")
+	String id;
 	
-	@JsonProperty("message")
-	String message;
+	@JsonProperty("actions")
+	List<Action> actions;
+	
+	@JsonProperty("application")
+	Reference application;
 
 	@JsonProperty("caption")
 	String caption;
 	
-	@JsonProperty("picture")
-	@JsonDeserialize(using=PictureDeserializer.class)
-	String picture;
-	
-	@JsonProperty("link")
-	String link;
-	
-	@JsonProperty("subject")
-	String subject;
-	
-	@JsonProperty("name")
-	String name;
-	
+	@JsonProperty("created_time")
+	Date createdTime; 
+
 	@JsonProperty("description")
 	String description;
+	
+	@JsonProperty("from") 
+	Reference from; 
 	
 	@JsonProperty("icon")
 	String icon;
 	
-	@JsonProperty("application")
-	Reference application;
+	@JsonProperty("is_hidden")
+	boolean isHidden;
+
+	@JsonProperty("link")
+	String link;
 	
-	@JsonProperty("type")
-	@JsonDeserialize(using = TypeDeserializer.class)
-	PostType type;
-
-	@JsonProperty("shares")
-	@JsonDeserialize(using = CountDeserializer.class)
-	int sharesCount;
-
-	@JsonProperty("likes")
-	@JsonDeserialize(using = ReferenceListAndCountDeserializer.class)
-	ListAndCount<Reference> likes;
-
-	@JsonProperty("comments")
-	@JsonDeserialize(using = CommentListAndCountDeserializer.class)
-	ListAndCount<Comment> comments;
-
+	@JsonProperty("message")
+	String message;
+	
+	@JsonProperty("message_tags")
+	@JsonDeserialize(using=MessageTagMapDeserializer.class)
+	Map<Integer,List<MessageTag>> messageTags;
+	
+	@JsonProperty("name")
+	String name;
+	
+	@JsonProperty("object_id")
+	String objectId;
+	
+	@JsonProperty("picture")
+	String picture;
+	
+	@JsonProperty("place")
+	Page place;
+	
+	@JsonProperty("privacy")
+	Privacy privacy;
+	
+	@JsonProperty("properties")
+	List<PostProperty> properties;
+	
+	@JsonProperty("source")
+	String source;
+	
+	@JsonProperty("status_type")
+	@JsonDeserialize(using = StatusTypeDeserializer.class)
+	StatusType statusType;
+	
 	@JsonProperty("story")
 	String story;
 	
-	@JsonProperty("story_tags")
-	@JsonDeserialize(using = StoryTagMapDeserializer.class)
-	Map<Integer,List<StoryTag>> storyTags;
+	@JsonProperty("to")
+	@JsonDeserialize(using = ReferenceListDeserializer.class)
+	List<Reference> to;
+	
+	@JsonProperty("type")
+	@JsonDeserialize(using = PostTypeDeserializer.class)
+	PostType type;
+	
+	@JsonProperty("updated_time")
+	Date updatedTime;
 
-	private static class TypeDeserializer extends JsonDeserializer<PostType> {
-		@Override
-		public PostType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-			return PostType.valueOf(jp.getText().toUpperCase());
-		}
+	@JsonProperty("with_tags")
+	@JsonDeserialize(using = ReferenceListDeserializer.class)
+	List<Reference> withTags;
+	
+	@JsonProperty("shares")
+	@JsonDeserialize(using = CountDeserializer.class)
+	Integer sharesCount;
+
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public abstract static class PrivacyMixin {
+		
+		@JsonProperty("description")
+		String description;
+		
+		@JsonProperty("value")
+		Privacy value;
+		
+		@JsonProperty("friends")
+		FriendsPrivacyType friends;
+		
+		@JsonProperty("networks")
+		String networks;
+		
+		@JsonProperty("allow")
+		String allow;
+		
+		@JsonProperty("deny")
+		String deny;
+
 	}
 	
+	private static class PostTypeDeserializer extends JsonDeserializer<PostType> {
+		@Override
+		public PostType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+			try {
+				return PostType.valueOf(jp.getText().toUpperCase());
+			} catch (IllegalArgumentException e) {
+				return PostType.UNKNOWN;
+			}
+		}
+	}
+
+	private static class StatusTypeDeserializer extends JsonDeserializer<StatusType> {
+		@Override
+		public StatusType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+			return StatusType.valueOf(jp.getText().toUpperCase());
+		}
+	}
+
 	private static class CountDeserializer extends JsonDeserializer<Integer> {
 		@Override
 		public Integer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {

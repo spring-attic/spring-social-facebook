@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.Tag;
+import org.springframework.social.facebook.api.Video.VideoFormat;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -33,25 +33,62 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class VideoMixin extends FacebookObjectMixin {
 
-	@JsonCreator
-	VideoMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("from") Reference from, 
-			@JsonProperty("picture") @JsonDeserialize(using=PictureDeserializer.class) String picture,
-			@JsonProperty("embed_html") String embedHtml,
-			@JsonProperty("icon") String icon, 
-			@JsonProperty("source") String source,
-			@JsonProperty("created_time") Date createdTime, 
-			@JsonProperty("updated_time") Date updatedTime) {}
+	@JsonProperty("id")
+	String id;
+
+	@JsonProperty("created_time")
+	Date createdTime;
+	
+	@JsonProperty("description")
+	String description;
+
+	@JsonProperty("embed_html")
+	String embedHtml;
+	
+	@JsonProperty("format")
+	List<VideoFormat> format;
+	
+	@JsonProperty("from")
+	Reference from;
+	
+	@JsonProperty("icon")
+	String icon;
+	
+	@JsonProperty("name")
+	String name;
+	
+	@JsonProperty("picture")
+	@JsonDeserialize(using=PictureDeserializer.class)
+	String picture;
+	
+	@JsonProperty("source")
+	String source;
 	
 	@JsonProperty("tags")
 	@JsonDeserialize(using=TagListDeserializer.class)
 	List<Tag> tags;
 	
-	@JsonProperty("name")
-	String name;
+	@JsonProperty("updated_time")
+	Date updatedTime;
 	
-	@JsonProperty("description")
-	String description;
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public static abstract class VideoFormatMixin {
+		
+		@JsonProperty("embed_html")
+		String embedHtml;
+		
+		@JsonProperty("filter")
+		String filter;
+		
+		@JsonProperty("height")
+		int height;
+		
+		@JsonProperty("picture")
+		String picture;
+		
+		@JsonProperty("width")
+		int width;
 
+	}
+	
 }

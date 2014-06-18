@@ -18,10 +18,12 @@ package org.springframework.social.facebook.api.impl.json;
 import java.io.IOException;
 import java.util.Date;
 
+import org.springframework.social.facebook.api.CoverPhoto;
 import org.springframework.social.facebook.api.Event.Privacy;
+import org.springframework.social.facebook.api.Group;
+import org.springframework.social.facebook.api.Location;
 import org.springframework.social.facebook.api.Reference;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
@@ -37,21 +39,51 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class EventMixin extends FacebookObjectMixin {
 
-	@JsonCreator
-	EventMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("owner") Reference owner, 
-			@JsonProperty("privacy") @JsonDeserialize(using=PrivacyDeserializer.class) Privacy privacy, 
-			@JsonProperty("start_time") Date startTime, 
-			@JsonProperty("end_time") Date endTime, 
-			@JsonProperty("updated_time") Date updatedTime) {}
+	@JsonProperty("id")
+	String id;
+	
+	@JsonProperty("cover")
+	CoverPhoto cover;
 	
 	@JsonProperty("description")
 	String description;
 	
+	@JsonProperty("end_time")
+	Date endTime;
+	
+	@JsonProperty("is_date_only")
+	boolean isDateOnly;
+	
 	@JsonProperty("location")
 	String location;
+	
+	@JsonProperty("name")
+	String name;
+	
+	@JsonProperty("owner")
+	Reference owner;
+	
+	@JsonProperty("parent_group")
+	Group parentGroup;
+	
+	@JsonProperty("privacy")
+	@JsonDeserialize(using=PrivacyDeserializer.class)
+	Privacy privacy;
+	
+	@JsonProperty("start_time")
+	Date startTime;
+	
+	@JsonProperty("ticket_uri")
+	String ticketUri;
+	
+	@JsonProperty("timezone")
+	String timeZone;
+	
+	@JsonProperty("updated_time")
+	Date updatedTime;
+	
+	@JsonProperty("venue")
+	Location venue;
 	
 	private static class PrivacyDeserializer extends JsonDeserializer<Privacy> {
 		@Override

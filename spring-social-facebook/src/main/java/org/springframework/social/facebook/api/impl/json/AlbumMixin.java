@@ -20,9 +20,9 @@ import java.util.Date;
 
 import org.springframework.social.facebook.api.Album.Privacy;
 import org.springframework.social.facebook.api.Album.Type;
+import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.Reference;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
@@ -38,29 +38,49 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class AlbumMixin extends FacebookObjectMixin {
 
-	@JsonCreator
-	AlbumMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("from") Reference from, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("type") @JsonDeserialize(using=TypeDeserializer.class) Type type, 
-			@JsonProperty("link") String link, 
-			@JsonProperty("count") int count, 
-			@JsonProperty("privacy") @JsonDeserialize(using=PrivacyDeserializer.class) Privacy privacy, 
-			@JsonProperty("created_time") Date createdTime) {}
+	@JsonProperty("id")
+	String id;
 	
-	@JsonProperty("location")
-	String location;
+	@JsonProperty("can_upload")
+	boolean canUpload;
+
+	@JsonProperty("count")
+	int count;
+	
+	@JsonProperty("cover_photo")
+	String coverPhoto;
+		
+	@JsonProperty("created_time") 
+	Date createdTime;
 	
 	@JsonProperty("description")
 	String description;
 	
+	@JsonProperty("from")
+	Reference from;
+	
+	@JsonProperty("link")
+	String link; 
+	
+	@JsonProperty("location")
+	String location;
+	
+	@JsonProperty("name")
+	String name;
+	
+	@JsonProperty("place")
+	Page place;
+	
+	@JsonProperty("privacy") 
+	@JsonDeserialize(using=PrivacyDeserializer.class) 
+	Privacy privacy; 
+	
+	@JsonProperty("type")
+	@JsonDeserialize(using=TypeDeserializer.class) Type type; 
+	
 	@JsonProperty("updated_time")
 	Date updatedTime;
 	
-	@JsonProperty("cover_photo")
-	String coverPhotoId;
-		
 	private static class TypeDeserializer extends JsonDeserializer<Type> {
 		@Override
 		public Type deserialize(JsonParser jp, DeserializationContext ctxt)

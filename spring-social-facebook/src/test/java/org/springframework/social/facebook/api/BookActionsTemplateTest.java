@@ -27,7 +27,7 @@ public class BookActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void readBook() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/book.reads"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/me/book.reads"))
 			.andExpect(method(POST))
 			.andExpect(content().string("book=http%3A%2F%2Fsamples.ogp.me%2F226075010839791&progress%3Atimestamp=1378241299&progress%3Apercent_complete=3.1415927"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -39,7 +39,7 @@ public class BookActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void quoteBook() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/books.quotes"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/me/books.quotes"))
 			.andExpect(method(POST))
 			.andExpect(content().string("book=http%3A%2F%2Fsamples.ogp.me%2F226075010839791&body=Test+quote"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -51,7 +51,7 @@ public class BookActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void rateBook() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/books.rates"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/me/books.rates"))
 			.andExpect(method(POST))
 			.andExpect(content().string("book=http%3A%2F%2Fsamples.ogp.me%2F226075010839791&rating%3Avalue=3.5&rating%3Ascale=5"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -63,7 +63,7 @@ public class BookActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void wantsToRead() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/books.wants_to_read"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/me/books.wants_to_read"))
 			.andExpect(method(POST))
 			.andExpect(content().string("book=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))

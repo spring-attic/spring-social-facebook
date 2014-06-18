@@ -33,6 +33,7 @@ public @interface SignedRequest {
 	 * Whether the signed_request parameter is required.
 	 * Default is true, leading to an exception being thrown in case signed_request is missing. 
 	 * Switch this to false if you prefer a null in case of a missing signed_request parameter.
+	 * @return true if the parameter is required
 	 */
 	boolean required() default true;
 }

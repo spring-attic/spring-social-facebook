@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.social.facebook.api.AgeRange;
+import org.springframework.social.facebook.api.CoverPhoto;
 import org.springframework.social.facebook.api.EducationEntry;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.WorkEntry;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
@@ -42,15 +42,32 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class FacebookProfileMixin extends FacebookObjectMixin {
 
-	@JsonCreator
-	FacebookProfileMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("username") String username, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("first_name") String firstName, 
-			@JsonProperty("last_name") String lastName, 
-			@JsonProperty("gender") String gender, 
-			@JsonProperty("locale") Locale locale) {}
+	@JsonProperty("id")
+	String id;
+	
+	@JsonProperty("name")
+	String name;
+	
+	@JsonProperty("name_format")
+	String nameFormat;
+	
+	@JsonProperty("first_name")
+	String firstName;
+	
+	@JsonProperty("last_name")
+	String lastName;
+	
+	@JsonProperty("cover")
+	CoverPhoto cover;
+	
+	@JsonProperty("gender")
+	String gender;
+	
+	@JsonProperty("installed")
+	boolean installed;
+	
+	@JsonProperty("locale")
+	Locale locale;
 	
 	@JsonProperty("middle_name")
 	String middleName;

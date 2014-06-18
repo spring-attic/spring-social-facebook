@@ -29,28 +29,66 @@ import java.util.Locale;
 @SuppressWarnings("serial")
 public class FacebookProfile extends FacebookObject implements Serializable {
 
-	private final String id;
+	private String id;
 
-	private final String username;
-
-	private final String name;
-
-	private final String firstName;
+	private String about;
 	
-	private String middleName;
+	private AgeRange ageRange = AgeRange.UNKNOWN;
 
-	private final String lastName;
+	private String bio;
+	
+	private String birthday;
+	
+	private CoverPhoto cover;
+	
+	private Currency currency;
+	
+	private List<Device> devices;
+	
+	private List<EducationEntry> education;
+	
+	private String email;
+	
+	private List<Reference> favoriteAthletes;
 
-	private final String gender;
+	private List<Reference> favoriteTeams;
+	
+	private String firstName;
+	
+	private String gender;
 
-	private final Locale locale;
+	private Reference hometown;
+	
+	private List<Reference> inspirationalPeople;
+	
+	private boolean installed;
+
+	private List<Reference> languages;
+	
+	private String lastName;
 
 	private String link;
 
-	private String website;
+	private Locale locale;
 
-	private String email;
+	private Reference location;
 	
+	private String middleName;
+
+	private String name;
+	
+	private String nameFormat;
+
+	private String political;
+
+	private String quotes;
+
+	private String relationshipStatus;
+
+	private String religion;
+
+	private Reference significantOther;
+		
 	private String thirdPartyId;
 
 	private Float timezone;
@@ -59,47 +97,14 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 
 	private Boolean verified;
 
-	private String about;
-	
-	private String bio;
-	
-	private String birthday;
-	
-	private Reference location;
-	
-	private Reference hometown;
-	
-	private List<String> interestedIn;
+	private String website;
 
-	private List<Reference> inspirationalPeople;
-
-	private List<Reference> languages;
-	
-	private List<Reference> sports;
-	
-	private List<Reference> favoriteTeams;
-	
-	private List<Reference> favoriteAthletes;
-
-	private String religion;
-
-	private String political;
-
-	private String quotes;
-
-	private String relationshipStatus;
-
-	private Reference significantOther;
-	
 	private List<WorkEntry> work;
 	
-	private List<EducationEntry> education;
+	FacebookProfile() {}
 	
-	private AgeRange ageRange = AgeRange.UNKNOWN;
-
-	public FacebookProfile(String id, String username, String name, String firstName, String lastName, String gender, Locale locale) {
+	public FacebookProfile(String id, String name, String firstName, String lastName, String gender, Locale locale) {
 		this.id = id;
-		this.username = username;
 		this.name = name;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -115,14 +120,6 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 		return id;
 	}
 	
-	/**
-	 * The user's Facebook username
-	 * @return the user's Facebook username
-	 */
-	public String getUsername() {
-		return username;
-	}
-
 	/**
 	 * The user's full name
 	 * @return The user's full name
@@ -155,6 +152,13 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 		return lastName;
 	}
 
+	/**
+	 * @return the name format used to correctly handle Chinese, Japanese, Korean ordering
+	 */
+	public String getNameFormat() {
+		return nameFormat;
+	}
+	
 	/**
 	 * The user's gender
 	 * @return the user's gender
@@ -281,15 +285,6 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	}
 	
 	/**
-	 * A list of the genders the user is interested in.
-	 * Available only with "user_relationship_details" or "friends_relationship_details" permission.
-	 * @return a list of genders the user is interested in, if available.
-	 */
-	public List<String> getInterestedIn() {
-		return interestedIn;
-	}
-	
-	/**
 	 * A list of references to people the user is inspired by.
 	 * @return a list of {@link Reference} to people the user is inspired by, if available.
 	 */
@@ -303,14 +298,6 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	 */
 	public List<Reference> getLanguages() {
 		return languages;
-	}
-	
-	/**
-	 * A list of references to sports the user plays
-	 * @return a list of {@link Reference}s to sports the user plays, if available.
-	 */
-	public List<Reference> getSports() {
-		return sports;
 	}
 	
 	/**
@@ -398,6 +385,34 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	 */
 	public AgeRange getAgeRange() {
 		return ageRange;
+	}
+	
+	/**
+	 * @return true if the user has the calling application installed
+	 */
+	public boolean isInstalled() {
+		return installed;
+	}
+	
+	/**
+	 * @return the user's cover photo
+	 */
+	public CoverPhoto getCover() {
+		return cover;
+	}
+	
+	/**
+	 * @return a list of devices that user has accessed Facebook with.
+	 */
+	public List<Device> getDevices() {
+		return devices;
+	}
+	
+	/**
+	 * @return the user's currency information
+	 */
+	public Currency getCurrency() {
+		return currency;
 	}
 	
 }

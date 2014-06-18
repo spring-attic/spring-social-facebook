@@ -15,6 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,80 +25,115 @@ import java.util.List;
  * @author Craig Walls
  */
 public class Comment extends FacebookObject {
-	private final String id;
 	
-	private final String message;
+	private static final List<MessageTag> EMPTY_TAG_LIST = Collections.emptyList();
 	
-	private final Date createdTime;
+	private String id;
 	
-	private final Reference from;
+	private StoryAttachment attachment;
 	
-	private List<Reference> likes;
+	private boolean canComment;
 	
-	private Integer _likeCount;
+	private boolean canRemove;
+	
+	private Integer commentCount;
+	
+	private Date createdTime;
+	
+	private Reference from;
+	
+	private Integer likeCount;
+	
+	private String message;
+	
+	private List<MessageTag> messageTags;
 
-	private Integer _likes;
+	private Comment parent;
 
+	private boolean userLikes;
+	
 	/**
-	 * Constructs a Comment object.
-	 * @param id the comment's Graph API ID
-	 * @param from the author of the comment
-	 * @param message the comment text
-	 * @param createdTime the creation time of the comment
-	 */
-	public Comment(String id, Reference from, String message, Date createdTime) {
-		this.id = id;
-		this.from = from;
-		this.message = message;
-		this.createdTime = createdTime;
-	}
-
-	/**
-	 * The comment's Graph API object ID
+	 * @return the comment's Graph API object ID
 	 */
 	public String getId() {
 		return id;
 	}
 
 	/**
-	 * The text of the comment
+	 * @return the text of the comment
 	 */
 	public String getMessage() {
 		return message;
 	}
 
 	/**
-	 * The time the comment was created.
+	 * @return the time the comment was created.
 	 */
 	public Date getCreatedTime() {
 		return createdTime;
 	}
 
 	/**
-	 * A reference to the user who posted the comment.
+	 * @return a reference to the user who posted the comment.
 	 */
 	public Reference getFrom() {
 		return from;
 	}
 
 	/**
-	 * A list of references to users who liked this comment.
-	 * May be null, as Facebook often sends only a count of likes.
-	 * In some cases (such as a comment on a checkin) the likes will be a list of references.
+	 * @return the number of users who like this comment.
 	 */
-	public List<Reference> getLikes() {
-		return likes;
+	public Integer getLikeCount() {
+		return likeCount;
+	}
+	
+	/**
+	 * @return the number of comments made on this comment or null if that information is unknown
+	 */
+	public Integer getCommentCount() {
+		return commentCount;
+	}
+	
+	/**
+	 * @return the parent comment if this comment is a comment to another comment
+	 */
+	public Comment getParent() {
+		return parent;
+	}
+	
+	/**
+	 * @return true if the authenticated user is able to comment on this comment
+	 */
+	public boolean canComment() {
+		return canComment;
+	}
+	
+	/**
+	 * @return true if the authenticated user is able to remove this comment
+	 */
+	public boolean canRemove() {
+		return canRemove;
+	}
+	
+	/**
+	 * @return true if the authenticated user likes this comment
+	 */
+	public boolean userLikes() {
+		return userLikes;
+	}
+	
+	/**
+	 * @return an attachment (link, photo, etc) associated with the comment or null if no attachment
+	 */
+	public StoryAttachment getAttachment() {
+		return attachment;
 	}
 
 	/**
-	 * The number of users who like this comment.
+	 * @return a list of tags in the comment's message
 	 */
-	public int getLikesCount() {
-		if (_likeCount != null ) {
-			return _likeCount;
-		} else if (_likes != null) {
-			return _likes;
-		}
-		return 0;
+	public List<MessageTag> getMessageTags() {
+		return messageTags != null ? messageTags : EMPTY_TAG_LIST;
 	}
+
 }

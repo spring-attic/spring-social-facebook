@@ -28,14 +28,6 @@ public class GroupMembership extends FacebookObject {
 	private int unread;
 
 	public GroupMembership(String id, String name, int bookmarkOrder, boolean administrator) {
-		this(id, name, 1, bookmarkOrder, administrator);
-	}
-	
-	/**
-	 * @deprecated The Facebook Graph API no longer maintains a version for groups. The group version will always be 1.
-	 */
-	@Deprecated
-	public GroupMembership(String id, String name, int version, int bookmarkOrder, boolean administrator) {
 		this.id = id;
 		this.name = name;
 		this.bookmarkOrder = bookmarkOrder;
@@ -43,21 +35,21 @@ public class GroupMembership extends FacebookObject {
 	}
 	
 	/**
-	 * The group ID
+	 * @return the group ID
 	 */
 	public String getId() {
 		return id;
 	}
 
 	/**
-	 * The group name
+	 * @return the group name
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * The group version (always 1)
+	 * @return the group version (always 1)
 	 * @deprecated No longer maintained in the Graph API. Will always be 1
 	 */
 	public int getVersion() {
@@ -65,21 +57,21 @@ public class GroupMembership extends FacebookObject {
 	}
 
 	/**
-	 * The position of the group in the user's group bookmarks (or 999999999 if not positioned)
+	 * @return the position of the group in the user's group bookmarks (or 999999999 if not positioned)
 	 */
 	public int getBookmarkOrder() {
 		return bookmarkOrder;
 	}
 
 	/**
-	 * Returns true if the user is an administrator of the group.
+	 * @return true if the user is an administrator of the group.
 	 */
 	public boolean isAdministrator() {
 		return administrator;
 	}
 	
 	/**
-	 * The count of group updates that the user has not yet read.
+	 * @return the count of group updates that the user has not yet read.
 	 */
 	public int getUnread() {
 		return unread;

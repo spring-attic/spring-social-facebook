@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,159 +28,211 @@ import java.util.Map;
  */
 public class Post extends FacebookObject {
 	
-	private final String id;
+	private String id;
+	
+	private List<Action> actions;
 
-	private final Reference from;
+	private Reference application;
 
-	private final Date createdTime;
+	private String caption;
 
-	private final Date updatedTime;
+	private Date createdTime;
 
-	private List<Reference> to;
+	private String description;
+
+	private Reference from;
+
+	private String icon;
+
+	private boolean isHidden;
+	
+	private String link;
 	
 	private String message;
 	
-	private String picture;
+	private Map<Integer,List<MessageTag>> messageTags;
 	
-	private String link;
-		
 	private String name;
 	
-	private String caption;
+	private String objectId;
 	
-	private String description;
+	private String picture;
+
+	private Page place;
 	
-	private String icon;
+	private Privacy privacy;
 	
-	private Reference application;
+	private List<PostProperty> properties = new ArrayList<PostProperty>();
 	
-	private PostType type;
+	private String source;
 	
-	private ListAndCount<Reference> likes;
+	private StatusType statusType;
+
+	private String story;
+
+	private List<Reference> to;
 	
-	private ListAndCount<Comment> comments;
+	private PostType type = PostType.UNKNOWN;
 	
+	private Date updatedTime;
+
+	private List<Reference> withTags;
+		
 	private int sharesCount;
 	
-	private String story;
-	
-	private Map<Integer,List<StoryTag>> storyTags;
-
-	public Post(String id, Reference from, Date createdTime, Date updatedTime) {
-		this.id = id;
-		this.from = from;
-		this.createdTime = createdTime;
-		this.updatedTime = updatedTime;
-	}
-
 	public String getId() {
 		return id;
 	}
 
-	public Reference getFrom() {
-		return from;
+	public List<Action> getActions() {
+		return actions;
+	}
+	
+	public Reference getApplication() {
+		return application;
 	}
 
-	public List<Reference> getTo() {
-		return to;
-	}
-
+	// TODO: public ? getCallToAction() { ... }
+	
 	public String getCaption() {
 		return caption;
 	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	/**
-	 * The page's picture.
-	 * @deprecated This method will be replaced in Spring 1.1.0 with a new version that returns an object with more details about the picture.
-	 */
-	@Deprecated
-	public String getPicture() {
-		return picture;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public String getName() {
-		return name;
+	
+	public Date getCreatedTime() {
+		return createdTime;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
+	public Reference getFrom() {
+		return from;
+	}
+
 	public String getIcon() {
 		return icon;
 	}
 
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public Date getUpdatedTime() {
-		return updatedTime;
-	}
-
-	public Reference getApplication() {
-		return application;
-	}
-
-	public PostType getType() {
-		return type;
+	public boolean isHidden() {
+		return isHidden;
 	}
 	
-	/**
-	 * Reference for users who have liked this Post. 
-	 * May not be a complete list and the size may be different than the value returned from getLikeCount().
-	 * For a complete list of likes, use {@link LikeOperations#getLikes(String)}.
-	 * @return a list of Reference objects for the users who have liked the Post or null if there is no like information available.
-	 */
-	public List<Reference> getLikes() {
-		return likes != null ? likes.getList() : null;
-	}
-	
-	/**
-	 * The number of likes for this Post. May be different than the size of the list returned from getLikes().
-	 * @return the number of likes for the Post or null if no like information is available.
-	 */
-	public Integer getLikeCount() {
-		return likes != null ? likes.getCount() : null;
-	}
-	
-	public int getSharesCount() {
-		return sharesCount;
+	public String getLink() {
+		return link;
 	}
 
-	/**
-	 * The most recent comments for the post.
-	 */
-	public List<Comment> getComments() {
-		if (comments != null) {
-			return comments.getList();
-		} else {
-			return Collections.emptyList();
-		}
+	public String getMessage() {
+		return message;
+	}
+
+	public Map<Integer,List<MessageTag>> getMessageTags() {
+		return messageTags;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getObjectId() {
+		return objectId;
+	}
+	
+	public String getPicture() {
+		return picture;
+	}
+
+	public Page getPlace() {
+		return place;
+	}
+	
+	public Privacy getPrivacy() {
+		return privacy;
+	}
+	
+	public List<PostProperty> getProperties() {
+		return properties;
+	}
+	
+	public String getSource() {
+		return source;
+	}
+	
+	public StatusType getStatusType() {
+		return statusType;
 	}
 	
 	public String getStory() {
 		return story;
 	}
 	
-	public Map<Integer,List<StoryTag>> getStoryTags() {
-		return storyTags;
+	public List<Reference> getTo() {
+		return to;
+	}
+	
+	public PostType getType() {
+		return type;
 	}
 
-	public int getCommentCount() {
-		return comments != null ? comments.getCount() : 0;
+	public Date getUpdatedTime() {
+		return updatedTime;
+	}
+
+	public List<Reference> getWithTags() {
+		return withTags;
 	}
 	
-	public static enum PostType { POST, CHECKIN, LINK, NOTE, PHOTO, STATUS, VIDEO, SWF, MUSIC }
+	public int getSharesCount() {
+		return sharesCount;
+	}
 	
-	public static enum Privacy { EVERYONE, ALL_FRIENDS, FRIENDS_OF_FRIENDS, CUSTOM, SELF };
+	public static class Privacy {
+		
+		private String description;
+		
+		private Privacy value;
+		
+		private FriendsPrivacyType friends;
+		
+		private String networks;
+		
+		private String allow;
+		
+		private String deny;
+		
+		public String getDescription() {
+			return description;
+		}
+		
+		public Privacy getValue() {
+			return value;
+		}
+		
+		public FriendsPrivacyType getFriends() {
+			return friends;
+		}
+		
+		public String getNetworks() {
+			return networks;
+		}
+		
+		public String getAllow() {
+			return allow;
+		}
+		
+		public String getDeny() {
+			return deny;
+		}
+		
+	}
 	
+	public static enum PostType { LINK, STATUS, PHOTO, VIDEO, UNKNOWN }
+	
+	public static enum StatusType { MOBILE_STATUS_UPDATE, CREATED_NOTE, ADDED_PHOTOS, ADDED_VIDEO, SHARED_STORY, CREATED_GROUP, 
+		CREATED_EVENT, WALL_POST, APP_CREATED_STORY, PUBLISHED_STORY, TAGGED_IN_PHOTO, APPROVED_FRIEND, UNKNOWN }
+	
+	public static enum PrivacyType { EVERYONE, ALL_FRIENDS, FRIENDS_OF_FRIENDS, SELF, CUSTOM, UNKNOWN }
+
+	public static enum FriendsPrivacyType { ALL_FRIENDS, FRIENDS_OF_FRIENDS, SOME_FRIENDS, UNKNOWN }
+
 }

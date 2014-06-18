@@ -91,6 +91,23 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 		return graphApi.publish(albumId, "photos", parts);
 	}
 	
+	public PagedList<Page> search(String query) {
+		requireAuthorization();
+		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
+		queryMap.add("q", query);
+		return graphApi.fetchConnections("search", null, Page.class, queryMap);
+	}
+	
+	public PagedList<Page> search(String query, double latitude, double longitude, long distance) {
+		requireAuthorization();
+		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
+		queryMap.add("q", query);
+		queryMap.add("type", "place");
+		queryMap.add("center", latitude + "," + longitude);
+		queryMap.add("distance", String.valueOf(distance));
+		return graphApi.fetchConnections("search", null, Page.class, queryMap);
+	}
+
 	// private helper methods
 	
 	private Map<String, Account> accountCache = new HashMap<String, Account>();

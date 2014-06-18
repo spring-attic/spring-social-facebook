@@ -84,7 +84,7 @@ public class CanvasSignInController {
 	
 	/**
 	 * The URL or path to redirect to after successful canvas authorization.
-	 * Defaults to "/".
+	 * @param postSignInUrl the url to redirect to after successful canvas authorization. Defaults to "/".
 	 */
 	public void setPostSignInUrl(String postSignInUrl) {
 		this.postSignInUrl = postSignInUrl;
@@ -94,7 +94,7 @@ public class CanvasSignInController {
 	 * The URL or path to redirect to if a user declines authorization.
 	 * The redirect will happen in the top-level window. 
 	 * If you want the redirect to happen in the canvas iframe, then override the {@link #postDeclineView()} method to return a different implementation of {@link View}.
-	 * Defaults to "http://www.facebook.com".
+	 * @param postDeclineUrl the url to redirect to after a user declines authorization. Defaults to "http://www.facebook.com".
 	 */
 	public void setPostDeclineUrl(String postDeclineUrl) {
 		this.postDeclineUrl = postDeclineUrl;
@@ -102,7 +102,7 @@ public class CanvasSignInController {
 	
 	/**
 	 * The scope to request during authorization.
-	 * Defaults to null (no scope will be requested; Facebook will offer their default scope).
+	 * @param scope the scope to request. Defaults to null (no scope will be requested; Facebook will offer their default scope).
 	 */
 	public void setScope(String scope) {
 		this.scope = scope;
@@ -160,6 +160,7 @@ public class CanvasSignInController {
 	/**
 	 * View that redirects the top level window to the URL defined in postDeclineUrl property after user declines to authorize application.
 	 * May be overridden for custom views, particularly in the case where the post-decline view should be rendered in-canvas.
+	 * @return a view to display after a user declines authoriation. Defaults as a redirect to postDeclineUrl
 	 */
 	protected View postDeclineView() {
 		return new TopLevelWindowRedirect() {

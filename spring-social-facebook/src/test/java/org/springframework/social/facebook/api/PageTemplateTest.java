@@ -28,6 +28,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
+import org.springframework.social.facebook.api.Page.PriceRange;
 
 /**
  * @author Craig Walls
@@ -37,7 +38,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	@SuppressWarnings("deprecation")
 	public void getPage_organization() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/140804655931206"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/140804655931206"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("organization-page"), MediaType.APPLICATION_JSON));
@@ -61,7 +62,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	@SuppressWarnings("deprecation")
 	public void getPage_product() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/21278871488"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/21278871488"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("product-page"), MediaType.APPLICATION_JSON));
@@ -90,7 +91,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	@SuppressWarnings("deprecation")
 	public void getPage_place() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/150263434985489"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/150263434985489"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("place-page"), MediaType.APPLICATION_JSON));
@@ -116,12 +117,22 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertFalse(page.hasAddedApp());
 		assertEquals(15062, page.getTalkingAboutCount());
 		assertNull(page.getHours());
+		RestaurantSpecialties restaurantSpecialties = page.getRestaurantSpecialties();
+		assertFalse(restaurantSpecialties.hasBreakfast());
+		assertFalse(restaurantSpecialties.hasCoffee());
+		assertTrue(restaurantSpecialties.hasLunch());
+		assertTrue(restaurantSpecialties.hasDrinks());
+		assertTrue(restaurantSpecialties.hasDinner());
+		ParkingInfo parking = page.getParking();
+		assertTrue(parking.hasLot());
+		assertFalse(parking.hasStreet());
+		assertFalse(parking.hasValet());
 	}
 
 	@Test
 	@SuppressWarnings("deprecation")
 	public void getPage_place_with_hours() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/220817147947513"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/220817147947513"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("place-with-hours-page"), MediaType.APPLICATION_JSON));
@@ -164,7 +175,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getPage_application() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/140372495981006"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/140372495981006"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("application-page"), MediaType.APPLICATION_JSON));
@@ -181,7 +192,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getPage_withExtraData() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/11803178355"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/11803178355"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("page-with-extra-data"), MediaType.APPLICATION_JSON));
@@ -193,20 +204,21 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertNull(page.getDescription());
 		Map<String, Object> extraData = page.getExtraData();
 		assertEquals("Warner Independent Pictures", extraData.get("studio"));
-		assertEquals(0, extraData.get("were_here_count"));
+		assertEquals(0, page.getWereHereCount());
 		assertEquals("Keanu Reeves, Robert Downey Jr., Woody Harrelson, Winona Ryder, Rory Cochrane", extraData.get("starring"));
 		assertEquals("Richard Linklater based on Philip K. Dick's novel", extraData.get("screenplay_by"));
 		assertEquals("2007", extraData.get("release_date"));
 		assertEquals("Steven Soderbergh and George Clooney (Executive Producers)", extraData.get("produced_by"));
 		assertTrue(extraData.get("plot_outline").toString().startsWith("In the future \"seven years from now\", America has lost the war on drugs. A highly addictive and debilitating illegal drug called Substance D, distilled from small blue flowers"));
 		assertEquals("Science Fiction", extraData.get("genre"));
-		assertEquals("Richard Linklater", extraData.get("directed_by"));
+		assertEquals("Richard Linklater", page.getDirectedBy());
 		assertEquals("Winner of Best Animation award OFCS Awards 2007", extraData.get("awards"));
 		Map<String, Object> embedded = (Map<String, Object>) extraData.get("embedded");
 		assertEquals("y", embedded.get("x"));
 		assertEquals(2, embedded.get("a"));
 		Map<String, Object> deeper = (Map<String, Object>) embedded.get("deeper");
 		assertEquals("bar", deeper.get("foo"));
+		assertEquals(PriceRange.$$, page.getPriceRange());
 	}
 	
 	@Test
@@ -242,7 +254,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	public void post_message() throws Exception {
 		expectFetchAccounts();
 		String requestBody = "message=Hello+Facebook+World&access_token=pageAccessToken";
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/987654321/feed"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/987654321/feed"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
@@ -266,7 +278,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	public void postLink() throws Exception {
 		expectFetchAccounts();
 		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World&access_token=pageAccessToken";
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/987654321/feed")).andExpect(method(POST))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/987654321/feed")).andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
@@ -291,7 +303,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void postPhoto_noCaption() {
 		expectFetchAccounts();
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/192837465/photos"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/192837465/photos"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\":\"12345\"}", MediaType.APPLICATION_JSON));
@@ -309,7 +321,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void postPhoto_withCaption() {
 		expectFetchAccounts();
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/192837465/photos"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/192837465/photos"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\":\"12345\"}", MediaType.APPLICATION_JSON));
@@ -324,10 +336,45 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		unauthorizedFacebook.pageOperations().postPhoto("987654321", "192837465", null, "Some caption");
 	}
 
+	@Test
+	public void search() {
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/search?q=coffee&type=place&center=33.050278%2C-96.745833&distance=5280"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("places-list"), MediaType.APPLICATION_JSON));
+		List<Page> places = facebook.pageOperations().search("coffee", 33.050278, -96.745833, 5280);
+		assertEquals(2, places.size());
+		assertEquals("117723491586638", places.get(0).getId());
+		assertEquals("True Brew Coffee & Espresso Service", places.get(0).getName());
+		assertEquals("Local business", places.get(0).getCategory());
+		assertEquals("542 Haggard St", places.get(0).getLocation().getStreet());
+		assertEquals("Plano", places.get(0).getLocation().getCity());
+		assertEquals("TX", places.get(0).getLocation().getState());
+		assertEquals("United States", places.get(0).getLocation().getCountry());
+		assertEquals("75074-5529", places.get(0).getLocation().getZip());
+		assertEquals(33.026239, places.get(0).getLocation().getLatitude(), 0.00001);
+		assertEquals(-96.707089, places.get(0).getLocation().getLongitude(), 0.00001);
+		assertEquals("169020919798274", places.get(1).getId());
+		assertEquals("Starbucks Coffee", places.get(1).getName());
+		assertEquals("Local business", places.get(1).getCategory());
+		assertNull(places.get(1).getLocation().getStreet());
+		assertEquals("Plano", places.get(1).getLocation().getCity());
+		assertEquals("TX", places.get(1).getLocation().getState());
+		assertEquals("United States", places.get(1).getLocation().getCountry());
+		assertNull(places.get(1).getLocation().getZip());
+		assertEquals(33.027734, places.get(1).getLocation().getLatitude(), 0.00001);
+		assertEquals(-96.795133, places.get(1).getLocation().getLongitude(), 0.00001);		
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void search_unauthorized() {
+		unauthorizedFacebook.pageOperations().search("coffee", 33.050278, -96.745833, 5280);
+	}
+
 	// private helpers
 	
 	private void expectFetchAccounts() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v1.0/me/accounts"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/me/accounts"))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("accounts"), MediaType.APPLICATION_JSON));

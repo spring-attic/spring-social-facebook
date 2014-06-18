@@ -1,11 +1,40 @@
 {
     "id":"1533260333_122829644452184_587062",
-    "from":
-    {
+    "from": {
         "name":"Art Names",
         "id":"1533260333"
     },
-    "like_count":4,
     "message":"Howdy!",
-    "created_time":"2011-01-17T16:02:09+0000"
+    "can_remove": true,
+    "can_comment": true,
+    "created_time":"2011-01-17T16:02:09+0000",
+    "like_count": 4,
+    "comment_count": 50,
+    "user_likes": true,
+    "message_tags": [
+      {
+        "id": "17540", 
+        "name": "Luke Skywalker", 
+        "type": "user", 
+        "offset": 5, 
+        "length": 16
+      }
+    ], 
+    "attachment": {
+      "description": "Some description text", 
+      "type": "share", 
+      "title": "Some title text", 
+      "target": {
+        "id": "203272_269965", 
+        "url": "http://l.facebook.com/l.php?u=http%3A%2F%2Fsomeurl.com"
+      }, 
+      "url": "http://someurl.com", 
+      "media": {
+        "image": {
+          "height": 500, 
+          "src": "http://someurl.com/image.png", 
+          "width": 200
+        }
+      }
+    }
 }

@@ -28,6 +28,7 @@ public interface GraphApi {
 	 * Requires appropriate permission to fetch the object.
 	 * @param objectId the Facebook object's ID
 	 * @param type the Java type to fetch
+	 * @param <T> The Java type to bind the Facebook object to
 	 * @return an Java object representing the requested Facebook object.
 	 */
 	<T> T fetchObject(String objectId, Class<T> type);
@@ -37,7 +38,19 @@ public interface GraphApi {
 	 * Requires appropriate permission to fetch the object.
 	 * @param objectId the Facebook object's ID
 	 * @param type the Java type to fetch
+	 * @param fields the fields to include in the response.
+	 * @param <T> The Java type to bind the Facebook object to
+	 * @return an Java object representing the requested Facebook object.
+	 */
+	<T> T fetchObject(String objectId, Class<T> type, String... fields);
+
+	/**
+	 * Fetches an object, extracting it into the given Java type
+	 * Requires appropriate permission to fetch the object.
+	 * @param objectId the Facebook object's ID
+	 * @param type the Java type to fetch
 	 * @param queryParameters query parameters to include in the request
+	 * @param <T> The Java type to bind the Facebook object to
 	 * @return an Java object representing the requested Facebook object.
 	 */
 	<T> T fetchObject(String objectId, Class<T> type, MultiValueMap<String, String> queryParameters);
@@ -49,6 +62,7 @@ public interface GraphApi {
 	 * @param connectionName the connection name.
 	 * @param type the Java type of each connection.
 	 * @param fields the fields to include in the response.
+	 * @param <T> The Java type to bind the Facebook object to
 	 * @return a list of Java objects representing the Facebook objects in the connections.
 	 */
 	<T> PagedList<T> fetchConnections(String objectId, String connectionName, Class<T> type, String... fields);
@@ -60,6 +74,7 @@ public interface GraphApi {
 	 * @param connectionName the connection name.
 	 * @param type the Java type of each connection.
 	 * @param queryParameters query parameters to include in the request
+	 * @param <T> The Java type to bind the Facebook object to
 	 * @return a list of Java objects representing the Facebook objects in the connections.
 	 */
 	<T> PagedList<T> fetchConnections(String objectId, String connectionName, Class<T> type, MultiValueMap<String, String> queryParameters);
@@ -72,6 +87,7 @@ public interface GraphApi {
 	 * @param type the Java type of each connection.
 	 * @param queryParameters query parameters to include in the request
 	 * @param fields the fields to include in the response.
+	 * @param <T> The Java type to bind the Facebook object to
 	 * @return a list of Java objects representing the Facebook objects in the connections.
 	 */
 	<T> PagedList<T> fetchConnections(String objectId, String connectionName, Class<T> type, MultiValueMap<String, String> queryParameters, String... fields);
@@ -120,13 +136,22 @@ public interface GraphApi {
 	 * @param connectionName the connection name
 	 */
 	void delete(String objectId, String connectionName);
-	
+
+	/**
+	 * Deletes an object connection.
+	 * Requires appropriate permission to delete the object connection.
+	 * @param objectId the object ID
+	 * @param connectionName the connection name
+	 * @param data parameters for the delete request
+	 */
+	void delete(String objectId, String connectionName, MultiValueMap<String, String> data);
+
 	/**
 	 * @return The application namespace associated with this GraphApi instance. Useful for interacting with Facebook's OpenGraph actions.
 	 * 			May be null if no namespace was specified.
 	 */
 	String getApplicationNamespace();
 	
-	static final String GRAPH_API_URL = "https://graph.facebook.com/v1.0/";
+	static final String GRAPH_API_URL = "https://graph.facebook.com/v2.0/";
 
 }

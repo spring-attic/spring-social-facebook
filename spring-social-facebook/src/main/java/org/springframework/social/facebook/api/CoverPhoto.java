@@ -21,20 +21,13 @@ package org.springframework.social.facebook.api;
  */
 public class CoverPhoto extends FacebookObject {
 	
-	private final String id;
+	private String id;
 	
-	private final String source;
+	private int offsetX;
 	
-	private final int offsetX;
-	
-	private final int offsetY;
+	private int offsetY;
 
-	public CoverPhoto(String id, String source, int offsetX, int offsetY) {
-		this.id = id;
-		this.source = source;
-		this.offsetX = offsetX;
-		this.offsetY = offsetY;
-	}
+	private String source;
 	
 	/**
 	 * @return The ID of the cover photo's Photo object.

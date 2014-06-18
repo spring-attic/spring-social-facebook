@@ -45,49 +45,13 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public PagedList<Reference> getFriendLists() {
-		return getFriendLists("me");
+		requireAuthorization();
+		return graphApi.fetchConnections("me", "friendlists", Reference.class);
 	}
 
-	public PagedList<Reference> getFriendLists(String userId) {
-		requireAuthorization();
-		return graphApi.fetchConnections(userId, "friendlists", Reference.class);
-	}
-	
 	public Reference getFriendList(String friendListId) {
 		requireAuthorization();
 		return graphApi.fetchObject(friendListId, Reference.class);
-	}
-	
-	public PagedList<Reference> getFriendListMembers(String friendListId) {
-		requireAuthorization();
-		return graphApi.fetchConnections(friendListId, "members", Reference.class);
-	}
-
-	public String createFriendList(String name) {
-		return createFriendList("me", name);
-	}
-	
-	public String createFriendList(String userId, String name) {
-		requireAuthorization();
-		MultiValueMap<String, Object> request = new LinkedMultiValueMap<String, Object>();
-		request.set("name", name);
-		return graphApi.publish(userId, "friendlists", request);
-	}
-	
-	public void deleteFriendList(String friendListId) {
-		requireAuthorization();
-		graphApi.delete(friendListId);
-	}
-
-	public void addToFriendList(String friendListId, String friendId) {
-		requireAuthorization();
-		graphApi.post(friendListId, "members/" + friendId, new LinkedMultiValueMap<String, String>());
-	}
-	
-	public void removeFromFriendList(String friendListId, String friendId) {
-		requireAuthorization();
-		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + friendListId + "/members/" + friendId).build();
-		restTemplate.delete(uri);
 	}
 	
 	public PagedList<Reference> getFriends() {
@@ -102,10 +66,6 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		return getFriendProfiles("me");
 	}
 
-	public PagedList<FacebookProfile> getFriendProfiles(int offset, int limit) {
-		return getFriendProfiles("me", offset, limit);
-	}
-	
 	public PagedList<FacebookProfile> getFriendProfiles(PagingParameters pagedListParameters) {
 		return getFriendProfiles("me", pagedListParameters);
 	}
@@ -117,7 +77,7 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	
 	public PagedList<String> getFriendIds(String userId) {
 		requireAuthorization();		
-		URI uri = URIBuilder.fromUri("https://graph.facebook.com/v1.0/" + userId + "/friends").queryParam("fields", "id").build();
+		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userId + "/friends").queryParam("fields", "id").build();
 		@SuppressWarnings("unchecked")
 		Map<String,PagedList<Map<String, String>>> response = restTemplate.getForObject(uri, Map.class);
 		List<Map<String,String>> entryList = response.get("data");
@@ -133,10 +93,6 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("fields", FULL_PROFILE_FIELDS);
 		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
-	}
-
-	public PagedList<FacebookProfile> getFriendProfiles(String userId, int offset, int limit) {
-		return getFriendProfiles(userId, new PagingParameters(limit, offset, null, null));
 	}
 
 	public PagedList<FacebookProfile> getFriendProfiles(String userId, PagingParameters pagedListParameters) {
@@ -156,13 +112,6 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		return graphApi.fetchConnections(userId, "family", FamilyMember.class);
 	}
 
-	public PagedList<Reference> getMutualFriends(String userId) {
-		requireAuthorization();
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		parameters.set("user", String.valueOf(userId));
-		return graphApi.fetchConnections("me", "mutualfriends", Reference.class, parameters);
-	}
-	
 	public PagedList<Reference> getSubscribedTo() {
 		return getSubscribedTo("me");
 	}
@@ -181,6 +130,6 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		return graphApi.fetchConnections(userId, "subscribers", Reference.class);
 	}
 
-	private static final String FULL_PROFILE_FIELDS = "id,username,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,bio,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";
+	private static final String FULL_PROFILE_FIELDS = "id,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,bio,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";
 
 }

@@ -19,7 +19,6 @@ import java.util.Date;
 
 import org.springframework.social.facebook.api.RsvpStatus;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -31,15 +30,25 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class InvitationMixin extends FacebookObjectMixin {
 
-	@JsonCreator
-	InvitationMixin(
-			@JsonProperty("id") String eventId, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("start_time") Date startTime, 
-			@JsonProperty("end_time") Date endTime, 
-			@JsonProperty("rsvp_status") @JsonDeserialize(using=RsvpStatusDeserializer.class) RsvpStatus rsvpStatus) {}
+	@JsonProperty("id")
+	String eventId;
+	
+	@JsonProperty("name")
+	String name;
+	
+	@JsonProperty("start_time")
+	Date startTime;
+	
+	@JsonProperty("end_time")
+	Date endTime;
+	
+	@JsonProperty("rsvp_status") 
+	@JsonDeserialize(using=RsvpStatusDeserializer.class) 
+	RsvpStatus rsvpStatus;
 	
 	@JsonProperty("location")
 	String location;
 	
+	@JsonProperty("timezone")
+	String timeZone;
 }

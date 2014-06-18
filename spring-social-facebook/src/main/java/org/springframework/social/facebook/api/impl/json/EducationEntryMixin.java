@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.springframework.social.facebook.api.Reference;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,11 +29,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class EducationEntryMixin extends FacebookObjectMixin {
 
-	@JsonCreator
-	EducationEntryMixin(
-			@JsonProperty("school") Reference school, 
-			@JsonProperty("year") Reference year, 
-			@JsonProperty("concentration") List<Reference> concentration,
-			@JsonProperty("type") String type) {}
+	@JsonProperty("concentration")
+	List<Reference> concentration;
+	
+	@JsonProperty("school")
+	Reference school;
+	
+	@JsonProperty("type")
+	String type;
+	
+	@JsonProperty("year")
+	Reference year;
 	
 }

@@ -1,5 +1,11 @@
 {
     "id":"193482154020832",
+    "cover": {
+      "cover_id": "14639096", 
+      "offset_x": 0, 
+      "offset_y": 50, 
+      "source": "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xpf1/t1.0-9/s720x720/10322540_1463971520512096_8756935_n.jpg"
+    }, 
     "owner":
     {
         "name":"Art Names",
@@ -9,5 +15,18 @@
     "start_time":"2011-03-30T14:30:00",
     "end_time":"2011-03-30T17:30:00",
     "privacy":"FRIENDS",
-    "updated_time":"2011-03-30T14:30:28+0000"
+    "updated_time":"2011-03-30T14:30:28+0000",
+    "location": "Walgreens",
+    "description": "Some call it spin class",
+    "venue": {
+      "id": "215524685134868", 
+      "city": "Fort Worth", 
+      "country": "United States", 
+      "latitude": 32.7493792167, 
+      "longitude": -97.3371771801, 
+      "state": "TX", 
+      "street": "921 Henderson St", 
+      "zip": "76102"
+    },
+    "is_date_only": true
 }

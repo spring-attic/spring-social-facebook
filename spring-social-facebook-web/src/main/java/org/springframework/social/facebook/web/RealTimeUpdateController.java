@@ -62,6 +62,7 @@ public class RealTimeUpdateController {
 	 * Constructs a RealTimeUpdateController.
 	 * @param tokens A map of subscription names to verification tokens.
 	 * @param updateHandlers A list of {@link UpdateHandler} implementations to handle incoming updates.
+	 * @param applicationSecret the application's Facebook App Secret
 	 */
 	public RealTimeUpdateController(Map<String, String> tokens, List<UpdateHandler> updateHandlers, String applicationSecret) {
 		this.tokens = tokens;
@@ -90,6 +91,8 @@ public class RealTimeUpdateController {
 	 * @param subscription The subscription name.
 	 * @param payload The request body payload.
 	 * @param signature The SHA1 signature of the request.
+	 * @return a String with the response back to Facebook
+	 * @throws Exception an Exception if anything goes wrong while processing the update
 	 */
 	@RequestMapping(value="/{subscription}", method=POST)
 	public @ResponseBody String receiveUpdate(

@@ -102,18 +102,6 @@ public interface GroupOperations {
 	/**
 	 * Search for groups.
 	 * @param query the search query (e.g., "Spring User Group")
-	 * @param offset the offset into the matching groups list
-	 * @param limit	the maximum number of groups to return
-	 * @return a list of {@link Group}s matching the search query
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @deprecated Use {@link #search(String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<Group> search(String query, int offset, int limit);
-
-	/**
-	 * Search for groups.
-	 * @param query the search query (e.g., "Spring User Group")
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
 	 * @return a list of {@link Group}s matching the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.

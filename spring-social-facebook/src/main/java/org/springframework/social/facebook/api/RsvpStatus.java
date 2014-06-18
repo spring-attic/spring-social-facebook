@@ -20,5 +20,5 @@ package org.springframework.social.facebook.api;
  * @author Craig Walls
  */
 public enum RsvpStatus {
-	ATTENDING, DECLINED, UNSURE, NOT_REPLIED;
+	ATTENDING, DECLINED, MAYBE, NOT_REPLIED, UNKNOWN;
 }

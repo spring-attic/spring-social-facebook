@@ -23,30 +23,19 @@ import java.util.Date;
  */
 public class Invitation extends FacebookObject {
 
-	private final String eventId;
+	private Date endTime;
+	
+	private String eventId;
 
-	private final String name;
+	private String location;
 
-	private final Date startTime;
+	private String name;
 
-	private final Date endTime;
+	private RsvpStatus rsvpStatus = RsvpStatus.UNKNOWN;
 
-	private final String location;
+	private Date startTime;
 
-	private final RsvpStatus rsvpStatus;
-
-	public Invitation(String eventId, String name, Date startTime, Date endTime, RsvpStatus rsvpStatus) {
-		this(eventId, name, startTime, endTime, rsvpStatus, null);
-	}
-
-	public Invitation(String eventId, String name, Date startTime, Date endTime, RsvpStatus rsvpStatus, String location) {
-		this.eventId = eventId;
-		this.name = name;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.location = location;
-		this.rsvpStatus = rsvpStatus;
-	}
+	private String timeZone;
 
 	public String getEventId() {
 		return eventId;
@@ -62,6 +51,10 @@ public class Invitation extends FacebookObject {
 
 	public Date getEndTime() {
 		return endTime;
+	}
+	
+	public String getTimeZone() {
+		return timeZone;
 	}
 
 	public String getLocation() {

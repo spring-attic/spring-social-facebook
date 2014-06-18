@@ -35,6 +35,10 @@ public class FacebookCookieParser {
 
 	/**
 	 * Looks for a Facebook cookie for the given API Key and returns its data as key/value pairs in a Map.
+	 * @param cookies an array of Cookie objects
+	 * @param appId the application's Facebook App ID
+	 * @param appSecret the application's Facebook App Secret
+	 * @return a Map containing the Facebook cookie data
 	 */
 	public static Map<String, String> getFacebookCookieData(Cookie[] cookies, String appId, String appSecret) {
 		if (cookies != null) {

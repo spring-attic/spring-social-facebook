@@ -54,6 +54,7 @@ public class SignedRequestDecoder {
 	 * Decodes a signed request, returning the payload of the signed request as a Map
 	 * @param signedRequest the value of the signed_request parameter sent by Facebook.
 	 * @return the payload of the signed request as a Map
+	 * @throws SignedRequestException if there is an error decoding the signed request
 	 */
 	@SuppressWarnings("unchecked")
 	public Map<String, ?> decodeSignedRequest(String signedRequest) throws SignedRequestException {
@@ -64,7 +65,9 @@ public class SignedRequestDecoder {
 	 * Decodes a signed request, returning the payload of the signed request as a specified type.
 	 * @param signedRequest the value of the signed_request parameter sent by Facebook.
 	 * @param type the type to bind the signed_request to.
+	 * @param <T> the Java type to bind the signed_request to.
 	 * @return the payload of the signed request as an object
+	 * @throws SignedRequestException if there is an error decoding the signed request
 	 */
 	public <T> T decodeSignedRequest(String signedRequest, Class<T> type) throws SignedRequestException {
 		String[] split = signedRequest.split("\\.");

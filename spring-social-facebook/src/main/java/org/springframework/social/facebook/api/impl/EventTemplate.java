@@ -25,7 +25,6 @@ import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.Invitation;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
-import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -38,34 +37,8 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		this.graphApi = graphApi;
 	}
 
-	public PagedList<Invitation> getInvitations() {
-		return getInvitations("me", 0, 25);
-	}
-
-	public PagedList<Invitation> getInvitations(int offset, int limit) {
-		return getInvitations("me", offset, limit);
-	}
-
-	public PagedList<Invitation> getInvitations(PagingParameters pagedListParameters) {
-		return getInvitations("me", pagedListParameters);
-	}
-
-	public PagedList<Invitation> getInvitations(String userId) {
-		return getInvitations(userId, 0, 25);
-	}
-	
-	public PagedList<Invitation> getInvitations(String userId, int offset, int limit) {
-		return getInvitations(userId, new PagingParameters(limit, offset, null, null));
-	}
-	
-	public PagedList<Invitation> getInvitations(String userId, PagingParameters pagedListParameters) {
-		requireAuthorization();
-		MultiValueMap<String, String> parameters = getPagingParameters(pagedListParameters);
-		return graphApi.fetchConnections(userId, "events", Invitation.class, parameters);
-	}
-	
 	public Event getEvent(String eventId) {
-		return graphApi.fetchObject(eventId, Event.class);
+		return graphApi.fetchObject(eventId, Event.class, ALL_FIELDS);
 	}
 	
 	public byte[] getEventImage(String eventId) {
@@ -75,59 +48,101 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	public byte[] getEventImage(String eventId, ImageType imageType) {
 		return graphApi.fetchImage(eventId, "picture", imageType);
 	}
-	
-	public String createEvent(String name, String startTime, String endTime) {
-		requireAuthorization();
-		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
-		data.set("name", name);
-		data.set("start_time", startTime);
-		data.set("end_time", endTime);
-		return graphApi.publish("me", "events", data);
-	}
-	
-	public void deleteEvent(String eventId) {
-		requireAuthorization();
-		graphApi.delete(eventId);
-	}
-	
-	public void sendInvitation(String eventId, String... userIds) {
-		requireAuthorization();
-		Assert.notEmpty(userIds, "At least one user ID must be given when sending an invitation.");
-		if (userIds.length == 1) {
-			graphApi.post(eventId, "invited/" + userIds[0], new LinkedMultiValueMap<String, String>());
-		} else {
-			MultiValueMap<String, String> data = new LinkedMultiValueMap<String, String>();
-			data.set("users", join(userIds));
-			graphApi.post(eventId, "invited", data);
-		}
-	}
-	
-	private String join(String... strings) {
-		Assert.notEmpty(strings);
-		StringBuilder builder = new StringBuilder();
-		builder.append(strings[0]);
-		if (strings.length > 1) {
-			for (int i=1; i<strings.length; i++) {
-				builder.append(",").append(strings[i]);
-			}
-		}
-		return builder.toString();
-	}
 
 	public PagedList<EventInvitee> getInvited(String eventId) {
 		return graphApi.fetchConnections(eventId, "invited", EventInvitee.class);
+	}
+	
+	public PagedList<Invitation> getCreated() {
+		return getEventsForUserByStatus("me", "created", new PagingParameters(25, 0, null, null));
+	}
+	
+	public PagedList<Invitation> getCreated(PagingParameters pagingParams) {
+		return getEventsForUserByStatus("me", "created", pagingParams);
+	}
+	
+	public PagedList<Invitation> getFriendCreated(String friendId) {
+		return getEventsForUserByStatus(friendId, "created", new PagingParameters(25, 0, null, null));
+	}
+
+	public PagedList<Invitation> getFriendCreated(String friendId, PagingParameters pagingParams) {
+		return getEventsForUserByStatus(friendId, "created", pagingParams);
+	}
+
+	public PagedList<Invitation> getAttending() {
+		return getEventsForUserByStatus("me", "attending", new PagingParameters(25, 0, null, null));
+	}
+	
+	public PagedList<Invitation> getAttending(PagingParameters pagingParams) {
+		return getEventsForUserByStatus("me", "attending", pagingParams);
+	}
+	
+	public PagedList<Invitation> getFriendAttending(String friendId) {
+		return getEventsForUserByStatus(friendId, "attending", new PagingParameters(25, 0, null, null));
+	}
+
+	public PagedList<Invitation> getFriendAttending(String friendId, PagingParameters pagingParams) {
+		return getEventsForUserByStatus(friendId, "attending", pagingParams);
 	}
 
 	public PagedList<EventInvitee> getAttending(String eventId) {
 		return graphApi.fetchConnections(eventId, "attending", EventInvitee.class);
 	}
 	
+	public PagedList<Invitation> getMaybeAttending() {
+		return getEventsForUserByStatus("me", "maybe", new PagingParameters(25, 0, null, null));
+	}
+	
+	public PagedList<Invitation> getMaybeAttending(PagingParameters pagingParams) {
+		return getEventsForUserByStatus("me", "maybe", pagingParams);
+	}
+	
+	public PagedList<Invitation> getFriendMaybeAttending(String friendId) {
+		return getEventsForUserByStatus(friendId, "maybe", new PagingParameters(25, 0, null, null));
+	}
+
+	public PagedList<Invitation> getFriendMaybeAttending(String friendId, PagingParameters pagingParams) {
+		return getEventsForUserByStatus(friendId, "maybe", pagingParams);
+	}
+
 	public PagedList<EventInvitee> getMaybeAttending(String eventId) {
 		return graphApi.fetchConnections(eventId, "maybe", EventInvitee.class);
 	}
 	
+	public PagedList<Invitation> getNoReplies() {
+		return getEventsForUserByStatus("me", "not_replied", new PagingParameters(25, 0, null, null));
+	}
+	
+	public PagedList<Invitation> getNoReplies(PagingParameters pagingParams) {
+		return getEventsForUserByStatus("me", "not_replied", pagingParams);
+	}
+	
+	public PagedList<Invitation> getFriendNoReplies(String friendId) {
+		return getEventsForUserByStatus(friendId, "not_replied", new PagingParameters(25, 0, null, null));
+	}
+
+	public PagedList<Invitation> getFriendNoReplies(String friendId, PagingParameters pagingParams) {
+		return getEventsForUserByStatus(friendId, "not_replied", pagingParams);
+	}
+
 	public PagedList<EventInvitee> getNoReplies(String eventId) {
 		return graphApi.fetchConnections(eventId, "noreply", EventInvitee.class);
+	}
+
+	public PagedList<Invitation> getDeclined() {
+		return getEventsForUserByStatus("me", "declined", new PagingParameters(25, 0, null, null));
+	}
+	
+	public PagedList<Invitation> getDeclined(PagingParameters pagingParams) {
+		return getEventsForUserByStatus("me", "declined", pagingParams);
+	}
+	
+	public PagedList<Invitation> getFriendDeclined(String friendId) {
+		return getEventsForUserByStatus(friendId, "declined", new PagingParameters(25, 0, null, null));
+	}
+
+	public PagedList<Invitation> getFriendDeclined(String friendId, PagingParameters pagingParams) {
+		return getEventsForUserByStatus(friendId, "declined", pagingParams);
 	}
 
 	public PagedList<EventInvitee> getDeclined(String eventId) {
@@ -150,11 +165,7 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public PagedList<Event> search(String query) {
-		return search(query, 0, 25);
-	}
-	
-	public PagedList<Event> search(String query, int offset, int limit) {
-		return search(query, new PagingParameters(limit, offset, null, null));
+		return search(query, new PagingParameters(25, 0, null, null));
 	}
 	
 	public PagedList<Event> search(String query, PagingParameters pagedListParameters) {
@@ -164,4 +175,13 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		return graphApi.fetchConnections("search", null, Event.class, queryMap);
 	}
 	
+	// private helpers
+	
+	private PagedList<Invitation> getEventsForUserByStatus(String userId, String status, PagingParameters pagingParams) {
+		MultiValueMap<String, String> parameters = getPagingParameters(pagingParams);
+		return graphApi.fetchConnections(userId, "events/" + status, Invitation.class, parameters);
+	}
+	
+	private static final String[] ALL_FIELDS = { "id", "cover", "description", "end_time", "is_date_only", "location", "name", 
+			"owner", "parent_group", "privacy", "start_time", "ticket_uri", "timezone", "updated_time", "venue" };
 }

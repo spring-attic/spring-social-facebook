@@ -24,34 +24,32 @@ import java.util.Date;
  */
 public class Group extends FacebookObject {
 	
-	private final String id;
+	private String id;
 	
-	private final Reference owner;
+	private CoverPhoto cover;
 	
-	private final String name;
-	
-	private final Privacy privacy;
-	
-	private final String icon;
-	
-	private final Date updatedTime;
-	
-	private final String email;
-
 	private String description;
 
-	public Group(String id, Reference owner, String name, Privacy privacy, String icon, Date updatedTime, String email) {
-		this.id = id;
-		this.owner = owner;
-		this.name = name;
-		this.privacy = privacy;
-		this.icon = icon;
-		this.updatedTime = updatedTime;
-		this.email = email;
-	}
+	private String email;
 
+	private String icon;
+	
+	private String link;
+	
+	private String name;
+	
+	private Reference owner;
+	
+	private Privacy privacy;
+	
+	private Date updatedTime;
+	
 	public String getId() {
 		return id;
+	}
+	
+	public CoverPhoto getCover() {
+		return cover;
 	}
 
 	public Reference getOwner() {
@@ -80,6 +78,10 @@ public class Group extends FacebookObject {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public String getLink() {
+		return link;
 	}
 
 	public static enum Privacy { OPEN, SECRET, CLOSED }

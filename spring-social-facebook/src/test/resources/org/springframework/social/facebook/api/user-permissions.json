@@ -1,10 +1,20 @@
 {
-   "data": [
-      {
-         "status_update": 1,
-         "offline_access": 1,
-         "read_stream": 1,
-         "publish_stream": 1
-      }
-   ]
+  "data": [
+    {
+      "permission": "status_update", 
+      "status": "granted"
+    }, 
+    {
+      "permission": "offline_access", 
+      "status": "granted"
+    }, 
+    {
+      "permission": "read_stream", 
+      "status": "granted"
+    }, 
+    {
+      "permission": "publish_stream", 
+      "status": "granted"
+    }
+  ]
 }

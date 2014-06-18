@@ -33,6 +33,7 @@ public class RatingActionMetadata extends ActionMetadata {
 	/**
 	 * Sets review text to accompany a rating.
 	 * @param reviewText Review text to go along with a rating.
+	 * @return the RatingActionMetadata for additional configuration
 	 */
 	public RatingActionMetadata reviewText(String reviewText) {
 		this.reviewText = reviewText;
@@ -42,6 +43,7 @@ public class RatingActionMetadata extends ActionMetadata {
 	/**
 	 * Sets a link to a review that accompanies a rating.
 	 * @param reviewLink A link to a review that accompanies a rating.
+	 * @return the RatingActionMetadata for additional configuration
 	 */
 	public RatingActionMetadata reviewLink(String reviewLink) {
 		this.reviewLink = reviewLink;

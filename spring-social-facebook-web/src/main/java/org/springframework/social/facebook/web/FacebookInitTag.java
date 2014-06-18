@@ -31,7 +31,7 @@ public class FacebookInitTag extends TagSupport {
 
 	/**
 	 * Sets the application's Facebook ID.
-	 * @param appId
+	 * @param appId the applicatin's Facebook App ID
 	 */
 	public void setAppId(String appId) {
 		this.appId = appId;

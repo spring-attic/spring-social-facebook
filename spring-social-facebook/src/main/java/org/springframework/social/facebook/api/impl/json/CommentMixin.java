@@ -16,10 +16,13 @@
 package org.springframework.social.facebook.api.impl.json;
 
 import java.util.Date;
+import java.util.List;
 
+import org.springframework.social.facebook.api.Comment;
+import org.springframework.social.facebook.api.MessageTag;
 import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.facebook.api.StoryAttachment;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,19 +33,40 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class CommentMixin extends FacebookObjectMixin {
 
-	@JsonCreator
-	CommentMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("from") Reference from, 
-			@JsonProperty("message") String message, 
-			@JsonProperty("created_time") Date createdTime) {}
+	@JsonProperty("id")
+	String id;
 	
-	// Support pre-Sept 2012 "likes" property
-	@JsonProperty("likes")
-	int _likes;
+	@JsonProperty("attachment")
+	StoryAttachment attachment;
 	
-	// Support post-Sept 2012 "like_count" property
+	@JsonProperty("can_comment")
+	boolean canComment;
+	
+	@JsonProperty("can_remove")
+	boolean canRemove;
+	
+	@JsonProperty("comment_count")
+	Integer commentCount;
+	
+	@JsonProperty("created_time")
+	Date createdTime;
+	
+	@JsonProperty("from")
+	Reference from;
+	
 	@JsonProperty("like_count")
-	Integer _likeCount;
+	Integer likeCount;
 	
+	@JsonProperty("message")
+	String message;
+	
+	@JsonProperty("message_tags")
+	List<MessageTag> messageTags;
+	
+	@JsonProperty("parent")
+	Comment parent;
+
+	@JsonProperty("user_likes")
+	boolean userLikes;
+
 }

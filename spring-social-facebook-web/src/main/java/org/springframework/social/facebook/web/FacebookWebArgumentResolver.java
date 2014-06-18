@@ -41,6 +41,8 @@ public class FacebookWebArgumentResolver implements WebArgumentResolver {
 	/**
 	 * Construct a FacebookWebArgumentResolver given the Facebook app id and secret.
 	 * The application secret will be used to verify the cookie signature.
+	 * @param appId the application's Facebook App ID
+	 * @param appSecret the application's Facebook App Secret
 	 */
 	public FacebookWebArgumentResolver(String appId, String appSecret) {
 		this.appId = appId;

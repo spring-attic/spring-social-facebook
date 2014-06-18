@@ -22,7 +22,6 @@ import org.springframework.social.facebook.api.CommentOperations;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
-import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -36,11 +35,7 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 	}
 
 	public PagedList<Comment> getComments(String objectId) {
-		return getComments(objectId, 0, 25);
-	}
-
-	public PagedList<Comment> getComments(String objectId, int offset, int limit) {
-		return getComments(objectId, new PagingParameters(limit, offset, null, null));
+		return getComments(objectId, new PagingParameters(25, 0, null, null));
 	}
 
 	public PagedList<Comment> getComments(String objectId, PagingParameters pagedListParameters) {
@@ -48,7 +43,7 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 	}
 
 	public Comment getComment(String commentId) {
-		return graphApi.fetchObject(commentId, Comment.class);
+		return graphApi.fetchObject(commentId, Comment.class, ALL_FIELDS);
 	}
 
 	public String addComment(String objectId, String message) {
@@ -63,8 +58,6 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 		graphApi.delete(objectId);
 	}
 
-	public PagedList<Reference> getLikes(String objectId) {
-		return graphApi.fetchConnections(objectId, "likes", Reference.class);
-	}
+	private static final String[] ALL_FIELDS = { "id", "attachment", "can_comment", "can_remove", "comment_count", "created_time", "from", "like_count", "message", "parent", "user_likes" };
 
 }

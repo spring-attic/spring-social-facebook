@@ -32,7 +32,11 @@ class RsvpStatusDeserializer extends JsonDeserializer<RsvpStatus> {
 
 	@Override
 	public RsvpStatus deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-		return RsvpStatus.valueOf(jp.getText().toUpperCase());
+		String normalizedStatus = jp.getText().toUpperCase();
+		if (normalizedStatus.equals("UNSURE")) {
+			normalizedStatus = "MAYBE";
+		}
+		return RsvpStatus.valueOf(normalizedStatus);
 	}
 	
 }

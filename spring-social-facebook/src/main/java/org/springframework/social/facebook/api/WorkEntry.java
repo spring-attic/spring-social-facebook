@@ -16,6 +16,7 @@
 package org.springframework.social.facebook.api;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -25,27 +26,68 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class WorkEntry extends FacebookObject implements Serializable {
 
-	private final Reference employer;
+	private Reference employer;
 
-	private final String startDate;
+	private String endDate;
+	
+	private Page location;
+	
+	private Page position;
 
-	private final String endDate;
-
-	public WorkEntry(Reference employer, String startDate, String endDate) {
-		this.employer = employer;
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
+	private String startDate;
+	
+	private List<Project> projects;
 
 	public Reference getEmployer() {
 		return employer;
 	}
 
-	public String getStartDate() {
-		return startDate;
-	}
-
 	public String getEndDate() {
 		return endDate;
 	}
+
+	public Page getLocation() {
+		return location;
+	}
+	
+	public Page getPosition() {
+		return position;
+	}
+	
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+	
+	public static class Project {
+		
+		private String description;
+
+		private String endDate;
+		
+		private String startDate;
+		
+		private List<Reference> with;
+		
+		public String getDescription() {
+			return description;
+		}
+		
+		public String getEndDate() {
+			return endDate;
+		}
+		
+		public String getStartDate() {
+			return startDate;
+		}
+		
+		public List<Reference> getWith() {
+			return with;
+		}
+		
+	}
+	
 }

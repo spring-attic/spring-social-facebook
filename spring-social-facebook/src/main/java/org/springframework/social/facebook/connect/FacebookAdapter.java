@@ -41,7 +41,7 @@ public class FacebookAdapter implements ApiAdapter<Facebook> {
 	public void setConnectionValues(Facebook facebook, ConnectionValues values) {
 		FacebookProfile profile = facebook.userOperations().getUserProfile();
 		values.setProviderUserId(profile.getId());
-		values.setDisplayName(profile.getUsername());
+		values.setDisplayName(profile.getName());
 		values.setProfileUrl("http://facebook.com/profile.php?id=" + profile.getId());
 		values.setImageUrl("http://graph.facebook.com/v1.0/" + profile.getId() + "/picture");
 	}
@@ -49,7 +49,7 @@ public class FacebookAdapter implements ApiAdapter<Facebook> {
 	public UserProfile fetchUserProfile(Facebook facebook) {
 		FacebookProfile profile = facebook.userOperations().getUserProfile();
 		return new UserProfileBuilder().setName(profile.getName()).setFirstName(profile.getFirstName()).setLastName(profile.getLastName()).
-			setEmail(profile.getEmail()).setUsername(profile.getUsername()).build();
+			setEmail(profile.getEmail()).build();
 	}
 	
 	public void updateStatus(Facebook facebook, String message) {

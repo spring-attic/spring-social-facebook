@@ -24,34 +24,36 @@ import java.util.Date;
  */
 public class Event extends FacebookObject {
 	
-	private final String id;
+	private String id;
 
-	private final String name;
+	private CoverPhoto cover;
 	
 	private String description;
 	
-	private final Reference owner;
+	private Date endTime;
 
-	private final Privacy privacy;
-
-	private final Date startTime;
-
-	private final Date endTime;
-
+	private boolean isDateOnly;
+	
 	private String location;
-	
-	private final Date updatedTime;
-	
-	public Event(String id, String name, Reference owner, Privacy privacy, Date startTime, Date endTime, Date updatedTime) {
-		this.id = id;
-		this.name = name;
-		this.owner = owner;
-		this.privacy = privacy;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.updatedTime = updatedTime;
-	}
 
+	private String name;
+	
+	private Reference owner;
+
+	private Group parentGroup;
+	
+	private Privacy privacy;
+
+	private Date startTime;
+
+	private String ticketUri;
+	
+	private String timeZone;
+	
+	private Date updatedTime;
+	
+	private Location venue;
+	
 	public String getId() {
 		return id;
 	}
@@ -64,6 +66,10 @@ public class Event extends FacebookObject {
 		return description;
 	}
 
+	public CoverPhoto getCover() {
+		return cover;
+	}
+	
 	public Reference getOwner() {
 		return owner;
 	}
@@ -83,11 +89,31 @@ public class Event extends FacebookObject {
 	public String getLocation() {
 		return location;
 	}
+	
+	public String getTicketUri() {
+		return ticketUri;
+	}
 
 	public Date getUpdatedTime() {
 		return updatedTime;
 	}
 
+	public boolean isDateOnly() {
+		return isDateOnly;
+	}
+	
+	public String getTimeZone() {
+		return timeZone;
+	}
+	
+	public Group getParentGroup() {
+		return parentGroup;
+	}
+	
+	public Location getVenue() {
+		return venue;
+	}
+	
 	public static enum Privacy { OPEN, SECRET, CLOSED, FRIENDS }
 	
 }

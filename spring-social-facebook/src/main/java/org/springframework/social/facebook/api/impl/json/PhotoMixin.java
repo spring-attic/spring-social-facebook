@@ -15,16 +15,24 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.social.facebook.api.Album;
+import org.springframework.social.facebook.api.Location;
 import org.springframework.social.facebook.api.Photo.Image;
+import org.springframework.social.facebook.api.Photo.TimeGranularity;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.Tag;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
@@ -34,22 +42,50 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class PhotoMixin extends FacebookObjectMixin {
 
-	@JsonCreator
-	PhotoMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("from") Reference from, 
-			@JsonProperty("picture") String picture, 
-			@JsonProperty("source") String source, 
-			@JsonProperty("link") String link, 
-			@JsonProperty("icon") String icon, 
-			@JsonProperty("created_time") Date createdTime,
-			@JsonProperty("images") List<Image> images) {}
+	@JsonProperty("id")
+	String id;
+	
+	@JsonProperty("album")
+	Album album;
+	
+	@JsonProperty("backdated_time")
+	Date backdatedTime;
+	
+	@JsonProperty("backdated_time_granularity")
+	TimeGranularity backdatedTimeGranularity;
+	
+	@JsonProperty("created_time")
+	Date createdTime;
+	
+	@JsonProperty("from")
+	Reference from;
+	
+	@JsonProperty("height")
+	int height;
+	
+	@JsonProperty("picture")
+	String picture;
+	
+	@JsonProperty("source")
+	String source;
+	
+	@JsonProperty("link")
+	String link;
+	
+	@JsonProperty("icon")
+	String icon;
+	
+	@JsonProperty("images")
+	List<Image> images;
 	
 	@JsonProperty("name")
 	String name;
 	
-	@JsonProperty("position")
-	int position;
+	@JsonProperty("page_story_id")
+	String pageStoryId;
+	
+	@JsonProperty("place")
+	Location place;
 	
 	@JsonProperty("updated_time")
 	Date updatedTime;
@@ -66,4 +102,12 @@ abstract class PhotoMixin extends FacebookObjectMixin {
 				@JsonProperty("height") int height
 				) {}
 	}
+	
+	public static class TimeGranularityDeserializer extends JsonDeserializer<TimeGranularity> {
+		@Override
+		public TimeGranularity deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+			return TimeGranularity.valueOf(jp.getText().toUpperCase());
+		}
+	}
+	
 }

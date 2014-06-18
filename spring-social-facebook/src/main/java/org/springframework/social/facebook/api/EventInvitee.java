@@ -20,34 +20,29 @@ package org.springframework.social.facebook.api;
  * @author Craig Walls
  */
 public class EventInvitee extends FacebookObject {
+	
 	private String id;
 	
 	private String name;
 	
 	private RsvpStatus rsvpStatus;
 	
-	public EventInvitee(String id, String name, RsvpStatus rsvpStatus) {
-		this.id = id;
-		this.name = name;
-		this.rsvpStatus = rsvpStatus;
-	}
-
 	/**
-	 * The invitee's user ID.
+	 * @return the invitee's user ID.
 	 */
 	public String getId() {
 		return id;
 	}
 
 	/**
-	 * The invitee's name.
+	 * @return the invitee's name.
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * The invitee's RSVP status (attending, unsure, not-replied, or declined).
+	 * @return the invitee's RSVP status (attending, unsure, not-replied, or declined).
 	 */
 	public RsvpStatus getRsvpStatus() {
 		return rsvpStatus;

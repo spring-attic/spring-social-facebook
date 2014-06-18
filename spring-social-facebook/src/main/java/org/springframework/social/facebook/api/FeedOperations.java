@@ -40,19 +40,6 @@ public interface FeedOperations {
 	/**
 	 * Retrieves recent posts for the authenticated user.
 	 * Requires "read_stream" permission to read non-public posts. 
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of {@link Post}s for the authenticated user. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getFeed(PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<Post> getFeed(int offset, int limit);
-
-	/**
-	 * Retrieves recent posts for the authenticated user.
-	 * Requires "read_stream" permission to read non-public posts. 
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
 	 * @return a list of {@link Post}s for the authenticated user. 
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -70,21 +57,6 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Post> getFeed(String ownerId);
-
-	/**
-	 * Retrieves recent feed entries for a given user. 
-	 * Requires "read_stream" permission to read non-public posts.
-	 * Returns up to the most recent 25 posts.
-	 * @param ownerId the Facebook ID or alias for the owner (user, group, event, page, etc) of the feed.
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of {@link Post}s for the specified user. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getFeed(String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<Post> getFeed(String ownerId, int offset, int limit);
 
 	/**
 	 * Retrieves recent feed entries for a given user. 
@@ -112,20 +84,6 @@ public interface FeedOperations {
 	/**
 	 * Retrieves the user's home feed. This includes entries from the user's friends.
 	 * Requires "read_stream" permission. 
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of {@link Post}s from the authenticated user's home feed.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getHomeFeed(PagingParameters)} instead
-	 */
-	@Deprecated
-	PagedList<Post> getHomeFeed(int offset, int limit);
-
-	/**
-	 * Retrieves the user's home feed. This includes entries from the user's friends.
-	 * Requires "read_stream" permission. 
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
 	 * @return a list of {@link Post}s from the authenticated user's home feed.
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -149,19 +107,7 @@ public interface FeedOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<StatusPost> getStatuses();
-
-	/**
-	 * Retrieves the status entries from the authenticated user's feed.
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of status {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getStatuses(PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<StatusPost> getStatuses(int offset, int limit);
+	PagedList<Post> getStatuses();
 
 	/**
 	 * Retrieves the status entries from the authenticated user's feed.
@@ -170,7 +116,7 @@ public interface FeedOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<StatusPost> getStatuses(PagingParameters pagedListParameters);
+	PagedList<Post> getStatuses(PagingParameters pagedListParameters);
 
 
 	/**
@@ -183,22 +129,7 @@ public interface FeedOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<StatusPost> getStatuses(String userId);
-
-	/**
-	 * Retrieves the status entries from the specified user's feed.
-	 * Requires "read_stream" permission. 
-	 * @param userId the user's ID
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of status {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getStatuses(String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<StatusPost> getStatuses(String userId, int offset, int limit);
+	PagedList<Post> getStatuses(String userId);
 
 	/**
 	 * Retrieves the status entries from the specified user's feed.
@@ -210,7 +141,7 @@ public interface FeedOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<StatusPost> getStatuses(String userId, PagingParameters pagedListParameters);
+	PagedList<Post> getStatuses(String userId, PagingParameters pagedListParameters);
 	
 	/**
 	 * Retrieves the link entries from the authenticated user's feed.
@@ -221,21 +152,7 @@ public interface FeedOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<LinkPost> getLinks();
-
-	/**
-	 * Retrieves the link entries from the authenticated user's feed.
-	 * Requires "read_stream" permission. 
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of link {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated User {@link #getLinks(PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<LinkPost> getLinks(int offset, int limit);
+	PagedList<Post> getLinks();
 
 	/**
 	 * Retrieves the link entries from the authenticated user's feed.
@@ -246,7 +163,7 @@ public interface FeedOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<LinkPost> getLinks(PagingParameters pagedListParameters);	
+	PagedList<Post> getLinks(PagingParameters pagedListParameters);	
 	
 	/**
 	 * Retrieves the link entries from the specified owner's feed.
@@ -258,22 +175,7 @@ public interface FeedOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<LinkPost> getLinks(String ownerId);
-
-	/**
-	 * Retrieves the link entries from the specified owner's feed.
-	 * Requires "read_stream" permission. 
-	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of link {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getLinks(String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<LinkPost> getLinks(String ownerId, int offset, int limit);
+	PagedList<Post> getLinks(String ownerId);
 
 	/**
 	 * Retrieves the link entries from the specified owner's feed.
@@ -285,82 +187,7 @@ public interface FeedOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<LinkPost> getLinks(String ownerId, PagingParameters pagedListParameters);
-
-	/**
-	 * Retrieves the note entries from the authenticated user's feed.
-	 * Returns up to the most recent 25 posts.
-	 * Requires "read_stream" permission. 
-	 * @return a list of note {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	PagedList<NotePost> getNotes();
-
-	/**
-	 * Retrieves the note entries from the authenticated user's feed.
-	 * Requires "read_stream" permission. 
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of note {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getNotes(PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<NotePost> getNotes(int offset, int limit);
-
-	/**
-	 * Retrieves the note entries from the authenticated user's feed.
-	 * Requires "read_stream" permission. 
-	 * @param pagedListParameters the parameters defining the bounds of the list to return.
-	 * @return a list of note {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	PagedList<NotePost> getNotes(PagingParameters pagedListParameters);
-	
-	/**
-	 * Retrieves the note entries from the specified owner's feed.
-	 * Returns up to the most recent 25 posts.
-	 * Requires "read_stream" permission. 
-	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
-	 * @return a list of note {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	PagedList<NotePost> getNotes(String ownerId);
-
-	/**
-	 * Retrieves the note entries from the specified owner's feed.
-	 * Requires "read_stream" permission. 
-	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of note {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getNotes(String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<NotePost> getNotes(String ownerId, int offset, int limit);
-
-	/**
-	 * Retrieves the note entries from the specified owner's feed.
-	 * Requires "read_stream" permission. 
-	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
-	 * @param pagedListParameters the parameters defining the bounds of the list to return.
-	 * @return a list of note {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	PagedList<NotePost> getNotes(String ownerId, PagingParameters pagedListParameters);
+	PagedList<Post> getLinks(String ownerId, PagingParameters pagedListParameters);
 
 	/**
 	 * Retrieves the post entries from the authenticated user's feed.
@@ -372,20 +199,6 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Post> getPosts();
-
-	/**
-	 * Retrieves the post entries from the authenticated user's feed.
-	 * Requires "read_stream" permission. 
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of post {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getPosts(PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<Post> getPosts(int offset, int limit);
 
 	/**
 	 * Retrieves the post entries from the authenticated user's feed.
@@ -409,21 +222,6 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Post> getPosts(String ownerId);
-
-	/**
-	 * Retrieves the post entries from the specified owner's feed.
-	 * Requires "read_stream" permission. 
-	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of post {@link Post}s. 
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #getPosts(String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<Post> getPosts(String ownerId, int offset, int limit);
 
 	/**
 	 * Retrieves the post entries from the specified owner's feed.
@@ -454,6 +252,7 @@ public interface FeedOperations {
 	 * Posts a link to the authenticated user's feed.
 	 * Requires "publish_stream" permission.
 	 * @param message a message to send with the link.
+	 * @param link the {@link FacebookLink} object to post
 	 * @return the ID of the new feed entry.
 	 * @throws DuplicateStatusException if the post duplicates a previous post.
 	 * @throws RateLimitExceededException if the per-user/per-app rate limit is exceeded.
@@ -494,6 +293,7 @@ public interface FeedOperations {
 	 * Requires "publish_stream" permission.
 	 * @param ownerId the feed owner ID. Could be a user ID or a page ID.
 	 * @param message a message to send with the link.
+	 * @param link the {@link FacebookLink} object to post
 	 * @return the ID of the new feed entry.
 	 * @throws DuplicateStatusException if the post duplicates a previous post.
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -524,18 +324,6 @@ public interface FeedOperations {
 	/**
 	 * Searches Facebook's public feed.
 	 * @param query the search query (e.g., "Dr Seuss")
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of {@link Post}s that match the search query
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @deprecated Use {@link #searchPublicFeed(String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<Post> searchPublicFeed(String query, int offset, int limit);
-
-	/**
-	 * Searches Facebook's public feed.
-	 * @param query the search query (e.g., "Dr Seuss")
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
 	 * @return a list of {@link Post}s that match the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -551,19 +339,6 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Post> searchHomeFeed(String query);
-
-	/**
-	 * Searches the authenticated user's home feed.
-	 * @param query the search query (e.g., "Dr Seuss")
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of {@link Post}s that match the search query
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #searchHomeFeed(String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<Post> searchHomeFeed(String query, int offset, int limit);
 
 	/**
 	 * Searches the authenticated user's home feed.
@@ -584,19 +359,6 @@ public interface FeedOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Post> searchUserFeed(String query);
-
-	/**
-	 * Searches the authenticated user's feed.
-	 * @param query the search query (e.g., "football")
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of {@link Post}s that match the search query
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #searchUserFeed(String, PagingParameters)} instead
-	 */
-	@Deprecated
-	PagedList<Post> searchUserFeed(String query, int offset, int limit);
 
 	/**
 	 * Searches the authenticated user's feed.
@@ -623,20 +385,6 @@ public interface FeedOperations {
 	 * Searches a specified user's feed.
 	 * @param userId the ID of the user whose feed is to be searched
 	 * @param query the search query (e.g., "football")
-	 * @param offset the offset into the feed to start retrieving posts.
-	 * @param limit the maximum number of posts to return.
-	 * @return a list of {@link Post}s that match the search query
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link #searchUserFeed(String, String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<Post> searchUserFeed(String userId, String query, int offset, int limit);
-
-	/**
-	 * Searches a specified user's feed.
-	 * @param userId the ID of the user whose feed is to be searched
-	 * @param query the search query (e.g., "football")
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
 	 * @return a list of {@link Post}s that match the search query
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -644,4 +392,34 @@ public interface FeedOperations {
 	 */
 	PagedList<Post> searchUserFeed(String userId, String query, PagingParameters pagedListParameters);
 
+	/**
+	 * Retrieves a list of up to 25 recent checkins for the authenticated user.
+	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * @return a list {@link Post}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Post> getCheckins();
+
+	/**
+	 * Retrieves a list of checkins for the authenticated user.
+	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list {@link Post}s for the user, or an empty list if not available.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Post> getCheckins(PagingParameters pagedListParameters);
+
+	/**
+	 * Retrieves details for a single checkin.
+	 * @param checkinId the checkin ID
+	 * @return a {@link Post}
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	Post getCheckin(String checkinId);
+	
 }

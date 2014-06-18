@@ -18,10 +18,10 @@ package org.springframework.social.facebook.api.impl.json;
 import java.io.IOException;
 import java.util.Date;
 
+import org.springframework.social.facebook.api.CoverPhoto;
 import org.springframework.social.facebook.api.Group.Privacy;
 import org.springframework.social.facebook.api.Reference;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
@@ -37,18 +37,36 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class GroupMixin extends FacebookObjectMixin {
 	
-	@JsonCreator
-	GroupMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("owner") Reference owner, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("privacy") @JsonDeserialize(using = PrivacyDeserializer.class) Privacy privacy, 
-			@JsonProperty("icon") String icon, 
-			@JsonProperty("updated_time") Date updatedTime, 
-			@JsonProperty("email") String email) {}
+	@JsonProperty("id")
+	String id;
+	
+	@JsonProperty("cover")
+	CoverPhoto cover;
 	
 	@JsonProperty("description")
 	String description;
+	
+	@JsonProperty("email")
+	String email;
+	
+	@JsonProperty("icon")
+	String icon;
+	
+	@JsonProperty("link")
+	String link;
+	
+	@JsonProperty("name")
+	String name;
+	
+	@JsonProperty("owner")
+	Reference owner;
+	
+	@JsonProperty("privacy")
+	@JsonDeserialize(using = PrivacyDeserializer.class)
+	Privacy privacy;
+	
+	@JsonProperty("updated_time")
+	Date updatedTime;
 	
 	private static class PrivacyDeserializer extends JsonDeserializer<Privacy> {
 		@Override

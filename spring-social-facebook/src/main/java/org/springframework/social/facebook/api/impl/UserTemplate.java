@@ -23,7 +23,6 @@ import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.util.LinkedMultiValueMap;
@@ -71,9 +70,9 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		return graphApi.fetchImage(userId, "picture", imageType);
 	}
 
-	public PagedList<String> getUserPermissions() {
+	public List<String> getUserPermissions() {
 		requireAuthorization();
-		JsonNode responseNode = restTemplate.getForObject("https://graph.facebook.com/v1.0/me/permissions", JsonNode.class);
+		JsonNode responseNode = restTemplate.getForObject(GraphApi.GRAPH_API_URL + "me/permissions", JsonNode.class);
 		return deserializePermissionsNodeToList(responseNode);
 	}
 
@@ -85,23 +84,17 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		return graphApi.fetchConnections("search", null, Reference.class, queryMap);
 	}
 
-	private PagedList<String> deserializePermissionsNodeToList(JsonNode jsonNode) {
+	private List<String> deserializePermissionsNodeToList(JsonNode jsonNode) {
 		JsonNode dataNode = jsonNode.get("data");			
 		List<String> permissions = new ArrayList<String>();
 		for (Iterator<JsonNode> elementIt = dataNode.elements(); elementIt.hasNext(); ) {
 			JsonNode permissionsElement = elementIt.next();
-			for (Iterator<String> fieldNamesIt = permissionsElement.fieldNames(); fieldNamesIt.hasNext(); ) {
-				permissions.add(fieldNamesIt.next());
+			String name = permissionsElement.get("permission").asText();
+			String status = permissionsElement.get("status").asText();
+			if ("granted".equals(status)) {
+				permissions.add(name);
 			}
-		}			
-		
-		JsonNode pagingNode = jsonNode.get("paging");
-		if (pagingNode != null) {
-			PagingParameters previousPage = PagedListUtils.getPagedListParameters(pagingNode, "previous");
-			PagingParameters nextPage = PagedListUtils.getPagedListParameters(pagingNode, "next");
-			return new PagedList<String>(permissions, previousPage, nextPage);
 		}
-		
-		return new PagedList<String>(permissions, null, null);
+		return permissions;
 	}
 }

@@ -16,5 +16,5 @@
 package org.springframework.social.facebook.api;
 
 public enum ImageType {
-	SMALL, NORMAL, LARGE, SQUARE
+	SMALL, NORMAL, LARGE, SQUARE, THUMBNAIL, ALBUM
 }

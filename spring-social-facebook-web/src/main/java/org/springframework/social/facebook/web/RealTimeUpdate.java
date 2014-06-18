@@ -35,14 +35,14 @@ public class RealTimeUpdate {
 	private List<Entry> entries;
 		
 	/**
-	 * The object type that changed (e.g., "user", "page", etc).
+	 * @return the object type that changed (e.g., "user", "page", etc).
 	 */
 	public String getObject() {
 		return object;
 	}
 	
 	/**
-	 * Entries that changed. Multiple change entries for multiple objects may be given in a single update.
+	 * @return the entries that changed. Multiple change entries for multiple objects may be given in a single update.
 	 */
 	public List<Entry> getEntries() {
 		return entries;
@@ -63,22 +63,21 @@ public class RealTimeUpdate {
 		private List<String> changedFields;
 		
 		/**
-		 * The ID of the object that changed (e.g., if the object is a "user", then this is the user's Facebook ID).
+		 * @return the ID of the object that changed (e.g., if the object is a "user", then this is the user's Facebook ID).
 		 */
 		public long getId() {
 			return id;
 		}
 
 		/**
-		 * The time of the change in seconds since Jan 1, 1970.
+		 * @return the time of the change in seconds since Jan 1, 1970.
 		 */
 		public long getTime() {
 			return time;
 		}
 		
 		/**
-		 * A list of the fields that changed on the object.
-		 * {@link UpdateHandler} implementations may use this as a clue to know what data to fetch to see the details of the change.
+		 * @return a list of the fields that changed on the object. {@link UpdateHandler} implementations may use this as a clue to know what data to fetch to see the details of the change.
 		 */
 		public List<String> getChangedFields() {
 			return changedFields;

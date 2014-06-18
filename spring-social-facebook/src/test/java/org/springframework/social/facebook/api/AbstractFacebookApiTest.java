@@ -29,11 +29,14 @@ import org.springframework.test.web.client.MockRestServiceServer;
 
 public class AbstractFacebookApiTest {
 	protected static final String ACCESS_TOKEN = "someAccessToken";
+	protected static final String APP_ACCESS_TOKEN = "123456|abcdefg987654321";
 
 	protected FacebookTemplate facebook;
 	protected FacebookTemplate unauthorizedFacebook;
+	protected FacebookTemplate appFacebook;
 	protected MockRestServiceServer mockServer;
 	protected MockRestServiceServer unauthorizedMockServer;
+	protected MockRestServiceServer appFacebookMockServer;
 
 	@Before
 	public void setup() {
@@ -42,6 +45,9 @@ public class AbstractFacebookApiTest {
 		
 		unauthorizedFacebook = new FacebookTemplate();
 		unauthorizedMockServer = MockRestServiceServer.createServer(unauthorizedFacebook.getRestTemplate());
+		
+		appFacebook = new FacebookTemplate(APP_ACCESS_TOKEN);
+		appFacebookMockServer = MockRestServiceServer.createServer(appFacebook.getRestTemplate());
 	}
 
 	protected FacebookTemplate createFacebookTemplate() {

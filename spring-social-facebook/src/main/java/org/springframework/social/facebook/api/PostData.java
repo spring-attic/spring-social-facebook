@@ -15,7 +15,6 @@
  */
 package org.springframework.social.facebook.api;
 
-import org.springframework.social.facebook.api.Post.Privacy;
 import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -67,6 +66,7 @@ public class PostData {
 	
 	/**
 	 * @param message A message for the post.
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData message(String message) {
 		this.message = message;
@@ -75,6 +75,7 @@ public class PostData {
 
 	/**
 	 * @param linkUrl A link to include in the post.
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData link(String linkUrl) {
 		this.linkUrl = linkUrl;
@@ -83,6 +84,7 @@ public class PostData {
 	
 	/**
 	 * @param name A name (e.g., title) for the post.
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData name(String name) {
 		this.name = name;
@@ -91,6 +93,7 @@ public class PostData {
 	
 	/**
 	 * @param caption A caption for the post.
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData caption(String caption) {
 		this.caption = caption;
@@ -99,6 +102,7 @@ public class PostData {
 	
 	/**
 	 * @param description A description of the post.
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData description(String description) {
 		this.description = description;
@@ -107,6 +111,7 @@ public class PostData {
 	
 	/**
 	 * @param placeId The ID of a place to associate with the post.
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData place(String placeId) {
 		this.placeId = placeId;
@@ -115,6 +120,7 @@ public class PostData {
 	
 	/**
 	 * @param tags One or more Facebook user IDs to tag in the post. Will be ignored unless a place is specified.
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData tags(String... tags) {
 		this.tags = tags;
@@ -123,6 +129,7 @@ public class PostData {
 
 	/**
 	 * @param picture The URL to a picture to embed in the post
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData picture(String picture) {
 		this.picture = picture;
@@ -131,6 +138,7 @@ public class PostData {
 	
 	/**
 	 * @param privacy The privacy setting for the post. If CUSTOM, then you must also set at least one of allow() or deny().
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData privacy(Post.Privacy privacy) {
 		this.privacy = privacy;
@@ -139,6 +147,7 @@ public class PostData {
 	
 	/**
 	 * @param allow One or more Facebook User IDs and friend list IDs that can see the post. Ignored unless privacy is CUSTOM.
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData allow(String... allow) {
 		this.allow = allow;
@@ -147,6 +156,7 @@ public class PostData {
 
 	/**
 	 * @param deny One or more Facebook User IDs and friend list IDs that cannot see the post. Ignored unless privacy is CUSTOM.
+	 * @return the PostData object for additional configuration
 	 */
 	public PostData deny(String... deny) {
 		this.deny = deny;
@@ -166,23 +176,26 @@ public class PostData {
 			// tags are only allowed if a place is given
 			if (tags != null) { parameters.add("tags", StringUtils.arrayToCommaDelimitedString(tags)); }
 		}
-		if (privacy != null) {
-			StringBuffer privacyBuffer = new StringBuffer();
-			privacyBuffer.append("{'value': '").append(privacy.toString()).append("'");
-			if (privacy == Privacy.CUSTOM) {
-				if (allow == null && deny == null) {
-					throw new IllegalArgumentException("At least one of 'deny' or 'allow' must be specified when privacy is CUSTOM.");
-				}
-				if (allow != null) {
-					privacyBuffer.append(",'allow': '").append(join(allow)).append("'");
-				}
-				if (deny != null) {
-					privacyBuffer.append(",'deny': '").append(join(deny)).append("'");
-				}
-			}
-			privacyBuffer.append("}");
-			parameters.add("privacy", privacyBuffer.toString());
-		}
+		
+		// TODO: Revisit posting with Privacy
+		
+//		if (privacy != null) {
+//			StringBuffer privacyBuffer = new StringBuffer();
+//			privacyBuffer.append("{'value': '").append(privacy.toString()).append("'");
+//			if (privacy == Privacy.CUSTOM) {
+//				if (allow == null && deny == null) {
+//					throw new IllegalArgumentException("At least one of 'deny' or 'allow' must be specified when privacy is CUSTOM.");
+//				}
+//				if (allow != null) {
+//					privacyBuffer.append(",'allow': '").append(join(allow)).append("'");
+//				}
+//				if (deny != null) {
+//					privacyBuffer.append(",'deny': '").append(join(deny)).append("'");
+//				}
+//			}
+//			privacyBuffer.append("}");
+//			parameters.add("privacy", privacyBuffer.toString());
+//		}
 
 		return parameters;
 	}

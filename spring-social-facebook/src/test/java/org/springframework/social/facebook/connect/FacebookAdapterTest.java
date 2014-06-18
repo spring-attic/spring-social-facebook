@@ -35,23 +35,23 @@ public class FacebookAdapterTest {
 	public void fetchProfile() {		
 		UserOperations userOperations = Mockito.mock(UserOperations.class);
 		Mockito.when(facebook.userOperations()).thenReturn(userOperations);
-		Mockito.when(userOperations.getUserProfile()).thenReturn(new FacebookProfile("12345678", "habuma", "Craig Walls", "Craig", "Walls", null, null));
+		Mockito.when(userOperations.getUserProfile()).thenReturn(new FacebookProfile("12345678", "Craig Walls", "Craig", "Walls", null, null));
 		UserProfile profile = apiAdapter.fetchUserProfile(facebook);
 		assertEquals("Craig Walls", profile.getName());
 		assertEquals("Craig", profile.getFirstName());
 		assertEquals("Walls", profile.getLastName());
 		assertNull(profile.getEmail());
-		assertEquals("habuma", profile.getUsername());
+		assertNull(profile.getUsername());
 	}
 
 	@Test
 	public void setConnectionValues() {		
 		UserOperations userOperations = Mockito.mock(UserOperations.class);
 		Mockito.when(facebook.userOperations()).thenReturn(userOperations);
-		Mockito.when(userOperations.getUserProfile()).thenReturn(new FacebookProfile("12345678", "habuma", "Craig Walls", "Craig", "Walls", null, null));
+		Mockito.when(userOperations.getUserProfile()).thenReturn(new FacebookProfile("12345678", "Craig Walls", "Craig", "Walls", null, null));
 		TestConnectionValues connectionValues = new TestConnectionValues();
 		apiAdapter.setConnectionValues(facebook, connectionValues);
-		assertEquals("habuma", connectionValues.getDisplayName());
+		assertEquals("Craig Walls", connectionValues.getDisplayName());
 		assertEquals("http://graph.facebook.com/v1.0/12345678/picture", connectionValues.getImageUrl());
 		assertEquals("http://facebook.com/profile.php?id=12345678", connectionValues.getProfileUrl());
 		assertEquals("12345678", connectionValues.getProviderUserId());

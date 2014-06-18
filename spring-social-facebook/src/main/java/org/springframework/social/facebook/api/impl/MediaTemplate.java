@@ -46,12 +46,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 
 	public PagedList<Album> getAlbums() {
 		requireAuthorization();
-		return getAlbums("me", 0, 25);
-	}
-
-	public PagedList<Album> getAlbums(int offset, int limit) {
-		requireAuthorization();
-		return getAlbums("me", offset, limit);
+		return getAlbums("me", new PagingParameters(25, 0, null, null));
 	}
 
 	public PagedList<Album> getAlbums(PagingParameters pagedListParameters) {
@@ -60,11 +55,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 
 	public PagedList<Album> getAlbums(String userId) {
-		return getAlbums(userId, 0, 25);
-	}
-	
-	public PagedList<Album> getAlbums(String userId, int offset, int limit) {
-		return getAlbums(userId, new PagingParameters(limit, offset, null, null));
+		return getAlbums(userId, new PagingParameters(25, 0, null, null));
 	}
 	
 	public PagedList<Album> getAlbums(String userId, PagingParameters pagedListParameters) {
@@ -89,7 +80,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public byte[] getAlbumImage(String albumId) {
-		return getAlbumImage(albumId, ImageType.NORMAL);
+		return getAlbumImage(albumId, ImageType.ALBUM);
 	}
 	
 	public byte[] getAlbumImage(String albumId, ImageType imageType) {
@@ -98,11 +89,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public PagedList<Photo> getPhotos(String objectId) {
-		return getPhotos(objectId, 0, 25);
-	}
-	
-	public PagedList<Photo> getPhotos(String objectId, int offset, int limit) {
-		return getPhotos(objectId, new PagingParameters(limit, offset, null, null));
+		return getPhotos(objectId, new PagingParameters(25, 0, null, null));
 	}
 	
 	public PagedList<Photo> getPhotos(String objectId, PagingParameters pagedListParameters) {
@@ -152,11 +139,7 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public PagedList<Video> getVideos() {
-		return getVideos("me", 0, 25);
-	}
-
-	public PagedList<Video> getVideos(int offset, int limit) {
-		return getVideos("me", new PagingParameters(limit, offset, null, null));
+		return getVideos("me", new PagingParameters(25, 0, null, null));
 	}
 
 	public PagedList<Video> getVideos(PagingParameters pagedListParameters) {
@@ -164,13 +147,9 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 
 	public PagedList<Video> getVideos(String userId) {
-		return getVideos(userId, 0, 25);
+		return getVideos(userId, new PagingParameters(25, 0, null, null));
 	}
 	
-	public PagedList<Video> getVideos(String userId, int offset, int limit) {
-		return getVideos(userId, new PagingParameters(limit, offset, null, null));
-	}
-
 	public PagedList<Video> getVideos(String userId, PagingParameters pagedListParameters) {
 		requireAuthorization();
 		return graphApi.fetchConnections(userId, "videos", Video.class, getPagingParameters(pagedListParameters));
@@ -182,12 +161,8 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public byte[] getVideoImage(String videoId) {
-		return getVideoImage(videoId, ImageType.NORMAL);
-	}
-	
-	public byte[] getVideoImage(String videoId, ImageType imageType) {
 		requireAuthorization();
-		return graphApi.fetchImage(videoId, "picture", imageType);
+		return graphApi.fetchImage(videoId, "picture", ImageType.SMALL);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -27,79 +27,6 @@ import org.springframework.social.MissingAuthorizationException;
 public interface EventOperations {
 
 	/**
-	 * Retrieves a list of up to 25 events that the authenticated user has been invited to.
-	 * Requires "user_events" or "friends_events" permission.
-	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	PagedList<Invitation> getInvitations();
-
-	/**
-	 * Retrieves a list of events that the authenticated user has been invited to.
-	 * Requires "user_events" or "friends_events" permission.
-	 * @param offset the offset into the list of events
-	 * @param limit the maximum number of events to return
-	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link EventOperations#getInvitations(PagingParameters)} instead
-	 */
-	@Deprecated
-	PagedList<Invitation> getInvitations(int offset, int limit);
-
-	/**
-	 * Retrieves a list of events that the authenticated user has been invited to.
-	 * Requires "user_events" or "friends_events" permission.
-	 * @param pagedListParameters the parameters defining the bounds of the list to return.
-	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	PagedList<Invitation> getInvitations(PagingParameters pagedListParameters);
-
-	/**
-	 * Retrieves a list of events that the specified user has been invited to.
-	 * Requires "user_events" or "friends_events" permission.
-	 * @param userId the user's ID
-	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	PagedList<Invitation> getInvitations(String userId);
-
-	/**
-	 * Retrieves a list of events that the specified user has been invited to.
-	 * Requires "user_events" or "friends_events" permission.
-	 * @param userId the user's ID
-	 * @param offset the offset into the list of events
-	 * @param limit the maximum number of events to return
-	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @deprecated Use {@link EventOperations#getInvitations(String, PagingParameters)} instead
-	 */
-	@Deprecated
-	PagedList<Invitation> getInvitations(String userId, int offset, int limit);
-
-	/**
-	 * Retrieves a list of events that the specified user has been invited to.
-	 * Requires "user_events" or "friends_events" permission.
-	 * @param userId the user's ID
-	 * @param pagedListParameters the parameters defining the bounds of the list to return.
-	 * @return a list {@link Invitation}s for the user, or an empty list if not available.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "user_events" or "friends_events" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	PagedList<Invitation> getInvitations(String userId, PagingParameters pagedListParameters);
-
-	/**
 	 * Retrieves event data for a specified event.
 	 * @param eventId the event ID
 	 * @return an {@link Event} object
@@ -125,58 +52,93 @@ public interface EventOperations {
 	byte[] getEventImage(String eventId, ImageType imageType);
 	
 	/**
-	 * Creates an event.
-	 * Requires "create_event" permission.
-	 * The String passed in for start time and end time is flexible in regard to format. Some valid examples are:
-	 * <ul>
-	 * <li>2011-04-01T15:30:00 (3:30PM on April 1, 2011)</li>
-	 * <li>2011-04-01 (midnight on April 1, 2011)</li>
-	 * <li>April 1, 2011 (midnight on April 1, 2011)</li>
-	 * <li>17:00:00 (5:00PM today)</li>
-	 * <li>10-11-2011 (November 10, 2012)</li>
-	 * <li>10/11/2012 (October 11, 2012)</li>
-	 * <li>10.11.2012 (November 10, 2012)</li>
-	 * <li>Tomorrow 2PM</li>
-	 * </ul>
-	 * @param name the name of the event
-	 * @param startTime the start time of the event.
-	 * @param endTime the end time of the event.
-	 * @return the newly created event's ID
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "create_event" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	String createEvent(String name, String startTime, String endTime);
-	
-	/**
-	 * Deletes an event.
-	 * Requires "create_event" permission.
-	 * @param eventId the ID of the event
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "create_event" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	void deleteEvent(String eventId);
-	
-	/**
-	 * Sends an event invitation to one or more users.
-	 * Requires "create_event" permission.
-	 * @param eventId the ID of the event
-	 * @param userIds a list of one or more users to invite to the event
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "create_event" permission.
-	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 */
-	void sendInvitation(String eventId, String... userIds);
-	
-	/**
 	 * Retrieves the list of an event's invitees.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	PagedList<EventInvitee> getInvited(String eventId);
+
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user has created.
+	 * Requires "user_events" permission.
+	 * @return a list of {@link Invitation}s for events that the user has created.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getCreated();	
+
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user has created.
+	 * Requires "user_events" permission.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user has created.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getCreated(PagingParameters pagingParams);	
+
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user's friend has created.
+	 * Requires "user_events" permission.
+	 * @param friendId the ID of a friend to fetch attending invitations for.
+	 * @return a list of {@link Invitation}s for events that the user's friend has created.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendCreated(String friendId);	
+
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user's friend has created.
+	 * Requires "user_events" permission.
+	 * @param friendId the ID of a friend to fetch attending invitations for.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user's friend has created.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendCreated(String friendId, PagingParameters pagingParams);
 	
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user is attending.
+	 * Requires "user_events" permission.
+	 * @return a list of {@link Invitation}s for events that the user is attending.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getAttending();	
+
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user is attending.
+	 * Requires "user_events" permission.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user is attending.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getAttending(PagingParameters pagingParams);	
+
+	/**
+	 * Retrieves a list of invitations for events that an authenticated user's friend is attending.
+	 * Requires "friends_events" permission.
+	 * @param friendId the ID of a friend to fetch attending invitations for.
+	 * @return a list of {@link Invitation}s for events that the user's friend is attending.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendAttending(String friendId);
+
+	/**
+	 * Retrieves a list of invitations for events that an authenticated user's friend is attending.
+	 * Requires "friends_events" permission.
+	 * @param friendId the ID of a friend to fetch attending invitations for.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user's friend is attending.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendAttending(String friendId, PagingParameters pagingParams);
+
 	/**
 	 * Retrieves the list of an event's invitees who have accepted the invitation.
 	 * @param eventId the event ID.
@@ -186,6 +148,46 @@ public interface EventOperations {
 	PagedList<EventInvitee> getAttending(String eventId);
 	
 	/**
+	 * Retrieves a list of invitations for events that the authenticated user may be attending.
+	 * Requires "user_events" permission.
+	 * @return a list of {@link Invitation}s for events that the user is attending.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getMaybeAttending();	
+
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user may be attending.
+	 * Requires "user_events" permission.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user is attending.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getMaybeAttending(PagingParameters pagingParams);	
+
+	/**
+	 * Retrieves a list of invitations for events that an authenticated user's friend may be attending.
+	 * Requires "friends_events" permission.
+	 * @param friendId the ID of a friend to fetch maybe attending invitations for.
+	 * @return a list of {@link Invitation}s for events that the user's friend may be attending.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendMaybeAttending(String friendId);
+
+	/**
+	 * Retrieves a list of invitations for events that an authenticated user's friend may be attending.
+	 * Requires "friends_events" permission.
+	 * @param friendId the ID of a friend to fetch maybe attending invitations for.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user's friend may be attending.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendMaybeAttending(String friendId, PagingParameters pagingParams);
+
+	/**
 	 * Retrieves the list of an event's invitees who have indicated that they may attend the event.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
@@ -194,12 +196,92 @@ public interface EventOperations {
 	PagedList<EventInvitee> getMaybeAttending(String eventId);
 	
 	/**
+	 * Retrieves a list of invitations for events that the authenticated user has not replied.
+	 * Requires "user_events" permission.
+	 * @return a list of {@link Invitation}s for events that the user has not replied.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getNoReplies();	
+
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user has not replied.
+	 * Requires "user_events" permission.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user has not replied.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getNoReplies(PagingParameters pagingParams);	
+
+	/**
+	 * Retrieves a list of invitations for events that an authenticated user's friend has not replied.
+	 * Requires "friends_events" permission.
+	 * @param friendId the ID of a friend to fetch not replied invitations for.
+	 * @return a list of {@link Invitation}s for events that the user's friend has not replied.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendNoReplies(String friendId);
+
+	/**
+	 * Retrieves a list of invitations for events that an authenticated user's friend has not replied.
+	 * Requires "friends_events" permission.
+	 * @param friendId the ID of a friend to fetch not replied invitations for.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user's friend has not replied.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendNoReplies(String friendId, PagingParameters pagingParams);
+
+	/**
 	 * Retrieves the list of an event's invitees who have not yet RSVP'd.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	PagedList<EventInvitee> getNoReplies(String eventId);
+	
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user has declined.
+	 * Requires "user_events" permission.
+	 * @return a list of {@link Invitation}s for events that the user has declined.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getDeclined();	
+
+	/**
+	 * Retrieves a list of invitations for events that the authenticated user has declined.
+	 * Requires "user_events" permission.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user has declined.
+	 * @throws InsufficientPermissionException if the user has not granted "user_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getDeclined(PagingParameters pagingParams);	
+
+	/**
+	 * Retrieves a list of invitations for events that an authenticated user's friend has declined.
+	 * Requires "friends_events" permission.
+	 * @param friendId the ID of a friend to fetch declined invitations for.
+	 * @return a list of {@link Invitation}s for events that the user's friend has declined.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendDeclined(String friendId);
+	
+	/**
+	 * Retrieves a list of invitations for events that an authenticated user's friend has declined.
+	 * Requires "friends_events" permission.
+	 * @param friendId the ID of a friend to fetch declined invitations for.
+	 * @param pagingParams paging parameters
+	 * @return a list of {@link Invitation}s for events that the user's friend has declined.
+	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Invitation> getFriendDeclined(String friendId, PagingParameters pagingParams);
 	
 	/**
 	 * Retrieves the list of an event's invitees who have declined the invitation.
@@ -246,18 +328,6 @@ public interface EventOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	PagedList<Event> search(String query);
-
-	/**
-	 * Search for events.
-	 * @param query the search query (e.g., "Spring User Group")
-	 * @param offset the offset into the list of events
-	 * @param limit the maximum number of events to return
-	 * @return a list of {@link Event}s matching the search query
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @deprecated Use {@link EventOperations#search(String, PagingParameters)} instead.
-	 */
-	@Deprecated
-	PagedList<Event> search(String query, int offset, int limit);
 
 	/**
 	 * Search for events.

@@ -15,23 +15,20 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.List;
+
 public class Account extends FacebookObject {
 
-	private final String id;
+	private String id;
 	
-	private final String name;
+	private String name;
 	
-	private final String category;
+	private String category;
 	
-	private final String accessToken;
-
-	public Account(String id, String name, String category, String accessToken) {
-		this.id = id;
-		this.name = name;
-		this.category = category;
-		this.accessToken = accessToken;
-	}
-
+	private String accessToken;
+	
+	private List<String> permissions;
+	
 	public String getId() {
 		return id;
 	}
@@ -48,4 +45,7 @@ public class Account extends FacebookObject {
 		return accessToken;
 	}
 	
+	public List<String> getPermissions() {
+		return permissions;
+	}
 }

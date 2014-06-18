@@ -15,9 +15,12 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
-import org.springframework.social.facebook.api.Reference;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.social.facebook.api.Page;
+import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.facebook.api.WorkEntry.Project;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,10 +31,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class WorkEntryMixin extends FacebookObjectMixin {
 	
-	@JsonCreator
-	WorkEntryMixin(
-			@JsonProperty("employer") Reference employer, 
-			@JsonProperty("start_date") String startDate, 
-			@JsonProperty("end_date") String endDate) {}
+	@JsonProperty("employer")
+	Reference employer;
 	
+	@JsonProperty("end_date")
+	String endDate;
+	
+	@JsonProperty("location")
+	Page location;
+	
+	@JsonProperty("position")
+	Page position;
+	
+	@JsonProperty("projects")
+	List<Project> projects;
+
+	@JsonProperty("start_date")
+	String startDate;
+	
+	
+	public static abstract class ProjectMixin {
+		
+		@JsonProperty("description")
+		private String description;
+
+		@JsonProperty("end_date")
+		private String endDate;
+		
+		@JsonProperty("start_date")
+		private String startDate;
+		
+		@JsonProperty("with")
+		private List<Reference> with;
+		
+	}
 }

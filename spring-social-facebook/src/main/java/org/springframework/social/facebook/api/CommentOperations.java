@@ -37,18 +37,6 @@ public interface CommentOperations {
 	/**
 	 * Retrieves comments for a given object.
 	 * @param objectId the ID of the object
-	 * @param offset the offset into the list of comments to start retrieving comments
-	 * @param limit the maximum number of comments to retrieve
-	 * @return a list of {@link Comment}s for the specified object
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @deprecated Use {@link CommentOperations#getComments(String, PagingParameters)} instead
-	 */
-	@Deprecated
-	PagedList<Comment> getComments(String objectId, int offset, int limit);
-
-	/**
-	 * Retrieves comments for a given object.
-	 * @param objectId the ID of the object
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
 	 * @return a list of {@link Comment}s for the specified object
 	 * @throws ApiException if there is an error while communicating with Facebook.
@@ -84,13 +72,5 @@ public interface CommentOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void deleteComment(String commentId);
-
-	/**
-	 * Retrieve a list of references to users who have liked a given object.
-	 * @param objectId
-	 * @return a list of {@link Reference}s
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Reference> getLikes(String objectId);
 
 }

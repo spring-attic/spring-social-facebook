@@ -24,38 +24,30 @@ import java.util.List;
  * @author Craig Walls
  */
 public class Video extends FacebookObject {
+
 	private String id;
-	
-	private Reference from;
-	
-	private List<Tag> tags;
-	
-	private String name;
-	
-	private String description;
-	
-	private String picture;
-	
-	private String embedHtml;
-	
-	private String icon;
-	
-	private String source;
 	
 	private Date createdTime;
 	
-	private Date updatedTime;
+	private String description;
 	
-	private Video(String id, Reference from, String picture, String embedHtml, String icon, String source, Date createdTime, Date updatedTime) {
-		this.id = id;
-		this.from = from;
-		this.picture = picture;
-		this.embedHtml = embedHtml;
-		this.icon = icon;
-		this.source = source;
-		this.createdTime = createdTime;
-		this.updatedTime = updatedTime;
-	}
+	private String embedHtml;
+	
+	private List<VideoFormat> format;
+	
+	private Reference from;
+	
+	private String icon;
+	
+	private String name;
+	
+	private String picture;
+	
+	private String source;
+	
+	private List<Tag> tags;
+	
+	private Date updatedTime;
 	
 	public String getId() {
 		return id;
@@ -78,10 +70,8 @@ public class Video extends FacebookObject {
 	}
 	
 	/**
-	 * The video's picture.
-	 * @deprecated This method will be replaced in Spring 1.1.0 with a new version that returns an object with more details about the picture.
+	 * @return the video's picture.
 	 */
-	@Deprecated
 	public String getPicture() {
 		return picture;
 	}
@@ -105,4 +95,43 @@ public class Video extends FacebookObject {
 	public Date getUpdatedTime() {
 		return updatedTime;
 	}
+	
+	public List<VideoFormat> getFormat() {
+		return format;
+	}
+	
+	public static class VideoFormat {
+		
+		private String embedHtml;
+		
+		private String filter;
+		
+		private int height;
+		
+		private String picture;
+		
+		private int width;
+		
+		public String getEmbedHtml() {
+			return embedHtml;
+		}
+		
+		public String getFilter() {
+			return filter;
+		}
+		
+		public int getHeight() {
+			return height;
+		}
+		
+		public String getPicture() {
+			return picture;
+		}
+		
+		public int getWidth() {
+			return width;
+		}
+		
+	}
+	
 }

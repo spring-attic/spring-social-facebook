@@ -49,6 +49,7 @@ public interface PageOperations {
 	/**
 	 * Retrieves a list of Account objects for the pages that the authenticated user is an administrator.
 	 * Requires "manage_pages" permission.
+	 * @return a paged list of accounts
 	 */
 	PagedList<Account> getAccounts();
 	
@@ -110,4 +111,16 @@ public interface PageOperations {
 	 */
 	String postPhoto(String pageId, String albumId, Resource photo, String caption);
 	
+	/**
+	 * Searches for pages for places near a given coordinate.
+	 * @param query the search query (e.g., "Burritos")
+	 * @param latitude the latitude of the point to search near
+	 * @param longitude the longitude of the point to search near
+	 * @param distance the radius to search within (in feet)
+	 * @return a list of {@link Page}s matching the search
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Page> search(String query, double latitude, double longitude, long distance);
+
 }
