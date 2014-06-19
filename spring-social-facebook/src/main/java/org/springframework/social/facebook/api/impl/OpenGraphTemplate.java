@@ -43,6 +43,10 @@ class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphO
 	
 	private FitnessActions fitnessActions;
 
+	private String appId;
+
+	private String appSecret;
+
 	public OpenGraphTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
 		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
@@ -53,6 +57,13 @@ class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphO
 		this.fitnessActions = new FitnessActionsTemplate(this);
 	} 
 	
+	public OpenGraphTemplate(FacebookTemplate facebookTemplate, String appId,
+			String appSecret, boolean authorized) {
+		this(facebookTemplate, authorized);
+		this.appId = appId;
+		this.appSecret = appSecret;
+	}
+
 	public GeneralActions generalActions() {
 		return generalActions;
 	}
@@ -89,6 +100,17 @@ class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphO
 			requireApplicationNamespace();
 		}
 		return graphApi.publish("me", action, parameters);
+	}
+	
+	public void sendAppNotification(String userId, String href, String template) {
+		requireAuthorization();
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+
+		map.set("access_token", appId + "|" + appSecret);
+		map.set("href", href);
+		map.set("template", template);
+		
+		graphApi.post(userId, "notifications", map);
 	}
 
 	private void requireApplicationNamespace() {
