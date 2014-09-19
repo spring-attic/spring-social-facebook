@@ -42,8 +42,8 @@ public class FacebookAdapter implements ApiAdapter<Facebook> {
 		FacebookProfile profile = facebook.userOperations().getUserProfile();
 		values.setProviderUserId(profile.getId());
 		values.setDisplayName(profile.getName());
-		values.setProfileUrl("http://facebook.com/profile.php?id=" + profile.getId());
-		values.setImageUrl("http://graph.facebook.com/v1.0/" + profile.getId() + "/picture");
+		values.setProfileUrl("https://www.facebook.com/app_scoped_user_id/" + profile.getId() + '/');
+		values.setImageUrl("https://graph.facebook.com/v2.0/" + profile.getId() + "/picture");
 	}
 
 	public UserProfile fetchUserProfile(Facebook facebook) {
