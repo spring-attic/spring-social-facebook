@@ -190,7 +190,7 @@ public class Post extends FacebookObject {
 		
 		private String description;
 		
-		private Privacy value;
+		private PrivacyType value;
 		
 		private FriendsPrivacyType friends;
 		
@@ -204,7 +204,7 @@ public class Post extends FacebookObject {
 			return description;
 		}
 		
-		public Privacy getValue() {
+		public PrivacyType getValue() {
 			return value;
 		}
 		
