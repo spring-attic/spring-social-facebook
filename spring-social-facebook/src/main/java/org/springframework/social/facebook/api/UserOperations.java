@@ -90,4 +90,13 @@ public interface UserOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Reference> search(String query);
+	
+	static final String[] PROFILE_FIELDS = {
+		"id", "about", "age_range", "bio", "birthday", "context", "cover", "currency", "devices", "education", "email", 
+		"favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", 
+		"is_verified", "languages", "last_name", "link", "locale", "location", "middle_name", "name", "name_format", 
+		"political", "quotes", "relationship_status", "religion", "significant_other", "timezone", "third_party_id", 
+		"verified", "website", "work"
+	};
+
 }

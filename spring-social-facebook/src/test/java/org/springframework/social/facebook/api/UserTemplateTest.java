@@ -32,10 +32,20 @@ import org.springframework.social.NotAuthorizedException;
  * @author Craig Walls
  */
 public class UserTemplateTest extends AbstractFacebookApiTest {
+
+	private static String PROFILE_FIELDS;
+	
+	static {
+		StringBuilder builder = new StringBuilder(UserOperations.PROFILE_FIELDS[0]);
+		for (int i=1; i < UserOperations.PROFILE_FIELDS.length; i++) {
+			builder.append("%2C").append(UserOperations.PROFILE_FIELDS[i]);
+		}
+		PROFILE_FIELDS = builder.toString();
+	}
 	
 	@Test
 	public void getUserProfile_currentUser() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/me"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/me?fields=" + PROFILE_FIELDS))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("full-profile"), MediaType.APPLICATION_JSON));
@@ -99,7 +109,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getUserProfile_specificUserByUserId() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789?fields=" + PROFILE_FIELDS))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile"), MediaType.APPLICATION_JSON));
@@ -110,7 +120,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getUserProfile_specificUserByUserId_noMiddleName() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789?fields=" + PROFILE_FIELDS))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-no-middle-name"), MediaType.APPLICATION_JSON));
@@ -121,7 +131,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getUserProfile_specificUserByUserId_withRealTimezone() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789?fields=" + PROFILE_FIELDS))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-timezone"), MediaType.APPLICATION_JSON));
@@ -133,7 +143,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getUserProfile_withAgeRange_13_17() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789?fields=" + PROFILE_FIELDS))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-13-17"), MediaType.APPLICATION_JSON));
@@ -146,7 +156,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getUserProfile_withAgeRange_18_20() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789?fields=" + PROFILE_FIELDS))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-18-20"), MediaType.APPLICATION_JSON));
@@ -159,7 +169,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getUserProfile_withAgeRange_21_plus() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789?fields=" + PROFILE_FIELDS))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-21-plus"), MediaType.APPLICATION_JSON));
@@ -172,7 +182,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getUserProfile_withAgeRange_unknown() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789?fields=" + PROFILE_FIELDS))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-unknown"), MediaType.APPLICATION_JSON));
@@ -185,7 +195,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getUserProfile_withAgeRange_null() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/123456789?fields=" + PROFILE_FIELDS))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile"), MediaType.APPLICATION_JSON));

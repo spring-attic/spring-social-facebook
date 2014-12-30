@@ -49,7 +49,7 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 	}
 
 	public FacebookProfile getUserProfile(String facebookId) {
-		return graphApi.fetchObject(facebookId, FacebookProfile.class);
+		return graphApi.fetchObject(facebookId, FacebookProfile.class, PROFILE_FIELDS);
 	}
 	
 	public byte[] getUserProfileImage() {
@@ -97,4 +97,5 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		}
 		return permissions;
 	}
+
 }
