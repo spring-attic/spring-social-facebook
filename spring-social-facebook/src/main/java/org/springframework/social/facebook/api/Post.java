@@ -204,7 +204,7 @@ public class Post extends FacebookObject {
 			return description;
 		}
 		
-		public Privacy getValue() {
+		public PrivacyType getValue() {
 			return value;
 		}
 		
