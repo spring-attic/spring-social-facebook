@@ -33,7 +33,7 @@ public class UserTemplateITest extends AbstractFacebookITest implements Showcase
 		assertEquals("Jack", profile.getFirstName());
 		assertEquals("Diamond", profile.getLastName());
 		assertEquals("08/08/1980", profile.getBirthday());
-		assertEquals("https://www.facebook.com/profile.php?id="+testUser.getId(), profile.getLink());
+		assertEquals("https://www.facebook.com/app_scoped_user_id/"+testUser.getId()+'/', profile.getLink());
 		assertEquals(new Locale("en", "US"), profile.getLocale());
 		assertEquals(0.0f, (float) profile.getTimezone(), 0.0f);
 		assertFalse(profile.isVerified());
@@ -52,7 +52,7 @@ public class UserTemplateITest extends AbstractFacebookITest implements Showcase
 		assertEquals("Jack", profile.getFirstName());
 		assertEquals("Diamond", profile.getLastName());
 		assertEquals("08/08/1980", profile.getBirthday());
-		assertEquals("https://www.facebook.com/profile.php?id="+testUser.getId(), profile.getLink());
+		assertEquals("https://www.facebook.com/app_scoped_user_id/"+testUser.getId()+'/', profile.getLink());
 		assertEquals(new Locale("en", "US"), profile.getLocale());
 		assertEquals(0.0f, (float) profile.getTimezone(), 0.0f);
 		assertFalse(profile.isVerified());
@@ -73,7 +73,7 @@ public class UserTemplateITest extends AbstractFacebookITest implements Showcase
 		assertEquals("Mimi", profile.getFirstName());
 		assertEquals("Kaboom", profile.getLastName());
 		assertNull(profile.getBirthday());
-		assertEquals("https://www.facebook.com/profile.php?id="+mimi.getId(), profile.getLink());
+		assertEquals("https://www.facebook.com/app_scoped_user_id/"+mimi.getId()+'/', profile.getLink());
 		assertEquals(new Locale("en", "US"), profile.getLocale());
 		assertNull(profile.getTimezone());
 		assertNull(profile.isVerified());
