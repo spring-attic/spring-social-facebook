@@ -26,6 +26,7 @@ import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.Post.FriendsPrivacyType;
 import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.Post.Privacy;
+import org.springframework.social.facebook.api.Post.PrivacyType;
 import org.springframework.social.facebook.api.Post.StatusType;
 import org.springframework.social.facebook.api.PostProperty;
 import org.springframework.social.facebook.api.Reference;
@@ -137,9 +138,11 @@ abstract class PostMixin extends FacebookObjectMixin {
 		String description;
 		
 		@JsonProperty("value")
-		Privacy value;
+		@JsonDeserialize(using = PrivacyTypeDeserializer.class)
+		PrivacyType value;
 		
 		@JsonProperty("friends")
+		@JsonDeserialize(using = FriendsPrivacyTypeDeserializer.class)
 		FriendsPrivacyType friends;
 		
 		@JsonProperty("networks")
@@ -160,6 +163,28 @@ abstract class PostMixin extends FacebookObjectMixin {
 				return PostType.valueOf(jp.getText().toUpperCase());
 			} catch (IllegalArgumentException e) {
 				return PostType.UNKNOWN;
+			}
+		}
+	}
+
+	private static class PrivacyTypeDeserializer extends JsonDeserializer<PrivacyType> {
+		@Override
+		public PrivacyType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+			try {
+				return PrivacyType.valueOf(jp.getText().toUpperCase());
+			} catch (IllegalArgumentException e) {
+				return PrivacyType.UNKNOWN;
+			}
+		}
+	}
+
+	private static class FriendsPrivacyTypeDeserializer extends JsonDeserializer<FriendsPrivacyType> {
+		@Override
+		public FriendsPrivacyType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+			try {
+				return FriendsPrivacyType.valueOf(jp.getText().toUpperCase());
+			} catch (IllegalArgumentException e) {
+				return FriendsPrivacyType.UNKNOWN;
 			}
 		}
 	}
