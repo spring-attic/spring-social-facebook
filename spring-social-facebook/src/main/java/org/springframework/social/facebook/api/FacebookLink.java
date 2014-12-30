@@ -24,6 +24,7 @@ public class FacebookLink {
 	private final String name;
 	private final String caption;
 	private final String description;
+	private final String picture;
 
 	/**
 	 * Creates a FacebookLink.
@@ -33,11 +34,12 @@ public class FacebookLink {
 	 * @param caption A caption to be displayed with the link
 	 * @param description The description of the link
 	 */
-	public FacebookLink(String link, String name, String caption, String description) {
+	public FacebookLink(String link, String name, String caption, String description, String picture) {
 		this.link = link;
 		this.name = name;
 		this.caption = caption;
-		this.description = description;	
+		this.description = description;
+		this.picture = picture;
 	}
 
 	public String getLink() {
@@ -55,4 +57,8 @@ public class FacebookLink {
 	public String getDescription() {
     	return description;
     }
+
+	public String getPicture() {
+		return picture;
+	}
 }
