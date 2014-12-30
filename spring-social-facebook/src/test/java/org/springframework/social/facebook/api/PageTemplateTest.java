@@ -287,6 +287,19 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
+	@Test
+	public void postLink_withPicture() throws Exception {
+		expectFetchAccounts();
+		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World&access_token=pageAccessToken&picture=somePic";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/987654321/feed")).andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
+		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description", "somePic");
+		assertEquals("123456_78901234", facebook.pageOperations().post("987654321", "Hello Facebook World", link));
+		mockServer.verify();
+	}
+
 	@Test(expected = PageAdministrationException.class)
 	public void postLink_notAdmin() throws Exception {
 		expectFetchAccounts();

@@ -34,6 +34,19 @@ public class FacebookLink {
 	 * @param caption A caption to be displayed with the link
 	 * @param description The description of the link
 	 */
+	public FacebookLink(String link, String name, String caption, String description) {
+		this(link, name, caption, description, null);
+	}
+	
+	/**
+	 * Creates a FacebookLink.
+	 * 
+	 * @param link The link's URL
+	 * @param name The name of the link
+	 * @param caption A caption to be displayed with the link
+	 * @param description The description of the link
+	 * @param picture A picture to be displayed with the link
+	 */
 	public FacebookLink(String link, String name, String caption, String description, String picture) {
 		this.link = link;
 		this.name = name;
