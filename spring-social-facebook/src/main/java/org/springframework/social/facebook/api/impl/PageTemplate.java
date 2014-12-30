@@ -72,6 +72,9 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 		map.set("description", link.getDescription());
 		map.set("message", message);
 		map.set("access_token", pageAccessToken);
+		if (link.getPicture() != null) {
+			map.set("picture", link.getPicture());
+		}
 		return graphApi.publish(pageId, "feed", map);
 	}
 
