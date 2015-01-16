@@ -33,7 +33,7 @@ abstract class EducationEntryMixin extends FacebookObjectMixin {
 	@JsonCreator
 	EducationEntryMixin(
 			@JsonProperty("school") Reference school, 
-			@JsonProperty("year") Reference year, 
+			@JsonProperty("year") int year, 
 			@JsonProperty("concentration") List<Reference> concentration,
 			@JsonProperty("type") String type) {}
 	

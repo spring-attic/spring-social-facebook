@@ -303,8 +303,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("College", educationHistory.get(0).getType());
 		assertEquals("103768553006294", educationHistory.get(0).getSchool().getId());
 		assertEquals("New Mexico", educationHistory.get(0).getSchool().getName());
-		assertEquals("117348274968344", educationHistory.get(0).getYear().getId());
-		assertEquals("1994", educationHistory.get(0).getYear().getName());
+		assertEquals(1994, educationHistory.get(0).getYear());
 		List<Reference> concentration = educationHistory.get(0).getConcentration();
 		assertEquals(2, concentration.size());
 		assertEquals("192578844099494", concentration.get(0).getId());
@@ -314,8 +313,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("High School", educationHistory.get(1).getType());
 		assertEquals("115157218496067", educationHistory.get(1).getSchool().getId());
 		assertEquals("Jal High School", educationHistory.get(1).getSchool().getName());
-		assertEquals("127132740657422", educationHistory.get(1).getYear().getId());
-		assertEquals("1989", educationHistory.get(1).getYear().getName());
+		assertEquals(1989, educationHistory.get(1).getYear());
 		assertNull(educationHistory.get(1).getConcentration());
 	}
 
