@@ -28,13 +28,13 @@ public class EducationEntry extends FacebookObject implements Serializable {
 
 	private final Reference school;
 
-	private final Reference year;
+	private final int year;
 
 	private final List<Reference> concentration;
 	
 	private final String type;
 
-	public EducationEntry(Reference school, Reference year, List<Reference> concentration, String type) {
+	public EducationEntry(Reference school, int year, List<Reference> concentration, String type) {
 		this.school = school;
 		this.year = year;
 		this.concentration = concentration;
@@ -45,7 +45,7 @@ public class EducationEntry extends FacebookObject implements Serializable {
 		return school;
 	}
 
-	public Reference getYear() {
+	public int getYear() {
 		return year;
 	}
 
