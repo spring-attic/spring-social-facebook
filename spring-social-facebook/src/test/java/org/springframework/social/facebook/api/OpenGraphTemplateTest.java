@@ -37,7 +37,7 @@ public class OpenGraphTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void publishAction() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.0/me/socialshowcase:ding"))
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/socialshowcase:ding"))
 			.andExpect(method(POST))
 			.andExpect(content().string("thing=http%3A%2F%2Fwww.springsource.org%2Fspringsocial"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
