@@ -72,16 +72,23 @@ public class CanvasSignInController {
 
 	private String scope;
 
+    private String graphVersion;
+
 	@Inject
 	public CanvasSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, SignInAdapter signInAdapter, String clientId, String clientSecret, String canvasPage) {
+		this(connectionFactoryLocator, usersConnectionRepository, signInAdapter, clientId, clientSecret, canvasPage, "v2.2");
+	}
+
+	public CanvasSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, SignInAdapter signInAdapter, String clientId, String clientSecret, String canvasPage, String graphVersion) {
 		this.usersConnectionRepository = usersConnectionRepository;
 		this.signInAdapter = signInAdapter;
 		this.clientId = clientId;
 		this.canvasPage = canvasPage;
 		this.connectionFactoryLocator = connectionFactoryLocator;
 		this.signedRequestDecoder = new SignedRequestDecoder(clientSecret);
+        this.graphVersion = graphVersion;
 	}
-	
+
 	/**
 	 * The URL or path to redirect to after successful canvas authorization.
 	 * @param postSignInUrl the url to redirect to after successful canvas authorization. Defaults to "/".
@@ -131,7 +138,7 @@ public class CanvasSignInController {
 					String clientId = (String) model.get("clientId");
 					String canvasPage = (String) model.get("canvasPage");
 					String scope = (String) model.get("scope");
-					String redirectUrl = "https://www.facebook.com/v1.0/dialog/oauth?client_id=" + clientId + "&redirect_uri=" + canvasPage;
+					String redirectUrl = "https://www.facebook.com/" + graphVersion + "/dialog/oauth?client_id=" + clientId + "&redirect_uri=" + canvasPage;
 					if (scope != null) {
 						redirectUrl += "&scope=" + formEncode(scope);
 					}
