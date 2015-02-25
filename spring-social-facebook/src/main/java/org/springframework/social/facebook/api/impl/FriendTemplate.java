@@ -76,8 +76,8 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public PagedList<String> getFriendIds(String userId) {
-		requireAuthorization();		
-		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userId + "/friends").queryParam("fields", "id").build();
+		requireAuthorization();
+        URI uri = URIBuilder.fromUri(graphApi.getGraphApiUrl() + userId + "/friends").queryParam("fields", "id").build();
 		@SuppressWarnings("unchecked")
 		Map<String,PagedList<Map<String, String>>> response = restTemplate.getForObject(uri, Map.class);
 		List<Map<String,String>> entryList = response.get("data");

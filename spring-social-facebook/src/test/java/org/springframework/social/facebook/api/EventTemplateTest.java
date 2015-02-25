@@ -30,7 +30,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getCreated_user() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/events/created?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/events/created?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -40,7 +40,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getCreated_friend() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/123456789/events/created?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "123456789/events/created?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -50,7 +50,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getAttending_user() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/events/attending?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/events/attending?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -60,7 +60,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getAttending_friend() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/123456789/events/attending?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "123456789/events/attending?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -70,7 +70,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getMaybe_user() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/events/maybe?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/events/maybe?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -80,7 +80,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getMaybe_friend() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/123456789/events/maybe?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "123456789/events/maybe?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -90,7 +90,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getNoReplies_user() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/events/not_replied?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/events/not_replied?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -100,7 +100,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getNoReplies_friend() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/123456789/events/not_replied?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "123456789/events/not_replied?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -110,7 +110,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getDeclined_user() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/events/declined?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/events/declined?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -120,7 +120,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getDeclined_friend() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/123456789/events/declined?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "123456789/events/declined?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
@@ -130,7 +130,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getEvent() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832?fields=id%2Ccover%2Cdescription%2Cend_time%2Cis_date_only%2Clocation%2Cname"
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832?fields=id%2Ccover%2Cdescription%2Cend_time%2Cis_date_only%2Clocation%2Cname"
 				+ "%2Cowner%2Cparent_group%2Cprivacy%2Cstart_time%2Cticket_uri%2Ctimezone%2Cupdated_time%2Cvenue"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -141,7 +141,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getEvent_withFriendPrivacyLevel() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832?fields=id%2Ccover%2Cdescription%2Cend_time%2Cis_date_only%2Clocation%2Cname"
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832?fields=id%2Ccover%2Cdescription%2Cend_time%2Cis_date_only%2Clocation%2Cname"
 				+ "%2Cowner%2Cparent_group%2Cprivacy%2Cstart_time%2Cticket_uri%2Ctimezone%2Cupdated_time%2Cvenue"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -152,7 +152,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getEvent_withLocationAndDescription() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832?fields=id%2Ccover%2Cdescription%2Cend_time%2Cis_date_only%2Clocation%2Cname"
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832?fields=id%2Ccover%2Cdescription%2Cend_time%2Cis_date_only%2Clocation%2Cname"
 				+ "%2Cowner%2Cparent_group%2Cprivacy%2Cstart_time%2Cticket_uri%2Ctimezone%2Cupdated_time%2Cvenue"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -172,7 +172,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getInvited() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832/invited"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832/invited"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("invited"), MediaType.APPLICATION_JSON));
@@ -185,7 +185,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getAttending() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832/attending"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832/attending"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("attending"), MediaType.APPLICATION_JSON));
@@ -198,7 +198,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getMaybeAttending() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832/maybe"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832/maybe"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("maybe-attending"), MediaType.APPLICATION_JSON));
@@ -211,7 +211,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getNoReplies() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832/noreply"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832/noreply"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("no-replies"), MediaType.APPLICATION_JSON));
@@ -224,7 +224,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getDeclined() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832/declined"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832/declined"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("declined"), MediaType.APPLICATION_JSON));
@@ -237,7 +237,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void acceptInvitation() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832/attending"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832/attending"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
@@ -252,7 +252,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void maybeInvitation() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832/maybe"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832/maybe"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
@@ -267,7 +267,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void declineInvitation() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/193482154020832/declined"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "193482154020832/declined"))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
@@ -282,7 +282,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void search() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/search?offset=0&limit=25&q=Spring+User+Group&type=event"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "search?offset=0&limit=25&q=Spring+User+Group&type=event"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("event-list"), MediaType.APPLICATION_JSON));

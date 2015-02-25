@@ -17,6 +17,7 @@ package org.springframework.social.facebook.connect;
 
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.GraphApi;
 
 /**
  * Facebook ConnectionFactory implementation.
@@ -42,7 +43,18 @@ public class FacebookConnectionFactory extends OAuth2ConnectionFactory<Facebook>
 	 * @param appNamespace The application's App Namespace as configured with Facebook. Enables use of Open Graph operations.
 	 */
 	public FacebookConnectionFactory(String appId, String appSecret, String appNamespace) {
-		super("facebook", new FacebookServiceProvider(appId, appSecret, appNamespace), new FacebookAdapter());
+		this(appId, appSecret, appNamespace, GraphApi.DEFAULT_GRAPH_API_VERSION);
+	}
+
+	/**
+	 * Creates a FacebookConnectionFactory for the given application ID, secret, and namespace.
+	 * @param appId The application's App ID as assigned by Facebook
+	 * @param appSecret The application's App Secret as assigned by Facebook
+	 * @param appNamespace The application's App Namespace as configured with Facebook. Enables use of Open Graph operations.
+	 * @param graphApiVersion The version of Open Graph to use.
+	 */
+	public FacebookConnectionFactory(String appId, String appSecret, String appNamespace, String graphApiVersion) {
+		super("facebook", new FacebookServiceProvider(appId, appSecret, appNamespace, graphApiVersion), new FacebookAdapter());
 	}
 
 }

@@ -27,7 +27,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void watchMovie() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.watches"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.watches"))
 			.andExpect(method(POST))
 			.andExpect(content().string("movie=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -39,7 +39,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void watchTvShow() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.watches"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.watches"))
 			.andExpect(method(POST))
 			.andExpect(content().string("tv_show=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -51,7 +51,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void watchTvEpisode() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.watches"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.watches"))
 			.andExpect(method(POST))
 			.andExpect(content().string("tv_episode=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -63,7 +63,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void watchEpisode() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.watches"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.watches"))
 			.andExpect(method(POST))
 			.andExpect(content().string("episode=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -75,7 +75,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void watchVideo() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.watches"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.watches"))
 			.andExpect(method(POST))
 			.andExpect(content().string("video=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -87,7 +87,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void rateMovie() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.rates"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.rates"))
 			.andExpect(method(POST))
 			.andExpect(content().string("movie=http%3A%2F%2Fsamples.ogp.me%2F226075010839791&rating%3Avalue=3.2&rating%3Ascale=5"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -99,7 +99,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void rateTvShow() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.rates"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.rates"))
 			.andExpect(method(POST))
 			.andExpect(content().string("tv_show=http%3A%2F%2Fsamples.ogp.me%2F226075010839791&rating%3Avalue=3.2&rating%3Ascale=5"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -111,7 +111,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void rateEpisode() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.rates"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.rates"))
 			.andExpect(method(POST))
 			.andExpect(content().string("episode=http%3A%2F%2Fsamples.ogp.me%2F226075010839791&rating%3Avalue=3.2&rating%3Ascale=5"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -123,7 +123,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void rateVideo() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.rates"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.rates"))
 			.andExpect(method(POST))
 			.andExpect(content().string("other=http%3A%2F%2Fsamples.ogp.me%2F226075010839791&rating%3Avalue=3.2&rating%3Ascale=5"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -135,7 +135,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void wantsToWatchMovie() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.wants_to_watch"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.wants_to_watch"))
 			.andExpect(method(POST))
 			.andExpect(content().string("movie=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -147,7 +147,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void wantsToWatchTvShow() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.wants_to_watch"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.wants_to_watch"))
 			.andExpect(method(POST))
 			.andExpect(content().string("tv_show=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -159,7 +159,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void wantsToWatchEpisode() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.wants_to_watch"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.wants_to_watch"))
 			.andExpect(method(POST))
 			.andExpect(content().string("episode=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -171,7 +171,7 @@ public class VideoActionsTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void wantsToWatchVideo() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/video.wants_to_watch"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "me/video.wants_to_watch"))
 			.andExpect(method(POST))
 			.andExpect(content().string("other=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))

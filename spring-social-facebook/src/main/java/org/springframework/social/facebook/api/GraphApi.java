@@ -151,7 +151,14 @@ public interface GraphApi {
 	 * 			May be null if no namespace was specified.
 	 */
 	String getApplicationNamespace();
+
+    /**
+     * @return The Graph version associated with this GraphApi instance.
+     */
+    String getGraphApiUrl();
 	
-	static final String GRAPH_API_URL = "https://graph.facebook.com/v2.2/";
+	static final String GRAPH_API_URL_VERSIONLESS = "https://graph.facebook.com/";
+
+    static final String DEFAULT_GRAPH_API_VERSION = "v2.2";
 
 }
