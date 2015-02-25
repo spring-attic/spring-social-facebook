@@ -33,7 +33,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getComments() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/123456/comments?offset=0&limit=25"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "123456/comments?offset=0&limit=25"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("comments"), MediaType.APPLICATION_JSON));
@@ -52,7 +52,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getComments_withOffsetAndLimit() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/123456/comments?offset=75&limit=100"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "123456/comments?offset=75&limit=100"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("comments"), MediaType.APPLICATION_JSON));
@@ -83,7 +83,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getComment() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/1533260333_122829644452184_587062?fields=id%2Cattachment%2Ccan_comment%2Ccan_remove%2Ccomment_count%2Ccreated_time%2Cfrom%2Clike_count%2Cmessage%2Cparent%2Cuser_likes"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "1533260333_122829644452184_587062?fields=id%2Cattachment%2Ccan_comment%2Ccan_remove%2Ccomment_count%2Ccreated_time%2Cfrom%2Clike_count%2Cmessage%2Cparent%2Cuser_likes"))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("comment"), MediaType.APPLICATION_JSON));
@@ -112,7 +112,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void addComment() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/123456/comments"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "123456/comments"))
 			.andExpect(method(POST))
 			.andExpect(content().string("message=Cool+beans"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -127,7 +127,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void deleteComment() {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/1533260333_122829644452184_587062"))
+		mockServer.expect(requestTo(getGraphApiUrl() + "1533260333_122829644452184_587062"))
 			.andExpect(method(POST))
 			.andExpect(content().string("method=delete"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
