@@ -72,7 +72,7 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 
 	public List<String> getUserPermissions() {
 		requireAuthorization();
-		JsonNode responseNode = restTemplate.getForObject(GraphApi.GRAPH_API_URL + "me/permissions", JsonNode.class);
+        JsonNode responseNode = restTemplate.getForObject(graphApi.getGraphApiUrl() + "me/permissions", JsonNode.class);
 		return deserializePermissionsNodeToList(responseNode);
 	}
 

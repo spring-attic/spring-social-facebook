@@ -32,6 +32,7 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,7 +77,7 @@ public class CanvasSignInController {
 
 	@Inject
 	public CanvasSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, SignInAdapter signInAdapter, String clientId, String clientSecret, String canvasPage) {
-		this(connectionFactoryLocator, usersConnectionRepository, signInAdapter, clientId, clientSecret, canvasPage, "v2.2");
+		this(connectionFactoryLocator, usersConnectionRepository, signInAdapter, clientId, clientSecret, canvasPage,  GraphApi.DEFAULT_GRAPH_API_VERSION);
 	}
 
 	public CanvasSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, SignInAdapter signInAdapter, String clientId, String clientSecret, String canvasPage, String graphVersion) {
