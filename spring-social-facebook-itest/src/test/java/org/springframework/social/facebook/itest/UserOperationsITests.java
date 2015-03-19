@@ -23,6 +23,8 @@ import org.junit.Test;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.ImageType;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.TestUser;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
@@ -34,6 +36,8 @@ public class UserOperationsITests extends FacebookITest implements ITestCredenti
 	
 	@Test
 	public void testUserOperations() throws Exception {
+		// perform all tests in one method to avoid cost of creating new test users for each test method.
+
 		TestUser testUser = createTestUser(true, "", "Jack Sparrow");
 		
 		Facebook fb = new FacebookTemplate(testUser.getAccessToken());
@@ -58,6 +62,11 @@ public class UserOperationsITests extends FacebookITest implements ITestCredenti
 		assertNonEmpty(fb.userOperations().getUserProfileImage(testUser.getId(), ImageType.SQUARE));
 		assertNonEmpty(fb.userOperations().getUserProfileImage(testUser.getId(), ImageType.SMALL));
 		assertNonEmpty(fb.userOperations().getUserProfileImage(testUser.getId(), ImageType.LARGE));
+		
+		// Tests that the request works, but (oddly) searching as a test user doesn't return any results.
+		PagedList<Reference> search = fb.userOperations().search("Bill");
+		assertNotNull(search);
+		
 	}
 	
 	private void assertNonEmpty(byte[] bytes) {

@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.social.facebook.api.FacebookProfile;
+import org.springframework.social.facebook.api.FamilyMember;
 import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Reference;
@@ -35,8 +36,10 @@ public class FriendOperationsITests extends FacebookITest implements ITestCreden
 	
 	@Test
 	public void testFriendOperations() throws Exception {
-		TestUser testUser1 = createTestUser(true, "", "Jack Sparrow");
-		TestUser testUser2 = createTestUser(true, "", "Joshamee Gibbs");
+		// perform all tests in one method to avoid cost of creating new test users for each test method.
+		
+		TestUser testUser1 = createTestUser(true, "manage_friendlists", "Jack Sparrow");
+		TestUser testUser2 = createTestUser(true, "manage_friendlists", "Joshamee Gibbs");
 
 		FriendOperations friendOps1 = new FacebookTemplate(testUser1.getAccessToken()).friendOperations();
 		FriendOperations friendOps2 = new FacebookTemplate(testUser2.getAccessToken()).friendOperations();
@@ -70,7 +73,21 @@ public class FriendOperationsITests extends FacebookITest implements ITestCreden
 		PagedList<FacebookProfile> testUser2FriendProfiles = friendOps2.getFriendProfiles();
 		assertEquals(1, testUser2FriendProfiles.size());
 		assertEquals(testUser1.getId(), testUser2FriendProfiles.get(0).getId());
-	
+		
+		// The following tests only test that the request works. 
+		// In these cases, it's hard to setup the test data necessary for the request when using an test-created test user.
+		PagedList<FamilyMember> family = friendOps1.getFamily();
+		assertEquals(0, family.size());
+		
+		family = friendOps1.getFamily(testUser1.getId());
+		assertEquals(0, family.size());
+
+		PagedList<Reference> lists = friendOps1.getFriendLists();
+		assertEquals(0, lists.size());
+
+		// Can't test the following, because there's no good way to create a friend list from an automated test
+		// friendOps1.getFriendList("chums");
+
 	}
 	
 }
