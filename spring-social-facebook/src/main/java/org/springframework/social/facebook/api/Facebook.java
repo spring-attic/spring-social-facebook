@@ -100,6 +100,12 @@ public interface Facebook extends GraphApi, ApiBinding {
 	UserOperations userOperations();
 	
 	/**
+	 * API for working with test users on Facebook.
+	 * @return {@link TestUserOperations}
+	 */
+	TestUserOperations testUserOperations();
+	
+	/**
 	 * Returns the underlying {@link RestOperations} object allowing for consumption of Facebook endpoints that may not be otherwise covered by the API binding.
 	 * The RestOperations object returned is configured to include an OAuth 2 "Authorization" header on all requests.
 	 * @return RestOperations instrumented to include Authorization header on all requests

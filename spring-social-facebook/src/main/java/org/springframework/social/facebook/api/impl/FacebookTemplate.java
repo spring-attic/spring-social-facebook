@@ -46,6 +46,7 @@ import org.springframework.social.facebook.api.OpenGraphOperations;
 import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
+import org.springframework.social.facebook.api.TestUserOperations;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.social.facebook.api.impl.json.FacebookModule;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
@@ -75,6 +76,8 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
  */
 public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebook {
 
+	private String appId;
+	
 	private AchievementOperations achievementOperations;
 	
 	private UserOperations userOperations;
@@ -99,6 +102,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	private OpenGraphOperations openGraphOperations;
 
+	private TestUserOperations testUserOperations;
+	
 	private ObjectMapper objectMapper;
 
 	private String applicationNamespace;
@@ -112,7 +117,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	 * Those operations requiring authentication will throw {@link NotAuthorizedException}.
 	 */
 	public FacebookTemplate() {
-		initialize();		
+		initialize();
 	}
 
 	/**
@@ -123,10 +128,15 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	public FacebookTemplate(String accessToken) {
 		this(accessToken, null);
 	}
-	
+
 	public FacebookTemplate(String accessToken, String applicationNamespace) {
+		this(accessToken, applicationNamespace, null);
+	}
+	
+	public FacebookTemplate(String accessToken, String applicationNamespace, String appId) {
 		super(accessToken);
 		this.applicationNamespace = applicationNamespace;
+		this.appId = appId;
 		initialize();
 	}
 	
@@ -190,6 +200,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	public String getApplicationNamespace() {
 		return applicationNamespace;
+	}
+	
+	public TestUserOperations testUserOperations() {
+		return testUserOperations;
 	}
 	
 	// low-level Graph API operations
@@ -338,6 +352,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		groupOperations = new GroupTemplate(this, isAuthorized());
 		pageOperations = new PageTemplate(this, isAuthorized());
 		fqlOperations = new FqlTemplate(this, isAuthorized());
+		testUserOperations = new TestUserTemplate(getRestTemplate(), appId);
 	}
 	
 	@SuppressWarnings("unchecked")
