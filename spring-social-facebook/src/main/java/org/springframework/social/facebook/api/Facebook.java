@@ -52,12 +52,6 @@ public interface Facebook extends GraphApi, ApiBinding {
 	FeedOperations feedOperations();
 
 	/**
-	 * API for performing Facebook Query Language (FQL) queries.
-	 * @return {@link FqlOperations}
-	 */
-	FqlOperations fqlOperations();
-	
-	/**
 	 * API for performing operations with a user's set of friends.
 	 * @return {@link FriendOperations}
 	 */

@@ -2,6 +2,8 @@ package org.springframework.social.facebook.api.impl;
 
 import org.springframework.social.facebook.api.TestUser;
 import org.springframework.social.facebook.api.TestUserOperations;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,8 +24,17 @@ public class TestUserTemplate extends AbstractFacebookOperations implements Test
 	}
 	
 	public TestUser createTestUser(boolean installed, String permissions, String name) {
-		TestUserForm form = new TestUserForm(installed, permissions, name);
-		return restTemplate.postForObject("https://graph.facebook.com/v2.2/{appId}/accounts/test-users", form, TestUser.class, appId);
+		MultiValueMap<String, Object> request = new LinkedMultiValueMap<String, Object>();
+		request.set("installed", "" + installed);
+		if (name != null) {
+			request.set("name", name);
+		}
+		
+		if (permissions != null) {
+			request.set("permissions", permissions);
+		}
+
+		return restTemplate.postForObject("https://graph.facebook.com/v2.2/{appId}/accounts/test-users", request, TestUser.class, appId);
 	}
 	
 	public void sendConfirmFriends(TestUser testUser1, TestUser testUser2) {
@@ -34,31 +45,6 @@ public class TestUserTemplate extends AbstractFacebookOperations implements Test
 	
 	public void deleteTestUser(String testUserId) {
 		restTemplate.delete("https://graph.facebook.com/v2.2/{testUserId}", testUserId);
-	}
-	
-	private static class TestUserForm {
-		
-		private final boolean installed;
-		private final String permissions;
-		private final String name;
-
-		public TestUserForm(boolean installed, String permissions, String name) {
-			this.installed = installed;
-			this.permissions = permissions;
-			this.name = name;
-		}
-		
-		public boolean isInstalled() {
-			return installed;
-		}
-		
-		public String getPermissions() {
-			return permissions;
-		}
-		
-		public String getName() {
-			return name;
-		}
 	}
 	
 }

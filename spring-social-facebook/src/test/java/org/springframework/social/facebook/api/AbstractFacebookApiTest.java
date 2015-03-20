@@ -51,7 +51,7 @@ public class AbstractFacebookApiTest {
 	}
 
 	protected FacebookTemplate createFacebookTemplate() {
-		return new FacebookTemplate(ACCESS_TOKEN);
+		return new FacebookTemplate(ACCESS_TOKEN, "APP_NAMESPACE", "APP_ID");
 	}
 
 	protected Resource jsonResource(String filename) {

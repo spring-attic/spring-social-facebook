@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.springframework.social.facebook.api.TestUser;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.facebook.connect.FacebookServiceProvider;
@@ -59,10 +58,6 @@ public abstract class FacebookITest {
 		for (String testUserId : testUserIds) {
 			clientFacebook.testUserOperations().deleteTestUser(testUserId);
 		}
-	}
-	
-	@Test
-	public void canary() {
 	}
 
 }
