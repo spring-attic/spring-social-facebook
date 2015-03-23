@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.social.facebook.api.Achievement;
 import org.springframework.social.facebook.api.AchievementOperations;
+import org.springframework.social.facebook.api.AchievementType;
 import org.springframework.social.facebook.api.TestUser;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
@@ -48,6 +49,18 @@ public class AchievementOperationsITests extends FacebookITest implements ITestC
 		clientFacebook.achievementOperations().createAchievementType("http://www.habuma.com/fb/foundwaldo.html", 1);
 		clientFacebook.achievementOperations().createAchievementType("http://www.habuma.com/fb/tiedshoes.html", 2);
 
+		List<AchievementType> achievementTypes = clientFacebook.achievementOperations().getAchievementTypes();
+		assertEquals(2, achievementTypes.size());
+		for (AchievementType achievementType : achievementTypes) {
+			AchievementType fetched = achievementOps.getAchievementType(achievementType.getId());
+			assertEquals(achievementType.getId(), fetched.getId());
+			assertEquals(achievementType.getDescription(), fetched.getDescription());
+			assertEquals(achievementType.getUrl(), fetched.getUrl());
+			assertEquals(achievementType.getTitle(), fetched.getTitle());
+			assertEquals(achievementType.getType(), fetched.getType());
+		}
+		
+		
 		List<Achievement> achievements = achievementOps.getAchievements();
 		assertEquals(0, achievements.size());
 		String achieveId = achievementOps.postAchievement("http://www.habuma.com/fb/foundwaldo.html");
@@ -87,6 +100,11 @@ public class AchievementOperationsITests extends FacebookITest implements ITestC
 		achievementOps.removeAchievement("http://www.habuma.com/fb/tiedshoes.html");
 		achievements = achievementOps.getAchievements();
 		assertEquals(0, achievements.size());
+		
+		clientFacebook.achievementOperations().removeAchievementType(achievementTypes.get(0).getUrl());
+		clientFacebook.achievementOperations().removeAchievementType(achievementTypes.get(1).getUrl());
+		achievementTypes = clientFacebook.achievementOperations().getAchievementTypes();
+		assertEquals(0, achievementTypes.size());
 	}
 	
 }
