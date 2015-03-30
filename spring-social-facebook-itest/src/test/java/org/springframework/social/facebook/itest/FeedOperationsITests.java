@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 import java.util.logging.Logger;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.social.facebook.api.FacebookLink;
 import org.springframework.social.facebook.api.FeedOperations;
@@ -38,6 +37,8 @@ public class FeedOperationsITests extends FacebookITest implements ITestCredenti
 	private TestUser testUser2;
 	private FeedOperations feedOps1;
 	private FeedOperations feedOps2;
+	private FacebookTemplate facebook1;
+	private FacebookTemplate facebook2;
 	
 	public FeedOperationsITests() {
 		super(APP_ID, APP_SECRET);
@@ -45,23 +46,24 @@ public class FeedOperationsITests extends FacebookITest implements ITestCredenti
 
 	@Before
 	public void setupTestUsers() {
-		testUser1 = createTestUser(true, "publish_actions,read_stream", "Alice Arensen");
-		testUser2 = createTestUser(true, "publish_actions,read_stream", "Bob Beeswax");
+		testUser1 = createTestUser(true, "publish_actions,read_stream,user_posts,user_tagged_places", "Alice Arensen");
+		testUser2 = createTestUser(true, "publish_actions,read_stream,user_posts,user_tagged_places", "Bob Beeswax");
 
-		// set up these test users as friends
-		FacebookTemplate facebook1 = new FacebookTemplate(testUser1.getAccessToken());
-		FacebookTemplate facebook2 = new FacebookTemplate(testUser2.getAccessToken());
+		facebook1 = new FacebookTemplate(testUser1.getAccessToken());
+		facebook2 = new FacebookTemplate(testUser2.getAccessToken());
 		facebook1.testUserOperations().sendConfirmFriends(testUser1, testUser2);
 		facebook2.testUserOperations().sendConfirmFriends(testUser2, testUser1);
 		
 		feedOps1 = facebook1.feedOperations();
 		feedOps2 = facebook2.feedOperations();
+		
+		logger.info("CREATED TEST USERS: " + testUser1.getId() + " , " + testUser2.getId());
 	}
 	
 
 	@Test
 	public  void statusTests() {
-		PagedList<Post> statuses = feedOps1.getFeed();
+		PagedList<Post> statuses = feedOps1.getStatuses();
 		assertEquals(0, statuses.size());
 		String fullPostId = feedOps1.updateStatus("Hello");
 		String postId = extractPostId(fullPostId);
@@ -78,37 +80,69 @@ public class FeedOperationsITests extends FacebookITest implements ITestCredenti
 	}
 
 	@Test
-	@Ignore("Facebook is confusing me on this...step away and come back later")
-	public void postTests() throws Exception {
-		PagedList<Post> posts = feedOps1.getPosts();
-		assertEquals(0, posts.size());
-		feedOps1.post(new PostData("me").message("Yo!"));
-		posts = feedOps1.getPosts();
-		assertEquals(1, posts.size());
-		
+	public void feedTests() throws Exception {
+		// Slight delay to give the friendship story time to hit the feed...it usually isn't ready right away.
+		// But sometimes it is and the test fails in inconsistent ways if you don't give it time to sort itself out.
+		Thread.sleep(5000);
 		PagedList<Post> feed = feedOps1.getFeed();
-		System.out.println(feed.size() + " :: " + feed.get(0).getMessage() + " :: " + feed.get(0).getId() + " :: " + feed.get(0).getFrom().getName());
+		assertEquals(1, feed.size());
+		assertEquals("Alice Arensen and Bob Beeswax are now friends.", feed.get(0).getStory());
+
+		String statusId = feedOps1.updateStatus("Hello");
+		feed = feedOps1.getFeed();
+		assertEquals(2, feed.size());
 		
-		PagedList<Post> feed2 = feedOps2.getFeed();
-		System.out.println(feed2.size() + " :: " + feed2.get(0).getMessage() + " :: " + feed2.get(0).getId() + " :: " + feed2.get(0).getFrom().getName());
+		String linkId = feedOps1.postLink("Here's a link", new FacebookLink("http://test.org", "NAME", "CAPTION", "DESCRIPTION"));
+		feed = feedOps1.getFeed();
+		assertEquals(3, feed.size());
 		
-		// Can't post to another user's feed without the application itself arranging it with Facebook. So can't test that.
-		// "Feed story publishing to other users is disabled for this application."
-		//		PagedList<Post> posts2 = feedOps2.getPosts();
-		//		assertEquals(0, posts2.size());
-		//		feedOps1.post(testUser2.getId(), "Hi there");
-		//		posts2 = feedOps2.getPosts();
-		//		assertEquals(1, posts2.size());
+		PagedList<Post> links = feedOps1.getLinks();
+		assertEquals(1, links.size());
+		assertEquals(extractPostId(linkId), links.get(0).getId());
+		
+		PagedList<Post> statuses = feedOps1.getStatuses();
+		assertEquals(2, statuses.size());
+		statusId = extractPostId(statusId);
+		// the status is never consistently the first or second, so just assert that it is one of the two statuses.
+		assertTrue(statusId.equals(statuses.get(0).getId()) || statusId.equals(statuses.get(1).getId()));
+		
+		PagedList<Post> posts = feedOps1.getPosts();
+		assertEquals(3, posts.size());
+		
+		PagedList<Post> homeFeed = feedOps1.getHomeFeed();
+		assertEquals(2, homeFeed.size());
+		assertEquals("Here's a link", homeFeed.get(0).getMessage());
+		assertEquals("Hello", homeFeed.get(1).getMessage());
 	}
 	
 	@Test
-	public void linkTests() throws Exception {
-		PagedList<Post> links = feedOps1.getLinks();
-		assertEquals(0, links.size());
-		String linkId = feedOps1.postLink("Check it out", new FacebookLink("http://test.org", "Name", "Caption", "Description"));
-		logger.info("CREATED LINK: " + linkId);
-		links = feedOps1.getLinks();
-		assertEquals(1, links.size());
+	public void tagTests() throws Exception {
+		// tag a user in a post
+		String tagPostId = feedOps2.post(new PostData("me").message("Hiya!").place("111625055543961").tags(testUser1.getId()));
+		PagedList<Post> feed = feedOps1.getFeed();
+		assertEquals(1, feed.size());
+		assertEquals("Hiya!", feed.get(0).getMessage());
+		assertEquals("111625055543961", feed.get(0).getPlace().getId());
+		assertEquals(testUser2.getId(), feed.get(0).getFrom().getId());
+
+		// TODO: Figure out why the /tagged endpoint is returning an empty list here.
+//		PagedList<Post> tagged = feedOps1.getTagged();
+//		assertEquals(1, tagged.size());
+//		assertEquals(tagPostId, tagged.get(0).getId());
+//		assertEquals("Hiya!", tagged.get(0).getMessage());
+//		assertEquals(testUser2.getId(), tagged.get(0).getFrom().getId());
+	}
+	
+	@Test
+	public void checkinTests() throws Exception {
+		PagedList<Post> checkins = feedOps1.getCheckins();
+		assertEquals(0, checkins.size());
+		String postId = feedOps1.post(new PostData("me").message("Yo!").place("111625055543961"));
+		checkins = feedOps1.getCheckins();
+		assertEquals(1, checkins.size());
+		assertEquals(postId, checkins.get(0).getId());
+		assertEquals("Yo!", checkins.get(0).getMessage());
+		assertEquals("111625055543961", checkins.get(0).getPlace().getId());
 	}
 	
 	private String extractPostId(String fullPostId) {

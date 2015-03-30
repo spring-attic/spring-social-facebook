@@ -27,12 +27,13 @@ import org.springframework.social.facebook.api.AchievementType;
 import org.springframework.social.facebook.api.TestUser;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
-public class AchievementOperationsITests extends FacebookITest implements ITestCredentials {
+public class AchievementOperationsITests extends FacebookITest {
 	
 	private TestUser testUser1;
 	private AchievementOperations achievementOps;
 	
 	public AchievementOperationsITests() {
+		// Had to create a separate app to test achievements with, because achievements only work for game apps.
 		super("248041811986157", "783e6b8d5239b22881c8cd925d91e623");
 	}
 
@@ -46,6 +47,7 @@ public class AchievementOperationsITests extends FacebookITest implements ITestC
 
 	@Test
 	public  void achievementTests() {
+		// TODO: Might want to host these somewhere other than my (Craig's) personal hosting provider
 		clientFacebook.achievementOperations().createAchievementType("http://www.habuma.com/fb/foundwaldo.html", 1);
 		clientFacebook.achievementOperations().createAchievementType("http://www.habuma.com/fb/tiedshoes.html", 2);
 

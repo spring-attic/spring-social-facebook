@@ -236,6 +236,52 @@ public interface FeedOperations {
 	PagedList<Post> getPosts(String ownerId, PagingParameters pagedListParameters);
 
 	/**
+	 * Retrieves the post entries that the authenticated user was tagged in.
+	 * Returns up to the most recent 25 posts.
+	 * Requires "read_stream" permission. 
+	 * @return a list of post {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Post> getTagged();
+
+	/**
+	 * Retrieves the post entries that the authenticated user was tagged in.
+	 * Requires "read_stream" permission. 
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list of post {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Post> getTagged(PagingParameters pagedListParameters);
+
+	/**
+	 * Retrieves the post entries that the specified user was tagged in.
+	 * Returns up to the most recent 25 posts.
+	 * Requires "read_stream" permission. 
+	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
+	 * @return a list of post {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Post> getTagged(String ownerId);
+
+	/**
+	 * Retrieves the post entries that the specified user was tagged in.
+	 * Requires "read_stream" permission. 
+	 * @param ownerId the owner of the feed (could be a user, page, event, etc)
+	 * @param pagedListParameters the parameters defining the bounds of the list to return.
+	 * @return a list of post {@link Post}s. 
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "read_stream" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Post> getTagged(String ownerId, PagingParameters pagedListParameters);
+
+	/**
 	 * Posts a status update to the authenticated user's feed.
 	 * Requires "publish_stream" permission.
 	 * @param message the message to post.

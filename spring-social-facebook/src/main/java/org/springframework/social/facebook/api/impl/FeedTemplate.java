@@ -141,7 +141,25 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		JsonNode responseNode = fetchConnectionList(GraphApi.GRAPH_API_URL + ownerId + "/posts", pagedListParameters);
 		return deserializeList(responseNode, null, Post.class);
 	}
+
+	public PagedList<Post> getTagged() {
+		return getTagged("me", FIRST_PAGE);
+	}
+
+	public PagedList<Post> getTagged(PagingParameters pagedListParameters) {
+		return getTagged("me", pagedListParameters);
+	}
+
+	public PagedList<Post> getTagged(String ownerId) {
+		return getTagged(ownerId, FIRST_PAGE);
+	}
 	
+	public PagedList<Post> getTagged(String ownerId, PagingParameters pagedListParameters) {
+		requireAuthorization();
+		JsonNode responseNode = fetchConnectionList(GraphApi.GRAPH_API_URL + ownerId + "/tagged", pagedListParameters);
+		return deserializeList(responseNode, null, Post.class);
+	}
+
 	public Post getPost(String entryId) {
 		requireAuthorization();
 		ObjectNode responseNode = (ObjectNode) restTemplate.getForObject(GraphApi.GRAPH_API_URL + entryId, JsonNode.class);
