@@ -33,11 +33,7 @@ public class GroupOperationsITests extends FacebookITest implements ITestCredent
 	
 	private TestUser testUser1;
 	private GroupOperations groupOps1;
-	private FacebookTemplate facebook1;
 
-	private TestUser testUser2;
-	private FacebookTemplate facebook2;
-	
 	private static final String groupId = "179807812093847"; // F8 Hack group for testing
 
 	public GroupOperationsITests() {
@@ -47,16 +43,8 @@ public class GroupOperationsITests extends FacebookITest implements ITestCredent
 	@Before
 	public void setupTestUsers() {
 		testUser1 = createTestUser(true, "publish_actions,read_stream,user_posts,user_tagged_places", "Alice Arensen");
-		testUser2 = createTestUser(true, "publish_actions,read_stream,user_posts,user_tagged_places", "Bob Beeswax");
-
-		facebook1 = new FacebookTemplate(testUser1.getAccessToken());
-		facebook2 = new FacebookTemplate(testUser2.getAccessToken());
-		facebook1.testUserOperations().sendConfirmFriends(testUser1, testUser2);
-		facebook2.testUserOperations().sendConfirmFriends(testUser2, testUser1);
-		
-		groupOps1 = facebook1.groupOperations();
-		
-		logger.info("CREATED TEST USERS: " + testUser1.getId() + " , " + testUser2.getId());
+		groupOps1 = new FacebookTemplate(testUser1.getAccessToken()).groupOperations();
+		logger.info("CREATED TEST USERS: " + testUser1.getId());
 	}
 
 	@Test
@@ -84,17 +72,4 @@ public class GroupOperationsITests extends FacebookITest implements ITestCredent
 		assertTrue(groupImage.length > 0);
 	}
 
-	private static class GroupCreationResponse {
-		public String id;
-		
-		public String getId() {
-			return id;
-		}
-		
-		public void setId(String id) {
-			this.id = id;
-		}
-		
-	}
-	
 }

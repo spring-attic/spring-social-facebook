@@ -118,7 +118,7 @@ public class FeedOperationsITests extends FacebookITest implements ITestCredenti
 	@Test
 	public void tagTests() throws Exception {
 		// tag a user in a post
-		String tagPostId = feedOps2.post(new PostData("me").message("Hiya!").place("111625055543961").tags(testUser1.getId()));
+		feedOps2.post(new PostData("me").message("Hiya!").place("111625055543961").tags(testUser1.getId()));
 		PagedList<Post> feed = feedOps1.getFeed();
 		assertEquals(1, feed.size());
 		assertEquals("Hiya!", feed.get(0).getMessage());

@@ -91,9 +91,4 @@ public class CommentOperationsITests extends FacebookITest implements ITestCrede
 		assertEquals(0, comments.size());
 	}
 	
-	private String extractPostId(String fullPostId) {
-		// The full post ID is the post ID prefixed by "{user-id}_"...strip off the prefix.
-		return fullPostId.substring(testUser1.getId().length() + 1);
-	}
-
 }
