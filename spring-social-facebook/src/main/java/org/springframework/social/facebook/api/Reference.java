@@ -28,6 +28,11 @@ public class Reference extends FacebookObject implements Serializable {
 
 	private final String name;
 
+    @SuppressWarnings("unused")
+    private Reference() {
+        this(null, null);
+    }
+
 	public Reference(String id) {
 		this(id, null);
 	}
