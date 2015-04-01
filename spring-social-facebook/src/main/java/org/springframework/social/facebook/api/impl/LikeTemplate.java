@@ -142,42 +142,6 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 		return graphApi.fetchConnections(userId, "television", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
 	}
 	
-	public PagedList<Page> getActivities() {
-		return getActivities("me");
-	}
-
-	public PagedList<Page> getActivities(PagingParameters pagingParameters) {
-		return getActivities("me", pagingParameters);
-	}
-
-	public PagedList<Page> getActivities(String userId) {
-		requireAuthorization();
-		return graphApi.fetchConnections(userId, "activities", Page.class, PAGE_FIELDS);
-	}
-
-	public PagedList<Page> getActivities(String userId, PagingParameters pagingParameters) {
-		requireAuthorization();
-		return graphApi.fetchConnections(userId, "activities", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
-	}
-
-	public PagedList<Page> getInterests() {
-		return getInterests("me");
-	}
-
-	public PagedList<Page> getInterests(PagingParameters pagingParameters) {
-		return getInterests("me", pagingParameters);
-	}
-
-	public PagedList<Page> getInterests(String userId) {
-		requireAuthorization();
-		return graphApi.fetchConnections(userId, "interests", Page.class, PAGE_FIELDS);
-	}
-
-	public PagedList<Page> getInterests(String userId, PagingParameters pagingParameters) {
-		requireAuthorization();
-		return graphApi.fetchConnections(userId, "interests", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
-	}
-
 	public PagedList<Page> getGames() {
 		return getGames("me");
 	}
