@@ -299,6 +299,20 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 	public void postVideo_withTitleOrDescription_unauthorized() {
 		unauthorizedFacebook.mediaOperations().postVideo(null, "title", "description");
 	}
+	
+	@Test
+	public void tagVideo() {
+		String requestBody = "tag_uid=12345";
+
+		mockServer.expect(requestTo(fbUrl("54321/tags")))
+			.andExpect(method(POST))
+			.andExpect(content().string(requestBody))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
+		
+		facebook.mediaOperations().tagVideo("54321", "12345");
+		mockServer.verify();
+	}
 
 	private Resource getUploadResource(final String filename, String content) {
 		Resource video = new ByteArrayResource(content.getBytes()) {

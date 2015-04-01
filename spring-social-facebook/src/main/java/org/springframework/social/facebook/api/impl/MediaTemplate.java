@@ -184,4 +184,11 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 		Map<String, Object> response = restTemplate.postForObject("https://graph-video.facebook.com/me/videos", parts, Map.class);
 		return (String) response.get("id");
 	}
+	
+	public void tagVideo(String videoId, String userId) {
+		requireAuthorization();
+		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
+		data.add("tag_uid", userId);
+		graphApi.publish(videoId, "tags", data);
+	}
 }
