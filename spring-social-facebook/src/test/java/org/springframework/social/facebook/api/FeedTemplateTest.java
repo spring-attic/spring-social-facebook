@@ -647,7 +647,6 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("https://www.facebook.com/73579/posts/153453231377586", feed.get(2).getActions().get(1).getLink());
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void assertLinks(List<Post> feed) {
 		assertEquals(2, feed.size());
 		assertEquals(PostType.LINK, feed.get(0).getType());

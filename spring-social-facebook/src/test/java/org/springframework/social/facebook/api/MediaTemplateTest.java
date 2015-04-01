@@ -322,7 +322,6 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-24T21:37:43+0000"), photos.get(0).getUpdatedTime());
 	}
 
-	@SuppressWarnings("deprecation")
 	private void assertSingleVideo(Video video) {
 		assertEquals("161500020572907", video.getId());
 		assertEquals("100001387295207", video.getFrom().getId());
@@ -407,7 +406,6 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-24T22:00:12+0000"), album.getUpdatedTime());
 	}
 
-	@SuppressWarnings("deprecation")
 	private void assertVideos(List<Video> videos) {
 		assertEquals(2, videos.size());
 		Video video = videos.get(0);

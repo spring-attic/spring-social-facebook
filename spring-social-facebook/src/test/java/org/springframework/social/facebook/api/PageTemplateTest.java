@@ -130,7 +130,6 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
-	@SuppressWarnings("deprecation")
 	public void getPage_place_with_hours() {
 		mockServer.expect(requestTo(fbUrl("220817147947513")))
 			.andExpect(method(GET))
