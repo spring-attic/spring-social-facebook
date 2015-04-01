@@ -31,7 +31,7 @@ public class TestUserTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void post_message() throws Exception {
 		String requestBody = "installed=true&name=Jack+Sparrow&permissions=publish_actions";
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/APP_ID/accounts/test-users"))
+		mockServer.expect(requestTo(fbUrl("APP_ID/accounts/test-users")))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))

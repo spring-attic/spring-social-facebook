@@ -36,7 +36,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getAchievement() throws Exception {
-		mockServer.expect(requestTo(GraphApi.GRAPH_API_URL + "1403783649909361"))
+		mockServer.expect(requestTo(fbUrl("1403783649909361")))
 			.andExpect(method(GET))
 			.andRespond(withSuccess(jsonResource("achievement"), MediaType.APPLICATION_JSON));
 		
@@ -46,7 +46,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getAchievements() throws Exception {
-		mockServer.expect(requestTo(GraphApi.GRAPH_API_URL + "me/achievements"))
+		mockServer.expect(requestTo(fbUrl("me/achievements")))
 			.andExpect(method(GET))
 			.andRespond(withSuccess(jsonResource("achievements"), MediaType.APPLICATION_JSON));
 		
@@ -58,7 +58,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void postAchievement() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/achievements"))
+		mockServer.expect(requestTo(fbUrl("me/achievements")))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth " + ACCESS_TOKEN))
 			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement"))
@@ -71,7 +71,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void deleteAchievement() throws Exception {
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.2/me/achievements"))
+		mockServer.expect(requestTo(fbUrl("me/achievements")))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth " + ACCESS_TOKEN))
 			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement&method=delete"))
@@ -87,7 +87,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void getAchievementTypes() throws Exception {
-		appFacebookMockServer.expect(requestTo("https://graph.facebook.com/v2.2/app/achievements"))
+		appFacebookMockServer.expect(requestTo(fbUrl("app/achievements")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth " + APP_ACCESS_TOKEN))
 			.andRespond(withSuccess(jsonResource("achievement-types"), MediaType.APPLICATION_JSON));
@@ -100,7 +100,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getAchievementType() throws Exception {
-		appFacebookMockServer.expect(requestTo("https://graph.facebook.com/v2.2/651053301631017"))
+		appFacebookMockServer.expect(requestTo(fbUrl("651053301631017")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth " + APP_ACCESS_TOKEN))
 			.andRespond(withSuccess(jsonResource("achievement-type"), MediaType.APPLICATION_JSON));
@@ -111,7 +111,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 	
 	@Test
 	public void createAchievementType() throws Exception {
-		appFacebookMockServer.expect(requestTo("https://graph.facebook.com/v2.2/app/achievements"))
+		appFacebookMockServer.expect(requestTo(fbUrl("app/achievements")))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth " + APP_ACCESS_TOKEN))
 			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement&display_order=2"))
@@ -123,7 +123,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void removeAchievementType() throws Exception {
-		appFacebookMockServer.expect(requestTo("https://graph.facebook.com/v2.2/app/achievements"))
+		appFacebookMockServer.expect(requestTo(fbUrl("app/achievements")))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth " + APP_ACCESS_TOKEN))
 			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement&method=delete"))

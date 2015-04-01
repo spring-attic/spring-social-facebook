@@ -1,5 +1,6 @@
 package org.springframework.social.facebook.api.impl;
 
+import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.TestUser;
 import org.springframework.social.facebook.api.TestUserOperations;
 import org.springframework.util.LinkedMultiValueMap;
@@ -34,17 +35,17 @@ public class TestUserTemplate extends AbstractFacebookOperations implements Test
 			request.set("permissions", permissions);
 		}
 
-		return restTemplate.postForObject("https://graph.facebook.com/v2.2/{appId}/accounts/test-users", request, TestUser.class, appId);
+		return restTemplate.postForObject(GraphApi.GRAPH_API_URL + "{appId}/accounts/test-users", request, TestUser.class, appId);
 	}
 	
 	public void sendConfirmFriends(TestUser testUser1, TestUser testUser2) {
 		RestOperations userRest = new FacebookTemplate(testUser1.getAccessToken()).restOperations();
 		
-		userRest.postForObject("https://graph.facebook.com/v2.2/{testUserId1}/friends/{testUserId2}", "", String.class, testUser1.getId(), testUser2.getId());
+		userRest.postForObject(GraphApi.GRAPH_API_URL + "{testUserId1}/friends/{testUserId2}", "", String.class, testUser1.getId(), testUser2.getId());
 	}
 	
 	public void deleteTestUser(String testUserId) {
-		restTemplate.delete("https://graph.facebook.com/v2.2/{testUserId}", testUserId);
+		restTemplate.delete(GraphApi.GRAPH_API_URL + "{testUserId}", testUserId);
 	}
 	
 }
