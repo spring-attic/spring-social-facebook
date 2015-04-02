@@ -23,6 +23,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2Template;
 import org.springframework.social.support.ClientHttpRequestFactorySelector;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,6 +40,22 @@ public class FacebookOAuth2Template extends OAuth2Template {
 		setUseParametersForClientAuthentication(true);
 	}
 
+	@Override
+	public AccessGrant extendAccess(String refreshToken, String scope, MultiValueMap<String, String> additionalParameters) {
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+		params.set("client_id", clientId);
+		params.set("client_secret", clientSecret);
+		params.set("fb_exchange_token", refreshToken);
+		if (scope != null) {
+			params.set("scope", scope);
+		}
+		params.set("grant_type", "fb_exchange_token");
+		if (additionalParameters != null) {
+			params.putAll(additionalParameters);
+		}
+		return postForAccessGrant(accessTokenUrl, params);
+	}
+	
 	@Override
 	protected RestTemplate createRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate(ClientHttpRequestFactorySelector.getRequestFactory());
