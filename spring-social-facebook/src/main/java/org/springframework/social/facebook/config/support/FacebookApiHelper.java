@@ -35,7 +35,7 @@ public class FacebookApiHelper implements ApiHelper<Facebook> {
 
 	private final UserIdSource userIdSource;
 
-	private FacebookApiHelper(UsersConnectionRepository usersConnectionRepository, UserIdSource userIdSource) {
+	public FacebookApiHelper(UsersConnectionRepository usersConnectionRepository, UserIdSource userIdSource) {
 		this.usersConnectionRepository = usersConnectionRepository;
 		this.userIdSource = userIdSource;		
 	}
