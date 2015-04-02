@@ -112,7 +112,16 @@ public interface PageOperations {
 	String postPhoto(String pageId, String albumId, Resource photo, String caption);
 	
 	/**
-	 * Searches for pages for places near a given coordinate.
+	 * Searches for pages that match a given query.
+	 * @param query the search query
+	 * @return a list of {@link Page}s matching the search
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	PagedList<Page> search(String query);
+	
+	/**
+	 * Searches for places near a given coordinate.
 	 * @param query the search query (e.g., "Burritos")
 	 * @param latitude the latitude of the point to search near
 	 * @param longitude the longitude of the point to search near
@@ -121,6 +130,6 @@ public interface PageOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<Page> search(String query, double latitude, double longitude, long distance);
+	PagedList<Page> searchPlaces(String query, double latitude, double longitude, long distance);
 
 }

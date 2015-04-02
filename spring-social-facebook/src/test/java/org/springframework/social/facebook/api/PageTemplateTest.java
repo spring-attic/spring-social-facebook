@@ -356,7 +356,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("places-list"), MediaType.APPLICATION_JSON));
-		List<Page> places = facebook.pageOperations().search("coffee", 33.050278, -96.745833, 5280);
+		List<Page> places = facebook.pageOperations().searchPlaces("coffee", 33.050278, -96.745833, 5280);
 		assertEquals(2, places.size());
 		assertEquals("117723491586638", places.get(0).getId());
 		assertEquals("True Brew Coffee & Espresso Service", places.get(0).getName());
@@ -382,7 +382,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 
 	@Test(expected = NotAuthorizedException.class)
 	public void search_unauthorized() {
-		unauthorizedFacebook.pageOperations().search("coffee", 33.050278, -96.745833, 5280);
+		unauthorizedFacebook.pageOperations().searchPlaces("coffee", 33.050278, -96.745833, 5280);
 	}
 
 	// private helpers

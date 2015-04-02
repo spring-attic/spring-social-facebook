@@ -98,10 +98,11 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 		requireAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
+		queryMap.add("type", "page");
 		return graphApi.fetchConnections("search", null, Page.class, queryMap);
 	}
 	
-	public PagedList<Page> search(String query, double latitude, double longitude, long distance) {
+	public PagedList<Page> searchPlaces(String query, double latitude, double longitude, long distance) {
 		requireAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
