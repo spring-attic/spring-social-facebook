@@ -96,7 +96,7 @@ public interface UserOperations {
 		"favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", 
 		"is_verified", "languages", "last_name", "link", "locale", "location", "middle_name", "name", "name_format", 
 		"political", "quotes", "relationship_status", "religion", "significant_other", "timezone", "third_party_id", 
-		"verified", "website", "work"
+		"updated_time", "verified", "website", "work"
 	};
 
 }
