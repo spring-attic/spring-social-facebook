@@ -283,41 +283,41 @@ public interface FeedOperations {
 
 	/**
 	 * Posts a status update to the authenticated user's feed.
-	 * Requires "publish_stream" permission.
+	 * Requires "publish_actions" permission.
 	 * @param message the message to post.
 	 * @return the ID of the new feed entry.
 	 * @throws DuplicateStatusException if the status message duplicates a previously posted status.
 	 * @throws RateLimitExceededException if the per-user/per-app rate limit is exceeded.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_actions" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String updateStatus(String message);
 
 	/**
 	 * Posts a link to the authenticated user's feed.
-	 * Requires "publish_stream" permission.
+	 * Requires "publish_actions" permission.
 	 * @param message a message to send with the link.
 	 * @param link the {@link FacebookLink} object to post
 	 * @return the ID of the new feed entry.
 	 * @throws DuplicateStatusException if the post duplicates a previous post.
 	 * @throws RateLimitExceededException if the per-user/per-app rate limit is exceeded.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_actions" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postLink(String message, FacebookLink link);
 
 	/**
 	 * Posts a message to a feed.
-	 * Requires "publish_stream" permission.
+	 * Requires "publish_actions" permission.
 	 * @param ownerId the feed owner ID. Could be a user ID or a page ID.
 	 * @param message the message to post.
 	 * @return the id of the new feed entry.
 	 * @throws DuplicateStatusException if the post duplicates a previous post.
 	 * @throws RateLimitExceededException if the per-user/per-app rate limit is exceeded.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_actions" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String post(String ownerId, String message);
@@ -329,52 +329,52 @@ public interface FeedOperations {
 	 * @throws DuplicateStatusException if the post duplicates a previous post.
 	 * @throws RateLimitExceededException if the per-user/per-app rate limit is exceeded.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_actions" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String post(PostData post);
 	
 	/**
 	 * Posts a link to a feed.
-	 * Requires "publish_stream" permission.
+	 * Requires "publish_actions" permission.
 	 * @param ownerId the feed owner ID. Could be a user ID or a page ID.
 	 * @param message a message to send with the link.
 	 * @param link the {@link FacebookLink} object to post
 	 * @return the ID of the new feed entry.
 	 * @throws DuplicateStatusException if the post duplicates a previous post.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_actions" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	String postLink(String ownerId, String message, FacebookLink link);
 
 	/**
 	 * Deletes a post.
-	 * Requires "publish_stream" permission and the post must have been created by the same application.
+	 * Requires "publish_actions" permission and the post must have been created by the same application.
 	 * @param id the feed entry ID
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "publish_stream" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "publish_actions" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	void deletePost(String id);
 
 	/**
 	 * Retrieves a list of up to 25 recent checkins for the authenticated user.
-	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * Requires "read_stream" or "user_posts" permission.
 	 * @return a list {@link Post}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Post> getCheckins();
 
 	/**
 	 * Retrieves a list of checkins for the authenticated user.
-	 * Requires "user_checkins" or "friends_checkins" permission.
+	 * Requires "read_stream" or "user_posts" permission.
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
 	 * @return a list {@link Post}s for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" or "friends_checkins" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "user_checkins" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Post> getCheckins(PagingParameters pagedListParameters);

@@ -79,27 +79,6 @@ public interface EventOperations {
 	PagedList<Invitation> getCreated(PagingParameters pagingParams);	
 
 	/**
-	 * Retrieves a list of invitations for events that the authenticated user's friend has created.
-	 * Requires "user_events" permission.
-	 * @param friendId the ID of a friend to fetch attending invitations for.
-	 * @return a list of {@link Invitation}s for events that the user's friend has created.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendCreated(String friendId);	
-
-	/**
-	 * Retrieves a list of invitations for events that the authenticated user's friend has created.
-	 * Requires "user_events" permission.
-	 * @param friendId the ID of a friend to fetch attending invitations for.
-	 * @param pagingParams paging parameters
-	 * @return a list of {@link Invitation}s for events that the user's friend has created.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendCreated(String friendId, PagingParameters pagingParams);
-	
-	/**
 	 * Retrieves a list of invitations for events that the authenticated user is attending.
 	 * Requires "user_events" permission.
 	 * @return a list of {@link Invitation}s for events that the user is attending.
@@ -117,27 +96,6 @@ public interface EventOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	PagedList<Invitation> getAttending(PagingParameters pagingParams);	
-
-	/**
-	 * Retrieves a list of invitations for events that an authenticated user's friend is attending.
-	 * Requires "friends_events" permission.
-	 * @param friendId the ID of a friend to fetch attending invitations for.
-	 * @return a list of {@link Invitation}s for events that the user's friend is attending.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendAttending(String friendId);
-
-	/**
-	 * Retrieves a list of invitations for events that an authenticated user's friend is attending.
-	 * Requires "friends_events" permission.
-	 * @param friendId the ID of a friend to fetch attending invitations for.
-	 * @param pagingParams paging parameters
-	 * @return a list of {@link Invitation}s for events that the user's friend is attending.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendAttending(String friendId, PagingParameters pagingParams);
 
 	/**
 	 * Retrieves the list of an event's invitees who have accepted the invitation.
@@ -167,27 +125,6 @@ public interface EventOperations {
 	PagedList<Invitation> getMaybeAttending(PagingParameters pagingParams);	
 
 	/**
-	 * Retrieves a list of invitations for events that an authenticated user's friend may be attending.
-	 * Requires "friends_events" permission.
-	 * @param friendId the ID of a friend to fetch maybe attending invitations for.
-	 * @return a list of {@link Invitation}s for events that the user's friend may be attending.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendMaybeAttending(String friendId);
-
-	/**
-	 * Retrieves a list of invitations for events that an authenticated user's friend may be attending.
-	 * Requires "friends_events" permission.
-	 * @param friendId the ID of a friend to fetch maybe attending invitations for.
-	 * @param pagingParams paging parameters
-	 * @return a list of {@link Invitation}s for events that the user's friend may be attending.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendMaybeAttending(String friendId, PagingParameters pagingParams);
-
-	/**
 	 * Retrieves the list of an event's invitees who have indicated that they may attend the event.
 	 * @param eventId the event ID.
 	 * @return a list of {@link EventInvitee}s for the event.
@@ -213,27 +150,6 @@ public interface EventOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	PagedList<Invitation> getNoReplies(PagingParameters pagingParams);	
-
-	/**
-	 * Retrieves a list of invitations for events that an authenticated user's friend has not replied.
-	 * Requires "friends_events" permission.
-	 * @param friendId the ID of a friend to fetch not replied invitations for.
-	 * @return a list of {@link Invitation}s for events that the user's friend has not replied.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendNoReplies(String friendId);
-
-	/**
-	 * Retrieves a list of invitations for events that an authenticated user's friend has not replied.
-	 * Requires "friends_events" permission.
-	 * @param friendId the ID of a friend to fetch not replied invitations for.
-	 * @param pagingParams paging parameters
-	 * @return a list of {@link Invitation}s for events that the user's friend has not replied.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendNoReplies(String friendId, PagingParameters pagingParams);
 
 	/**
 	 * Retrieves the list of an event's invitees who have not yet RSVP'd.
@@ -262,27 +178,6 @@ public interface EventOperations {
 	 */
 	PagedList<Invitation> getDeclined(PagingParameters pagingParams);	
 
-	/**
-	 * Retrieves a list of invitations for events that an authenticated user's friend has declined.
-	 * Requires "friends_events" permission.
-	 * @param friendId the ID of a friend to fetch declined invitations for.
-	 * @return a list of {@link Invitation}s for events that the user's friend has declined.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendDeclined(String friendId);
-	
-	/**
-	 * Retrieves a list of invitations for events that an authenticated user's friend has declined.
-	 * Requires "friends_events" permission.
-	 * @param friendId the ID of a friend to fetch declined invitations for.
-	 * @param pagingParams paging parameters
-	 * @return a list of {@link Invitation}s for events that the user's friend has declined.
-	 * @throws InsufficientPermissionException if the user has not granted "friends_events" permission.
-	 * @throws ApiException if there is an error while communicating with Facebook.
-	 */
-	PagedList<Invitation> getFriendDeclined(String friendId, PagingParameters pagingParams);
-	
 	/**
 	 * Retrieves the list of an event's invitees who have declined the invitation.
 	 * @param eventId the event ID.

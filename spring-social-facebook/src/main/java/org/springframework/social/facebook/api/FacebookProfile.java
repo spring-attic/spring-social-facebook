@@ -194,8 +194,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	}
 
 	/**
-	 * A link to the user's personal website. Available only with "user_website"
-	 * or "friends_website" permission.
+	 * A link to the user's personal website. Available only with "user_website" permission.
 	 * 
 	 * @return a link to the user's personal website.
 	 */
@@ -241,7 +240,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	
 	/**
 	 * The user's brief about blurb.
-	 * Available only with "user_about_me" permission for the authenticated user or "friends_about_me" for the authenticated user's friends.
+	 * Available only with "user_about_me" permission for the authenticated user for the authenticated user's friends.
 	 * @return the user's about blurb, if available.
 	 */
 	public String getAbout() {
@@ -259,7 +258,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	
 	/**
 	 * The user's birthday.
-	 * Available only with "user_birthday" permission for the authentication user or "friends_birthday" permission for the user's friends.
+	 * Available only with "user_birthday" permission for the authentication user permission for the user's friends.
 	 * @return the user's birthday
 	 */
 	public String getBirthday() {
@@ -268,7 +267,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	
 	/**
 	 * The user's location.
-	 * Available only with "user_location" or "friends_location" permission.
+	 * Available only with "user_location" permission.
 	 * @return a {@link Reference} to the user's location, if available
 	 */
 	public Reference getLocation() {
@@ -277,7 +276,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	
 	/**
 	 * The user's hometown.
-	 * Available only with "user_hometown" or "friends_hometown" permission.
+	 * Available only with "user_hometown" permission.
 	 * @return a {@link Reference} to the user's hometown, if available
 	 */
 	public Reference getHometown() {
@@ -318,7 +317,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 
 	/**
 	 * The user's religion. 
-	 * Available only with "user_religion_politics" or "friends_religion_politics" permission.
+	 * Available only with "user_religion_politics" permission.
 	 * @return the user's religion, if available.
 	 */
 	public String getReligion() {
@@ -327,7 +326,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 
 	/**
 	 * The user's political affiliation. 
-	 * Available only with "user_religion_politics" or "friends_religion_politics" permission.
+	 * Available only with "user_religion_politics" permission.
 	 * @return the user's political affiliation, if available.
 	 */
 	public String getPolitical() {
@@ -345,7 +344,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 
 	/**
 	 * The user's relationship status. 
-	 * Available only with "user_relationships" or "friends_relationships" permission.
+	 * Available only with "user_relationships" permission.
 	 * @return the user's relationship status, if available.
 	 */
 	public String getRelationshipStatus() {
@@ -354,7 +353,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 
 	/**
 	 * The user's significant other. 
-	 * Available only for certain relationship statuses and with "user_relationship_details" or "friends_relationship_details" permission.
+	 * Available only for certain relationship statuses and with "user_relationship_details" permission.
 	 * @return a {@link Reference} to the user's significant other, if available.
 	 */
 	public Reference getSignificantOther() {
@@ -363,7 +362,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 
 	/**
 	 * The user's work history.
-	 * Available only with "user_work_history" or "friends_work_history" permission.
+	 * Available only with "user_work_history" permission.
 	 * @return a list of {@link WorkEntry} items, one for each entry in the user's work history.
 	 */
 	public List<WorkEntry> getWork() {
@@ -372,7 +371,7 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 	
 	/**
 	 * The user's education history.
-	 * Available only with "user_education_history" or "friends_education_history" permission.
+	 * Available only with "user_education_history" permission.
 	 * @return a list of {@link EducationEntry} items, one for each entry in the user's education history.
 	 */
 	public List<EducationEntry> getEducation() {

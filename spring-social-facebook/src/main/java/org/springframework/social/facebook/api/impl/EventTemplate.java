@@ -61,14 +61,6 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		return getEventsForUserByStatus("me", "created", pagingParams);
 	}
 	
-	public PagedList<Invitation> getFriendCreated(String friendId) {
-		return getEventsForUserByStatus(friendId, "created", new PagingParameters(25, 0, null, null));
-	}
-
-	public PagedList<Invitation> getFriendCreated(String friendId, PagingParameters pagingParams) {
-		return getEventsForUserByStatus(friendId, "created", pagingParams);
-	}
-
 	public PagedList<Invitation> getAttending() {
 		return getEventsForUserByStatus("me", "attending", new PagingParameters(25, 0, null, null));
 	}
@@ -77,14 +69,6 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		return getEventsForUserByStatus("me", "attending", pagingParams);
 	}
 	
-	public PagedList<Invitation> getFriendAttending(String friendId) {
-		return getEventsForUserByStatus(friendId, "attending", new PagingParameters(25, 0, null, null));
-	}
-
-	public PagedList<Invitation> getFriendAttending(String friendId, PagingParameters pagingParams) {
-		return getEventsForUserByStatus(friendId, "attending", pagingParams);
-	}
-
 	public PagedList<EventInvitee> getAttending(String eventId) {
 		return graphApi.fetchConnections(eventId, "attending", EventInvitee.class);
 	}
@@ -97,14 +81,6 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		return getEventsForUserByStatus("me", "maybe", pagingParams);
 	}
 	
-	public PagedList<Invitation> getFriendMaybeAttending(String friendId) {
-		return getEventsForUserByStatus(friendId, "maybe", new PagingParameters(25, 0, null, null));
-	}
-
-	public PagedList<Invitation> getFriendMaybeAttending(String friendId, PagingParameters pagingParams) {
-		return getEventsForUserByStatus(friendId, "maybe", pagingParams);
-	}
-
 	public PagedList<EventInvitee> getMaybeAttending(String eventId) {
 		return graphApi.fetchConnections(eventId, "maybe", EventInvitee.class);
 	}
@@ -117,14 +93,6 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		return getEventsForUserByStatus("me", "not_replied", pagingParams);
 	}
 	
-	public PagedList<Invitation> getFriendNoReplies(String friendId) {
-		return getEventsForUserByStatus(friendId, "not_replied", new PagingParameters(25, 0, null, null));
-	}
-
-	public PagedList<Invitation> getFriendNoReplies(String friendId, PagingParameters pagingParams) {
-		return getEventsForUserByStatus(friendId, "not_replied", pagingParams);
-	}
-
 	public PagedList<EventInvitee> getNoReplies(String eventId) {
 		return graphApi.fetchConnections(eventId, "noreply", EventInvitee.class);
 	}
@@ -137,14 +105,6 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 		return getEventsForUserByStatus("me", "declined", pagingParams);
 	}
 	
-	public PagedList<Invitation> getFriendDeclined(String friendId) {
-		return getEventsForUserByStatus(friendId, "declined", new PagingParameters(25, 0, null, null));
-	}
-
-	public PagedList<Invitation> getFriendDeclined(String friendId, PagingParameters pagingParams) {
-		return getEventsForUserByStatus(friendId, "declined", pagingParams);
-	}
-
 	public PagedList<EventInvitee> getDeclined(String eventId) {
 		return graphApi.fetchConnections(eventId, "declined", EventInvitee.class);
 	}

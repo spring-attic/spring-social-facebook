@@ -39,32 +39,12 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
-	public void getCreated_friend() {
-		mockServer.expect(requestTo(fbUrl("123456789/events/created?offset=0&limit=25")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
-		List<Invitation> events = facebook.eventOperations().getFriendCreated("123456789");
-		assertInvitations(events);
-	}
-
-	@Test
 	public void getAttending_user() {
 		mockServer.expect(requestTo(fbUrl("me/events/attending?offset=0&limit=25")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
 		List<Invitation> events = facebook.eventOperations().getAttending();
-		assertInvitations(events);
-	}
-
-	@Test
-	public void getAttending_friend() {
-		mockServer.expect(requestTo(fbUrl("123456789/events/attending?offset=0&limit=25")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
-		List<Invitation> events = facebook.eventOperations().getFriendAttending("123456789");
 		assertInvitations(events);
 	}
 
@@ -79,16 +59,6 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
-	public void getMaybe_friend() {
-		mockServer.expect(requestTo(fbUrl("123456789/events/maybe?offset=0&limit=25")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
-		List<Invitation> events = facebook.eventOperations().getFriendMaybeAttending("123456789");
-		assertInvitations(events);
-	}
-
-	@Test
 	public void getNoReplies_user() {
 		mockServer.expect(requestTo(fbUrl("me/events/not_replied?offset=0&limit=25")))
 			.andExpect(method(GET))
@@ -99,32 +69,12 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
-	public void getNoReplies_friend() {
-		mockServer.expect(requestTo(fbUrl("123456789/events/not_replied?offset=0&limit=25")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
-		List<Invitation> events = facebook.eventOperations().getFriendNoReplies("123456789");
-		assertInvitations(events);
-	}
-
-	@Test
 	public void getDeclined_user() {
 		mockServer.expect(requestTo(fbUrl("me/events/declined?offset=0&limit=25")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
 		List<Invitation> events = facebook.eventOperations().getDeclined();
-		assertInvitations(events);
-	}
-
-	@Test
-	public void getDeclined_friend() {
-		mockServer.expect(requestTo(fbUrl("123456789/events/declined?offset=0&limit=25")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("user-events"), MediaType.APPLICATION_JSON));
-		List<Invitation> events = facebook.eventOperations().getFriendDeclined("123456789");
 		assertInvitations(events);
 	}
 

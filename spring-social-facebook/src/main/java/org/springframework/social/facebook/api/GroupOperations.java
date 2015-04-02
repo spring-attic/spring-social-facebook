@@ -81,12 +81,12 @@ public interface GroupOperations {
 
 	/**
 	 * Retrieves a list of group memberships for a specific user.
-	 * Requires "user_groups" or "friends_groups" permission. 
+	 * Requires "user_groups" permission. 
 	 * @param userId the user ID to retrieve memberships for.
 	 * @return a list of {@link GroupMembership}s, one for each group the user is a member of.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
-	 * @throws InsufficientPermissionException if the user has not granted "user_groups" or "friends_groups" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "user_groups" permission.
 	 */
 	PagedList<GroupMembership> getMemberships(String userId);
 	
