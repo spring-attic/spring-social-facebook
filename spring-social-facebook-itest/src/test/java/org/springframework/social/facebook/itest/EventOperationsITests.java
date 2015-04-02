@@ -73,11 +73,6 @@ public class EventOperationsITests extends FacebookITest implements ITestCredent
 		assertEquals(0, eventOps1.getCreated().size());
 		assertEquals(0, eventOps1.getDeclined().size());
 		assertEquals(0, eventOps1.getMaybeAttending().size());
-		assertEquals(0, eventOps1.getFriendAttending(testUser2.getId()).size());
-		assertEquals(0, eventOps1.getFriendCreated(testUser2.getId()).size());
-		assertEquals(0, eventOps1.getFriendDeclined(testUser2.getId()).size());
-		assertEquals(0, eventOps1.getFriendMaybeAttending(testUser2.getId()).size());
-		assertEquals(0, eventOps1.getFriendNoReplies(testUser2.getId()).size());
 		assertEquals(0, eventOps1.getNoReplies().size());
 	}
 

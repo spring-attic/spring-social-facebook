@@ -24,6 +24,7 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.Permission;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.TestUser;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
@@ -42,7 +43,7 @@ public class UserOperationsITests extends FacebookITest implements ITestCredenti
 		
 		Facebook fb = new FacebookTemplate(testUser.getAccessToken());
 		
-		List<String> userPermissions = fb.userOperations().getUserPermissions();
+		List<Permission> userPermissions = fb.userOperations().getUserPermissions();
 		assertEquals(2, userPermissions.size());
 		
 		FacebookProfile profile = fb.userOperations().getUserProfile();
