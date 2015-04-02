@@ -20,10 +20,8 @@ import static org.springframework.social.facebook.api.impl.PagedListUtils.*;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.FacebookLink;
@@ -202,64 +200,6 @@ class FeedTemplate extends AbstractFacebookOperations implements FeedOperations 
 		graphApi.delete(id);
 	}
 
-	public PagedList<Post> searchPublicFeed(String query) {
-		return searchPublicFeed(query, FIRST_PAGE);
-	}
-	
-	public PagedList<Post> searchPublicFeed(String query, PagingParameters pagedListParameters) {
-		String url = GraphApi.GRAPH_API_URL + "search?q={query}&type=post";
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("query", query);
-		if (pagedListParameters.getLimit() != null) {
-			url += "&limit={limit}";
-			params.put("limit", pagedListParameters.getLimit());
-		}
-		if (pagedListParameters.getSince() != null) {
-			url += "&since={since}";
-			params.put("since", pagedListParameters.getSince());
-		}
-		if (pagedListParameters.getUntil() != null) {
-			url += "&until={until}";
-			params.put("until", pagedListParameters.getUntil());
-		}
-		JsonNode responseNode = restTemplate.getForObject(url, JsonNode.class, params);
-		return deserializeList(responseNode, null, Post.class);
-	}
-	
-	public PagedList<Post> searchHomeFeed(String query) {
-		return searchHomeFeed(query, FIRST_PAGE);
-	}
-	
-	public PagedList<Post> searchHomeFeed(String query, PagingParameters pagedListParameters) {
-		requireAuthorization();
-		URIBuilder uriBuilder = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + "me/home").queryParam("q", query);
-		uriBuilder = appendPagedListParameters(pagedListParameters, uriBuilder);
-		URI uri = uriBuilder.build();
-		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
-		return deserializeList(responseNode, null, Post.class);
-	}
-
-	public PagedList<Post> searchUserFeed(String query) {
-		return searchUserFeed("me", query, FIRST_PAGE);
-	}
-
-	public PagedList<Post> searchUserFeed(String query, PagingParameters pagedListParameters) {
-		return searchUserFeed("me", query, pagedListParameters);
-	}
-
-	public PagedList<Post> searchUserFeed(String userId, String query) {
-		return searchUserFeed(userId, query, FIRST_PAGE);
-	}
-	
-	public PagedList<Post> searchUserFeed(String userId, String query, PagingParameters pagedListParameters) {
-		requireAuthorization();
-		URIBuilder uriBuilder = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userId + "/feed").queryParam("q", query);
-		uriBuilder = appendPagedListParameters(pagedListParameters, uriBuilder);		
-		URI uri = uriBuilder.build();
-		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
-		return deserializeList(responseNode, null, Post.class);
-	}
-	
 	public PagedList<Post> getCheckins() {
 		return getCheckins(new PagingParameters(25, 0, null, null));
 	}

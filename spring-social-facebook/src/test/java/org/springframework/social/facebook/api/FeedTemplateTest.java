@@ -432,63 +432,6 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 	public void deleteFeedEntry_unauthorized() {
 		unauthorizedFacebook.feedOperations().deletePost("123456_78901234");
 	}
-
-	@Test
-	public void searchPublicFeed() {
-		mockServer.expect(requestTo(fbUrl("search?q=Dr%20Seuss&type=post&limit=25")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("post-list"), MediaType.APPLICATION_JSON));
-		List<Post> posts = facebook.feedOperations().searchPublicFeed("Dr Seuss");
-		assertPostList(posts);
-	}
-
-	@Test
-	public void searchHomeFeed() {
-		mockServer.expect(requestTo(fbUrl("me/home?q=Dr+Seuss&limit=25")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("post-list"), MediaType.APPLICATION_JSON));
-		List<Post> posts = facebook.feedOperations().searchHomeFeed("Dr Seuss");
-		assertPostList(posts);
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void searchHomeFeed_unauthorized() {
-		unauthorizedFacebook.feedOperations().searchHomeFeed("Dr Seuss");
-	}
-
-	@Test 
-	public void searchUserFeed_currentUser() {
-		mockServer.expect(requestTo(fbUrl("me/feed?q=Football&limit=25")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
-		List<Post> feed = facebook.feedOperations().searchUserFeed("Football");		
-		assertEquals(5, feed.size());		
-		assertFeedEntries(feed);
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void searchUserFeed_currentUser_unauthorized() {
-		unauthorizedFacebook.feedOperations().searchUserFeed("Football");
-	}
-	
-	@Test 
-	public void searchUserFeed_specificUser() {
-		mockServer.expect(requestTo(fbUrl("123456789/feed?q=Football&limit=25")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
-		List<Post> feed = facebook.feedOperations().searchUserFeed("123456789", "Football");		
-		assertEquals(5, feed.size());		
-		assertFeedEntries(feed);
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void searchUserFeed_specificUser_unauthorized() {
-		unauthorizedFacebook.feedOperations().searchUserFeed("123456789", "Football");
-	}
 	
 	@Test
 	public void getCheckins() {
@@ -579,28 +522,6 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("6628568379", checkin2.getApplication().getId());
 		assertEquals("Facebook for iPhone", checkin2.getApplication().getName());
 		assertEquals(toDate("2011-02-11T20:59:41+0000"), checkin2.getCreatedTime());
-	}
-	
-	private void assertPostList(List<Post> posts) {
-		assertEquals(3, posts.size());
-		assertEquals("825100071_10150596184825072", posts.get(0).getId());
-		assertEquals("825100071", posts.get(0).getFrom().getId());
-		assertEquals("Adrian Hunley", posts.get(0).getFrom().getName());
-		assertEquals("\"Today you are you! That is truer than true! There is no one alive who is you-er than you!\"\n-Dr. Seuss", posts.get(0).getMessage());
-		assertEquals(toDate("2011-05-13T02:32:21+0000"), posts.get(0).getCreatedTime());
-		assertEquals(toDate("2011-05-13T02:32:21+0000"), posts.get(0).getUpdatedTime());
-		assertEquals("100000224762665_227473300603494", posts.get(1).getId());
-		assertEquals("100000224762665", posts.get(1).getFrom().getId());
-		assertEquals("Machelle Allen Bitton", posts.get(1).getFrom().getName());
-		assertEquals("When beetles fight these battles in a bottle with their paddles\nand the bottle's on a poodle and the poodle's eating noodles...\n...they call this a muddle puddle tweetle poodle beetle noodle\nbottle paddle battle.\"\n\u2014 Dr. Seuss (Fox in Socks)", posts.get(1).getMessage());
-		assertEquals(toDate("2011-05-13T01:41:50+0000"), posts.get(1).getCreatedTime());
-		assertEquals(toDate("2011-05-13T01:41:50+0000"), posts.get(1).getUpdatedTime());
-		assertEquals("100000132946459_227565820591181", posts.get(2).getId());
-		assertEquals("100000132946459", posts.get(2).getFrom().getId());
-		assertEquals("William Terry", posts.get(2).getFrom().getName());
-		assertEquals("and that's when I realized, the greatest rapper of all time, was Dr. Seuss", posts.get(2).getMessage());
-		assertEquals(toDate("2011-05-13T01:26:13+0000"), posts.get(2).getCreatedTime());
-		assertEquals(toDate("2011-05-13T01:26:13+0000"), posts.get(2).getUpdatedTime());
 	}
 	
 	private void assertFeedEntries(List<Post> feed) {
