@@ -20,8 +20,10 @@ import static org.springframework.http.HttpMethod.*;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -255,12 +257,19 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-permissions"), MediaType.APPLICATION_JSON));
-		List<String> permissions = facebook.userOperations().getUserPermissions();
+		List<Permission> permissions = facebook.userOperations().getUserPermissions();
+		
+		
+		Map<String, String> expectedPermissions = new HashMap<String, String>();
+		expectedPermissions.put("user_photos", "granted");
+		expectedPermissions.put("user_location", "declined");
+		expectedPermissions.put("read_stream", "granted");
+		expectedPermissions.put("publish_stream", "declined");
 		assertEquals(4, permissions.size());
-		assertTrue(permissions.contains("status_update"));
-		assertTrue(permissions.contains("offline_access"));
-		assertTrue(permissions.contains("read_stream"));
-		assertTrue(permissions.contains("publish_stream"));
+		for (Permission permission : permissions) {
+			assertTrue(expectedPermissions.containsKey(permission.getName()));
+			assertEquals(expectedPermissions.get(permission.getName()), permission.getStatus());
+		}
 	}
 	
 	@Test(expected = NotAuthorizedException.class)

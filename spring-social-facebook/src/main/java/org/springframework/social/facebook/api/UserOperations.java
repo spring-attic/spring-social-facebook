@@ -80,7 +80,7 @@ public interface UserOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	List<String> getUserPermissions();
+	List<Permission> getUserPermissions();
 	
 	/**
 	 * Searches for users.

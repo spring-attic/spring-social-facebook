@@ -23,6 +23,7 @@ import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.Permission;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.util.LinkedMultiValueMap;
@@ -70,7 +71,7 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		return graphApi.fetchImage(userId, "picture", imageType);
 	}
 
-	public List<String> getUserPermissions() {
+	public List<Permission> getUserPermissions() {
 		requireAuthorization();
 		JsonNode responseNode = restTemplate.getForObject(GraphApi.GRAPH_API_URL + "me/permissions", JsonNode.class);
 		return deserializePermissionsNodeToList(responseNode);
@@ -84,16 +85,14 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 		return graphApi.fetchConnections("search", null, Reference.class, queryMap);
 	}
 
-	private List<String> deserializePermissionsNodeToList(JsonNode jsonNode) {
+	private List<Permission> deserializePermissionsNodeToList(JsonNode jsonNode) {
 		JsonNode dataNode = jsonNode.get("data");			
-		List<String> permissions = new ArrayList<String>();
+		List<Permission> permissions = new ArrayList<Permission>();
 		for (Iterator<JsonNode> elementIt = dataNode.elements(); elementIt.hasNext(); ) {
 			JsonNode permissionsElement = elementIt.next();
 			String name = permissionsElement.get("permission").asText();
 			String status = permissionsElement.get("status").asText();
-			if ("granted".equals(status)) {
-				permissions.add(name);
-			}
+			permissions.add(new Permission(name, status));
 		}
 		return permissions;
 	}

@@ -1,12 +1,12 @@
 {
   "data": [
     {
-      "permission": "status_update", 
+      "permission": "user_photos", 
       "status": "granted"
     }, 
     {
-      "permission": "offline_access", 
-      "status": "granted"
+      "permission": "user_location", 
+      "status": "declined"
     }, 
     {
       "permission": "read_stream", 
@@ -14,7 +14,7 @@
     }, 
     {
       "permission": "publish_stream", 
-      "status": "granted"
+      "status": "declined"
     }
   ]
 }
