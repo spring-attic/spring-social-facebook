@@ -12,5 +12,11 @@
 			"name": "Rod Johnson",
 			"id": "24680"
 		}
-	]
+	],
+	"paging": {
+		"next": "https://graph.facebook.com/v2.3/1255689239/friends?limit=25&offset=25&__after_id=enc_AdCT6WOXITvyG4Eyez7xvw0SjoDHMKspZBotK4rlsiZCmufw419aT8Ff4lWofDrfqHsPkZD"
+	}, 
+	"summary": {
+		"total_count": 477
+	}
 }

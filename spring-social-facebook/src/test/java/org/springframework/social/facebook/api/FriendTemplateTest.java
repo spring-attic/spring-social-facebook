@@ -22,7 +22,6 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
@@ -66,7 +65,8 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("friends"), MediaType.APPLICATION_JSON));
-		List<Reference> friends = facebook.friendOperations().getFriends();
+		PagedList<Reference> friends = facebook.friendOperations().getFriends();
+		assertEquals(477, friends.getTotalCount().intValue());
 		assertFriends(friends);
 	}
 
@@ -81,7 +81,8 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("friends"), MediaType.APPLICATION_JSON));
-		List<Reference> friends = facebook.friendOperations().getFriends("912873465");
+		PagedList<Reference> friends = facebook.friendOperations().getFriends("912873465");
+		assertEquals(477, friends.getTotalCount().intValue());
 		assertFriends(friends);
 	}
 
@@ -96,7 +97,8 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("friend-ids"), MediaType.APPLICATION_JSON));
-		List<String> friendIds = facebook.friendOperations().getFriendIds();
+		PagedList<String> friendIds = facebook.friendOperations().getFriendIds();
+		assertEquals(477, friendIds.getTotalCount().intValue());
 		assertFriendIds(friendIds);
 	}
 
@@ -112,7 +114,8 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("friend-ids"), MediaType.APPLICATION_JSON));
 		// TODO: Come up with a better set of representative test data
-		List<String> friendIds = facebook.friendOperations().getFriendIds("912873465");
+		PagedList<String> friendIds = facebook.friendOperations().getFriendIds("912873465");
+		assertEquals(477, friendIds.getTotalCount().intValue());
 		assertFriendIds(friendIds);
 	}
 	
@@ -127,7 +130,8 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-profiles"), MediaType.APPLICATION_JSON));
-		List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles();
+		PagedList<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles();
+		assertEquals(477, friends.getTotalCount().intValue());
 		assertFriendProfiles(friends);
 	}
 
@@ -142,7 +146,8 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-profiles"), MediaType.APPLICATION_JSON));
-		List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles("1234567");
+		PagedList<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles("1234567");
+		assertEquals(477, friends.getTotalCount().intValue());
 		assertFriendProfiles(friends);
 	}
 	
@@ -179,17 +184,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 	@Test(expected = NotAuthorizedException.class)
 	public void getFamily_forSpecificUser_unauthorized() {
 		unauthorizedFacebook.friendOperations().getFamily("12345678900");
-	}
-	
-	@Test
-	@Ignore("Graph API doesn't seem to support this for any user other than /me.")
-	public void getMutualFriends_forSpecificUser() {
-//		mockServer.expect(requestTo(GraphApi.GRAPH_API_URL + "9876543210/mutualfriends?user=12345678900"))
-//			.andExpect(method(GET))
-//			.andExpect(header("Authorization", "OAuth someAccessToken"))
-//			.andRespond(withResponse(jsonResource("friends"), responseHeaders));
-//		List<Reference> mutualFriends = facebook.friendOperations().getMutualFriends("9876543210", "12345678900");
-//		assertFriends(mutualFriends);		
 	}
 	
 	private void assertFriends(List<Reference> friends) {

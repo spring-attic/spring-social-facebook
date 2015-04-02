@@ -18,7 +18,6 @@ package org.springframework.social.facebook.api.impl;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.FamilyMember;
@@ -31,6 +30,9 @@ import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 class FriendTemplate extends AbstractFacebookOperations implements FriendOperations {
 	
@@ -78,14 +80,16 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	public PagedList<String> getFriendIds(String userId) {
 		requireAuthorization();		
 		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userId + "/friends").queryParam("fields", "id").build();
-		@SuppressWarnings("unchecked")
-		Map<String,PagedList<Map<String, String>>> response = restTemplate.getForObject(uri, Map.class);
-		List<Map<String,String>> entryList = response.get("data");
-		List<String> idList = new ArrayList<String>(entryList.size());
-		for (Map<String, String> entry : entryList) {
-			idList.add(entry.get("id"));
-		}	
-		return new PagedList<String>(idList, null, null);
+		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
+		ArrayNode dataNode = (ArrayNode) responseNode.get("data");
+		List<String> idList = new ArrayList<String>(dataNode.size());
+		for (JsonNode entryNode : dataNode) {
+			idList.add(entryNode.get("id").textValue());
+		}
+		
+		Integer totalCount = responseNode.has("summary") && responseNode.get("summary").has("total_count") ?
+				responseNode.get("summary").get("total_count").asInt() : null;
+		return new PagedList<String>(idList, null, null, totalCount);
 	}
 	
 	public PagedList<FacebookProfile> getFriendProfiles(String userId) {
@@ -101,7 +105,7 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 		parameters.set("fields", FULL_PROFILE_FIELDS);
 		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
 	}
-
+	
 	public PagedList<FamilyMember> getFamily() {
 		requireAuthorization();
 		return graphApi.fetchConnections("me", "family", FamilyMember.class);

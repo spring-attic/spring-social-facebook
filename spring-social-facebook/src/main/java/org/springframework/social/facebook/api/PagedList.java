@@ -25,10 +25,17 @@ public class PagedList<T> extends ArrayList<T> {
 	
 	private final PagingParameters nextPage;
 
+	private final Integer totalCount;
+
 	public PagedList(List<T> unpagedList, PagingParameters previousPage, PagingParameters nextPage) {
+		this(unpagedList, previousPage, nextPage, null);
+	}
+	
+	public PagedList(List<T> unpagedList, PagingParameters previousPage, PagingParameters nextPage, Integer totalCount) {
 		super(unpagedList);
 		this.previousPage = previousPage;
 		this.nextPage = nextPage;
+		this.totalCount = totalCount;
 	}
 
 	public PagingParameters getPreviousPage() {
@@ -39,5 +46,15 @@ public class PagedList<T> extends ArrayList<T> {
 		return nextPage;
 	}
 
+	/**
+	 * The total number of objects. This number may be greater than the number of objects returned in a query.
+	 * 
+	 * For instance, when fetching a list of a user's friends, the list will only contain reference to those friends
+	 * who are also using the querying application, but the total count will be the count of all of the user's friends.
+	 * @return the total count. May be null if the count is unavailable.
+	 */
+	public Integer getTotalCount() {
+		return totalCount;
+	}
 
 }

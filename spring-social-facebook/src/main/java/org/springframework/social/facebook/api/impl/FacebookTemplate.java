@@ -252,13 +252,23 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 
 	private <T> PagedList<T> pagify(Class<T> type, JsonNode jsonNode) {
 		List<T> data = deserializeDataList(jsonNode.get("data"), type);
-		if (jsonNode.has("paging")) {
-			JsonNode pagingNode = jsonNode.get("paging");
-			PagingParameters previousPage = getPagedListParameters(pagingNode, "previous");
-			PagingParameters nextPage = getPagedListParameters(pagingNode, "next");
-			return new PagedList<T>(data, previousPage, nextPage);
+		if (!jsonNode.has("paging")) {
+			return new PagedList<T>(data, null, null);
 		}
-		return new PagedList<T>(data, null, null);
+		
+		JsonNode pagingNode = jsonNode.get("paging");
+		PagingParameters previousPage = getPagedListParameters(pagingNode, "previous");
+		PagingParameters nextPage = getPagedListParameters(pagingNode, "next");
+		
+		Integer totalCount = null;
+		if (jsonNode.has("summary")) {
+			JsonNode summaryNode = jsonNode.get("summary");
+			if (summaryNode.has("total_count")) {
+				totalCount = summaryNode.get("total_count").intValue();
+			}
+		}
+		
+		return new PagedList<T>(data, previousPage, nextPage, totalCount);
 	}
 
 	public byte[] fetchImage(String objectId, String connectionType, ImageType type) {
