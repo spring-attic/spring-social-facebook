@@ -28,10 +28,10 @@ public interface FriendOperations {
 
 	/**
 	 * Retrieves a list of custom friend lists belonging to the authenticated user.
-	 * Requires "read_friendlists" permission.
+	 * Requires "read_custom_friendlists" permission.
 	 * @return a list {@link Reference}s, each representing a friends list for the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "read_friendlists" permission.
+	 * @throws InsufficientPermissionException if the user has not granted "read_custom_friendlists" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Reference> getFriendLists();
