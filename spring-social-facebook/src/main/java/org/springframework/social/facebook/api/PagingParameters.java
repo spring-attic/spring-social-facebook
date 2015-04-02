@@ -38,6 +38,8 @@ public class PagingParameters implements Serializable {
 	private final String after;
 
 	private final String before;
+	
+	private final String pagingToken;
 
 	/**
 	 * Constructs a PagedListParameters.
@@ -47,16 +49,42 @@ public class PagingParameters implements Serializable {
 	 * @param until The ending timestamp bound for time-sensitive content (e.g., posts, comments, etc).
 	 */
 	public PagingParameters(Integer limit, Integer offset, Long since, Long until) {
-		this(limit, offset, since, until, null, null);
+		this(limit, offset, since, until, null, null, null);
+	}
+
+	/**
+	 * Constructs a PagedListParameters.
+	 * @param limit The number of items to limit the list to.
+	 * @param offset The offset into the full result list to start this list at.
+	 * @param since The beginning timestamp bound for time-sensitive content (e.g., posts, comments, etc).
+	 * @param until The ending timestamp bound for time-sensitive content (e.g., posts, comments, etc).
+	 * @param after A cursor token that points to the end of the page being returned. 
+	 * @param before A cursor token that points to the start of the page being returned. 
+	 */
+	public PagingParameters(Integer limit, Integer offset, Long since, Long until, String after, String before) {
+		this(limit, offset, since, until, after, before, null);
 	}
 	
-	public PagingParameters(Integer limit, Integer offset, Long since, Long until, String after, String before) {
+	/**
+	 * Constructs a PagedListParameters.
+	 * @param limit The number of items to limit the list to.
+	 * @param offset The offset into the full result list to start this list at.
+	 * @param since The beginning timestamp bound for time-sensitive content (e.g., posts, comments, etc).
+	 * @param until The ending timestamp bound for time-sensitive content (e.g., posts, comments, etc).
+	 * @param after A cursor token that points to the end of the page being returned. 
+	 * @param before A cursor token that points to the start of the page being returned. 
+	 * @param pagingToken A page token. This is undocumented by Facebook and its purpose is unclear, 
+	 *                    but if it's available, it helps prevent the last item in a page of results 
+	 *                    from appearing as the first item on the next page.
+	 */
+	public PagingParameters(Integer limit, Integer offset, Long since, Long until, String after, String before, String pagingToken) {
 		this.limit = limit;
 		this.offset = offset;
 		this.since = since;
 		this.until = until;
 		this.after = after;
 		this.before = before;
+		this.pagingToken = pagingToken;
 	}
 	
 	public Integer getLimit() {
@@ -83,6 +111,10 @@ public class PagingParameters implements Serializable {
 		return before;
 	}
 	
+	public String getPagingToken() {
+		return pagingToken;
+	}
+	
 	public MultiValueMap<String, String> toMap() {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		if (limit != null) { map.set("limit", String.valueOf(limit)); }
@@ -91,6 +123,7 @@ public class PagingParameters implements Serializable {
 		if (until != null) { map.set("until", String.valueOf(until)); }
 		if (after != null) { map.set("after", after); }
 		if (before != null) { map.set("before", before); }
+		if (pagingToken != null) { map.set("__paging_token", pagingToken); }
 		return map;
 	}
 	

@@ -37,13 +37,14 @@ class PagedListUtils {
 		String offsetString = extractParameterValueFromUrl(pageNode, "offset");
 		String after = extractEncodedParameterValueFromUrl(pageNode, "after");
 		String before = extractEncodedParameterValueFromUrl(pageNode, "before");
+		String pagingToken = extractEncodedParameterValueFromUrl(pageNode, "__paging_token");
 		
 		return new PagingParameters(
 				limitString != null ? Integer.valueOf(limitString) : null, 
 				offsetString != null ? Integer.valueOf(offsetString) : null,
 				sinceString != null ? Long.valueOf(sinceString) : null, 
 				untilString != null ? Long.valueOf(untilString) : null,
-				after, before);
+				after, before, pagingToken);
 	}
 
 	public static MultiValueMap<String, String> getPagingParameters(PagingParameters pagedListParameters) {
