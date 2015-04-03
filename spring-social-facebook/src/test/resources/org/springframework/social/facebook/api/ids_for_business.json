@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id" : "123456",
+      "app" : {
+        "id" : "APP1",
+        "name" : "App one"
+      }
+    },
+    {
+      "id" : "987654",
+      "app" : {
+        "id" : "APP2",
+        "name" : "App two"
+      }
+    }
+  ],
+   "paging": {
+      "previous": "https://graph.facebook.com/me/ids_for_business?limit=25&since=1306915200",
+      "next": "https://graph.facebook.com/me/ids_for_business?limit=25&until=1306915200"
+   }
+}

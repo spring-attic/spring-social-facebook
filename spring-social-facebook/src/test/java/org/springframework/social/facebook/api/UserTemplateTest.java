@@ -257,6 +257,23 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 	}
 	
 	@Test
+	public void getIdsForBusiness() {
+		mockServer.expect(requestTo(fbUrl("me/ids_for_business")))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("ids_for_business"), MediaType.APPLICATION_JSON));
+		List<UserIdForApp> idsForBusiness = facebook.userOperations().getIdsForBusiness();
+		
+		assertEquals(2, idsForBusiness.size());
+		assertEquals("123456", idsForBusiness.get(0).getId());
+		assertEquals("APP1", idsForBusiness.get(0).getApp().getId());
+		assertEquals("App one", idsForBusiness.get(0).getApp().getName());
+		assertEquals("987654", idsForBusiness.get(1).getId());
+		assertEquals("APP2", idsForBusiness.get(1).getApp().getId());
+		assertEquals("App two", idsForBusiness.get(1).getApp().getName());
+	}
+	
+	@Test
 	public void search() {
 		mockServer.expect(requestTo(fbUrl("search?q=Michael+Scott&type=user")))
 			.andExpect(method(GET))

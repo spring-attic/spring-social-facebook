@@ -82,6 +82,8 @@ public interface UserOperations {
 	 */
 	List<Permission> getUserPermissions();
 	
+	List<UserIdForApp> getIdsForBusiness();
+	
 	/**
 	 * Searches for users.
 	 * @param query the search query (e.g., "Michael Scott")
