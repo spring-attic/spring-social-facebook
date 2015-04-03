@@ -15,31 +15,28 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PagedList<T> extends CountedList<T> {
+public class CountedList<T> extends ArrayList<T> {
 	private static final long serialVersionUID = 1L;
 
-	private final PagingParameters previousPage;
-	
-	private final PagingParameters nextPage;
+	private final Integer totalCount;
 
-	public PagedList(List<T> unpagedList, PagingParameters previousPage, PagingParameters nextPage) {
-		this(unpagedList, previousPage, nextPage, null);
-	}
-	
-	public PagedList(List<T> unpagedList, PagingParameters previousPage, PagingParameters nextPage, Integer totalCount) {
-		super(unpagedList, totalCount);
-		this.previousPage = previousPage;
-		this.nextPage = nextPage;
+	public CountedList(List<T> unpagedList, Integer totalCount) {
+		super(unpagedList);
+		this.totalCount = totalCount;
 	}
 
-	public PagingParameters getPreviousPage() {
-		return previousPage;
-	}
-
-	public PagingParameters getNextPage() {
-		return nextPage;
+	/**
+	 * The total number of objects. This number may be greater than the number of objects returned in a query.
+	 * 
+	 * For instance, when fetching a list of a user's friends, the list will only contain reference to those friends
+	 * who are also using the querying application, but the total count will be the count of all of the user's friends.
+	 * @return the total count. May be null if the count is unavailable.
+	 */
+	public Integer getTotalCount() {
+		return totalCount;
 	}
 
 }

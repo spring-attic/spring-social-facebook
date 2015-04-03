@@ -45,6 +45,7 @@ import org.springframework.social.facebook.api.OpenGraphOperations;
 import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
+import org.springframework.social.facebook.api.SocialContextOperations;
 import org.springframework.social.facebook.api.TestUserOperations;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.social.facebook.api.impl.json.FacebookModule;
@@ -86,9 +87,9 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	private FeedOperations feedOperations;
 	
 	private GroupOperations groupOperations;
-
+	
 	private CommentOperations commentOperations;
-
+	
 	private LikeOperations likeOperations;
 	
 	private EventOperations eventOperations;
@@ -96,9 +97,11 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	private MediaOperations mediaOperations;
 	
 	private PageOperations pageOperations;
-		
+	
 	private OpenGraphOperations openGraphOperations;
-
+	
+	private SocialContextOperations socialContextOperations;
+	
 	private TestUserOperations testUserOperations;
 	
 	private ObjectMapper objectMapper;
@@ -191,6 +194,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return openGraphOperations;
 	}
 	
+	public SocialContextOperations socialContextOperations() {
+		return socialContextOperations;
+	}
+	
 	public String getApplicationNamespace() {
 		return applicationNamespace;
 	}
@@ -249,7 +256,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		}
 		return fetchPagedConnections(objectId, connectionType, type, queryParameters);
 	}
-
+	
 	private <T> PagedList<T> pagify(Class<T> type, JsonNode jsonNode) {
 		List<T> data = deserializeDataList(jsonNode.get("data"), type);
 		if (!jsonNode.has("paging")) {
@@ -355,6 +362,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		groupOperations = new GroupTemplate(this, isAuthorized());
 		pageOperations = new PageTemplate(this, isAuthorized());
 		testUserOperations = new TestUserTemplate(getRestTemplate(), appId);
+		socialContextOperations = new SocialContextTemplate(getRestTemplate(), isAuthorized());
 	}
 	
 	@SuppressWarnings("unchecked")

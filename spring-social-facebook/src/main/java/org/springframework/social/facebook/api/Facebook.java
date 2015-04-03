@@ -88,16 +88,22 @@ public interface Facebook extends GraphApi, ApiBinding {
 	PageOperations pageOperations();
 	
 	/**
-	 * API for performing operations on Facebook user profiles.
-	 * @return {@link UserOperations}
+	 * API for working with social contexts.
+	 * @return {@link SocialContextOperations}
 	 */
-	UserOperations userOperations();
+	SocialContextOperations socialContextOperations();
 	
 	/**
 	 * API for working with test users on Facebook.
 	 * @return {@link TestUserOperations}
 	 */
 	TestUserOperations testUserOperations();
+	
+	/**
+	 * API for performing operations on Facebook user profiles.
+	 * @return {@link UserOperations}
+	 */
+	UserOperations userOperations();
 	
 	/**
 	 * Returns the underlying {@link RestOperations} object allowing for consumption of Facebook endpoints that may not be otherwise covered by the API binding.
