@@ -274,6 +274,38 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 	}
 	
 	@Test
+	public void getTaggedPlaces() {
+		mockServer.expect(requestTo(fbUrl("me/tagged_places")))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("tagged_places"), MediaType.APPLICATION_JSON));
+		List<PlaceTag> taggedPlaces = facebook.userOperations().getTaggedPlaces();
+		assertEquals(2, taggedPlaces.size());
+		PlaceTag placeTag = taggedPlaces.get(0);
+		assertEquals("10155117367290580", placeTag.getId());
+		assertEquals("158232190858368", placeTag.getPlace().getId());
+		assertEquals(toDate("2015-02-04T14:28:51+0000"), placeTag.getCreatedTime());
+		assertEquals("Lake Buena Vista", placeTag.getPlace().getLocation().getCity());
+		assertEquals("United States", placeTag.getPlace().getLocation().getCountry());
+		assertEquals("FL", placeTag.getPlace().getLocation().getState());
+		assertEquals("32830", placeTag.getPlace().getLocation().getZip());
+		assertEquals(28.415153357468, placeTag.getPlace().getLocation().getLatitude(), 0.001);
+		assertEquals(-81.580595083499, placeTag.getPlace().getLocation().getLongitude(), 0.001);
+		assertEquals("Disney's Magic Kingdom", placeTag.getPlace().getName());
+		placeTag = taggedPlaces.get(1);
+		assertEquals("10154984104080580", placeTag.getId());
+		assertEquals("142223762504319", placeTag.getPlace().getId());
+		assertEquals(toDate("2015-01-03T15:47:59+0000"), placeTag.getCreatedTime());
+		assertEquals("Lake Buena Vista", placeTag.getPlace().getLocation().getCity());
+		assertEquals("United States", placeTag.getPlace().getLocation().getCountry());
+		assertEquals("FL", placeTag.getPlace().getLocation().getState());
+		assertEquals("32830", placeTag.getPlace().getLocation().getZip());
+		assertEquals(28.350102, placeTag.getPlace().getLocation().getLatitude(), 0.001);
+		assertEquals(-81.548863, placeTag.getPlace().getLocation().getLongitude(), 0.001);
+		assertEquals("Disney's Art of Animation Resort", placeTag.getPlace().getName());
+	}
+	
+	@Test
 	public void search() {
 		mockServer.expect(requestTo(fbUrl("search?q=Michael+Scott&type=user")))
 			.andExpect(method(GET))

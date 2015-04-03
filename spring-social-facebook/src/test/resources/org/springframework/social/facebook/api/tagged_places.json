@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "id": "10155117367290580", 
+      "created_time": "2015-02-04T14:28:51+0000", 
+      "place": {
+        "id": "158232190858368", 
+        "location": {
+          "city": "Lake Buena Vista", 
+          "country": "United States", 
+          "latitude": 28.415153357468, 
+          "longitude": -81.580595083499, 
+          "state": "FL", 
+          "zip": "32830"
+        }, 
+        "name": "Disney's Magic Kingdom"
+      }
+    }, 
+    {
+      "id": "10154984104080580", 
+      "created_time": "2015-01-03T15:47:59+0000", 
+      "place": {
+        "id": "142223762504319", 
+        "location": {
+          "city": "Lake Buena Vista", 
+          "country": "United States", 
+          "latitude": 28.350102, 
+          "longitude": -81.548863, 
+          "state": "FL", 
+          "street": "1850 Animation Way", 
+          "zip": "32830"
+        }, 
+        "name": "Disney's Art of Animation Resort"
+      }
+    }
+  ], 
+  "paging": {
+    "cursors": {
+      "before": "MTAxNTUxMTczNjcyOTA1ODA=", 
+      "after": "MTAxNTM5OTQxOTMxODU1ODA="
+    }, 
+    "next": "https://graph.facebook.com/v2.3/738140579/tagged_places?pretty=0&limit=25&after=MTAxNTM5OTQxOTMxODU1ODA="
+  }
+}

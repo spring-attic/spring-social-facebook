@@ -24,6 +24,7 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Permission;
+import org.springframework.social.facebook.api.PlaceTag;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.UserIdForApp;
 import org.springframework.social.facebook.api.UserOperations;
@@ -75,6 +76,10 @@ class UserTemplate implements UserOperations {
 	
 	public List<UserIdForApp> getIdsForBusiness() {
 		return graphApi.fetchConnections("me", "ids_for_business", UserIdForApp.class);
+	}
+	
+	public List<PlaceTag> getTaggedPlaces() {
+		return graphApi.fetchConnections("me", "tagged_places", PlaceTag.class);
 	}
 
 	public PagedList<Reference> search(String query) {

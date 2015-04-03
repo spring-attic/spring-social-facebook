@@ -82,7 +82,17 @@ public interface UserOperations {
 	 */
 	List<Permission> getUserPermissions();
 	
+	/**
+	 * Fetches IDs that the user has on any applications associated with the calling application via Facebook's Business Mapping API.
+	 * @return a list of ID-to-application mapping that the user has on related applications.
+	 */
 	List<UserIdForApp> getIdsForBusiness();
+	
+	/**
+	 * Fetches a list of places that the user has checked into or has been tagged at.
+	 * @return a list of place tags for the user.
+	 */
+	List<PlaceTag> getTaggedPlaces();
 	
 	/**
 	 * Searches for users.
