@@ -107,22 +107,6 @@ class FriendTemplate implements FriendOperations {
 		return graphApi.fetchConnections(userId, "family", FamilyMember.class);
 	}
 
-	public PagedList<Reference> getSubscribedTo() {
-		return getSubscribedTo("me");
-	}
-	
-	public PagedList<Reference> getSubscribedTo(String userId) {
-		return graphApi.fetchConnections(userId, "subscribedTo", Reference.class);
-	}
-	
-	public PagedList<Reference> getSubscribers() {
-		return getSubscribers("me");
-	}
-	
-	public PagedList<Reference> getSubscribers(String userId) {
-		return graphApi.fetchConnections(userId, "subscribers", Reference.class);
-	}
-
 	private static final String FULL_PROFILE_FIELDS = "id,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,bio,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";
 
 }

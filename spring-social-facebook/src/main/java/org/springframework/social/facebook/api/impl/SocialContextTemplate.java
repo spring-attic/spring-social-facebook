@@ -30,6 +30,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 class SocialContextTemplate implements SocialContextOperations {
 
+	private static final int LIMIT = 25;
+	
 	private final RestOperations rest;
 
 	public SocialContextTemplate(RestOperations rest) {
@@ -37,7 +39,7 @@ class SocialContextTemplate implements SocialContextOperations {
 	}
 	
 	public CountedList<Reference> getMutualFriends(String userId) {
-		return getSocialContext(userId, "mutual_friends", 20);
+		return getSocialContext(userId, "mutual_friends", LIMIT);
 	}
 
 	public CountedList<Reference> getMutualFriends(String userId, int limit) {
@@ -45,7 +47,7 @@ class SocialContextTemplate implements SocialContextOperations {
 	}
 
 	public CountedList<Reference> getAllMutualFriends(String userId) {
-		return getSocialContext(userId, "all_mutual_friends", 20);
+		return getSocialContext(userId, "all_mutual_friends", LIMIT);
 	}
 
 	public CountedList<Reference> getAllMutualFriends(String userId, int limit) {
@@ -53,7 +55,7 @@ class SocialContextTemplate implements SocialContextOperations {
 	}
 
 	public CountedList<Reference> getMutualLikes(String userId) {
-		return getSocialContext(userId, "mutual_likes", 20);
+		return getSocialContext(userId, "mutual_likes", LIMIT);
 	}
 
 	public CountedList<Reference> getMutualLikes(String userId, int limit) {
@@ -61,7 +63,7 @@ class SocialContextTemplate implements SocialContextOperations {
 	}
 
 	public CountedList<Reference> getFriendsUsingApp(String appId) {
-		return getFriendsUsingApp(appId, 20);
+		return getFriendsUsingApp(appId, LIMIT);
 	}
 	
 	public CountedList<Reference> getFriendsUsingApp(String appId, int limit) {
@@ -69,7 +71,7 @@ class SocialContextTemplate implements SocialContextOperations {
 	}
 
 	public CountedList<Reference> getFriendsWhoLike(String objectId) {
-		return getFriendsWhoLike(objectId, 20);
+		return getFriendsWhoLike(objectId, LIMIT);
 	}
 	
 	public CountedList<Reference> getFriendsWhoLike(String objectId, int limit) {
@@ -77,7 +79,7 @@ class SocialContextTemplate implements SocialContextOperations {
 	}
 
 	public CountedList<Reference> getFriendsWhoWatched(String videoId) {
-		return getFriendsWhoWatched(videoId, 20);
+		return getFriendsWhoWatched(videoId, LIMIT);
 	}
 	
 	public CountedList<Reference> getFriendsWhoWatched(String videoId, int limit) {
@@ -85,7 +87,7 @@ class SocialContextTemplate implements SocialContextOperations {
 	}
 
 	public CountedList<Reference> getFriendsWhoListenTo(String objectId) {
-		return getFriendsWhoListenTo(objectId, 20);
+		return getFriendsWhoListenTo(objectId, LIMIT);
 	}
 	
 	public CountedList<Reference> getFriendsWhoListenTo(String objectId, int limit) {
@@ -93,7 +95,7 @@ class SocialContextTemplate implements SocialContextOperations {
 	}
 	
 	public CountedList<Reference> getFriendsTaggedAt(String placeId) {
-		return getFriendsTaggedAt(placeId, 20);
+		return getFriendsTaggedAt(placeId, LIMIT);
 	}
 	
 	public CountedList<Reference> getFriendsTaggedAt(String placeId, int limit) {

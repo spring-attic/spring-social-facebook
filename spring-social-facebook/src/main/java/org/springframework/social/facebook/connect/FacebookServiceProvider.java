@@ -16,8 +16,10 @@
 package org.springframework.social.facebook.connect;
 
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
+import org.springframework.social.oauth2.OAuth2Template;
 
 /**
  * Facebook ServiceProvider implementation.
@@ -35,8 +37,16 @@ public class FacebookServiceProvider extends AbstractOAuth2ServiceProvider<Faceb
 	 * @param appNamespace The application's App Namespace as configured with Facebook. Enables use of Open Graph operations.
 	 */
 	public FacebookServiceProvider(String appId, String appSecret, String appNamespace) {
-		super(new FacebookOAuth2Template(appId, appSecret));
+		super(getOAuth2Template(appId, appSecret));
 		this.appNamespace = appNamespace;
+	}
+	
+	private static OAuth2Template getOAuth2Template(String appId, String appSecret) {
+		OAuth2Template oAuth2Template = new OAuth2Template(appId, appSecret,
+				"https://www.facebook.com/dialog/oauth", 
+				GraphApi.GRAPH_API_URL + "oauth/access_token");
+		oAuth2Template.setUseParametersForClientAuthentication(true);
+		return oAuth2Template;
 	}
 
 	public Facebook getApi(String accessToken) {

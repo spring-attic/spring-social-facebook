@@ -24,8 +24,8 @@ package org.springframework.social.facebook.api;
 public interface SocialContextOperations {
 
 	/**
-	 * Fetches a counted list of (at most 20) friends that the authenticated user shares in common with the given user.
-	 * The list will be limited to 20 (at most) mutual friends that also use the requesting application.
+	 * Fetches a counted list of (at most 25) friends that the authenticated user shares in common with the given user.
+	 * The list will be limited to 25 (at most) mutual friends that also use the requesting application.
 	 * @param userId the ID of the user to query for mutual friends
 	 * @return a {@link CountedList} of friends that the authenticated user has in common with the given user.
 	 */
@@ -41,8 +41,8 @@ public interface SocialContextOperations {
 	CountedList<Reference> getMutualFriends(String userId, int limit);
 
 	/**
-	 * Fetches a counted list of (at most 20) friends that the authenticated user shares in common with the given user.
-	 * This list will include up to 20 (at most) mutual friends, even if they do not use the requesting application.
+	 * Fetches a counted list of (at most 25) friends that the authenticated user shares in common with the given user.
+	 * This list will include up to 25 (at most) mutual friends, even if they do not use the requesting application.
 	 * In order to user this method, however, you must submit your application for review (https://developers.facebook.com/docs/apps/review). 
 	 * @param userId the ID of the user to query for mutual friends
 	 * @return a {@link CountedList} of friends that the authenticated user has in common with the given user.
@@ -60,7 +60,7 @@ public interface SocialContextOperations {
 	CountedList<Reference> getAllMutualFriends(String userId, int limit);
 
 	/**
-	 * Fetches a counted list of (at most 20) pages that both the authenticated user shares and the given user have liked.
+	 * Fetches a counted list of (at most 25) pages that both the authenticated user shares and the given user have liked.
 	 * @param userId the ID of the user to query for mutual likes
 	 * @return a {@link CountedList} of page references that both the authenticated user shares and the given user have liked.
 	 */
