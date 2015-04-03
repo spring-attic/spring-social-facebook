@@ -28,7 +28,6 @@ import java.util.Map;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-import org.springframework.social.NotAuthorizedException;
 
 /**
  * @author Craig Walls
@@ -104,11 +103,6 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEducationHistory(profile.getEducation());
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void getUserProfile_currentUser_unauthorized() {
-		unauthorizedFacebook.userOperations().getUserProfile();
-	}
-
 	@Test
 	public void getUserProfile_specificUserByUserId() {
 		mockServer.expect(requestTo(fbUrl("123456789?fields=" + PROFILE_FIELDS)))
@@ -219,11 +213,6 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void getUserProfileImage_currentUser_unauthorized() {
-		unauthorizedFacebook.userOperations().getUserProfileImage();
-	}
-
 	@Test
 	public void getUserProfileImage_specificUserByUserId() {
 		mockServer.expect(requestTo(fbUrl("1234567/picture?type=normal")))
@@ -246,11 +235,6 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void getUserProfileImage_currentUser_specificType_unauthorized() {
-		unauthorizedFacebook.userOperations().getUserProfileImage(ImageType.NORMAL);
-	}
-
 	@Test
 	public void getUserPermissions() {
 		mockServer.expect(requestTo(fbUrl("me/permissions")))
@@ -272,11 +256,6 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		}
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void getUserPermissions_unauthorized() {
-		unauthorizedFacebook.userOperations().getUserPermissions();
-	}
-	
 	@Test
 	public void search() {
 		mockServer.expect(requestTo(fbUrl("search?q=Michael+Scott&type=user")))
@@ -291,11 +270,6 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Michael Scott", results.get(1).getName());
 		assertEquals("1184963857", results.get(2).getId());
 		assertEquals("Michael Scott", results.get(2).getName());
-	}
-	
-	@Test(expected = NotAuthorizedException.class)
-	public void search_unauthorized() {
-		unauthorizedFacebook.userOperations().search("Michael Scott");
 	}
 	
 	private void assertBasicProfileData(FacebookProfile profile, boolean withMiddleName) {

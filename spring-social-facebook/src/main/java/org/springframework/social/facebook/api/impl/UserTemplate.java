@@ -32,20 +32,18 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-class UserTemplate extends AbstractFacebookOperations implements UserOperations {
+class UserTemplate implements UserOperations {
 
 	private final GraphApi graphApi;
 	
 	private final RestTemplate restTemplate;
 
-	public UserTemplate(GraphApi graphApi, RestTemplate restTemplate, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public UserTemplate(GraphApi graphApi, RestTemplate restTemplate) {
 		this.graphApi = graphApi;
 		this.restTemplate = restTemplate;
 	}
 
 	public FacebookProfile getUserProfile() {
-		requireAuthorization();
 		return getUserProfile("me");
 	}
 
@@ -54,7 +52,6 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 	}
 	
 	public byte[] getUserProfileImage() {
-		requireAuthorization();
 		return getUserProfileImage("me", ImageType.NORMAL);
 	}
 	
@@ -63,7 +60,6 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 	}
 
 	public byte[] getUserProfileImage(ImageType imageType) {
-		requireAuthorization();
 		return getUserProfileImage("me", imageType);
 	}
 	
@@ -72,13 +68,11 @@ class UserTemplate extends AbstractFacebookOperations implements UserOperations 
 	}
 
 	public List<Permission> getUserPermissions() {
-		requireAuthorization();
 		JsonNode responseNode = restTemplate.getForObject(GraphApi.GRAPH_API_URL + "me/permissions", JsonNode.class);
 		return deserializePermissionsNodeToList(responseNode);
 	}
 
 	public PagedList<Reference> search(String query) {
-		requireAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "user");

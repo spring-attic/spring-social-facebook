@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.Page.PriceRange;
 
 /**
@@ -228,11 +227,6 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertTrue(facebook.pageOperations().isPageAdmin("1212121212"));
 	}
 	
-
-	@Test(expected = NotAuthorizedException.class)
-	public void isPageAdmin_unauthorized() {
-		unauthorizedFacebook.pageOperations().isPageAdmin("2468013579");
-	}
 	
 	@Test
 	public void getAccounts() {
@@ -266,11 +260,6 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	public void postMessage_notAdmin() throws Exception {
 		expectFetchAccounts();
 		facebook.pageOperations().post("2468013579", "Hello Facebook World");
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void postMessage_unauthorized() {
-		unauthorizedFacebook.pageOperations().post("2468013579", "Hello Facebook World");
 	}
 
 	@Test
@@ -308,12 +297,6 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		facebook.pageOperations().post("2468013579", "Hello Facebook World", link);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void postLink_unauthorized() {
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
-		unauthorizedFacebook.pageOperations().post("2468013579", "Hello Facebook World", link);
-	}
-
 	@Test
 	public void postPhoto_noCaption() {
 		expectFetchAccounts();
@@ -327,11 +310,6 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void postPhoto_noCaption_unauthorized() {
-		unauthorizedFacebook.pageOperations().postPhoto("987654321", "192837465", null);
-	}
-	
 	@Test
 	public void postPhoto_withCaption() {
 		expectFetchAccounts();
@@ -345,11 +323,6 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("12345", photoId);
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void postPhoto_withCaption_unauthorized() {
-		unauthorizedFacebook.pageOperations().postPhoto("987654321", "192837465", null, "Some caption");
-	}
-
 	@Test
 	public void search() {
 		mockServer.expect(requestTo(fbUrl("search?q=coffee&type=place&center=33.050278%2C-96.745833&distance=5280")))
@@ -378,11 +351,6 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertNull(places.get(1).getLocation().getZip());
 		assertEquals(33.027734, places.get(1).getLocation().getLatitude(), 0.00001);
 		assertEquals(-96.795133, places.get(1).getLocation().getLongitude(), 0.00001);		
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void search_unauthorized() {
-		unauthorizedFacebook.pageOperations().searchPlaces("coffee", 33.050278, -96.745833, 5280);
 	}
 
 	// private helpers

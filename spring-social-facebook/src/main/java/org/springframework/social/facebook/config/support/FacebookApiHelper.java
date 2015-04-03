@@ -22,7 +22,6 @@ import org.springframework.social.config.xml.ApiHelper;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
 /**
  * Support class for JavaConfig and XML configuration support.
@@ -49,7 +48,7 @@ public class FacebookApiHelper implements ApiHelper<Facebook> {
 		if (logger.isDebugEnabled() && connection == null) {
 			logger.debug("No current connection; Returning default FacebookTemplate instance.");
 		}
-		return connection != null ? connection.getApi() : new FacebookTemplate();
+		return connection != null ? connection.getApi() : null;
 	}
 
 	private final static Log logger = LogFactory.getLog(FacebookApiHelper.class);

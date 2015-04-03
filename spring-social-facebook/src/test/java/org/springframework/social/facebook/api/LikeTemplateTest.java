@@ -27,7 +27,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.NotAuthorizedException;
 
 public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
@@ -54,11 +53,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		facebook.likeOperations().like("123456");
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void like_unauthorized() {
-		unauthorizedFacebook.likeOperations().like("123456");
-	}
-
 	@Test
 	public void unlike() {
 		mockServer.expect(requestTo(fbUrl("123456/likes")))
@@ -70,11 +64,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void unlike_unauthorized() {
-		unauthorizedFacebook.likeOperations().unlike("123456");
-	}
-	
 	@Test
 	public void getLikes() {
 		mockServer.expect(requestTo(fbUrl("12345678/likes")))
@@ -110,11 +99,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		List<Page> likes = facebook.likeOperations().getPagesLiked(PAGING_PARAMS_25_50);
 		assertLikes(likes);
 	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getPagesLiked_unauthorized() {
-		unauthorizedFacebook.likeOperations().getPagesLiked();
-	}
 	
 	@Test
 	public void getPagesLiked_forSpecificUser() {
@@ -135,11 +119,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		List<Page> likes = facebook.likeOperations().getPagesLiked("123456789", PAGING_PARAMS_25_50);
 		assertLikes(likes);
 	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getLikes_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.likeOperations().getPagesLiked("123456789");
-	}
 	
 	@Test
 	public void getBooks() {
@@ -159,11 +138,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withSuccess(jsonResource("new-user-likes"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getBooks(PAGING_PARAMS_25_50);
 		assertLikes(likes);
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getBooks_unauthorized() {
-		unauthorizedFacebook.likeOperations().getBooks();
 	}
 	
 	@Test
@@ -186,11 +160,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}	
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void getBooks_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.likeOperations().getBooks("123456789");
-	}
-	
 	@Test
 	public void getMovies() {
 		mockServer.expect(requestTo(fbUrl("me/movies?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins%2Ccover")))
@@ -211,11 +180,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void getMovies_unauthorized() {
-		unauthorizedFacebook.likeOperations().getMovies();
-	}
-
 	@Test
 	public void getMovies_forSpecificUser() {
 		mockServer.expect(requestTo(fbUrl("123456789/movies?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins%2Ccover")))
@@ -234,11 +198,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withSuccess(jsonResource("new-user-likes"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getMovies("123456789", PAGING_PARAMS_25_50);
 		assertLikes(likes);
-	}
-	
-	@Test(expected = NotAuthorizedException.class)
-	public void getMovies_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.likeOperations().getMovies("123456789");
 	}
 	
 	@Test
@@ -261,11 +220,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void getMusic_unauthorized() {
-		unauthorizedFacebook.likeOperations().getMusic();
-	}
-	
 	@Test
 	public void getMusic_forSpecificUser() {
 		mockServer.expect(requestTo(fbUrl("123456789/music?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins%2Ccover")))
@@ -286,11 +240,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void getMusic_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.likeOperations().getMusic("123456789");
-	}
-	
 	@Test
 	public void getTelevision() {
 		mockServer.expect(requestTo(fbUrl("me/television?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins%2Ccover")))
@@ -311,11 +260,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void getTelevision_unauthorized() {
-		unauthorizedFacebook.likeOperations().getTelevision();
-	}
-	
 	@Test
 	public void getTelevision_forSpecificUser() {
 		mockServer.expect(requestTo(fbUrl("123456789/television?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins%2Ccover")))
@@ -336,11 +280,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertLikes(likes);
 	}
 		
-	@Test(expected = NotAuthorizedException.class)
-	public void getTelevision_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.likeOperations().getTelevision("123456789");
-	}
-
 	@Test
 	public void getGames() {
 		mockServer.expect(requestTo(fbUrl("me/games?fields=id%2Cname%2Ccategory%2Cdescription%2Clocation%2Cwebsite%2Cpicture%2Cphone%2Caffiliation%2Ccompany_overview%2Clikes%2Ccheckins%2Ccover")))
@@ -359,11 +298,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withSuccess(jsonResource("games"), MediaType.APPLICATION_JSON));
 		List<Page> likes = facebook.likeOperations().getGames(PAGING_PARAMS_25_50);
 		assertGames(likes);
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getGames_unauthorized() {
-		unauthorizedFacebook.likeOperations().getGames();
 	}
 
 	@Test
@@ -386,11 +320,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertGames(likes);
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void getGames_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.likeOperations().getGames("123456789");
-	}
-		
 	@SuppressWarnings("deprecation")
 	private void assertLikes(List<Page> likes) {
 		assertEquals(3, likes.size());

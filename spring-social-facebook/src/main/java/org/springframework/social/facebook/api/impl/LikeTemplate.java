@@ -23,32 +23,27 @@ import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.LinkedMultiValueMap;
 
-class LikeTemplate extends AbstractFacebookOperations implements LikeOperations {
+class LikeTemplate implements LikeOperations {
 
 	private final GraphApi graphApi;
 
-	public LikeTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public LikeTemplate(GraphApi graphApi) {
 		this.graphApi = graphApi;
 	}
 
 	public void like(String objectId) {
-		requireAuthorization();
 		graphApi.post(objectId, "likes", new LinkedMultiValueMap<String, String>());
 	}
 
 	public void unlike(String objectId) {
-		requireAuthorization();
 		graphApi.delete(objectId, "likes");
 	}
 
 	public PagedList<Reference> getLikes(String objectId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(objectId, "likes", Reference.class);
 	}
 
 	public PagedList<Reference> getLikes(String objectId, PagingParameters pagingParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(objectId, "likes", Reference.class, pagingParameters.toMap());
 	}
 
@@ -61,12 +56,10 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public PagedList<Page> getPagesLiked(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "likes", Page.class, PAGE_FIELDS);
 	}
 
 	public PagedList<Page> getPagesLiked(String userId, PagingParameters pagingParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "likes", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
 	}
 
@@ -79,12 +72,10 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public PagedList<Page> getBooks(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "books", Page.class, PAGE_FIELDS);
 	}
 
 	public PagedList<Page> getBooks(String userId, PagingParameters pagingParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "books", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
 	}
 
@@ -97,12 +88,10 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public PagedList<Page> getMovies(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "movies", Page.class, PAGE_FIELDS);
 	}
 
 	public PagedList<Page> getMovies(String userId, PagingParameters pagingParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "movies", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
 	}
 
@@ -115,12 +104,10 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public PagedList<Page> getMusic(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "music", Page.class, PAGE_FIELDS);
 	}
 
 	public PagedList<Page> getMusic(String userId, PagingParameters pagingParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "music", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
 	}
 
@@ -133,12 +120,10 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public PagedList<Page> getTelevision(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "television", Page.class, PAGE_FIELDS);
 	}
 	
 	public PagedList<Page> getTelevision(String userId, PagingParameters pagingParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "television", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
 	}
 	
@@ -151,12 +136,10 @@ class LikeTemplate extends AbstractFacebookOperations implements LikeOperations 
 	}
 
 	public PagedList<Page> getGames(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "games", Page.class, PAGE_FIELDS);
 	}
 
 	public PagedList<Page> getGames(String userId, PagingParameters pagingParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "games", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
 	}
 

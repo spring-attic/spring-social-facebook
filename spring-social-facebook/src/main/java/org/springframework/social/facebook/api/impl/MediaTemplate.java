@@ -32,25 +32,22 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-class MediaTemplate extends AbstractFacebookOperations implements MediaOperations {
+class MediaTemplate implements MediaOperations {
 
 	private final GraphApi graphApi;
 	
 	private final RestTemplate restTemplate;
 
-	public MediaTemplate(GraphApi graphApi, RestTemplate restTemplate, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public MediaTemplate(GraphApi graphApi, RestTemplate restTemplate) {
 		this.graphApi = graphApi;
 		this.restTemplate = restTemplate;
 	}
 
 	public PagedList<Album> getAlbums() {
-		requireAuthorization();
 		return getAlbums("me", new PagingParameters(25, 0, null, null));
 	}
 
 	public PagedList<Album> getAlbums(PagingParameters pagedListParameters) {
-		requireAuthorization();
 		return getAlbums("me", pagedListParameters);
 	}
 
@@ -67,12 +64,10 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public String createAlbum(String name, String description) {
-		requireAuthorization();
 		return createAlbum("me", name, description);
 	}
 	
 	public String createAlbum(String ownerId, String name, String description) {
-		requireAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("name", name);
 		data.set("message", description);
@@ -84,7 +79,6 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public byte[] getAlbumImage(String albumId, ImageType imageType) {
-		requireAuthorization();
 		return graphApi.fetchImage(albumId, "picture", imageType);
 	}
 	
@@ -109,14 +103,12 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 
 	public String postPhoto(Resource photo) {
-		requireAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
 		return graphApi.publish("me", "photos", parts);
 	}
 	
 	public String postPhoto(Resource photo, String caption) {
-		requireAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
 		parts.set("message", caption);
@@ -124,14 +116,12 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public String postPhoto(String albumId, Resource photo) {
-		requireAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
 		return graphApi.publish(albumId, "photos", parts);
 	}
 	
 	public String postPhoto(String albumId, Resource photo, String caption) {
-		requireAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
 		parts.set("message", caption);
@@ -151,23 +141,19 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public PagedList<Video> getVideos(String userId, PagingParameters pagedListParameters) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "videos", Video.class, getPagingParameters(pagedListParameters));
 	}
 	
 	public Video getVideo(String videoId) {
-		requireAuthorization();
 		return graphApi.fetchObject(videoId, Video.class);
 	}
 	
 	public byte[] getVideoImage(String videoId) {
-		requireAuthorization();
 		return graphApi.fetchImage(videoId, "picture", ImageType.SMALL);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public String postVideo(Resource video) {
-		requireAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("file", video);
 		Map<String, Object> response = restTemplate.postForObject("https://graph-video.facebook.com/me/videos", parts, Map.class);
@@ -176,7 +162,6 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	
 	@SuppressWarnings("unchecked")
 	public String postVideo(Resource video, String title, String description) {
-		requireAuthorization();
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("file", video);
 		parts.set("title", title);
@@ -186,7 +171,6 @@ class MediaTemplate extends AbstractFacebookOperations implements MediaOperation
 	}
 	
 	public void tagVideo(String videoId, String userId) {
-		requireAuthorization();
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.add("tag_uid", userId);
 		graphApi.publish(videoId, "tags", data);

@@ -30,12 +30,11 @@ import org.springframework.social.facebook.api.PagedList;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class PageTemplate extends AbstractFacebookOperations implements PageOperations {
+class PageTemplate implements PageOperations {
 
 	private final GraphApi graphApi;
 
-	public PageTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public PageTemplate(GraphApi graphApi) {
 		this.graphApi = graphApi;
 	}
 
@@ -44,17 +43,14 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	}
 
 	public boolean isPageAdmin(String pageId) {
-		requireAuthorization();
 		return getAccount(pageId) != null;
 	}
 	
 	public PagedList<Account> getAccounts() {
-		requireAuthorization();
 		return graphApi.fetchConnections("me", "accounts", Account.class);
 	}
 
 	public String post(String pageId, String message) {
-		requireAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("message", message);
@@ -63,7 +59,6 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	}
 	
 	public String post(String pageId, String message, FacebookLink link) {
-		requireAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("link", link.getLink());
@@ -83,7 +78,6 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	}
 	
 	public String postPhoto(String pageId, String albumId, Resource photo, String caption) {
-		requireAuthorization();
 		String pageAccessToken = getPageAccessToken(pageId);
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
@@ -95,7 +89,6 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	}
 	
 	public PagedList<Page> search(String query) {
-		requireAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "page");
@@ -103,7 +96,6 @@ class PageTemplate extends AbstractFacebookOperations implements PageOperations 
 	}
 	
 	public PagedList<Page> searchPlaces(String query, double latitude, double longitude, long distance) {
-		requireAuthorization();
 		MultiValueMap<String, String> queryMap = new LinkedMultiValueMap<String, String>();
 		queryMap.add("q", query);
 		queryMap.add("type", "place");

@@ -22,7 +22,6 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
 /**
@@ -43,11 +42,6 @@ public class OpenGraphTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("id-only"), MediaType.APPLICATION_JSON));
 		assertEquals("297875170268724", facebook.openGraphOperations().publishAction("ding", "thing", "http://www.springsource.org/springsocial"));
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void publishAction_unauthorized() {
-		unauthorizedFacebook.openGraphOperations().publishAction("ding", "thing", "http://www.springsource.org/springsocial");
 	}
 
 }

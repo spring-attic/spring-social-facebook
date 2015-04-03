@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.social.NotAuthorizedException;
 
 public class EventTemplateTest extends AbstractFacebookApiTest {
 
@@ -195,11 +194,6 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void acceptInvitation_unauthorized() {
-		unauthorizedFacebook.eventOperations().acceptInvitation("123456789");
-	}
-
 	@Test
 	public void maybeInvitation() {
 		mockServer.expect(requestTo(fbUrl("193482154020832/maybe")))
@@ -208,11 +202,6 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
 		facebook.eventOperations().maybeInvitation("193482154020832");
 		mockServer.verify();
-	}
-	
-	@Test(expected = NotAuthorizedException.class)
-	public void maybeInvitation_unauthorized() {
-		unauthorizedFacebook.eventOperations().maybeInvitation("123456789");
 	}
 	
 	@Test
@@ -225,11 +214,6 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void declineInvitation_unauthorized() {
-		unauthorizedFacebook.eventOperations().declineInvitation("123456789");
-	}
-
 	@Test
 	public void search() {
 		mockServer.expect(requestTo(fbUrl("search?offset=0&limit=25&q=Spring+User+Group&type=event")))

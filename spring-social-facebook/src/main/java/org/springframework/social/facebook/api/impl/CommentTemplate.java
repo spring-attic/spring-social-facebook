@@ -25,12 +25,11 @@ import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class CommentTemplate extends AbstractFacebookOperations implements CommentOperations {
+class CommentTemplate implements CommentOperations {
 
 	private final GraphApi graphApi;
 
-	public CommentTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public CommentTemplate(GraphApi graphApi) {
 		this.graphApi = graphApi;
 	}
 
@@ -47,14 +46,12 @@ class CommentTemplate extends AbstractFacebookOperations implements CommentOpera
 	}
 
 	public String addComment(String objectId, String message) {
-		requireAuthorization();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("message", message);
 		return graphApi.publish(objectId, "comments", map);
 	}
 
 	public void deleteComment(String objectId) {
-		requireAuthorization();
 		graphApi.delete(objectId);
 	}
 

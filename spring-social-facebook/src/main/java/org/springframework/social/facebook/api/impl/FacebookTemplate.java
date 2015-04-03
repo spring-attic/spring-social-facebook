@@ -110,18 +110,6 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 
 	/**
 	 * Create a new instance of FacebookTemplate.
-	 * This constructor creates a new FacebookTemplate able to perform unauthenticated operations against Facebook's Graph API.
-	 * Some operations do not require OAuth authentication. 
-	 * For example, retrieving a specified user's profile or feed does not require authentication (although the data returned will be limited to what is publicly available). 
-	 * A FacebookTemplate created with this constructor will support those operations.
-	 * Those operations requiring authentication will throw {@link NotAuthorizedException}.
-	 */
-	public FacebookTemplate() {
-		initialize();
-	}
-
-	/**
-	 * Create a new instance of FacebookTemplate.
 	 * This constructor creates the FacebookTemplate using a given access token.
 	 * @param accessToken An access token given by Facebook after a successful OAuth 2 authentication (or through Facebook's JS library).
 	 */
@@ -350,19 +338,19 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 		
 	private void initSubApis() {
-		achievementOperations = new AchievementTemplate(this, isAuthorized());
-		openGraphOperations = new OpenGraphTemplate(this, isAuthorized());
-		userOperations = new UserTemplate(this, getRestTemplate(), isAuthorized());
-		friendOperations = new FriendTemplate(this, getRestTemplate(), isAuthorized());
-		feedOperations = new FeedTemplate(this, getRestTemplate(), objectMapper, isAuthorized());
-		commentOperations = new CommentTemplate(this, isAuthorized());
-		likeOperations = new LikeTemplate(this, isAuthorized());
-		eventOperations = new EventTemplate(this, isAuthorized());
-		mediaOperations = new MediaTemplate(this, getRestTemplate(), isAuthorized());
-		groupOperations = new GroupTemplate(this, isAuthorized());
-		pageOperations = new PageTemplate(this, isAuthorized());
+		achievementOperations = new AchievementTemplate(this);
+		openGraphOperations = new OpenGraphTemplate(this);
+		userOperations = new UserTemplate(this, getRestTemplate());
+		friendOperations = new FriendTemplate(this, getRestTemplate());
+		feedOperations = new FeedTemplate(this, getRestTemplate(), objectMapper);
+		commentOperations = new CommentTemplate(this);
+		likeOperations = new LikeTemplate(this);
+		eventOperations = new EventTemplate(this);
+		mediaOperations = new MediaTemplate(this, getRestTemplate());
+		groupOperations = new GroupTemplate(this);
+		pageOperations = new PageTemplate(this);
 		testUserOperations = new TestUserTemplate(getRestTemplate(), appId);
-		socialContextOperations = new SocialContextTemplate(getRestTemplate(), isAuthorized());
+		socialContextOperations = new SocialContextTemplate(getRestTemplate());
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.social.NotAuthorizedException;
 
 /**
  * @author Craig Walls
@@ -120,11 +119,6 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("123456_543210", facebook.commentOperations().addComment("123456", "Cool beans"));
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void addComment_unauthorized() {
-		unauthorizedFacebook.commentOperations().addComment("123456", "Cool beans");
-	}
-	
 	@Test
 	public void deleteComment() {
 		mockServer.expect(requestTo(fbUrl("1533260333_122829644452184_587062")))
@@ -134,11 +128,6 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 		facebook.commentOperations().deleteComment("1533260333_122829644452184_587062");
 		mockServer.verify();
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void deleteComment_unauthorized() {
-		unauthorizedFacebook.commentOperations().deleteComment("1533260333_122829644452184_587062");
 	}
 
 }

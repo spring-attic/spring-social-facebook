@@ -24,12 +24,11 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class AchievementTemplate extends AbstractFacebookOperations implements AchievementOperations {
+class AchievementTemplate implements AchievementOperations {
 
 	private GraphApi graphApi;
 	
-	public AchievementTemplate(GraphApi graphApi, boolean isAuthorized) {
-		super(isAuthorized);
+	public AchievementTemplate(GraphApi graphApi) {
 		this.graphApi = graphApi;
 	}
 

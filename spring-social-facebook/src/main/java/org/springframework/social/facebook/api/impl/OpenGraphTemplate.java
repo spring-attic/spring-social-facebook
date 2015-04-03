@@ -15,7 +15,6 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import org.springframework.social.facebook.api.ActionMetadata;
 import org.springframework.social.facebook.api.BookActions;
 import org.springframework.social.facebook.api.FitnessActions;
 import org.springframework.social.facebook.api.GeneralActions;
@@ -27,9 +26,7 @@ import org.springframework.social.facebook.api.VideoActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphOperations {
-	
-	private static final ActionMetadata EMPTY_ACTION_METADATA = new ActionMetadata();
+class OpenGraphTemplate implements OpenGraphOperations {
 	
 	private GraphApi graphApi;
 	
@@ -43,8 +40,7 @@ class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphO
 	
 	private FitnessActions fitnessActions;
 
-	public OpenGraphTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public OpenGraphTemplate(GraphApi graphApi) {
 		this.graphApi = graphApi;
 		this.generalActions = new GeneralActionsTemplate(this);
 		this.bookActions = new BookActionsTemplate(this);
@@ -84,7 +80,6 @@ class OpenGraphTemplate extends AbstractFacebookOperations implements OpenGraphO
 	}
 	
 	public String publishAction(String action, MultiValueMap<String, Object> parameters, boolean builtInAction) {
-		requireAuthorization();
 		if (!builtInAction) {
 			requireApplicationNamespace();
 		}

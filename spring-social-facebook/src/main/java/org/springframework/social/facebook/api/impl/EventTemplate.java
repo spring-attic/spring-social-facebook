@@ -28,12 +28,11 @@ import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class EventTemplate extends AbstractFacebookOperations implements EventOperations {
+class EventTemplate implements EventOperations {
 			
 	private final GraphApi graphApi;
 
-	public EventTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public EventTemplate(GraphApi graphApi) {
 		this.graphApi = graphApi;
 	}
 
@@ -110,17 +109,14 @@ class EventTemplate extends AbstractFacebookOperations implements EventOperation
 	}
 	
 	public void acceptInvitation(String eventId) {
-		requireAuthorization();
 		graphApi.post(eventId, "attending", new LinkedMultiValueMap<String, String>());
 	}
 
 	public void maybeInvitation(String eventId) {
-		requireAuthorization();
 		graphApi.post(eventId, "maybe", new LinkedMultiValueMap<String, String>());
 	}
 
 	public void declineInvitation(String eventId) {
-		requireAuthorization();
 		graphApi.post(eventId, "declined", new LinkedMultiValueMap<String, String>());
 	}
 	

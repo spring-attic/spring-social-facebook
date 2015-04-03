@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.social.NotAuthorizedException;
 
 public class FriendTemplateTest extends AbstractFacebookApiTest {
 
@@ -38,11 +37,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendLists(friendLists);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void getFriendLists_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFriendLists();
-	}
-
 	@Test
 	public void getFriendList() {
 		mockServer.expect(requestTo(GraphApi.GRAPH_API_URL + "11929590579"))
@@ -52,11 +46,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		Reference friendList = facebook.friendOperations().getFriendList("11929590579");
 		assertEquals("11929590579", friendList.getId());
 		assertEquals("High School Friends", friendList.getName());
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getFriendList_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFriendList("11929590579");
 	}
 
 	@Test
@@ -70,11 +59,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriends(friends);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void getFriends_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFriends();
-	}
-
 	@Test
 	public void getFriends_forSpecificUser() {
 		mockServer.expect(requestTo(GraphApi.GRAPH_API_URL + "912873465/friends"))
@@ -86,11 +70,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriends(friends);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void getFriends_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFriends("912873465");
-	}
-
 	@Test
 	public void getFriendIds() {
 		mockServer.expect(requestTo(GraphApi.GRAPH_API_URL + "me/friends?fields=id"))
@@ -100,11 +79,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		PagedList<String> friendIds = facebook.friendOperations().getFriendIds();
 		assertEquals(477, friendIds.getTotalCount().intValue());
 		assertFriendIds(friendIds);
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getFriendIds_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFriendIds();
 	}
 
 	@Test
@@ -119,11 +93,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendIds(friendIds);
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void getFriendIds_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFriendIds("912873465");
-	}
-
 	@Test
 	public void getFriendProfiles() {
 		mockServer.expect(requestTo(GraphApi.GRAPH_API_URL + "me/friends?fields=id%2Cname%2Cfirst_name%2Clast_name%2Cgender%2Clocale%2Ceducation%2Cwork%2Cemail%2Cthird_party_id%2Clink%2Ctimezone%2Cupdated_time%2Cverified%2Cabout%2Cbio%2Cbirthday%2Clocation%2Chometown%2Cinterested_in%2Creligion%2Cpolitical%2Cquotes%2Crelationship_status%2Csignificant_other%2Cwebsite"))
@@ -133,11 +102,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		PagedList<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles();
 		assertEquals(477, friends.getTotalCount().intValue());
 		assertFriendProfiles(friends);
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getFriendProfiles_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFriendProfiles();
 	}
 
 	@Test
@@ -151,11 +115,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFriendProfiles(friends);
 	}
 	
-	@Test(expected = NotAuthorizedException.class)
-	public void getFriendProfiles_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFriendProfiles("912873465");
-	}
-	
 	@Test
 	public void getFamily() {
 		mockServer.expect(requestTo(GraphApi.GRAPH_API_URL + "me/family"))
@@ -164,11 +123,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withSuccess(jsonResource("family"), MediaType.APPLICATION_JSON));
 		List<FamilyMember> family = facebook.friendOperations().getFamily();
 		assertFamilyMembers(family);
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getFamily_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFamily();
 	}
 
 	@Test
@@ -181,11 +135,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertFamilyMembers(family);
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void getFamily_forSpecificUser_unauthorized() {
-		unauthorizedFacebook.friendOperations().getFamily("12345678900");
-	}
-	
 	private void assertFriends(List<Reference> friends) {
 		assertEquals(3, friends.size());
 		assertEquals("12345", friends.get(0).getId());

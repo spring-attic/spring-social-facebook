@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.social.NotAuthorizedException;
 
 
 public class GroupTemplateTest extends AbstractFacebookApiTest {
@@ -65,11 +64,6 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("627039468", members.get(2).getId());
 		assertEquals("Chuck Wagon", members.get(2).getName());
 		assertTrue(members.get(2).isAdministrator());
-	}
-
-	@Test(expected = NotAuthorizedException.class)
-	public void getMembers_unauthorized() {
-		unauthorizedFacebook.groupOperations().getMembers("213106022036379");
 	}
 	
 	@Test

@@ -34,25 +34,22 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-class FriendTemplate extends AbstractFacebookOperations implements FriendOperations {
+class FriendTemplate implements FriendOperations {
 	
 	private final GraphApi graphApi;
 
 	private final RestTemplate restTemplate;
 
-	public FriendTemplate(GraphApi graphApi, RestTemplate restTemplate, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public FriendTemplate(GraphApi graphApi, RestTemplate restTemplate) {
 		this.graphApi = graphApi;
 		this.restTemplate = restTemplate;
 	}
 	
 	public PagedList<Reference> getFriendLists() {
-		requireAuthorization();
 		return graphApi.fetchConnections("me", "friendlists", Reference.class);
 	}
 
 	public Reference getFriendList(String friendListId) {
-		requireAuthorization();
 		return graphApi.fetchObject(friendListId, Reference.class);
 	}
 	
@@ -73,12 +70,10 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public PagedList<Reference> getFriends(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "friends", Reference.class);
 	}
 	
 	public PagedList<String> getFriendIds(String userId) {
-		requireAuthorization();		
 		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userId + "/friends").queryParam("fields", "id").build();
 		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
 		ArrayNode dataNode = (ArrayNode) responseNode.get("data");
@@ -93,26 +88,22 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public PagedList<FacebookProfile> getFriendProfiles(String userId) {
-		requireAuthorization();
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("fields", FULL_PROFILE_FIELDS);
 		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
 	}
 
 	public PagedList<FacebookProfile> getFriendProfiles(String userId, PagingParameters pagedListParameters) {
-		requireAuthorization();
 		MultiValueMap<String, String> parameters = PagedListUtils.getPagingParameters(pagedListParameters);
 		parameters.set("fields", FULL_PROFILE_FIELDS);
 		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
 	}
 	
 	public PagedList<FamilyMember> getFamily() {
-		requireAuthorization();
 		return graphApi.fetchConnections("me", "family", FamilyMember.class);
 	}
 
 	public PagedList<FamilyMember> getFamily(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "family", FamilyMember.class);
 	}
 
@@ -121,7 +112,6 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public PagedList<Reference> getSubscribedTo(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "subscribedTo", Reference.class);
 	}
 	
@@ -130,7 +120,6 @@ class FriendTemplate extends AbstractFacebookOperations implements FriendOperati
 	}
 	
 	public PagedList<Reference> getSubscribers(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "subscribers", Reference.class);
 	}
 

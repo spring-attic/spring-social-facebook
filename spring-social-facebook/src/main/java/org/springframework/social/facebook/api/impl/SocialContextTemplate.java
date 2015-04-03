@@ -28,12 +28,11 @@ import org.springframework.web.client.RestOperations;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-public class SocialContextTemplate extends AbstractFacebookOperations implements SocialContextOperations {
+class SocialContextTemplate implements SocialContextOperations {
 
 	private final RestOperations rest;
 
-	public SocialContextTemplate(RestOperations rest, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public SocialContextTemplate(RestOperations rest) {
 		this.rest = rest;
 	}
 	

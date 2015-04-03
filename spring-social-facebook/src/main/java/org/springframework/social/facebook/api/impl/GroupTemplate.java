@@ -26,12 +26,11 @@ import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.MultiValueMap;
 
-class GroupTemplate extends AbstractFacebookOperations implements GroupOperations {
+class GroupTemplate implements GroupOperations {
 	
 	private final GraphApi graphApi;
 
-	public GroupTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public GroupTemplate(GraphApi graphApi) {
 		this.graphApi = graphApi;
 	}
 	
@@ -48,12 +47,10 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 	}
 	
 	public PagedList<GroupMemberReference> getMembers(String groupId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(groupId, "members", GroupMemberReference.class);
 	}
 
 	public PagedList<FacebookProfile> getMemberProfiles(String groupId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(groupId, "members", FacebookProfile.class, FULL_PROFILE_FIELDS);
 	}
 	
@@ -62,7 +59,6 @@ class GroupTemplate extends AbstractFacebookOperations implements GroupOperation
 	}
 	
 	public PagedList<GroupMembership> getMemberships(String userId) {
-		requireAuthorization();
 		return graphApi.fetchConnections(userId, "groups", GroupMembership.class);
 	}
 

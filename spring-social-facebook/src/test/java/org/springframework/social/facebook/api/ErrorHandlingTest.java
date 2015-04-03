@@ -29,12 +29,9 @@ import org.springframework.social.DuplicateStatusException;
 import org.springframework.social.ExpiredAuthorizationException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.InvalidAuthorizationException;
-import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.RateLimitExceededException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.RevokedAuthorizationException;
-import org.springframework.social.facebook.api.impl.FacebookTemplate;
-import org.springframework.test.web.client.MockRestServiceServer;
 
 public class ErrorHandlingTest extends AbstractFacebookApiTest {
 	
@@ -66,26 +63,6 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		}
 	}
 
-	@Test(expected = MissingAuthorizationException.class)
-	public void resource_noAccessToken() {
-		FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo(fbUrl("me")))
-			.andExpect(method(GET))
-			.andRespond(withBadRequest().body(jsonResource("error-400-resource-no-access-token")).contentType(MediaType.APPLICATION_JSON));
-		facebook.userOperations().getUserProfile();
-	}
-	
-	@Test(expected = MissingAuthorizationException.class)
-	public void currentUser_noAccessToken() {
-		FacebookTemplate facebook = new FacebookTemplate(); // use anonymous FacebookTemplate in this test
-		MockRestServiceServer mockServer = MockRestServiceServer.createServer(facebook.getRestTemplate());
-		mockServer.expect(requestTo(fbUrl("me")))
-			.andExpect(method(GET))
-			.andRespond(withBadRequest().body(jsonResource("error-400-current-user-no-token")).contentType(MediaType.APPLICATION_JSON));
-		facebook.userOperations().getUserProfile();
-	}
-	
 	@Test(expected = ExpiredAuthorizationException.class)
 	public void currentUser_expiredToken() { // The token has expired
 		mockServer.expect(requestTo(fbUrl("me")))
