@@ -18,11 +18,11 @@ package org.springframework.social.facebook.api;
 import java.io.Serializable;
 
 /**
- * Domain type representing a taggable friend.
+ * Domain type representing an invitable friend.
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class UserTaggableFriend extends FacebookObject implements Serializable {
+public class UserInvitableFriend extends FacebookObject implements Serializable {
 
 	private final String id;
 
@@ -34,15 +34,12 @@ public class UserTaggableFriend extends FacebookObject implements Serializable {
 	
 	private final String lastName;
 
-	private ProfilePictureSource picture;
-
-	public UserTaggableFriend(String id, String name, String firstName, String middleName, String lastName, ProfilePictureSource picture) {
+	public UserInvitableFriend(String id, String name, String firstName, String middleName, String lastName) {
 		this.id = id;
 		this.name = name;
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
-		this.picture = picture;
 	}
 
 	public String getId() {
@@ -65,8 +62,4 @@ public class UserTaggableFriend extends FacebookObject implements Serializable {
 		return lastName;
 	}
 	
-	public ProfilePictureSource getPicture() {
-		return picture;
-	}
-
 }

@@ -52,6 +52,7 @@ import org.springframework.social.facebook.api.StoryAttachment;
 import org.springframework.social.facebook.api.Tag;
 import org.springframework.social.facebook.api.TestUser;
 import org.springframework.social.facebook.api.UserIdForApp;
+import org.springframework.social.facebook.api.UserInvitableFriend;
 import org.springframework.social.facebook.api.UserTaggableFriend;
 import org.springframework.social.facebook.api.Video;
 import org.springframework.social.facebook.api.Video.VideoFormat;
@@ -132,6 +133,7 @@ public class FacebookModule extends SimpleModule {
 		
 		context.setMixInAnnotations(UserIdForApp.class, UserIdForAppMixin.class);
 		
+		context.setMixInAnnotations(UserInvitableFriend.class, UserInvitableFriendMixin.class);
 		context.setMixInAnnotations(UserTaggableFriend.class, UserTaggableFriendMixin.class);
 		context.setMixInAnnotations(ProfilePictureSource.class, ProfilePictureSourceMixin.class);
 		

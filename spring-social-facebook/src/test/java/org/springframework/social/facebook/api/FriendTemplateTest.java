@@ -151,7 +151,6 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertNull(friend.getMiddleName());
 		assertEquals("Williams", friend.getLastName());
 		assertFalse(friend.getPicture().isSilhouette());
-		System.out.println(friend.getPicture().getWidth() + " :: " + friend.getPicture().getHeight());
 		assertEquals("https://picurl1", friend.getPicture().getUrl());
 		friend = taggableFriends.get(1);
 		assertEquals("ghijkl", friend.getId());
@@ -161,6 +160,29 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Walls", friend.getLastName());
 		assertFalse(friend.getPicture().isSilhouette());
 		assertEquals("https://picurl2", friend.getPicture().getUrl());
+	}
+
+	@Test
+	public void getInvitableFriends() throws Exception {
+		mockServer.expect(requestTo(GraphApi.GRAPH_API_URL + "me/invitable_friends?fields=id%2Cname%2Cfirst_name%2Clast_name%2Cmiddle_name"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("invitable_friends"), MediaType.APPLICATION_JSON));
+
+		PagedList<UserInvitableFriend> invitableFriends = facebook.friendOperations().getInvitableFriends();
+		assertEquals(2, invitableFriends.size());
+		UserInvitableFriend friend = invitableFriends.get(0);
+		assertEquals("abcdef", friend.getId());
+		assertEquals("Billy Williams", friend.getName());
+		assertEquals("Billy", friend.getFirstName());
+		assertNull(friend.getMiddleName());
+		assertEquals("Williams", friend.getLastName());
+		friend = invitableFriends.get(1);
+		assertEquals("ghijkl", friend.getId());
+		assertEquals("Kristopher Walls", friend.getName());
+		assertEquals("Kristopher", friend.getFirstName());
+		assertEquals("Len", friend.getMiddleName());
+		assertEquals("Walls", friend.getLastName());
 	}
 
 	private void assertFriends(List<Reference> friends) {

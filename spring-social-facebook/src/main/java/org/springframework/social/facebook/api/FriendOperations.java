@@ -139,6 +139,12 @@ public interface FriendOperations {
 	PagedList<FamilyMember> getFamily(String userId);
 
 	/**
+	 * Retrieves a list of the authenticated user's friends that can be invited.
+	 * @return list of taggable friends
+	 */
+	PagedList<UserInvitableFriend> getInvitableFriends();
+
+	/**
 	 * Retrieves a list of the authenticated user's friends that can be tagged in a post.
 	 * @return list of taggable friends
 	 */

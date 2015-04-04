@@ -26,6 +26,7 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.facebook.api.UserInvitableFriend;
 import org.springframework.social.facebook.api.UserTaggableFriend;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
@@ -106,6 +107,11 @@ class FriendTemplate implements FriendOperations {
 
 	public PagedList<FamilyMember> getFamily(String userId) {
 		return graphApi.fetchConnections(userId, "family", FamilyMember.class);
+	}
+
+	public PagedList<UserInvitableFriend> getInvitableFriends() {
+		return graphApi.fetchConnections("me", "invitable_friends", UserInvitableFriend.class, 
+				"id", "name" ,"first_name", "last_name", "middle_name");
 	}
 
 	public PagedList<UserTaggableFriend> getTaggableFriends() {
