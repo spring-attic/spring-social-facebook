@@ -1,0 +1,38 @@
+{
+    "data": [
+	    {
+	      "id": "abcdef", 
+	      "name": "Billy Williams", 
+	      "picture": {
+	        "data": {
+	          "is_silhouette": false, 
+	          "url": "https://picurl1",
+	          "width": 1024,
+	          "height": 768
+	        }
+	      }, 
+	      "first_name": "Billy", 
+	      "last_name": "Williams"
+	    }, 
+	    {
+	      "id": "ghijkl", 
+	      "name": "Kristopher Walls", 
+	      "picture": {
+	        "data": {
+	          "is_silhouette": false, 
+	          "url": "https://picurl2"
+	        }
+	      }, 
+	      "first_name": "Kristopher", 
+	      "last_name": "Walls",
+	      "middle_name": "Len"
+	    }
+    ],
+    "paging": {
+        "cursors": {
+            "after": "QWFJRGdUVG9GMVN4VzU5dGVYQjBfOWZTSk5zMmlBWlZrZlczbFk3ZE1UNF9LXzQtQzNSYVIxQzdHNnl3WEZXRmdvaXVhQVJkM1oyV0NtT09VejJDOWczNzZoVWJPcXRwYmF4djBzQVFqam1rbmc=",
+            "before": "QWFJNkNjcUE5VXFGVWo4cGRZSTRRSklnSTZYOHNYNzlZZGdSeEpqT0FadG9GMmx3b0JnWU9FRzhla3NSWVpNMEp0c3BrVXJDYVYzLVVDNTNpM0MwZlBlekYwazV5RGN1ZXRMLXhiOFJGcmxjdHc="
+        },
+        "next": "https://graph.facebook.com/v2.3/738140579/taggable_friends?pretty=0&limit=25&after=QWFJRGdUVG9GMVN4VzU5dGVYQjBfOWZTSk5zMmlBWlZrZlczbFk3ZE1UNF9LXzQtQzNSYVIxQzdHNnl3WEZXRmdvaXVhQVJkM1oyV0NtT09VejJDOWczNzZoVWJPcXRwYmF4djBzQVFqam1rbmc="
+    }
+}

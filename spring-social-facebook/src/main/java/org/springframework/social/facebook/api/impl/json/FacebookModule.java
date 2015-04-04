@@ -44,6 +44,7 @@ import org.springframework.social.facebook.api.Photo.Image;
 import org.springframework.social.facebook.api.PlaceTag;
 import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.PostProperty;
+import org.springframework.social.facebook.api.ProfilePictureSource;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.RestaurantServices;
 import org.springframework.social.facebook.api.RestaurantSpecialties;
@@ -51,6 +52,7 @@ import org.springframework.social.facebook.api.StoryAttachment;
 import org.springframework.social.facebook.api.Tag;
 import org.springframework.social.facebook.api.TestUser;
 import org.springframework.social.facebook.api.UserIdForApp;
+import org.springframework.social.facebook.api.UserTaggableFriend;
 import org.springframework.social.facebook.api.Video;
 import org.springframework.social.facebook.api.Video.VideoFormat;
 import org.springframework.social.facebook.api.WorkEntry;
@@ -129,6 +131,9 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(TestUser.class, TestUserMixin.class);
 		
 		context.setMixInAnnotations(UserIdForApp.class, UserIdForAppMixin.class);
+		
+		context.setMixInAnnotations(UserTaggableFriend.class, UserTaggableFriendMixin.class);
+		context.setMixInAnnotations(ProfilePictureSource.class, ProfilePictureSourceMixin.class);
 		
 	}
 }

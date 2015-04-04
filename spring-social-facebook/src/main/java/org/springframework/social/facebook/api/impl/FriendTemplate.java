@@ -26,6 +26,7 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.facebook.api.UserTaggableFriend;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -107,6 +108,11 @@ class FriendTemplate implements FriendOperations {
 		return graphApi.fetchConnections(userId, "family", FamilyMember.class);
 	}
 
+	public PagedList<UserTaggableFriend> getTaggableFriends() {
+		return graphApi.fetchConnections("me", "taggable_friends", UserTaggableFriend.class, 
+				"id", "name" ,"picturefields(is_silhouette,url,width,height)", "first_name", "last_name", "middle_name");
+	}
+	
 	private static final String FULL_PROFILE_FIELDS = "id,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,bio,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";
 
 }
