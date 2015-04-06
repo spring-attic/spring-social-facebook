@@ -31,6 +31,8 @@ public class Post extends FacebookObject {
 	private String id;
 	
 	private List<Action> actions;
+	
+	private AdminCreator adminCreator;
 
 	private Reference application;
 
@@ -45,6 +47,8 @@ public class Post extends FacebookObject {
 	private String icon;
 
 	private boolean isHidden;
+	
+	private boolean isPublished;
 	
 	private String link;
 	
@@ -64,6 +68,8 @@ public class Post extends FacebookObject {
 	
 	private List<PostProperty> properties = new ArrayList<PostProperty>();
 	
+	private int sharesCount;
+
 	private String source;
 	
 	private StatusType statusType;
@@ -77,15 +83,17 @@ public class Post extends FacebookObject {
 	private Date updatedTime;
 
 	private List<Reference> withTags;
-		
-	private int sharesCount;
-	
+			
 	public String getId() {
 		return id;
 	}
 
 	public List<Action> getActions() {
 		return actions;
+	}
+	
+	public AdminCreator getAdminCreator() {
+		return adminCreator;
 	}
 	
 	public Reference getApplication() {
@@ -116,6 +124,10 @@ public class Post extends FacebookObject {
 
 	public boolean isHidden() {
 		return isHidden;
+	}
+	
+	public boolean isPublished() {
+		return isPublished;
 	}
 	
 	public String getLink() {
@@ -182,8 +194,30 @@ public class Post extends FacebookObject {
 		return withTags;
 	}
 	
-	public int getSharesCount() {
+	public int getShares() {
 		return sharesCount;
+	}
+	
+	public static class AdminCreator {
+		
+		private String id;
+		
+		private String name;
+		
+		private String namespace;
+		
+		public String getId() {
+			return id;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public String getNamespace() {
+			return namespace;
+		}
+		
 	}
 	
 	public static class Privacy {

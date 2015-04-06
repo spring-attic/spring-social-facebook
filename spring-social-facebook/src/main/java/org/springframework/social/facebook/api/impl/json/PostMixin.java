@@ -23,6 +23,7 @@ import java.util.Map;
 import org.springframework.social.facebook.api.Action;
 import org.springframework.social.facebook.api.MessageTag;
 import org.springframework.social.facebook.api.Page;
+import org.springframework.social.facebook.api.Post.AdminCreator;
 import org.springframework.social.facebook.api.Post.FriendsPrivacyType;
 import org.springframework.social.facebook.api.Post.PostType;
 import org.springframework.social.facebook.api.Post.Privacy;
@@ -53,6 +54,9 @@ abstract class PostMixin extends FacebookObjectMixin {
 	@JsonProperty("actions")
 	List<Action> actions;
 	
+	@JsonProperty("admin_creator")
+	AdminCreator adminCreator;
+	
 	@JsonProperty("application")
 	Reference application;
 
@@ -73,6 +77,9 @@ abstract class PostMixin extends FacebookObjectMixin {
 	
 	@JsonProperty("is_hidden")
 	boolean isHidden;
+	
+	@JsonProperty("is_published")
+	boolean isPublished;
 
 	@JsonProperty("link")
 	String link;
@@ -131,6 +138,20 @@ abstract class PostMixin extends FacebookObjectMixin {
 	@JsonDeserialize(using = CountDeserializer.class)
 	Integer sharesCount;
 
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public abstract static class AdminCreatorMixin {
+		
+		@JsonProperty("id")
+		String id;
+		
+		@JsonProperty("name")
+		String name;
+		
+		@JsonProperty("namespace")
+		String namespace;
+		
+	}
+	
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public abstract static class PrivacyMixin {
 		
