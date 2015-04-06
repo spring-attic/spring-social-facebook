@@ -31,6 +31,7 @@ import org.springframework.social.facebook.api.Event;
 import org.springframework.social.facebook.api.EventInvitee;
 import org.springframework.social.facebook.api.Experience;
 import org.springframework.social.facebook.api.FamilyMember;
+import org.springframework.social.facebook.api.FriendList;
 import org.springframework.social.facebook.api.Group;
 import org.springframework.social.facebook.api.GroupMemberReference;
 import org.springframework.social.facebook.api.GroupMembership;
@@ -143,6 +144,8 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(FamilyMember.class, FamilyMemberMixin.class);
 		context.setMixInAnnotations(MessageTag.class, MessageTagMixin.class);
 		context.setMixInAnnotations(CoverPhoto.class, CoverPhotoMixin.class);
+		
+		context.setMixInAnnotations(FriendList.class, FriendListMixin.class);
 		
 		context.setMixInAnnotations(VoipInfo.class, VoipInfoMixin.class);
 		

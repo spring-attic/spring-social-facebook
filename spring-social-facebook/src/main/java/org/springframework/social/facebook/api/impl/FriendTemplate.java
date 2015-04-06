@@ -19,13 +19,14 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.FamilyMember;
+import org.springframework.social.facebook.api.FriendList;
 import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.UserInvitableFriend;
 import org.springframework.social.facebook.api.UserTaggableFriend;
 import org.springframework.social.support.URIBuilder;
@@ -47,12 +48,12 @@ class FriendTemplate implements FriendOperations {
 		this.restTemplate = restTemplate;
 	}
 	
-	public PagedList<Reference> getFriendLists() {
-		return graphApi.fetchConnections("me", "friendlists", Reference.class);
+	public PagedList<FriendList> getFriendLists() {
+		return graphApi.fetchConnections("me", "friendlists", FriendList.class);
 	}
 
-	public Reference getFriendList(String friendListId) {
-		return graphApi.fetchObject(friendListId, Reference.class);
+	public FriendList getFriendList(String friendListId) {
+		return graphApi.fetchObject(friendListId, FriendList.class);
 	}
 	
 	public PagedList<Reference> getFriends() {

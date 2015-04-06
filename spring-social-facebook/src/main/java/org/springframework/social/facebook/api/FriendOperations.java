@@ -34,7 +34,7 @@ public interface FriendOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "read_custom_friendlists" permission.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<Reference> getFriendLists();
+	PagedList<FriendList> getFriendLists();
 
 	/**
 	 * Retrieves a reference to the specified friend list.
@@ -43,7 +43,7 @@ public interface FriendOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	Reference getFriendList(String friendListId);
+	FriendList getFriendList(String friendListId);
 	
 	/**
 	 * Retrieves a list of user references for the authenticated user's friends.
