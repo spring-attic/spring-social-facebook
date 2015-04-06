@@ -24,6 +24,7 @@ import org.springframework.social.facebook.api.AgeRange;
 import org.springframework.social.facebook.api.CoverPhoto;
 import org.springframework.social.facebook.api.EducationEntry;
 import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.WorkEntry;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -36,11 +37,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Annotated mixin to add Jackson annotations to FacebookProfile. 
+ * Annotated mixin to add Jackson annotations to {@link User}. 
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class FacebookProfileMixin extends FacebookObjectMixin {
+abstract class UserMixin extends FacebookObjectMixin {
 
 	@JsonProperty("id")
 	String id;

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.social.facebook.api.FacebookProfile;
+import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.PagedList;
@@ -45,12 +45,12 @@ class UserTemplate implements UserOperations {
 		this.restTemplate = restTemplate;
 	}
 
-	public FacebookProfile getUserProfile() {
+	public User getUserProfile() {
 		return getUserProfile("me");
 	}
 
-	public FacebookProfile getUserProfile(String facebookId) {
-		return graphApi.fetchObject(facebookId, FacebookProfile.class, PROFILE_FIELDS);
+	public User getUserProfile(String facebookId) {
+		return graphApi.fetchObject(facebookId, User.class, PROFILE_FIELDS);
 	}
 	
 	public byte[] getUserProfileImage() {

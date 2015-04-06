@@ -63,11 +63,11 @@ public interface GroupOperations {
 	/**
 	 * Retrieves the profiles for the members of the specified group.
 	 * @param groupId the ID of the group
-	 * @return a list of {@link FacebookProfile}s, one for each member of the group.
+	 * @return a list of {@link User}s, one for each member of the group.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<FacebookProfile> getMemberProfiles(String groupId);
+	PagedList<User> getMemberProfiles(String groupId);
 	
 	/**
 	 * Retrieves a list of group memberships for the authenticated user.

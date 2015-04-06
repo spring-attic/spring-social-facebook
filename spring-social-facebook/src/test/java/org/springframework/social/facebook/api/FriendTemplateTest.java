@@ -99,7 +99,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-profiles"), MediaType.APPLICATION_JSON));
-		PagedList<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles();
+		PagedList<User> friends = facebook.friendOperations().getFriendProfiles();
 		assertEquals(477, friends.getTotalCount().intValue());
 		assertFriendProfiles(friends);
 	}
@@ -110,7 +110,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-profiles"), MediaType.APPLICATION_JSON));
-		PagedList<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles("1234567");
+		PagedList<User> friends = facebook.friendOperations().getFriendProfiles("1234567");
 		assertEquals(477, friends.getTotalCount().intValue());
 		assertFriendProfiles(friends);
 	}
@@ -212,7 +212,7 @@ public class FriendTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("151101314", friendIds.get(2));
 	}
 
-	private void assertFriendProfiles(List<FacebookProfile> friends) {
+	private void assertFriendProfiles(List<User> friends) {
 		// TODO assert friend profiles		
 	}
 

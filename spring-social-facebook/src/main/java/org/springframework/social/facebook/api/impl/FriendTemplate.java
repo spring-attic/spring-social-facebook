@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.social.facebook.api.FacebookProfile;
+import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.FamilyMember;
 import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.GraphApi;
@@ -63,11 +63,11 @@ class FriendTemplate implements FriendOperations {
 		return getFriendIds("me");
 	}
 	
-	public PagedList<FacebookProfile> getFriendProfiles() {
+	public PagedList<User> getFriendProfiles() {
 		return getFriendProfiles("me");
 	}
 
-	public PagedList<FacebookProfile> getFriendProfiles(PagingParameters pagedListParameters) {
+	public PagedList<User> getFriendProfiles(PagingParameters pagedListParameters) {
 		return getFriendProfiles("me", pagedListParameters);
 	}
 	
@@ -89,16 +89,16 @@ class FriendTemplate implements FriendOperations {
 		return new PagedList<String>(idList, null, null, totalCount);
 	}
 	
-	public PagedList<FacebookProfile> getFriendProfiles(String userId) {
+	public PagedList<User> getFriendProfiles(String userId) {
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set("fields", FULL_PROFILE_FIELDS);
-		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
+		return graphApi.fetchConnections(userId, "friends", User.class, parameters);
 	}
 
-	public PagedList<FacebookProfile> getFriendProfiles(String userId, PagingParameters pagedListParameters) {
+	public PagedList<User> getFriendProfiles(String userId, PagingParameters pagedListParameters) {
 		MultiValueMap<String, String> parameters = PagedListUtils.getPagingParameters(pagedListParameters);
 		parameters.set("fields", FULL_PROFILE_FIELDS);
-		return graphApi.fetchConnections(userId, "friends", FacebookProfile.class, parameters);
+		return graphApi.fetchConnections(userId, "friends", User.class, parameters);
 	}
 	
 	public PagedList<FamilyMember> getFamily() {

@@ -27,7 +27,7 @@ import java.util.Locale;
  * @author Craig Walls
  */
 @SuppressWarnings("serial")
-public class FacebookProfile extends FacebookObject implements Serializable {
+public class User extends FacebookObject implements Serializable {
 
 	private String id;
 
@@ -101,9 +101,9 @@ public class FacebookProfile extends FacebookObject implements Serializable {
 
 	private List<WorkEntry> work;
 	
-	FacebookProfile() {}
+	User() {}
 	
-	public FacebookProfile(String id, String name, String firstName, String lastName, String gender, Locale locale) {
+	public User(String id, String name, String firstName, String lastName, String gender, Locale locale) {
 		this.id = id;
 		this.name = name;
 		this.firstName = firstName;

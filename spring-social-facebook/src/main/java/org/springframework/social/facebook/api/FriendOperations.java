@@ -64,21 +64,21 @@ public interface FriendOperations {
 	/**
 	 * Retrieves the profile data for all of an authenticated user's friends.
 	 * The list of profiles is ordered by each user's Facebook ID.
-	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
+	 * @return a list {@link User}s, each representing a friend of the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<FacebookProfile> getFriendProfiles();
+	PagedList<User> getFriendProfiles();
 
 	/**
 	 * Retrieves profile data for the authenticated user's friends.
 	 * The list of profiles is ordered by each user's Facebook ID.
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
-	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
+	 * @return a list {@link User}s, each representing a friend of the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<FacebookProfile> getFriendProfiles(PagingParameters pagedListParameters);
+	PagedList<User> getFriendProfiles(PagingParameters pagedListParameters);
 
 	/**
 	 * Retrieves a list of user references for the specified user's friends.
@@ -104,22 +104,22 @@ public interface FriendOperations {
 	 * Retrieves profile data for all of an authenticated user's friends.
 	 * The list of profiles is ordered by each user's Facebook ID.
 	 * @param userId the user's ID
-	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
+	 * @return a list {@link User}s, each representing a friend of the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<FacebookProfile> getFriendProfiles(String userId);
+	PagedList<User> getFriendProfiles(String userId);
 	
 	/**
 	 * Retrieves profile data for the specified user's friends.
 	 * The list of profiles is ordered by each user's Facebook ID.
 	 * @param userId the user's ID
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
-	 * @return a list {@link FacebookProfile}s, each representing a friend of the user, or an empty list if not available.
+	 * @return a list {@link User}s, each representing a friend of the user, or an empty list if not available.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	PagedList<FacebookProfile> getFriendProfiles(String userId, PagingParameters pagedListParameters);
+	PagedList<User> getFriendProfiles(String userId, PagingParameters pagedListParameters);
 	
 	/**
 	 * Retrieves a list of FamilyMember references for the authenticated user.

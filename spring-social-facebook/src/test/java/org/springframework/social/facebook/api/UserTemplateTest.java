@@ -51,7 +51,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("full-profile"), MediaType.APPLICATION_JSON));
 
-		FacebookProfile profile = facebook.userOperations().getUserProfile();
+		User profile = facebook.userOperations().getUserProfile();
 		assertBasicProfileData(profile, true);
 		assertEquals("cwalls@vmware.com", profile.getEmail());
 		assertEquals("http://www.facebook.com/habuma", profile.getLink());
@@ -110,7 +110,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile"), MediaType.APPLICATION_JSON));
 
-		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertBasicProfileData(profile, true);
 	}
 
@@ -121,7 +121,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-no-middle-name"), MediaType.APPLICATION_JSON));
 
-		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertBasicProfileData(profile, false);
 	}
 	
@@ -132,7 +132,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-timezone"), MediaType.APPLICATION_JSON));
 
-		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertBasicProfileData(profile, true);
 		assertEquals(Float.valueOf("-4.5"), profile.getTimezone()); 
 	}
@@ -144,7 +144,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-13-17"), MediaType.APPLICATION_JSON));
 		
-		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.AGE_13_17, profile.getAgeRange());
 		assertEquals(13, profile.getAgeRange().getMin().intValue());
 		assertEquals(17, profile.getAgeRange().getMax().intValue());
@@ -157,7 +157,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-18-20"), MediaType.APPLICATION_JSON));
 		
-		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.AGE_18_20, profile.getAgeRange());
 		assertEquals(18, profile.getAgeRange().getMin().intValue());
 		assertEquals(20, profile.getAgeRange().getMax().intValue());
@@ -170,7 +170,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-21-plus"), MediaType.APPLICATION_JSON));
 		
-		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.AGE_21_PLUS, profile.getAgeRange());
 		assertEquals(21, profile.getAgeRange().getMin().intValue());
 		assertNull(profile.getAgeRange().getMax());
@@ -183,7 +183,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-unknown"), MediaType.APPLICATION_JSON));
 		
-		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.UNKNOWN, profile.getAgeRange());
 		assertEquals(33, profile.getAgeRange().getMin().intValue());
 		assertEquals(42, profile.getAgeRange().getMax().intValue());
@@ -196,7 +196,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile"), MediaType.APPLICATION_JSON));
 		
-		FacebookProfile profile = facebook.userOperations().getUserProfile("123456789");
+		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.UNKNOWN, profile.getAgeRange());
 		assertNull(profile.getAgeRange().getMin());
 		assertNull(profile.getAgeRange().getMax());
@@ -321,7 +321,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Michael Scott", results.get(2).getName());
 	}
 	
-	private void assertBasicProfileData(FacebookProfile profile, boolean withMiddleName) {
+	private void assertBasicProfileData(User profile, boolean withMiddleName) {
 		assertEquals("123456789", profile.getId());
 		assertEquals("Michael", profile.getFirstName());
 		if (withMiddleName) {

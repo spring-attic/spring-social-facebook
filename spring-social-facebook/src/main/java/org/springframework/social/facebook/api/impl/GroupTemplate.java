@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import org.springframework.social.facebook.api.FacebookProfile;
+import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Group;
 import org.springframework.social.facebook.api.GroupMemberReference;
@@ -50,8 +50,8 @@ class GroupTemplate implements GroupOperations {
 		return graphApi.fetchConnections(groupId, "members", GroupMemberReference.class);
 	}
 
-	public PagedList<FacebookProfile> getMemberProfiles(String groupId) {
-		return graphApi.fetchConnections(groupId, "members", FacebookProfile.class, FULL_PROFILE_FIELDS);
+	public PagedList<User> getMemberProfiles(String groupId) {
+		return graphApi.fetchConnections(groupId, "members", User.class, FULL_PROFILE_FIELDS);
 	}
 	
 	public PagedList<GroupMembership> getMemberships() {

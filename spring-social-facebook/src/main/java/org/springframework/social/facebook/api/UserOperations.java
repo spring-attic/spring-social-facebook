@@ -30,7 +30,7 @@ public interface UserOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
-	FacebookProfile getUserProfile();
+	User getUserProfile();
 	
 	/**
 	 * Retrieves the profile for the specified user.
@@ -38,7 +38,7 @@ public interface UserOperations {
 	 * @return the user's profile information.
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
-	FacebookProfile getUserProfile(String userId);
+	User getUserProfile(String userId);
 
 	/**
 	 * Retrieves the user's profile image. Returns the image in Facebook's "normal" type.

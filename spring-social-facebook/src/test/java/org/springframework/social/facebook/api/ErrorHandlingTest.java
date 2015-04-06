@@ -42,7 +42,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withStatus(HttpStatus.NOT_FOUND).body(jsonResource("error-404-unknown-alias")).contentType(MediaType.APPLICATION_JSON));
-			facebook.fetchObject("dummyalias", FacebookProfile.class);
+			facebook.fetchObject("dummyalias", User.class);
 			fail("Expected GraphAPIException when fetching an unknown object alias");
 		} catch (ResourceNotFoundException e) {
 			assertEquals("(#803) Some of the aliases you requested do not exist: dummyalias", e.getMessage());
@@ -179,7 +179,7 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("false", MediaType.APPLICATION_JSON));
-		facebook.fetchObject("someobject", FacebookProfile.class);
+		facebook.fetchObject("someobject", User.class);
 	}
 
 	@Test(expected = RateLimitExceededException.class)

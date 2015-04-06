@@ -72,7 +72,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("group-members"), MediaType.APPLICATION_JSON));
-		List<FacebookProfile> members = facebook.groupOperations().getMemberProfiles("213106022036379");
+		List<User> members = facebook.groupOperations().getMemberProfiles("213106022036379");
 		assertMembers(members);
 	}
 	
@@ -137,7 +137,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2010-04-01T01:16:44+0000"), results.get(2).getUpdatedTime());
 	}	
 	
-	private void assertMembers(List<FacebookProfile> members) {
+	private void assertMembers(List<User> members) {
 		assertEquals(3, members.size());
 		assertEquals("100001387295207", members.get(0).getId());
 		assertEquals("Art Names", members.get(0).getName());
