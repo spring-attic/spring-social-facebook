@@ -15,30 +15,19 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
-import java.util.List;
-
-import org.springframework.social.facebook.api.Reference;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Annotated mixin to add Jackson annotations to EducationEntry. 
- * @author Craig Walls
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class EducationEntryMixin extends FacebookObjectMixin {
+abstract class PaymentPricePointMixin extends FacebookObjectMixin {
 
-	@JsonProperty("concentration")
-	List<Reference> concentration;
+	@JsonProperty("credits")
+	float credits;
 	
-	@JsonProperty("school")
-	Reference school;
+	@JsonProperty("local_currency")
+	String localCurrency;
 	
-	@JsonProperty("type")
-	String type;
-	
-	@JsonProperty("year")
-	Reference year;
+	@JsonProperty("user_price")
+	String userPrice;
 	
 }

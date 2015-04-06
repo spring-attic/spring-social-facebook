@@ -15,50 +15,40 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.List;
+
+import org.springframework.social.facebook.api.Experience;
+import org.springframework.social.facebook.api.Reference;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Annotated mixin to add Jackson annotations to Location. 
+ * Annotated mixin to add Jackson annotations to EducationEntry. 
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class LocationMixin extends FacebookObjectMixin {
-	
-	@JsonCreator
-	LocationMixin(
-			@JsonProperty("latitude") double latitude, 
-			@JsonProperty("longitude") double longitude) {}
-	
-	@JsonProperty("id")
-	String id;
-	
-	@JsonProperty("street")
-	String street;
+abstract class EducationExperienceMixin extends FacebookObjectMixin {
 
-	@JsonProperty("city")
-	String city;
-
-	@JsonProperty("state")
-	String state;
-
-	@JsonProperty("country")
-	String country;
-
-	@JsonProperty("zip")
-	String zip;
-
-	@JsonProperty("description")
-	String description;
+	@JsonProperty("classes")
+	List<Experience> classes;
 	
-	@JsonProperty("located_in")
-	String locatedIn;
+	@JsonProperty("concentration")
+	List<Reference> concentration;
 	
-	@JsonProperty("name")
-	String name;
+	@JsonProperty("degree")
+	Reference desgree;
 	
-	@JsonProperty("region")
-	String region;
-
+	@JsonProperty("school")
+	Reference school;
+	
+	@JsonProperty("type")
+	String type;
+	
+	@JsonProperty("with")
+	List<Reference> with;
+	
+	@JsonProperty("year")
+	Reference year;
+	
 }

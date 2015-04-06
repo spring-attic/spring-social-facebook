@@ -335,7 +335,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("male", profile.getGender());
 	}
 
-	private void assertEducationHistory(List<EducationEntry> educationHistory) {
+	private void assertEducationHistory(List<EducationExperience> educationHistory) {
 		assertEquals(2, educationHistory.size());
 		assertEquals("College", educationHistory.get(0).getType());
 		assertEquals("103768553006294", educationHistory.get(0).getSchool().getId());

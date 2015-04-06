@@ -15,50 +15,30 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.List;
+
+import org.springframework.social.facebook.api.Reference;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Annotated mixin to add Jackson annotations to Location. 
- * @author Craig Walls
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class LocationMixin extends FacebookObjectMixin {
-	
-	@JsonCreator
-	LocationMixin(
-			@JsonProperty("latitude") double latitude, 
-			@JsonProperty("longitude") double longitude) {}
-	
+abstract class ExperienceMixin extends FacebookObjectMixin {
+
 	@JsonProperty("id")
 	String id;
 	
-	@JsonProperty("street")
-	String street;
-
-	@JsonProperty("city")
-	String city;
-
-	@JsonProperty("state")
-	String state;
-
-	@JsonProperty("country")
-	String country;
-
-	@JsonProperty("zip")
-	String zip;
-
 	@JsonProperty("description")
 	String description;
-	
-	@JsonProperty("located_in")
-	String locatedIn;
 	
 	@JsonProperty("name")
 	String name;
 	
-	@JsonProperty("region")
-	String region;
+	@JsonProperty("from")
+	Reference from;
+	
+	@JsonProperty("with")
+	List<Reference> with;
 
+	
 }

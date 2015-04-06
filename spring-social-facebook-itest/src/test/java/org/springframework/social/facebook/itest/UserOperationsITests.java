@@ -21,12 +21,12 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Permission;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.TestUser;
+import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
 public class UserOperationsITests extends FacebookITest implements ITestCredentials {
@@ -46,7 +46,7 @@ public class UserOperationsITests extends FacebookITest implements ITestCredenti
 		List<Permission> userPermissions = fb.userOperations().getUserPermissions();
 		assertEquals(2, userPermissions.size());
 		
-		FacebookProfile profile = fb.userOperations().getUserProfile();
+		User profile = fb.userOperations().getUserProfile();
 		assertEquals(testUser.getId(), profile.getId());
 		
 		profile = fb.userOperations().getUserProfile(testUser.getId());

@@ -20,12 +20,12 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.Test;
-import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.FamilyMember;
 import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.TestUser;
+import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
 public class FriendOperationsITests extends FacebookITest implements ITestCredentials {
@@ -58,7 +58,7 @@ public class FriendOperationsITests extends FacebookITest implements ITestCreden
 		assertEquals(1, testUser1Friends.size());
 		assertEquals(testUser2.getId(), testUser1Friends.get(0).getId());
 
-		PagedList<FacebookProfile> testUser1FriendProfiles = friendOps1.getFriendProfiles();
+		PagedList<User> testUser1FriendProfiles = friendOps1.getFriendProfiles();
 		assertEquals(1, testUser1FriendProfiles.size());
 		assertEquals(testUser2.getId(), testUser1FriendProfiles.get(0).getId());
 
@@ -70,7 +70,7 @@ public class FriendOperationsITests extends FacebookITest implements ITestCreden
 		assertEquals(1, testUser2Friends.size());
 		assertEquals(testUser1.getId(), testUser2Friends.get(0).getId());
 		
-		PagedList<FacebookProfile> testUser2FriendProfiles = friendOps2.getFriendProfiles();
+		PagedList<User> testUser2FriendProfiles = friendOps2.getFriendProfiles();
 		assertEquals(1, testUser2FriendProfiles.size());
 		assertEquals(testUser1.getId(), testUser2FriendProfiles.get(0).getId());
 		

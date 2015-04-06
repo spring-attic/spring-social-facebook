@@ -20,45 +20,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Annotated mixin to add Jackson annotations to Location. 
+ * Annotated mixin to add Jackson annotations to VideoUploadLimits. 
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class LocationMixin extends FacebookObjectMixin {
-	
+abstract class VideoUploadLimitsMixin extends FacebookObjectMixin {
+
 	@JsonCreator
-	LocationMixin(
-			@JsonProperty("latitude") double latitude, 
-			@JsonProperty("longitude") double longitude) {}
+	VideoUploadLimitsMixin(
+			@JsonProperty("length") int length, 
+			@JsonProperty("size") int size) {}
 	
-	@JsonProperty("id")
-	String id;
-	
-	@JsonProperty("street")
-	String street;
-
-	@JsonProperty("city")
-	String city;
-
-	@JsonProperty("state")
-	String state;
-
-	@JsonProperty("country")
-	String country;
-
-	@JsonProperty("zip")
-	String zip;
-
-	@JsonProperty("description")
-	String description;
-	
-	@JsonProperty("located_in")
-	String locatedIn;
-	
-	@JsonProperty("name")
-	String name;
-	
-	@JsonProperty("region")
-	String region;
-
 }

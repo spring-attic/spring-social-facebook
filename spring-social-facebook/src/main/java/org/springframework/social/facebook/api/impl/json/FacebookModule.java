@@ -25,10 +25,10 @@ import org.springframework.social.facebook.api.Comment;
 import org.springframework.social.facebook.api.CoverPhoto;
 import org.springframework.social.facebook.api.Currency;
 import org.springframework.social.facebook.api.Device;
-import org.springframework.social.facebook.api.EducationEntry;
+import org.springframework.social.facebook.api.EducationExperience;
 import org.springframework.social.facebook.api.Event;
 import org.springframework.social.facebook.api.EventInvitee;
-import org.springframework.social.facebook.api.User;
+import org.springframework.social.facebook.api.Experience;
 import org.springframework.social.facebook.api.FamilyMember;
 import org.springframework.social.facebook.api.Group;
 import org.springframework.social.facebook.api.GroupMemberReference;
@@ -39,6 +39,8 @@ import org.springframework.social.facebook.api.Location;
 import org.springframework.social.facebook.api.MessageTag;
 import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.ParkingInfo;
+import org.springframework.social.facebook.api.PaymentPricePoint;
+import org.springframework.social.facebook.api.PaymentPricePoints;
 import org.springframework.social.facebook.api.Photo;
 import org.springframework.social.facebook.api.Photo.Image;
 import org.springframework.social.facebook.api.PlaceTag;
@@ -48,14 +50,17 @@ import org.springframework.social.facebook.api.ProfilePictureSource;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.RestaurantServices;
 import org.springframework.social.facebook.api.RestaurantSpecialties;
+import org.springframework.social.facebook.api.SecuritySettings;
 import org.springframework.social.facebook.api.StoryAttachment;
 import org.springframework.social.facebook.api.Tag;
 import org.springframework.social.facebook.api.TestUser;
+import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.UserIdForApp;
 import org.springframework.social.facebook.api.UserInvitableFriend;
 import org.springframework.social.facebook.api.UserTaggableFriend;
 import org.springframework.social.facebook.api.Video;
 import org.springframework.social.facebook.api.Video.VideoFormat;
+import org.springframework.social.facebook.api.VideoUploadLimits;
 import org.springframework.social.facebook.api.WorkEntry;
 import org.springframework.social.facebook.api.WorkEntry.Project;
 import org.springframework.social.facebook.api.impl.json.PhotoMixin.ImageMixin;
@@ -106,7 +111,8 @@ public class FacebookModule extends SimpleModule {
 		
 		context.setMixInAnnotations(User.class, UserMixin.class);
 		context.setMixInAnnotations(WorkEntry.class, WorkEntryMixin.class);
-		context.setMixInAnnotations(EducationEntry.class, EducationEntryMixin.class);
+		context.setMixInAnnotations(EducationExperience.class, EducationExperienceMixin.class);
+		context.setMixInAnnotations(Experience.class, ExperienceMixin.class);
 		context.setMixInAnnotations(Reference.class, ReferenceMixin.class);
 		context.setMixInAnnotations(GroupMemberReference.class, GroupMemberReferenceMixin.class);
 		context.setMixInAnnotations(Album.class, AlbumMixin.class);
@@ -129,12 +135,21 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(MessageTag.class, MessageTagMixin.class);
 		context.setMixInAnnotations(CoverPhoto.class, CoverPhotoMixin.class);
 		
+		context.setMixInAnnotations(PaymentPricePoints.class, PaymentPricePointsMixin.class);
+		context.setMixInAnnotations(PaymentPricePoint.class, PaymentPricePointMixin.class);
+		
+		context.setMixInAnnotations(SecuritySettings.class, SecuritySettingsMixin.class);
+		context.setMixInAnnotations(SecuritySettings.SecureBrowsing.class, SecuritySettingsMixin.SecureBrowsingMixin.class);
+		
 		context.setMixInAnnotations(TestUser.class, TestUserMixin.class);
 		
 		context.setMixInAnnotations(UserIdForApp.class, UserIdForAppMixin.class);
 		
 		context.setMixInAnnotations(UserInvitableFriend.class, UserInvitableFriendMixin.class);
 		context.setMixInAnnotations(UserTaggableFriend.class, UserTaggableFriendMixin.class);
+		
+		context.setMixInAnnotations(VideoUploadLimits.class, VideoUploadLimitsMixin.class);
+		
 		context.setMixInAnnotations(ProfilePictureSource.class, ProfilePictureSourceMixin.class);
 		
 	}

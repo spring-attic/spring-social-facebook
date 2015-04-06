@@ -15,38 +15,27 @@
  */
 package org.springframework.social.facebook.api;
 
-import java.io.Serializable;
-import java.util.List;
-
-
 /**
- * Model class representing an entry in a user's education history.
+ * Domain type describing limits on the time length and size of videos that can be uploaded.
  * @author Craig Walls
  */
-@SuppressWarnings("serial")
-public class EducationEntry extends FacebookObject implements Serializable {
+public class VideoUploadLimits extends FacebookObject {
 
-	private List<Reference> concentration;
+	private final int length;
 	
-	private Reference school;
+	private final int size;
 
-	private String type;
-
-	private Reference year;
-
-	public Reference getSchool() {
-		return school;
+	public VideoUploadLimits(int length, int size) {
+		this.length = length;
+		this.size = size;
 	}
-
-	public Reference getYear() {
-		return year;
+	
+	public int getLength() {
+		return length;
 	}
-
-	public List<Reference> getConcentration() {
-		return concentration;
+	
+	public int getSize() {
+		return size;
 	}
-
-	public String getType() {
-		return type;
-	}
+	
 }

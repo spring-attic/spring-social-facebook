@@ -33,6 +33,8 @@ public class User extends FacebookObject implements Serializable {
 
 	private String about;
 	
+	private Location address;
+	
 	private AgeRange ageRange = AgeRange.UNKNOWN;
 
 	private String bio;
@@ -45,7 +47,7 @@ public class User extends FacebookObject implements Serializable {
 	
 	private List<Device> devices;
 	
-	private List<EducationEntry> education;
+	private List<EducationExperience> education;
 	
 	private String email;
 	
@@ -62,7 +64,13 @@ public class User extends FacebookObject implements Serializable {
 	private List<Reference> inspirationalPeople;
 	
 	private boolean installed;
+	
+	private String installType;
+	
+	private List<String> interestedIn;
 
+	private boolean isIdentityVerified;
+	
 	private List<Reference> languages;
 	
 	private String lastName;
@@ -74,10 +82,14 @@ public class User extends FacebookObject implements Serializable {
 	private Reference location;
 	
 	private String middleName;
+	
+	private List<String> meetingFor;
 
 	private String name;
 	
 	private String nameFormat;
+	
+	private PaymentPricePoints paymentPricePoints;
 
 	private String political;
 
@@ -87,8 +99,14 @@ public class User extends FacebookObject implements Serializable {
 
 	private String religion;
 
+	private SecuritySettings securitySettings;
+	
 	private Reference significantOther;
-		
+	
+	private List<Experience> sports;
+	
+	private int testGroup;
+	
 	private String thirdPartyId;
 
 	private Float timezone;
@@ -97,9 +115,13 @@ public class User extends FacebookObject implements Serializable {
 
 	private Boolean verified;
 
+	private boolean viewerCanSendGift;
+	
 	private String website;
 
 	private List<WorkEntry> work;
+	
+	private VideoUploadLimits videoUploadLimits;
 	
 	User() {}
 	
@@ -120,6 +142,10 @@ public class User extends FacebookObject implements Serializable {
 		return id;
 	}
 	
+	public Location getAddress() {
+		return address;
+	}
+	
 	/**
 	 * The user's full name
 	 * @return The user's full name
@@ -134,6 +160,10 @@ public class User extends FacebookObject implements Serializable {
 	 */
 	public String getFirstName() {
 		return firstName;
+	}
+	
+	public List<String> getMeetingFor() {
+		return meetingFor;
 	}
 
 	/**
@@ -167,6 +197,10 @@ public class User extends FacebookObject implements Serializable {
 		return gender;
 	}
 
+	public List<String> getInterestedIn() {
+		return interestedIn;
+	}
+	
 	/**
 	 * The user's locale
 	 * @return the user's locale
@@ -291,6 +325,10 @@ public class User extends FacebookObject implements Serializable {
 		return inspirationalPeople;
 	}
 	
+	public boolean isIdentityVerified() {
+		return isIdentityVerified;
+	}
+	
 	/**
 	 * A list of references to languages the user claims to know.
 	 * @return a list of {@link Reference} to languages the user knows, if available.
@@ -323,6 +361,13 @@ public class User extends FacebookObject implements Serializable {
 	public String getReligion() {
 		return religion;
 	}
+	
+	/**
+	 * @return a {@link PaymentPricePoints} object
+	 */
+	public PaymentPricePoints getPaymentPricePoints() {
+		return paymentPricePoints;
+	}
 
 	/**
 	 * The user's political affiliation. 
@@ -351,6 +396,10 @@ public class User extends FacebookObject implements Serializable {
 		return relationshipStatus;
 	}
 
+	public SecuritySettings getSecuritySettings() {
+		return securitySettings;
+	}
+	
 	/**
 	 * The user's significant other. 
 	 * Available only for certain relationship statuses and with "user_relationship_details" permission.
@@ -359,7 +408,15 @@ public class User extends FacebookObject implements Serializable {
 	public Reference getSignificantOther() {
 		return significantOther;
 	}
+	
+	public int getTestGroup() {
+		return testGroup;
+	}
 
+	public boolean viewerCanSendGift() {
+		return viewerCanSendGift;
+	}
+	
 	/**
 	 * The user's work history.
 	 * Available only with "user_work_history" permission.
@@ -372,9 +429,9 @@ public class User extends FacebookObject implements Serializable {
 	/**
 	 * The user's education history.
 	 * Available only with "user_education_history" permission.
-	 * @return a list of {@link EducationEntry} items, one for each entry in the user's education history.
+	 * @return a list of {@link EducationExperience} items, one for each entry in the user's education history.
 	 */
-	public List<EducationEntry> getEducation() {
+	public List<EducationExperience> getEducation() {
 		return education;
 	}
 	
@@ -391,6 +448,10 @@ public class User extends FacebookObject implements Serializable {
 	 */
 	public boolean isInstalled() {
 		return installed;
+	}
+	
+	public String getInstallType() {
+		return installType;
 	}
 	
 	/**
@@ -412,6 +473,20 @@ public class User extends FacebookObject implements Serializable {
 	 */
 	public Currency getCurrency() {
 		return currency;
+	}
+	
+	/**
+	 * @return limits on the size and time length of videos the user can upload.
+	 */
+	public VideoUploadLimits getVideoUploadLimits() {
+		return videoUploadLimits;
+	}
+	
+	/**
+	 * @return list of sports experiences the user has participated in.
+	 */
+	public List<Experience> getSports() {
+		return sports;
 	}
 	
 }
