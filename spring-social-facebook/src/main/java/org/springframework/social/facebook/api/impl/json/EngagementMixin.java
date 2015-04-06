@@ -19,15 +19,27 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class ParkingInfoMixin {
+abstract class EngagementMixin extends FacebookObjectMixin {
 
-	@JsonProperty("lot")
-	boolean lot;
+	@JsonProperty("count")
+	int count;
 	
-	@JsonProperty("street")
-	boolean street;
+	@JsonProperty("count_string")
+	String countString;
 	
-	@JsonProperty("valet")
-	boolean valet;
+	@JsonProperty("count_string_with_like")
+	String countStringWithLike;
+	
+	@JsonProperty("count_string_without_like")
+	String countStringWithoutLike;
+	
+	@JsonProperty("social_sentence")
+	String socialSentence;
+	
+	@JsonProperty("social_sentence_with_like")
+	String socialSentenceWithLike;
+	
+	@JsonProperty("social_sentence_without_like")
+	String socialSentenceWithoutLike;
 	
 }

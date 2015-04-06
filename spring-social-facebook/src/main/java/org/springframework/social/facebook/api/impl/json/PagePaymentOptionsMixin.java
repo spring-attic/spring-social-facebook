@@ -13,26 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.impl.json;
 
-public class ParkingInfo {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-	private boolean lot;
+@JsonIgnoreProperties(ignoreUnknown = true)
+abstract class PagePaymentOptionsMixin {
+
+	@JsonProperty("amex")
+	boolean amex;
 	
-	private boolean street;
+	@JsonProperty("cash_only")
+	boolean cashOnly;
 	
-	private boolean valet;
+	@JsonProperty("discover")
+	boolean discover;
 	
-	public boolean hasLot() {
-		return lot;
-	}
+	@JsonProperty("mastercard")
+	boolean mastercard;
 	
-	public boolean hasStreet() {
-		return street;
-	}
-	
-	public boolean hasValet() {
-		return valet;
-	}
+	@JsonProperty("visa")
+	boolean visa;	
 
 }

@@ -15,25 +15,40 @@
  */
 package org.springframework.social.facebook.api.impl.json;
 
-import java.util.Date;
-
-import org.springframework.social.facebook.api.Achievement.AchievementData;
-import org.springframework.social.facebook.api.ApplicationReference;
 import org.springframework.social.facebook.api.Reference;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-abstract class AchievementMixin extends FacebookObjectMixin {
-
-	@JsonCreator
-	AchievementMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("from") Reference from, 
-			@JsonProperty("publish_time") Date publishTime, 
-			@JsonProperty("application") ApplicationReference application, 
-			@JsonProperty("data") AchievementData data,
-			@JsonProperty("type") String type, 
-			@JsonProperty("no_feed_story") boolean noFeedStory) {}
+/**
+ * Annotated mixin to add Jackson annotations to MailingAddress. 
+ * @author Craig Walls
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
+abstract class MailingAddressMixin extends FacebookObjectMixin {
 	
+	@JsonProperty("id")
+	String id;
+	
+	@JsonProperty("city")
+	String city;
+	
+	@JsonProperty("city_page")
+	Reference cityPage;
+
+	@JsonProperty("country")
+	String country;
+
+	@JsonProperty("street1")
+	String street1;
+
+	@JsonProperty("street2")
+	String street2;
+
+	@JsonProperty("region")
+	String region;
+	
+	@JsonProperty("postal_code")
+	String postalCode;
+
 }

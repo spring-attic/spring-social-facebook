@@ -31,17 +31,33 @@ public class Page extends FacebookObject {
 
 	private String about;
 	
+	private String accessToken;
+	
 	private String affiliation;
 	
+	private String appId;
+	
+	private String artistsWeLike;
+	
 	private String attire;
+	
+	private String awards;
+	
+	private String bandInterests;
 	
 	private String bandMembers;
 	
 	private Page bestPage;
 	
+	private String bio;
+	
 	private String birthday;
 	
 	private String bookingAgent;
+	
+	private String built;
+	
+	private Reference business;
 	
 	private boolean canPost;
 	
@@ -53,13 +69,29 @@ public class Page extends FacebookObject {
 	
 	private String companyOverview;
 	
+	private MailingAddress contactAddress;
+	
+	private int countryPageLikes;
+	
 	private CoverPhoto cover;
 	
+	private String culinaryTeam;
+
 	private String currentLocation;
 	
 	private String description;
 	
+	private String descriptionHtml;
+
 	private String directedBy;
+	
+	private List<String> emails;
+	
+	private Engagement engagement;
+	
+	private String features;
+	
+	private String foodStyles;
 	
 	private String founded;
 	
@@ -67,13 +99,21 @@ public class Page extends FacebookObject {
 	
 	private String generalManager;
 	
+	private String genre;
+	
 	private String globalBrandPageName;
+
+	private Reference globalBrandParentPage;
+
+	private String globalBrandRootId;
 	
 	private boolean hasAddedApp;
 	
 	private String hometown;
 	
 	private Map<String, String> hours;
+	
+	private String influences;
 	
 	private boolean isCommunityPage;
 	
@@ -83,43 +123,111 @@ public class Page extends FacebookObject {
 	
 	private boolean isUnclaimed;
 	
+	private boolean isVerified;
+	
 	private int likes;
 	
 	private String link;
 
 	private Location location;
 	
+	private String members;
+	
 	private String mission;
+	
+	private String mpg;
 	
 	private String name;
 	
-	private ParkingInfo parking;
+	private String network;
+	
+	private int newLikeCount;
+	
+	private boolean offerEligible;
+	
+	private Reference parentPage;
+	
+	private PageParking parking;
+	
+	private PagePaymentOptions paymentOptions;
+	
+	private String personalInfo;
+	
+	private String personalInterests;
+	
+	private String pharmaSafetyInfo;
 	
 	private String phone;
 	
-	private String picture;
+	private String plotOutline;
 	
 	private String pressContact;
 	
 	private PriceRange priceRange;
 	
+	private String producedBy;
+	
 	private String products;
 	
-	private RestaurantSpecialties restaurantSpecialties;
+	private boolean promotionEligible;
+	
+	private String promotionIneligibleReason;
+	
+	private String publicTransit;
+	
+	private String recordLabel;
+	
+	private String releaseDate;
+	
+	private PageRestaurantServices restaurantServices;
+	
+	private PageRestaurantSpecialties restaurantSpecialties;
+	
+	private String schedule;
+	
+	private String screenplayBy;
+	
+	private String season;
+	
+	private String starring;
+	
+	private int storeNumber;
+	
+	private String studio;
 	
 	private int talkingAboutCount;
+	
+	private int unreadMessageCount;
+	
+	private int unreadNotifCount;
+	
+	private int unseenMessageCount;
+	
+	private String username;
+	
+	private VoipInfo voipInfo;
 	
 	private String website;
 	
 	private int wereHereCount;
 	
+	private String writtenBy;
+
 	/**
 	 * @return The page's ID.
 	 */
 	public String getId() {
 		return id;
 	}
-
+	
+	/**
+	 * Access token that can be used to act as the Page. Only visible to page admins.
+	 * @return a page access token.
+	 */
+	public String getAccessToken() {
+		return accessToken;
+	}
+	
 	/**
 	 * @return The page's name.
 	 */
@@ -169,15 +277,6 @@ public class Page extends FacebookObject {
 		return website;
 	}
 
-	/**
-	 * @return the page's picture.
-	 * @deprecated This method will be replaced in Spring 1.1.0 with a new version that returns an object with more details about the picture.
-	 */
-	@Deprecated
-	public String getPicture() {
-		return picture;
-	}
-	
 	/**
 	 * @return the page's cover photo.
 	 */
@@ -322,7 +421,7 @@ public class Page extends FacebookObject {
 		return mission;
 	}
 	
-	public ParkingInfo getParking() {
+	public PageParking getParking() {
 		return parking;
 	}
 	
@@ -338,13 +437,222 @@ public class Page extends FacebookObject {
 		return products;
 	}
 	
-	public RestaurantSpecialties getRestaurantSpecialties() {
+	public PageRestaurantSpecialties getRestaurantSpecialties() {
 		return restaurantSpecialties;
 	}
 	
 	public int getWereHereCount() {
 		return wereHereCount;
 	}
+	
+	public String getAppId() {
+		return appId;
+	}
+
+	public String getArtistsWeLike() {
+		return artistsWeLike;
+	}
+
+	public String getAwards() {
+		return awards;
+	}
+
+	public String getBandInterests() {
+		return bandInterests;
+	}
+
+	public String getBio() {
+		return bio;
+	}
+
+	public String getBuilt() {
+		return built;
+	}
+
+	public Reference getBusiness() {
+		return business;
+	}
+
+	public boolean isCanPost() {
+		return canPost;
+	}
+
+	public MailingAddress getContactAddress() {
+		return contactAddress;
+	}
+
+	public int getCountryPageLikes() {
+		return countryPageLikes;
+	}
+
+	public String getCulinaryTeam() {
+		return culinaryTeam;
+	}
+
+	public String getDescriptionHtml() {
+		return descriptionHtml;
+	}
+
+	public List<String> getEmails() {
+		return emails;
+	}
+
+	public Engagement getEngagement() {
+		return engagement;
+	}
+
+	public String getFeatures() {
+		return features;
+	}
+
+	public String getFoodStyles() {
+		return foodStyles;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public Reference getGlobalBrandParentPage() {
+		return globalBrandParentPage;
+	}
+
+	public String getGlobalBrandRootId() {
+		return globalBrandRootId;
+	}
+
+	public boolean isHasAddedApp() {
+		return hasAddedApp;
+	}
+
+	public String getInfluences() {
+		return influences;
+	}
+
+	public boolean isVerified() {
+		return isVerified;
+	}
+
+	public String getMembers() {
+		return members;
+	}
+
+	public String getMpg() {
+		return mpg;
+	}
+
+	public String getNetwork() {
+		return network;
+	}
+
+	public int getNewLikeCount() {
+		return newLikeCount;
+	}
+
+	public boolean isOfferEligible() {
+		return offerEligible;
+	}
+
+	public Reference getParentPage() {
+		return parentPage;
+	}
+
+	public PagePaymentOptions getPaymentOptions() {
+		return paymentOptions;
+	}
+
+	public String getPersonalInfo() {
+		return personalInfo;
+	}
+
+	public String getPersonalInterests() {
+		return personalInterests;
+	}
+
+	public String getPharmaSafetyInfo() {
+		return pharmaSafetyInfo;
+	}
+
+	public String getPlotOutline() {
+		return plotOutline;
+	}
+
+	public String getProducedBy() {
+		return producedBy;
+	}
+
+	public boolean isPromotionEligible() {
+		return promotionEligible;
+	}
+
+	public String getPromotionIneligibleReason() {
+		return promotionIneligibleReason;
+	}
+
+	public String getPublicTransit() {
+		return publicTransit;
+	}
+
+	public String getRecordLabel() {
+		return recordLabel;
+	}
+
+	public String getReleaseDate() {
+		return releaseDate;
+	}
+
+	public PageRestaurantServices getRestaurantServices() {
+		return restaurantServices;
+	}
+
+	public String getSchedule() {
+		return schedule;
+	}
+
+	public String getScreenplayBy() {
+		return screenplayBy;
+	}
+
+	public String getSeason() {
+		return season;
+	}
+
+	public String getStarring() {
+		return starring;
+	}
+
+	public int getStoreNumber() {
+		return storeNumber;
+	}
+
+	public String getStudio() {
+		return studio;
+	}
+
+	public int getUnreadMessageCount() {
+		return unreadMessageCount;
+	}
+
+	public int getUnreadNotificationCount() {
+		return unreadNotifCount;
+	}
+
+	public int getUnseenMessageCount() {
+		return unseenMessageCount;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public VoipInfo getVoipInfo() {
+		return voipInfo;
+	}
+
+	public String getWrittenBy() {
+		return writtenBy;
+	}
+
 	
 	public static enum PriceRange {
 		$,$$, $$$, $$$$, UNSPECIFIED;

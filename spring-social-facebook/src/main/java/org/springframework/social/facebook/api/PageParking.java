@@ -13,19 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.impl.json;
+package org.springframework.social.facebook.api;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+public class PageParking {
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-abstract class ApplicationReferenceMixin extends FacebookObjectMixin {
-
-	@JsonCreator
-	ApplicationReferenceMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("url") String url) {}
+	private boolean lot;
 	
+	private boolean street;
+	
+	private boolean valet;
+	
+	public boolean hasLot() {
+		return lot;
+	}
+	
+	public boolean hasStreet() {
+		return street;
+	}
+	
+	public boolean hasValet() {
+		return valet;
+	}
+
 }

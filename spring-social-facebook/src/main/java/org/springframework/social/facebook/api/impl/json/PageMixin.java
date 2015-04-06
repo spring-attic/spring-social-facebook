@@ -20,12 +20,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.social.facebook.api.CoverPhoto;
+import org.springframework.social.facebook.api.Engagement;
 import org.springframework.social.facebook.api.Location;
+import org.springframework.social.facebook.api.MailingAddress;
 import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.Page.PriceRange;
-import org.springframework.social.facebook.api.ParkingInfo;
+import org.springframework.social.facebook.api.PageParking;
+import org.springframework.social.facebook.api.PagePaymentOptions;
+import org.springframework.social.facebook.api.PageRestaurantServices;
+import org.springframework.social.facebook.api.PageRestaurantSpecialties;
 import org.springframework.social.facebook.api.Reference;
-import org.springframework.social.facebook.api.RestaurantSpecialties;
+import org.springframework.social.facebook.api.VoipInfo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -48,6 +53,9 @@ abstract class PageMixin extends FacebookObjectMixin {
 	
 	@JsonProperty("about")
 	String about;
+	
+	@JsonProperty("access_token")
+	String accessToken;
 	
 	@JsonProperty("affiliation")
 	String affiliation;
@@ -144,15 +152,11 @@ abstract class PageMixin extends FacebookObjectMixin {
 	String name;
 	
 	@JsonProperty("parking")
-	ParkingInfo parking;
+	PageParking parking;
 	
 	@JsonProperty("phone")
 	String phone;
 
-	@JsonProperty("picture")
-	@JsonDeserialize(using=PictureDeserializer.class)
-	String picture;
-	
 	@JsonProperty("press_contact")
 	String pressContact;
 	
@@ -164,7 +168,7 @@ abstract class PageMixin extends FacebookObjectMixin {
 	String products;
 	
 	@JsonProperty("restaurant_specialties")
-	RestaurantSpecialties restaurantSpecialties;
+	PageRestaurantSpecialties restaurantSpecialties;
 	
 	@JsonProperty("talking_about_count")
 	int talkingAboutCount;
@@ -175,7 +179,158 @@ abstract class PageMixin extends FacebookObjectMixin {
 	@JsonProperty("were_here_count")
 	int wereHereCount;
 	
-	private static class LocationDeserializer extends JsonDeserializer<Location> {
+	@JsonProperty("app_id")
+	String appId;
+	
+	@JsonProperty("artists_we_like")
+	String artistsWeLike;
+	
+	@JsonProperty("awards")
+	String awards;
+	
+	@JsonProperty("band_interests")
+	String bandInterests;
+	
+	@JsonProperty("bio")
+	String bio;
+	
+	@JsonProperty("built")
+	String built;
+	
+	@JsonProperty("business")
+	Reference business;
+	
+	@JsonProperty("contact_adress")
+	MailingAddress contactAddress;
+	
+	@JsonProperty("country_page_likes")
+	int countryPageLikes;
+	
+	@JsonProperty("culinary_team")
+	String culinaryTeam;
+
+	@JsonProperty("description_html")
+	String descriptionHtml;
+
+	@JsonProperty("emails")
+	List<String> emails;
+	
+	@JsonProperty("engagement")
+	Engagement engagement;
+	
+	@JsonProperty("features")
+	String features;
+	
+	@JsonProperty("food_styles")
+	String foodStyles;
+	
+	@JsonProperty("genre")
+	String genre;
+	
+	@JsonProperty("global_brand_parent_page")
+	Reference globalBrandParentPage;
+
+	@JsonProperty("global_brand_root_id")
+	String globalBrandRootId;
+	
+	@JsonProperty("influences")
+	String influences;
+	
+	@JsonProperty("is_verified")
+	boolean isVerified;
+	
+	@JsonProperty("members")
+	String members;
+	
+	@JsonProperty("mpg")
+	String mpg;
+	
+	@JsonProperty("network")
+	String network;
+	
+	@JsonProperty("new_like_count")
+	int newLikeCount;
+	
+	@JsonProperty("offer_eligible")
+	boolean offerEligible;
+	
+	@JsonProperty("parent_page")
+	Reference parentPage;
+	
+	@JsonProperty("payment_options")
+	PagePaymentOptions paymentOptions;
+	
+	@JsonProperty("personal_info")
+	String personalInfo;
+	
+	@JsonProperty("personal_interests")
+	String personalInterests;
+	
+	@JsonProperty("pharma_safety_info")
+	String pharmaSafetyInfo;
+	
+	@JsonProperty("plot_outline")
+	String plotOutline;
+	
+	@JsonProperty("produced_by")
+	String producedBy;
+	
+	@JsonProperty("promotion_eligible")
+	boolean promotionEligible;
+	
+	@JsonProperty("promotion_ineligible_reason")
+	String promotionIneligibleReason;
+	
+	@JsonProperty("public_transit")
+	String publicTransit;
+	
+	@JsonProperty("record_label")
+	String recordLabel;
+	
+	@JsonProperty("release_date")
+	String releaseDate;
+	
+	@JsonProperty("restaurant_services")
+	PageRestaurantServices restaurantServices;
+	
+	@JsonProperty("schedule")
+	String schedule;
+	
+	@JsonProperty("screenplay_by")
+	String screenplayBy;
+	
+	@JsonProperty("season")
+	String season;
+	
+	@JsonProperty("starring")
+	String starring;
+	
+	@JsonProperty("store_number")
+	int storeNumber;
+	
+	@JsonProperty("studio")
+	String studio;
+	
+	@JsonProperty("unread_message_count")
+	int unreadMessageCount;
+	
+	@JsonProperty("unread_notif_count")
+	int unreadNotifCount;
+	
+	@JsonProperty("unseen_message_count")
+	int unseenMessageCount;
+	
+	@JsonProperty("username")
+	String username;
+	
+	@JsonProperty("voip_info")
+	VoipInfo voipInfo;
+	
+	@JsonProperty("written_by")
+	String writtenBy;
+
+	
+	static class LocationDeserializer extends JsonDeserializer<Location> {
 		@Override
 		public Location deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			if (jp.getCurrentToken() == JsonToken.START_OBJECT) {
@@ -185,7 +340,7 @@ abstract class PageMixin extends FacebookObjectMixin {
 		}
 	}
 	
-	private static class PriceRangeDeserializer extends JsonDeserializer<PriceRange> {
+	static class PriceRangeDeserializer extends JsonDeserializer<PriceRange> {
 		@Override
 		public PriceRange deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			String priceRangeText = jp.getText();

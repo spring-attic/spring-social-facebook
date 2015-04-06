@@ -31,5 +31,6 @@
       "deeper": {
          "foo":"bar"
    }
-   }
+   },
+   "extra_data":"This is extra data"
 }

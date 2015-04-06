@@ -13,19 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api.impl.json;
+package org.springframework.social.facebook.api;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+public class PagePaymentOptions {
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-abstract class ApplicationReferenceMixin extends FacebookObjectMixin {
-
-	@JsonCreator
-	ApplicationReferenceMixin(
-			@JsonProperty("id") String id, 
-			@JsonProperty("name") String name, 
-			@JsonProperty("url") String url) {}
+	private boolean amex;
+	
+	private boolean cashOnly;
+	
+	private boolean discover;
+	
+	private boolean mastercard;
+	
+	private boolean visa;
+	
+	public boolean acceptsAmex() {
+		return amex;
+	}
+	
+	public boolean acceptsCashOnly() {
+		return cashOnly;
+	}
+	
+	public boolean acceptsDiscover() {
+		return discover;
+	}
+	
+	public boolean acceptsMastercard() {
+		return mastercard;
+	}
+	
+	public boolean acceptsVisa() {
+		return visa;
+	}
 	
 }

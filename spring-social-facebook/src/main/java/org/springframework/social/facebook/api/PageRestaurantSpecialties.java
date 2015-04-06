@@ -15,7 +15,7 @@
  */
 package org.springframework.social.facebook.api;
 
-public class RestaurantSpecialties {
+public class PageRestaurantSpecialties {
 	
 	private boolean breakfast;
 	

@@ -26,6 +26,7 @@ import org.springframework.social.facebook.api.CoverPhoto;
 import org.springframework.social.facebook.api.Currency;
 import org.springframework.social.facebook.api.Device;
 import org.springframework.social.facebook.api.EducationExperience;
+import org.springframework.social.facebook.api.Engagement;
 import org.springframework.social.facebook.api.Event;
 import org.springframework.social.facebook.api.EventInvitee;
 import org.springframework.social.facebook.api.Experience;
@@ -36,9 +37,13 @@ import org.springframework.social.facebook.api.GroupMembership;
 import org.springframework.social.facebook.api.ImageSource;
 import org.springframework.social.facebook.api.Invitation;
 import org.springframework.social.facebook.api.Location;
+import org.springframework.social.facebook.api.MailingAddress;
 import org.springframework.social.facebook.api.MessageTag;
 import org.springframework.social.facebook.api.Page;
-import org.springframework.social.facebook.api.ParkingInfo;
+import org.springframework.social.facebook.api.PageParking;
+import org.springframework.social.facebook.api.PagePaymentOptions;
+import org.springframework.social.facebook.api.PageRestaurantServices;
+import org.springframework.social.facebook.api.PageRestaurantSpecialties;
 import org.springframework.social.facebook.api.PaymentPricePoint;
 import org.springframework.social.facebook.api.PaymentPricePoints;
 import org.springframework.social.facebook.api.Photo;
@@ -49,7 +54,6 @@ import org.springframework.social.facebook.api.PostProperty;
 import org.springframework.social.facebook.api.ProfilePictureSource;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.RestaurantServices;
-import org.springframework.social.facebook.api.RestaurantSpecialties;
 import org.springframework.social.facebook.api.SecuritySettings;
 import org.springframework.social.facebook.api.StoryAttachment;
 import org.springframework.social.facebook.api.Tag;
@@ -61,6 +65,7 @@ import org.springframework.social.facebook.api.UserTaggableFriend;
 import org.springframework.social.facebook.api.Video;
 import org.springframework.social.facebook.api.Video.VideoFormat;
 import org.springframework.social.facebook.api.VideoUploadLimits;
+import org.springframework.social.facebook.api.VoipInfo;
 import org.springframework.social.facebook.api.WorkEntry;
 import org.springframework.social.facebook.api.WorkEntry.Project;
 import org.springframework.social.facebook.api.impl.json.PhotoMixin.ImageMixin;
@@ -96,8 +101,11 @@ public class FacebookModule extends SimpleModule {
 		
 		context.setMixInAnnotations(Page.class, PageMixin.class);
 		context.setMixInAnnotations(RestaurantServices.class, RestaurantServicesMixin.class);
-		context.setMixInAnnotations(RestaurantSpecialties.class, RestaurantSpecialtiesMixin.class);
-		context.setMixInAnnotations(ParkingInfo.class, ParkingInfoMixin.class);
+		context.setMixInAnnotations(PageRestaurantSpecialties.class, RestaurantSpecialtiesMixin.class);
+		context.setMixInAnnotations(PageParking.class, PageParkingMixin.class);
+		context.setMixInAnnotations(PagePaymentOptions.class, PagePaymentOptionsMixin.class);
+		context.setMixInAnnotations(PageRestaurantServices.class, PageRestaurantServicesMixin.class);
+		context.setMixInAnnotations(Engagement.class, EngagementMixin.class);
 		
 		context.setMixInAnnotations(PostProperty.class, PostPropertyMixin.class);
 		
@@ -135,6 +143,10 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(FamilyMember.class, FamilyMemberMixin.class);
 		context.setMixInAnnotations(MessageTag.class, MessageTagMixin.class);
 		context.setMixInAnnotations(CoverPhoto.class, CoverPhotoMixin.class);
+		
+		context.setMixInAnnotations(VoipInfo.class, VoipInfoMixin.class);
+		
+		context.setMixInAnnotations(MailingAddress.class, MailingAddressMixin.class);
 		
 		context.setMixInAnnotations(PaymentPricePoints.class, PaymentPricePointsMixin.class);
 		context.setMixInAnnotations(PaymentPricePoint.class, PaymentPricePointMixin.class);
