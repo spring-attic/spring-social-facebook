@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springframework.social.facebook.api.FamilyMember;
+import org.springframework.social.facebook.api.FriendList;
 import org.springframework.social.facebook.api.FriendOperations;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Reference;
@@ -82,7 +83,7 @@ public class FriendOperationsITests extends FacebookITest implements ITestCreden
 		family = friendOps1.getFamily(testUser1.getId());
 		assertEquals(0, family.size());
 
-		PagedList<Reference> lists = friendOps1.getFriendLists();
+		PagedList<FriendList> lists = friendOps1.getFriendLists();
 		assertEquals(0, lists.size());
 
 		// Can't test the following, because there's no good way to create a friend list from an automated test
