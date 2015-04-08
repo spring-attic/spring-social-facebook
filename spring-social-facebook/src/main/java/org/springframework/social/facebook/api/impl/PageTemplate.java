@@ -51,7 +51,7 @@ class PageTemplate implements PageOperations {
 	}
 
 	public String post(String pageId, String message) {
-		String pageAccessToken = getPageAccessToken(pageId);
+		String pageAccessToken = getAccessToken(pageId);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("message", message);
 		map.set("access_token", pageAccessToken);
@@ -59,7 +59,7 @@ class PageTemplate implements PageOperations {
 	}
 	
 	public String post(String pageId, String message, FacebookLink link) {
-		String pageAccessToken = getPageAccessToken(pageId);
+		String pageAccessToken = getAccessToken(pageId);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("link", link.getLink());
 		map.set("name", link.getName());
@@ -78,7 +78,7 @@ class PageTemplate implements PageOperations {
 	}
 	
 	public String postPhoto(String pageId, String albumId, Resource photo, String caption) {
-		String pageAccessToken = getPageAccessToken(pageId);
+		String pageAccessToken = getAccessToken(pageId);
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
 		parts.set("source", photo);
 		if(caption != null) {
@@ -104,19 +104,15 @@ class PageTemplate implements PageOperations {
 		return graphApi.fetchConnections("search", null, Page.class, queryMap);
 	}
 
-	// private helper methods
-	
-	private Map<String, Account> accountCache = new HashMap<String, Account>();
-	
-	private String getPageAccessToken(String pageId) {
+	public String getAccessToken(String pageId) {
 		Account account = getAccount(pageId);
 		if(account == null) {
 			throw new PageAdministrationException(pageId);
 		}
 		return account.getAccessToken();
 	}
-	
-	private Account getAccount(String pageId) {
+
+	public Account getAccount(String pageId) {
 		if(!accountCache.containsKey(pageId)) {
 			// only bother fetching the account data in the event of a cache miss
 			List<Account> accounts = getAccounts();
@@ -126,4 +122,9 @@ class PageTemplate implements PageOperations {
 		}
 		return accountCache.get(pageId);
 	}
+
+	// private helper methods
+	
+	private Map<String, Account> accountCache = new HashMap<String, Account>();
+	
 }

@@ -241,6 +241,34 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	}
 
 	@Test
+	public void getAccount() {
+		expectFetchAccounts();
+		Account account = facebook.pageOperations().getAccount("987654321");
+		assertEquals("987654321", account.getId());
+		assertEquals("Test Page", account.getName());
+		assertEquals("Page", account.getCategory());
+		assertEquals("pageAccessToken", account.getAccessToken());
+	}
+
+	@Test
+	public void getAccount_missingAccount() throws Exception {
+		expectFetchAccounts();
+		assertNull(facebook.pageOperations().getAccount("BOGUS"));
+	}
+	
+	@Test
+	public void getAccessToken() {
+		expectFetchAccounts();
+		assertEquals("pageAccessToken", facebook.pageOperations().getAccessToken("987654321"));
+	}
+
+	@Test(expected=PageAdministrationException.class)
+	public void getAccessToken_missingAccount() {
+		expectFetchAccounts();
+		facebook.pageOperations().getAccessToken("BOGUS");
+	}
+
+	@Test
 	public void post_message() throws Exception {
 		expectFetchAccounts();
 		String requestBody = "message=Hello+Facebook+World&access_token=pageAccessToken";

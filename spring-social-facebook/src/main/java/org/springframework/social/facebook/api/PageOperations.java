@@ -132,4 +132,19 @@ public interface PageOperations {
 	 */
 	PagedList<Page> searchPlaces(String query, double latitude, double longitude, long distance);
 
+	/**
+	 * Returns the access token for a given page. This makes it possible to perform operations on behalf of a page that 
+	 * aren't already covered by PageOperations methods.
+	 * @param pageId the page to fetch the access token for
+	 * @return the page access token
+	 */
+	String getAccessToken(String pageId);
+	
+	/**
+	 * Returns an {@link Account} object for the user's access to the given page.
+	 * @param pageId the page to fetch the Account details for
+	 * @return an {@link Account} object for the given page ID
+	 */
+	Account getAccount(String pageId);
+	
 }
