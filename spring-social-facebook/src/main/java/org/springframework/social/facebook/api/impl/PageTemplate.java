@@ -26,6 +26,7 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.PageAdministrationException;
 import org.springframework.social.facebook.api.PageOperations;
+import org.springframework.social.facebook.api.PagePostData;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -51,25 +52,21 @@ class PageTemplate implements PageOperations {
 	}
 
 	public String post(String pageId, String message) {
-		String pageAccessToken = getAccessToken(pageId);
-		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-		map.set("message", message);
-		map.set("access_token", pageAccessToken);
-		return graphApi.publish(pageId, "feed", map);
+		return post(new PagePostData(pageId).message(message));
 	}
 	
 	public String post(String pageId, String message, FacebookLink link) {
+		PagePostData postData = new PagePostData(pageId)
+				.message(message)
+				.link(link.getLink(), link.getPicture(), link.getName(), link.getCaption(), link.getDescription());
+		return post(postData);
+	}
+	
+	public String post(PagePostData post) {
+		String pageId = post.getPageId();
 		String pageAccessToken = getAccessToken(pageId);
-		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-		map.set("link", link.getLink());
-		map.set("name", link.getName());
-		map.set("caption", link.getCaption());
-		map.set("description", link.getDescription());
-		map.set("message", message);
+		MultiValueMap<String, Object> map = post.toRequestParameters();
 		map.set("access_token", pageAccessToken);
-		if (link.getPicture() != null) {
-			map.set("picture", link.getPicture());
-		}
 		return graphApi.publish(pageId, "feed", map);
 	}
 

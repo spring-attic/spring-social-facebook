@@ -323,10 +323,7 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
 		PostData newPost = new PostData("123456789")
-				.link("someLink")
-				.name("some name")
-				.caption("some caption")
-				.description("some description")
+				.link("someLink", null, "some name", "some caption", "some description")
 				.message("Hello Facebook World");
 		assertEquals("123456_78901234", facebook.feedOperations().post(newPost));
 		mockServer.verify();		

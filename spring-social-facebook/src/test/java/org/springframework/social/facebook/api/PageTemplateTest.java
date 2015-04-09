@@ -290,7 +290,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void postLink() throws Exception {
 		expectFetchAccounts();
-		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World&access_token=pageAccessToken";
+		String requestBody = "message=Hello+Facebook+World&link=someLink&name=some+name&caption=some+caption&description=some+description&access_token=pageAccessToken";
 		mockServer.expect(requestTo(fbUrl("987654321/feed")))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -304,7 +304,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void postLink_withPicture() throws Exception {
 		expectFetchAccounts();
-		String requestBody = "link=someLink&name=some+name&caption=some+caption&description=some+description&message=Hello+Facebook+World&access_token=pageAccessToken&picture=somePic";
+		String requestBody = "message=Hello+Facebook+World&link=someLink&name=some+name&caption=some+caption&description=some+description&picture=somePic&access_token=pageAccessToken";
 		mockServer.expect(requestTo(fbUrl("987654321/feed")))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))

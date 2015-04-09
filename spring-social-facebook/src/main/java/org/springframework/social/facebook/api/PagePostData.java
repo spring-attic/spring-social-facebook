@@ -22,12 +22,12 @@ import org.springframework.util.StringUtils;
 /**
  * An object that represents a new post to be created. 
  * Offers a builder-like way of creating a new post.
- * Given to {@link FeedOperations#post(PostData)}.
+ * Given to {@link FeedOperations#post(PagePostData)}.
  * @author Craig Walls
  */
-public class PostData {
+public class PagePostData {
 
-	private final String targetFeedId;
+	private final String pageId;
 	
 	private String message;
 	
@@ -45,29 +45,23 @@ public class PostData {
 	
 	private String picture;
 	
-	private Post.Privacy privacy;
-	
-	private String[] allow;
-	
-	private String[] deny;
-
 	/**
-	 * Creates a new {@link PostData}.
-	 * @param targetFeedId The ID of the owner of the post.
+	 * Creates a new {@link PagePostData}.
+	 * @param pageId The ID of the owner of the post.
 	 */
-	public PostData(String targetFeedId) {
-		this.targetFeedId = targetFeedId;
+	public PagePostData(String pageId) {
+		this.pageId = pageId;
 	}
 	
-	public String getTargetFeedId() {
-		return targetFeedId;
+	public String getPageId() {
+		return pageId;
 	}
 	
 	/**
 	 * @param message A message for the post.
-	 * @return the PostData object for additional configuration
+	 * @return the PagePostData object for additional configuration
 	 */
-	public PostData message(String message) {
+	public PagePostData message(String message) {
 		this.message = message;
 		return this;
 	}
@@ -80,56 +74,30 @@ public class PostData {
 	 * @description Overwrites the caption of hte link preview. May be null.
 	 * @return the PagePostData object for additional configuration
 	 */
-	public PostData link(String linkUrl, String picture, String name, String caption, String description) {
+	public PagePostData link(String linkUrl, String picture, String name, String caption, String description) {
 		this.linkUrl = linkUrl;
+		this.picture = picture;
 		this.name = name;
 		this.caption = caption;
 		this.description = description;
 		return this;
 	}
-	
+
 	/**
 	 * @param placeId The ID of a place to associate with the post.
-	 * @return the PostData object for additional configuration
+	 * @return the PagePostData object for additional configuration
 	 */
-	public PostData place(String placeId) {
+	public PagePostData place(String placeId) {
 		this.placeId = placeId;
 		return this;
 	}
 	
 	/**
 	 * @param tags One or more Facebook user IDs to tag in the post. Will be ignored unless a place is specified.
-	 * @return the PostData object for additional configuration
+	 * @return the PagePostData object for additional configuration
 	 */
-	public PostData tags(String... tags) {
+	public PagePostData tags(String... tags) {
 		this.tags = tags;
-		return this;
-	}
-
-	/**
-	 * @param privacy The privacy setting for the post. If CUSTOM, then you must also set at least one of allow() or deny().
-	 * @return the PostData object for additional configuration
-	 */
-	public PostData privacy(Post.Privacy privacy) {
-		this.privacy = privacy;
-		return this;
-	}
-	
-	/**
-	 * @param allow One or more Facebook User IDs and friend list IDs that can see the post. Ignored unless privacy is CUSTOM.
-	 * @return the PostData object for additional configuration
-	 */
-	public PostData allow(String... allow) {
-		this.allow = allow;
-		return this;
-	}
-
-	/**
-	 * @param deny One or more Facebook User IDs and friend list IDs that cannot see the post. Ignored unless privacy is CUSTOM.
-	 * @return the PostData object for additional configuration
-	 */
-	public PostData deny(String... deny) {
-		this.deny = deny;
 		return this;
 	}
 
@@ -146,41 +114,7 @@ public class PostData {
 			// tags are only allowed if a place is given
 			if (tags != null) { parameters.add("tags", StringUtils.arrayToCommaDelimitedString(tags)); }
 		}
-		
-//		// TODO: Revisit posting with Privacy
-//		
-//		if (privacy != null) {
-//			StringBuffer privacyBuffer = new StringBuffer();
-//			privacyBuffer.append("{'value': '").append(privacy.toString()).append("'");
-//			if (privacy.getValue() == PrivacyType.CUSTOM) {
-//				if (allow == null && deny == null) {
-//					throw new IllegalArgumentException("At least one of 'deny' or 'allow' must be specified when privacy is CUSTOM.");
-//				}
-//				if (allow != null) {
-//					privacyBuffer.append(",'allow': '").append(join(allow)).append("'");
-//				}
-//				if (deny != null) {
-//					privacyBuffer.append(",'deny': '").append(join(deny)).append("'");
-//				}
-//			}
-//			privacyBuffer.append("}");
-//			parameters.add("privacy", privacyBuffer.toString());
-//		}
-
 		return parameters;
 	}
-//
-//	// TODO: Extract this into some utility, as it comes in handy in several places
-//	private String join(String... strings) {
-//		Assert.notEmpty(strings);
-//		StringBuilder builder = new StringBuilder();
-//		builder.append(strings[0]);
-//		if (strings.length > 1) {
-//			for (int i=1; i<strings.length; i++) {
-//				builder.append(",").append(strings[i]);
-//			}
-//		}
-//		return builder.toString();
-//	}
 
 }
