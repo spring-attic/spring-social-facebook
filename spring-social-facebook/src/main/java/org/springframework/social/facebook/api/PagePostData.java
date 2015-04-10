@@ -22,7 +22,7 @@ import org.springframework.util.StringUtils;
 /**
  * An object that represents a new post to be created. 
  * Offers a builder-like way of creating a new post.
- * Given to {@link FeedOperations#post(PagePostData)}.
+ * Given to {@link PageOperations#post(PagePostData)}.
  * @author Craig Walls
  */
 public class PagePostData {
@@ -71,7 +71,7 @@ public class PagePostData {
 	 * @param picture A preview image associated with the link. May be null.
 	 * @param name Overwrites the title of the link preview. May be null.
 	 * @param caption Overwrites the caption of the link preview. May be null.
-	 * @description Overwrites the caption of hte link preview. May be null.
+	 * @param description Overwrites the caption of hte link preview. May be null.
 	 * @return the PagePostData object for additional configuration
 	 */
 	public PagePostData link(String linkUrl, String picture, String name, String caption, String description) {

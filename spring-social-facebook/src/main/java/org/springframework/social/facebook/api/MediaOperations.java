@@ -94,6 +94,19 @@ public interface MediaOperations {
 	String createAlbum(String name, String description);
 
 	/**
+	 * Creates a new photo album.
+	 * Requires "user_photos" permission.
+	 * @param ownerId the owner of the album, possibly a page ID.
+	 * @param name the name of the album.
+	 * @param description the album's description.
+	 * @return the ID of the newly created album.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "user_photos" permission.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+	 */
+	String createAlbum(String ownerId, String name, String description);
+	
+	/**
 	 * Retrieves an album's image as an array of bytes. Returns the image in Facebook's "normal" type.
 	 * Requires "user_photos" permission if the album is not public.
 	 * @param albumId the album ID

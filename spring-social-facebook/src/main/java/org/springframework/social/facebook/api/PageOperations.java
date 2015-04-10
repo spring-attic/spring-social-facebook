@@ -36,6 +36,13 @@ public interface PageOperations {
 	Page getPage(String pageId);
 	
 	/**
+	 * Updates page information.
+	 * Requires that the application is granted "manage_pages" permission and that the authenticated user be an administrator of the page.
+	 * @param pageUpdate a {@link PageUpdate} object that carries the fields to update on the page.
+	 */
+	void updatePage(PageUpdate pageUpdate);
+	
+	/**
 	 * Checks whether the logged-in user for this session is an admin of the page with the given page ID.
 	 * Requires "manage_pages" permission.
 	 * @param pageId the page ID
@@ -163,5 +170,12 @@ public interface PageOperations {
 	 * @return an {@link Account} object for the given page ID
 	 */
 	Account getAccount(String pageId);
+	
+	/**
+	 * Returns a {@link Facebook} instance that will act on behalf of the given page.
+	 * @param pageId the page to create a {@link Facebook} instance for.
+	 * @return a {@link Facebook} instance for the page.
+	 */
+	Facebook facebookOperations(String pageId);
 	
 }

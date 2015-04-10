@@ -284,9 +284,14 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return (String) response.get("id");
 	}
 	
-	public void post(String objectId, String connectionType, MultiValueMap<String, String> data) {
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType).build();
-		getRestTemplate().postForObject(uri, new LinkedMultiValueMap<String, String>(data), String.class);
+	public void post(String objectId, MultiValueMap<String, Object> data) {
+		post(objectId, null, data);
+	}
+	
+	public void post(String objectId, String connectionType, MultiValueMap<String, Object> data) {
+		String connectionPath = connectionType != null ? "/" + connectionType : "";
+		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).build();
+		getRestTemplate().postForObject(uri, new LinkedMultiValueMap<String, Object>(data), String.class);
 	}
 	
 	public void delete(String objectId) {

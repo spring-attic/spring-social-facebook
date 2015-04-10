@@ -109,15 +109,15 @@ class EventTemplate implements EventOperations {
 	}
 	
 	public void acceptInvitation(String eventId) {
-		graphApi.post(eventId, "attending", new LinkedMultiValueMap<String, String>());
+		graphApi.post(eventId, "attending", new LinkedMultiValueMap<String, Object>());
 	}
 
 	public void maybeInvitation(String eventId) {
-		graphApi.post(eventId, "maybe", new LinkedMultiValueMap<String, String>());
+		graphApi.post(eventId, "maybe", new LinkedMultiValueMap<String, Object>());
 	}
 
 	public void declineInvitation(String eventId) {
-		graphApi.post(eventId, "declined", new LinkedMultiValueMap<String, String>());
+		graphApi.post(eventId, "declined", new LinkedMultiValueMap<String, Object>());
 	}
 	
 	public PagedList<Event> search(String query) {

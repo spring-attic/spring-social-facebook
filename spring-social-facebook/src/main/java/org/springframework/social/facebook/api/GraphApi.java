@@ -112,6 +112,16 @@ public interface GraphApi {
 	String publish(String objectId, String connectionName, MultiValueMap<String, Object> data);	
 
 	/**
+	 * Publishes data to an object. 
+	 * Requires appropriate permission to publish to the object connection.
+	 * This differs from publish() only in that it doesn't attempt to extract the ID from the response.
+	 * This is because some publish operations do not return an ID in the response.
+	 * @param objectId the object ID to publish to.
+	 * @param data the data to publish to the object.
+	 */
+	void post(String objectId, MultiValueMap<String, Object> data);
+
+	/**
 	 * Publishes data to an object's connection. 
 	 * Requires appropriate permission to publish to the object connection.
 	 * This differs from publish() only in that it doesn't attempt to extract the ID from the response.
@@ -120,7 +130,7 @@ public interface GraphApi {
 	 * @param connectionName the connection name to publish to.
 	 * @param data the data to publish to the connection.
 	 */
-	void post(String objectId, String connectionName, MultiValueMap<String, String> data);
+	void post(String objectId, String connectionName, MultiValueMap<String, Object> data);
 	
 	/**
 	 * Deletes an object.

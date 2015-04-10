@@ -77,7 +77,7 @@ public class PostData {
 	 * @param picture A preview image associated with the link. May be null.
 	 * @param name Overwrites the title of the link preview. May be null.
 	 * @param caption Overwrites the caption of the link preview. May be null.
-	 * @description Overwrites the caption of hte link preview. May be null.
+	 * @param description Overwrites the caption of hte link preview. May be null.
 	 * @return the PagePostData object for additional configuration
 	 */
 	public PostData link(String linkUrl, String picture, String name, String caption, String description) {

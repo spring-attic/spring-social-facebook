@@ -21,12 +21,14 @@ import java.util.Map;
 
 import org.springframework.core.io.Resource;
 import org.springframework.social.facebook.api.Account;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookLink;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Page;
 import org.springframework.social.facebook.api.PageAdministrationException;
 import org.springframework.social.facebook.api.PageOperations;
 import org.springframework.social.facebook.api.PagePostData;
+import org.springframework.social.facebook.api.PageUpdate;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -34,7 +36,7 @@ import org.springframework.util.MultiValueMap;
 class PageTemplate implements PageOperations {
 
 	private final GraphApi graphApi;
-
+	
 	public PageTemplate(GraphApi graphApi) {
 		this.graphApi = graphApi;
 	}
@@ -43,6 +45,14 @@ class PageTemplate implements PageOperations {
 		return graphApi.fetchObject(pageId, Page.class);
 	}
 
+	public void updatePage(PageUpdate pageUpdate) {
+		String pageId = pageUpdate.getPageId();
+		String pageAccessToken = getAccessToken(pageId);
+		MultiValueMap<String, Object> map = pageUpdate.toRequestParameters();
+		map.add("access_token", pageAccessToken);
+		graphApi.post(pageId, map);
+	}
+	
 	public boolean isPageAdmin(String pageId) {
 		return getAccount(pageId) != null;
 	}
@@ -118,6 +128,10 @@ class PageTemplate implements PageOperations {
 			}
 		}
 		return accountCache.get(pageId);
+	}
+	
+	public Facebook facebookOperations(String pageId) {
+		return new FacebookTemplate(getAccessToken(pageId));
 	}
 
 	// private helper methods

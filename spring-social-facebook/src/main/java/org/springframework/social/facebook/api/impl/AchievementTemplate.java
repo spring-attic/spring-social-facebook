@@ -64,7 +64,7 @@ class AchievementTemplate implements AchievementOperations {
 	}
 
 	public void createAchievementType(String achievementTypeUrl, int displayOrder) {
-		MultiValueMap<String, String> data = new LinkedMultiValueMap<String, String>();
+		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("achievement", achievementTypeUrl);
 		data.set("display_order", String.valueOf(displayOrder));
 		graphApi.post("app", "achievements", data);

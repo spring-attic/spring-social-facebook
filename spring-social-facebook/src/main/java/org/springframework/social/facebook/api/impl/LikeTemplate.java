@@ -32,7 +32,7 @@ class LikeTemplate implements LikeOperations {
 	}
 
 	public void like(String objectId) {
-		graphApi.post(objectId, "likes", new LinkedMultiValueMap<String, String>());
+		graphApi.post(objectId, "likes", new LinkedMultiValueMap<String, Object>());
 	}
 
 	public void unlike(String objectId) {
