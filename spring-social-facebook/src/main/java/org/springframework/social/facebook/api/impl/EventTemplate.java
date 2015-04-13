@@ -139,5 +139,5 @@ class EventTemplate implements EventOperations {
 	}
 	
 	private static final String[] ALL_FIELDS = { "id", "cover", "description", "end_time", "is_date_only", "name", "owner", 
-		"parent_group", "privacy", "start_time", "ticket_uri", "timezone", "updated_time"};
+		"parent_group", "privacy", "start_time", "ticket_uri", "timezone", "updated_time", "place"};
 }
