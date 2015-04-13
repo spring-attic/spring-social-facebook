@@ -1,1 +1,0 @@
-{"error":{"message":"Error validating access token: Who knows why it failed? This is a fake catch all, in case Facebook returns something unexpected","type":"OAuthException","code":190,"error_subcode":460}}

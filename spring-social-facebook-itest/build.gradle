@@ -16,6 +16,7 @@ targetCompatibility = 1.7
 
 dependencies {
 	compile "org.springframework.social:spring-social-facebook:$springSocialFacebookVersion"
+	compile "log4j:log4j:1.2.17"
 	testCompile "junit:junit-dep:$junitVersion"
 }
 

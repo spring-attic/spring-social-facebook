@@ -1,1 +1,11 @@
-{"error":{"type":"OAuthException","message":"(#506) Duplicate status message"}}
+{
+    "error": {
+        "code": 506,
+        "error_subcode": 1455006,
+        "error_user_msg": "This status update is identical to the last one you posted. Try posting something different, or delete your previous update.",
+        "error_user_title": "Duplicate Status Update",
+        "is_transient": false,
+        "message": "Duplicate status message",
+        "type": "FacebookApiException"
+    }
+}

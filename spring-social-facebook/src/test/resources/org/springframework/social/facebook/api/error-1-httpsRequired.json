@@ -1,0 +1,7 @@
+{
+"error": {
+"message": "You must use https:// when passing an access token",
+"type": "OAuthException",
+"code": 1
+}
+}

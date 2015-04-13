@@ -23,10 +23,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import java.util.List;
 
 import org.junit.Test;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.social.InsufficientPermissionException;
 
 public class LikeTemplateTest extends AbstractFacebookApiTest {
 	
@@ -40,17 +37,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));			
 		facebook.likeOperations().like("123456");
 		mockServer.verify();
-	}
-	
-	@Test(expected = InsufficientPermissionException.class)
-	public void like_objectAccessNotPermitted() {
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-		mockServer.expect(requestTo(fbUrl("123456/likes")))
-			.andExpect(method(POST))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-			.andRespond(withStatus(HttpStatus.FORBIDDEN).body(jsonResource("error-permission")).contentType(MediaType.APPLICATION_JSON));
-		facebook.likeOperations().like("123456");
 	}
 	
 	@Test
@@ -320,7 +306,6 @@ public class LikeTemplateTest extends AbstractFacebookApiTest {
 		assertGames(likes);
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void assertLikes(List<Page> likes) {
 		assertEquals(3, likes.size());
 		Page like1 = likes.get(0);

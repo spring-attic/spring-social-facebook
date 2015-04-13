@@ -1,0 +1,7 @@
+{
+"error": {
+"message": "(#15) This method is only accessible to Games.",
+"type": "OAuthException",
+"code": 15
+}
+}

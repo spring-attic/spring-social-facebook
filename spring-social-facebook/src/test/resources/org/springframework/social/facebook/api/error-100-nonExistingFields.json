@@ -1,0 +1,7 @@
+{
+"error": {
+"message": "(#100) Tried accessing nonexisting field (fdsfds) on node type (User)",
+"type": "OAuthException",
+"code": 100
+}
+}
