@@ -258,6 +258,15 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-30T14:30:00+0000"), event.getStartTime());
 		assertEquals(toDate("2011-03-30T17:30:00+0000"), event.getEndTime());
 		assertEquals(toDate("2011-03-30T14:30:28+0000"), event.getUpdatedTime());
+		Location venue = event.getPlace().getLocation();
+		assertEquals("142223762504319",  event.getPlace().getId());
+		assertEquals("Lake Buena Vista", venue.getCity());
+		assertEquals("United States", venue.getCountry());
+		assertEquals("FL", venue.getState());
+		assertEquals("1850 Animation Way", venue.getStreet());
+		assertEquals("32830", venue.getZip());
+		assertEquals("Disney's Art of Animation Resort", event.getPlace().getName());
+		assertEquals("Some call it spin class", event.getDescription());
 		assertTrue(event.isDateOnly());
 		CoverPhoto cover = event.getCover();
 		assertEquals("14639096", cover.getId());
