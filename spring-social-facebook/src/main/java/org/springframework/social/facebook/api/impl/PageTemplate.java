@@ -108,7 +108,7 @@ class PageTemplate implements PageOperations {
 	
 	private Map<String, Account> accountCache = new HashMap<String, Account>();
 	
-	public  String getPageAccessToken(String pageId) {
+	private  String getPageAccessToken(String pageId) {
 		Account account = getAccount(pageId);
 		if(account == null) {
 			throw new PageAdministrationException(pageId);
