@@ -80,7 +80,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void getEvent() {
 		mockServer.expect(requestTo(fbUrl("193482154020832?fields=id%2Ccover%2Cdescription%2Cend_time%2Cis_date_only%2Cname"
-				+ "%2Cowner%2Cparent_group%2Cprivacy%2Cstart_time%2Cticket_uri%2Ctimezone%2Cupdated_time")))
+				+ "%2Cowner%2Cparent_group%2Cprivacy%2Cstart_time%2Cticket_uri%2Ctimezone%2Cupdated_time%2Cplace")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("simple-event"), MediaType.APPLICATION_JSON));
@@ -91,7 +91,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void getEvent_withFriendPrivacyLevel() {
 		mockServer.expect(requestTo(fbUrl("193482154020832?fields=id%2Ccover%2Cdescription%2Cend_time%2Cis_date_only%2Cname"
-				+ "%2Cowner%2Cparent_group%2Cprivacy%2Cstart_time%2Cticket_uri%2Ctimezone%2Cupdated_time")))
+				+ "%2Cowner%2Cparent_group%2Cprivacy%2Cstart_time%2Cticket_uri%2Ctimezone%2Cupdated_time%2Cplace")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("simple-event-friend-privacy"), MediaType.APPLICATION_JSON));
@@ -102,7 +102,7 @@ public class EventTemplateTest extends AbstractFacebookApiTest {
 	@Test
 	public void getEvent_withLocationAndDescription() {
 		mockServer.expect(requestTo(fbUrl("193482154020832?fields=id%2Ccover%2Cdescription%2Cend_time%2Cis_date_only%2Cname"
-				+ "%2Cowner%2Cparent_group%2Cprivacy%2Cstart_time%2Cticket_uri%2Ctimezone%2Cupdated_time")))
+				+ "%2Cowner%2Cparent_group%2Cprivacy%2Cstart_time%2Cticket_uri%2Ctimezone%2Cupdated_time%2Cplace")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("full-event"), MediaType.APPLICATION_JSON));
