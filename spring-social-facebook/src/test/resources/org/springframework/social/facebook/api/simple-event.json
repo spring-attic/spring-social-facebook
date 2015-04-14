@@ -18,16 +18,19 @@
     "updated_time":"2011-03-30T14:30:28+0000",
     "location": "Walgreens",
     "description": "Some call it spin class",
-    "venue": {
-      "id": "215524685134868", 
-      "city": "Fort Worth", 
-      "country": "United States", 
-      "latitude": 32.7493792167, 
-      "longitude": -97.3371771801, 
-      "state": "TX", 
-      "street": "921 Henderson St", 
-      "zip": "76102"
-    },
+    "place": {
+        "id": "142223762504319",
+        "location": {
+          "city": "Lake Buena Vista",
+          "country": "United States",
+          "latitude": 28.350102,
+          "longitude": -81.548863,
+          "state": "FL",
+          "street": "1850 Animation Way",
+          "zip": "32830"
+        },
+        "name": "Disney's Art of Animation Resort"
+      },
     "is_date_only": true
 }
 

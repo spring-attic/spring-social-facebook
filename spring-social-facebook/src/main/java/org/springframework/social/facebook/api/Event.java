@@ -33,8 +33,6 @@ public class Event extends FacebookObject {
 	private Date endTime;
 
 	private boolean isDateOnly;
-	
-	private String location;
 
 	private String name;
 	
@@ -52,8 +50,8 @@ public class Event extends FacebookObject {
 	
 	private Date updatedTime;
 	
-	private Location venue;
-	
+	private Place place;
+		
 	public String getId() {
 		return id;
 	}
@@ -86,10 +84,6 @@ public class Event extends FacebookObject {
 		return endTime;
 	}
 
-	public String getLocation() {
-		return location;
-	}
-	
 	public String getTicketUri() {
 		return ticketUri;
 	}
@@ -110,10 +104,13 @@ public class Event extends FacebookObject {
 		return parentGroup;
 	}
 	
-	public Location getVenue() {
-		return venue;
+	public Place getPlace() {
+		return place;
 	}
-	
+
+	public void setPlace(Place place) {
+		this.place = place;
+	}
+
 	public static enum Privacy { OPEN, SECRET, CLOSED, FRIENDS }
-	
 }
