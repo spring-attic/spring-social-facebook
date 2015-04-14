@@ -43,7 +43,7 @@ public class FacebookServiceProvider extends AbstractOAuth2ServiceProvider<Faceb
 	
 	private static OAuth2Template getOAuth2Template(String appId, String appSecret) {
 		OAuth2Template oAuth2Template = new OAuth2Template(appId, appSecret,
-				"https://www.facebook.com/dialog/oauth", 
+				"https://www.facebook.com/v2.3/dialog/oauth",
 				GraphApi.GRAPH_API_URL + "oauth/access_token");
 		oAuth2Template.setUseParametersForClientAuthentication(true);
 		return oAuth2Template;
