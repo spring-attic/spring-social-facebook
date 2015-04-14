@@ -22,6 +22,7 @@ import java.util.Map;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.inject.Inject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,6 +65,7 @@ public class RealTimeUpdateController {
 	 * @param updateHandlers A list of {@link UpdateHandler} implementations to handle incoming updates.
 	 * @param applicationSecret the application's Facebook App Secret
 	 */
+	@Inject
 	public RealTimeUpdateController(Map<String, String> tokens, List<UpdateHandler> updateHandlers, String applicationSecret) {
 		this.tokens = tokens;
 		this.updateHandlers = updateHandlers;
