@@ -49,6 +49,7 @@ import org.springframework.social.facebook.api.PaymentPricePoint;
 import org.springframework.social.facebook.api.PaymentPricePoints;
 import org.springframework.social.facebook.api.Photo;
 import org.springframework.social.facebook.api.Photo.Image;
+import org.springframework.social.facebook.api.Place;
 import org.springframework.social.facebook.api.PlaceTag;
 import org.springframework.social.facebook.api.Post;
 import org.springframework.social.facebook.api.PostProperty;
@@ -97,6 +98,8 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(Currency.class, CurrencyMixin.class);
 		context.setMixInAnnotations(Device.class, DeviceMixin.class);
 		context.setMixInAnnotations(ApplicationReference.class, ApplicationReferenceMixin.class);
+		
+		context.setMixInAnnotations(Place.class, PlaceMixin.class);
 		
 		context.setMixInAnnotations(ImageSource.class, ImageSourceMixin.class);
 		

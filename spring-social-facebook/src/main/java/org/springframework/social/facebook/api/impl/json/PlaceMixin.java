@@ -13,32 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.impl.json;
+
+import org.springframework.social.facebook.api.Location;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Domain object representing a place.
- * 
- * @author Paul John
+ * Annotated mixin to add Jackson annotations to Place. 
  * @author Craig Walls
  */
-public class Place extends FacebookObject {
+@JsonIgnoreProperties(ignoreUnknown = true)
+abstract class PlaceMixin extends FacebookObjectMixin {
+	
+	@JsonProperty("id")
+	String id;
+	
+	@JsonProperty("name")
+	String name;
+	
+	@JsonProperty("location")
+	Location location;
 
-	private String id;
-	
-	private Location location; 
-
-	private String name;
-	
-	public String getId() {
-		return id;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public Location getLocation() {
-		return location;
-	}
-	
 }
