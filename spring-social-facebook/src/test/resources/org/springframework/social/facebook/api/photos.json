@@ -55,10 +55,11 @@
 			      "source": "https://fbcdn-photos-a.akamaihd.net/hphotos-ak-snc6/s75x225/200110_10150447271355580_738140579_17698198_7684114_s.jpg"
 			    }
 			  ], 
-            "link":"http:\/\/www.facebook.com\/photo.php?pid=17698198&id=738140578",
-            "icon":"http:\/\/static.ak.fbcdn.net\/rsrc.php\/v1\/yz\/r\/StEh3RhPvjk.gif",
-            "created_time":"2011-03-24T21:36:06+0000",
-            "updated_time":"2011-03-24T21:37:43+0000"
+			"link":"http:\/\/www.facebook.com\/photo.php?pid=17698198&id=738140578",
+			"icon":"http:\/\/static.ak.fbcdn.net\/rsrc.php\/v1\/yz\/r\/StEh3RhPvjk.gif",
+			"created_time":"2011-03-24T21:36:06+0000",
+			"updated_time":"2011-03-24T21:37:43+0000"
+            
         },
         {
             "id":"10150447271355581",
@@ -130,7 +131,9 @@
             "link":"http:\/\/www.facebook.com\/photo.php?pid=17698198&id=738140579",
             "icon":"http:\/\/static.ak.fbcdn.net\/rsrc.php\/v1\/yz\/r\/StEh3RhPvjl.gif",
             "created_time":"2011-03-24T21:36:06+0000",
-            "updated_time":"2011-03-24T21:37:43+0000"
+            "updated_time":"2011-03-24T21:37:43+0000",
+			"backdated_time":"2011-03-24T21:36:06+0000",
+			"backdated_time_granularity":"month"
         }
         
     ]

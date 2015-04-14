@@ -33,97 +33,6 @@ import org.springframework.social.facebook.api.Page.PriceRange;
  * @author Craig Walls
  */
 public class PageTemplateTest extends AbstractFacebookApiTest {
-	
-	@Test
-	@SuppressWarnings("deprecation")
-	public void getPage_organization() {
-		mockServer.expect(requestTo(fbUrl("140804655931206")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("organization-page"), MediaType.APPLICATION_JSON));
-
-		Page page = facebook.pageOperations().getPage("140804655931206");
-		assertEquals("140804655931206", page.getId());
-		assertEquals("SpringSource", page.getName());
-		assertEquals("http://www.facebook.com/pages/SpringSource/140804655931206", page.getLink());
-		assertEquals(33, page.getLikes());
-		assertEquals("Organization", page.getCategory());
-		assertEquals("<p><b>SpringSource</b> is a division of <a href=\"http://en.wikipedia.org/wiki/VMware\" class=\"wikipedia\">VMware</a> that provides...</p>", page.getDescription());
-		assertEquals("SpringSource offers a product suite to build, run & manage enterprise Java applications.  Please join the SpringSource Group here: http://www.facebook.com/groups/10463298884/", page.getAbout());
-		assertFalse(page.canPost());
-		assertTrue(page.isPublished());
-		assertFalse(page.isCommunityPage());
-		assertFalse(page.hasAddedApp());
-		assertEquals(19, page.getTalkingAboutCount());
-	}
-
-	@Test
-	@SuppressWarnings("deprecation")
-	public void getPage_product() {
-		mockServer.expect(requestTo(fbUrl("21278871488")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("product-page"), MediaType.APPLICATION_JSON));
-
-		Page page = facebook.pageOperations().getPage("21278871488");
-		assertEquals("21278871488", page.getId());
-		assertEquals("Mountain Dew", page.getName());
-		assertEquals("http://www.facebook.com/mountaindew", page.getLink());
-		assertEquals(5083988, page.getLikes());
-		assertEquals("Food/beverages", page.getCategory());
-		assertEquals("www.mountaindew.com\nwww.greenlabelsound.com\nwww.greenlabelart.com\nwww.honorthecode.com\nwww.dietdewchallenge.com\nwww.twitter.com/mtn_dew\nwww.youtube.com/mountaindew", page.getWebsite());
-		assertEquals("This is How We DEW", page.getAbout());
-		assertTrue(page.canPost());
-		CoverPhoto coverPhoto = page.getCover();
-		assertEquals("10151582481816489", coverPhoto.getId());
-		assertEquals("http://sphotos-g.ak.fbcdn.net/hphotos-ak-ash3/s720x720/942964_10151582481816489_61037109_n.jpg", coverPhoto.getSource());
-		assertEquals(20, coverPhoto.getOffsetX());
-		assertEquals(10, coverPhoto.getOffsetY());
-		assertTrue(page.isPublished());
-		assertTrue(page.isCommunityPage());
-		assertTrue(page.hasAddedApp());
-		assertEquals(32597, page.getTalkingAboutCount());
-	}
-
-	@Test
-	@SuppressWarnings("deprecation")
-	public void getPage_place() {
-		mockServer.expect(requestTo(fbUrl("150263434985489")))
-			.andExpect(method(GET))
-			.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess(jsonResource("place-page"), MediaType.APPLICATION_JSON));
-
-		Page page = facebook.pageOperations().getPage("150263434985489");
-		assertEquals("150263434985489", page.getId());
-		assertEquals("Denver International Airport", page.getName());
-		assertEquals("http://www.facebook.com/pages/Denver-International-Airport/150263434985489", page.getLink());
-		assertEquals(1052, page.getLikes());
-		assertEquals("Local business", page.getCategory());
-		assertEquals("http://flydenver.com", page.getWebsite());
-		assertEquals("Denver", page.getLocation().getCity());
-		assertEquals("CO", page.getLocation().getState());
-		assertEquals("United States", page.getLocation().getCountry());
-		assertEquals(39.851693483111, page.getLocation().getLatitude(), 0.0001);
-		assertEquals(-104.67384947947, page.getLocation().getLongitude(), 0.0001);
-		assertEquals("(303) 342-2000", page.getPhone());
-		assertEquals(121661, page.getCheckins());
-		assertFalse(page.canPost());
-		assertFalse(page.isPublished());
-		assertFalse(page.isCommunityPage());
-		assertFalse(page.hasAddedApp());
-		assertEquals(15062, page.getTalkingAboutCount());
-		assertNull(page.getHours());
-		PageRestaurantSpecialties restaurantSpecialties = page.getRestaurantSpecialties();
-		assertFalse(restaurantSpecialties.hasBreakfast());
-		assertFalse(restaurantSpecialties.hasCoffee());
-		assertTrue(restaurantSpecialties.hasLunch());
-		assertTrue(restaurantSpecialties.hasDrinks());
-		assertTrue(restaurantSpecialties.hasDinner());
-		PageParking parking = page.getParking();
-		assertTrue(parking.hasLot());
-		assertFalse(parking.hasStreet());
-		assertFalse(parking.hasValet());
-	}
 
 	@Test
 	public void getPage_place_with_hours() {
@@ -277,14 +186,15 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		assertEquals("123456_78901234", facebook.pageOperations().post("987654321", "Hello Facebook World"));
+		new PostData("987654321").message("Hello Facebook World");
+		assertEquals("123456_78901234", facebook.pageOperations().post(new PagePostData("987654321").message("Hello Facebook World")));
 		mockServer.verify();
 	}
 
 	@Test(expected = PageAdministrationException.class)
 	public void postMessage_notAdmin() throws Exception {
 		expectFetchAccounts();
-		facebook.pageOperations().post("2468013579", "Hello Facebook World");
+		facebook.pageOperations().post(new PagePostData("2468013579").message("Hello Facebook World"));
 	}
 
 	@Test
@@ -296,8 +206,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
-		assertEquals("123456_78901234", facebook.pageOperations().post("987654321", "Hello Facebook World", link));
+		assertEquals("123456_78901234", facebook.pageOperations().post(new PagePostData("987654321").message("Hello Facebook World").link("someLink", null, "some name", "some caption", "some description")));
 		mockServer.verify();
 	}
 
@@ -310,16 +219,14 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description", "somePic");
-		assertEquals("123456_78901234", facebook.pageOperations().post("987654321", "Hello Facebook World", link));
+		assertEquals("123456_78901234", facebook.pageOperations().post(new PagePostData("987654321").message("Hello Facebook World").link("someLink", "somePic", "some name", "some caption", "some description")));
 		mockServer.verify();
 	}
 
 	@Test(expected = PageAdministrationException.class)
 	public void postLink_notAdmin() throws Exception {
 		expectFetchAccounts();
-		FacebookLink link = new FacebookLink("someLink", "some name", "some caption", "some description");
-		facebook.pageOperations().post("2468013579", "Hello Facebook World", link);
+		facebook.pageOperations().post(new PagePostData("2468013579").message("Hello Facebook World").link("someLink", null, "some name", "some caption", "some description"));
 	}
 
 	@Test

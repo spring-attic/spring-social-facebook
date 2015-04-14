@@ -52,6 +52,7 @@ abstract class PhotoMixin extends FacebookObjectMixin {
 	Date backdatedTime;
 	
 	@JsonProperty("backdated_time_granularity")
+	@JsonDeserialize(using=TimeGranularityDeserializer.class)
 	TimeGranularity backdatedTimeGranularity;
 	
 	@JsonProperty("created_time")

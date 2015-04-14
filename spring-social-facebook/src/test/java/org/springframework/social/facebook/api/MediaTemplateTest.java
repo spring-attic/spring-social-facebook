@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.social.facebook.api.Photo.TimeGranularity;
 
 public class MediaTemplateTest extends AbstractFacebookApiTest {
 
@@ -283,6 +284,8 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yz/r/StEh3RhPvjl.gif", photo.getIcon());
 		assertEquals(toDate("2011-03-24T21:36:06+0000"), photo.getCreatedTime());
 		assertEquals(toDate("2011-03-24T21:37:43+0000"), photo.getUpdatedTime());
+		assertEquals(toDate("2011-03-24T21:36:06+0000"), photo.getBackdatedTime());
+		assertEquals(TimeGranularity.MONTH, photo.getBackdatedTimeGranularity());
 	}
 
 	private void assertAlbums(List<Album> albums) {
