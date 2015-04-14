@@ -135,65 +135,57 @@ Facebook facebook = new FacebookTemplate(accessToken, "myapp");
 The application namespace is required for working with any of Facebook's OpenGraph operations.
 If you won't be using any OpenGraph operations, then you can use the simpler constructor that only requires an access token.
 
-In addition, `FacebookTemplate` has a default constructor that creates an instance without any OAuth credentials:
-
-```java
-Facebook facebook = new FacebookTemplate();
-```
-
-When constructed with the default constructor, `FacebookTemplate` will allow a few simple operations that do not require authorization, such as retrieving a specific user's profile. 
-Attempting other operations, such as posting a status update will fail with an `MissingAuthorizationException` being thrown.
-
 If you are using Spring Social's
 http://docs.spring.io/spring-social/site/docs/1.1.0.RC1/reference/htmlsingle/index.html#connectFramework[service provider framework], you can get an instance of `Facebook` from a `Connection`. 
 For example, the following snippet calls `getApi()` on a `Connection` to retrieve a `Facebook` instance:
 
 ```java
 Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
-Facebook facebook = connection != null ? connection.getApi() : new FacebookTemplate();
+Facebook facebook = connection != null ? connection.getApi() : null;
 ```
 
 Here, `ConnectionRepository` is being asked for the primary connection that the current user has with Facebook. 
 If a connection to Facebook is found, a call to `getApi()` retrieves a Facebook instance that is configured with the connection details received when the connection was first established. 
-If there is no connection, a default instance of `FacebookTemplate` is created.
+If there is no connection, then no `Facebook` instance can be obtained.
 
 With a `Facebook` in hand, there are several ways you can use it to interact with Facebook on behalf of the user. 
 Spring Social's Facebook API binding is divided into 13 sub-APIs exposes through the methods of the `Facebook` interface:
 
 ```java
-public interface Facebook extends GraphApi {
+public interface Facebook extends GraphApi, ApiBinding {
+  
+  AchievementOperations achievementOperations();
 
-    CommentOperations commentOperations();
+  CommentOperations commentOperations();
 
-    EventOperations eventOperations();
-    
-    FeedOperations feedOperations();
+  EventOperations eventOperations();
+  
+  FeedOperations feedOperations();
 
-    FqlOperations fqlOperations();
+  FriendOperations friendOperations();
+  
+  GroupOperations groupOperations();
 
-    FriendOperations friendOperations();
-    
-    GroupOperations groupOperations();
+  LikeOperations likeOperations();
+  
+  MediaOperations mediaOperations();
+  
+  OpenGraphOperations openGraphOperations();
+  
+  PageOperations pageOperations();
+  
+  SocialContextOperations socialContextOperations();
+  
+  TestUserOperations testUserOperations();
+  
+  UserOperations userOperations();
+  
+  RestOperations restOperations();
+  
+  String getApplicationNamespace();
 
-    LikeOperations likeOperations();
-    
-    MediaOperations mediaOperations();
-
-    OpenGraphOperations openGraphOperations();
-
-    PageOperations pageOperations();
-    
-    PlacesOperations placesOperations();
-
-    QuestionOperations questionOperations();
-    
-    UserOperations userOperations();
-
-    RestOperations restOperations();
-
-    String getApplicationNamespace();
-    
 }
+
 ```
 
 The sub-API interfaces returned from Facebook's methods are described in <<table_subAPIs>>.
@@ -203,18 +195,18 @@ The sub-API interfaces returned from Facebook's methods are described in <<table
 [options="header",]
 |=======================================================================
 |Sub-API Interface |Description
+|`AchievementOperations` | Operations for working with Facebook achievements.
 |`CommentOperations` |Add, delete, and read comments on Facebook objects.
 |`EventOperations` |Create and maintain events and RSVP to event invitations.
 |`FeedOperations` |Read and post to a Facebook wall.
-|`FqlOperations` |Perform Facebook Query Langage queries.
 |`FriendOperations` |Retrieve a user's friends and maintain friend lists.
 |`GroupOperations` |Retrieve group details and members.
 |`LikeOperations` |Retrieve a user's interests and likes. Like and unlike objects.
 |`MediaOperations` |Maintain albums, photos, and videos.
 |`OpenGraphOperations` |Operations against Facebook's OpenGraph API.
 |`PageOperations` | Operations against a Facebook page.
-|`PlacesOperations` |Checkin to location in Facebook Places and retrieve places a user and their friends have checked into.
-|`QuestionOperations` |Operations for asking questions on Facebook.
+|`SocialContextOperations` | Operations for querying against a user's social context.
+|`TestUserOperations` | Operations for creating and working with test users.
 |`UserOperations` |Retrieve user profile data and profile images.
 |=======================================================================
 
@@ -252,7 +244,7 @@ You can access the user's list of Facebook friends by calling the `getFriendIds(
 List<String> friendIds = facebook.friendOperations().getFriendIds();
 ```
 
-This returns a list of Facebook IDs belonging to the current user's list of friends. 
+This returns a list of Facebook IDs belonging to the current user's list of friends who are also using the same application. 
 This is just a list of String IDs, so to retrieve an individual user's profile data, you can turn around and call `getUserProfile()`, passing in one of those IDs to retrieve the profile data for an individual user:
 
 ```java
@@ -286,29 +278,6 @@ To retieve a list of friends who are members of a specific friend list call `get
 List<Reference> friends = facebook.friendOperations().getFriendListMembers("193839228");
 ```
 
-`FriendOperations` also supports management of friend lists. 
-For example, the `createFriendList()` method will create a new friend list for the user:
-
-```java
-Reference collegeFriends = facebook.friendOperations().createFriendList("College Buddies");
-```
-
-`createFriendList()` returns a `Reference` to the newly created friend list.
-
-To add a friend to the friend list, call `addToFriendList()`:
-
-```java
-facebook.friendOperations().addToFriendList(collegeFriends.getId(), "527631174");
-```
-
-`addToFriendList()` takes two arguments: The ID of the friend list and the ID (or alias) of a friend to add to the list.
-
-In a similar fashion, you may remove a friend from a list by calling `removeFromFriendList()`:
-
-```java
-facebook.friendOperations().removeFromFriendList(collegeFriends.getId(), "527631174");
-```
-
 === Posting to and reading feeds
 To post a message to the user's Facebook wall, call `FeedOperations`' `updateStatus()` method, passing in the message to be posted:
 
@@ -316,18 +285,20 @@ To post a message to the user's Facebook wall, call `FeedOperations`' `updateSta
 facebook.feedOperations().updateStatus("I'm trying out Spring Social!");
 ```
 
-If you'd like to attach a link to the status message, you can do so by passing in a `FacebookLink` object along with the message:
+If you'd like to attach a link to the status message, you can do so by passing a `PostData` to the `post()` method:
 
 ```java
 FacebookLink link = new FacebookLink("http://www.springsource.org/spring-social", 
         "Spring Social", 
         "The Spring Social Project", 
         "Spring Social is an extension to Spring to enable applications to connect with service providers.");
-facebook.feedOperations().postLink("I'm trying out Spring Social!", link);
+facebook.feedOperations().post("I'm trying out Spring Social!", link);
+facebook.feedOperations().post(new PostData("me").message("I'm trying out Spring Social!")
+    .link("http://www.springsource.org/spring-social", null, "Spring Social", "The Spring Social Project", "Spring Social is an extension to Spring to enable applications to connect with service providers."));
 ```
 
-When constructing the `FacebookLink` object, the first parameter is the link's URL, the second parameter is the name of the link, the third
-parameter is a caption, and the fourth is a description of the link.
+When calling the `link()` method on a `PostData` object, the first parameter is the link's URL, the second parameter is a picture to associate with the link (overriding any picture that Facebook would find from the page at the URL given), the third parameter is the name of the link, the fourth
+parameter is a caption, and the fifth is a description of the link.
 
 If you want to read posts from a user's feed, `FeedOperations` has several methods to choose from. 
 The `getFeed()` method retrieves recent posts to a user's wall. 
@@ -337,23 +308,4 @@ When called with no parameters, it retrieves posts from the authenticating user'
 List<Post> feed = facebook.feedOperations().getFeed();
 ```
 
-Or you can read a specific user's wall by passing their Facebook ID to `getFeed()`:
-
-```java
-List<Post> feed = facebook.feedOperations().getFeed("habuma");
-```
-
-In any event, the `getFeed()` method returns a list of `Post` objects. 
-The `Post` class has six subtypes to represent different kinds of posts:
-
-* `CheckinPost` - Reports a user's checkin in Facebook Places.
-* `LinkPost` - Shares a link the user has posted.
-* `MusicPost` - A post that has an attached music file.
-* `NotePost` - Publicizes a note that the user has written.
-* `PhotoPost` - Announces a photo that the user has uploaded.
-* `StatusPost` - A simple status.
-* `SwfPost` - A post that has an attached Flash animation or movie.
-* `VideoPost` - Announces a video that the user has uploaded.
-
-The `Post`'s `getType()` method identifies the type of `Post`.
-
+The `getFeed()` method returns a list of `Post` objects. 
