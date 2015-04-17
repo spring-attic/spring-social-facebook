@@ -49,7 +49,7 @@ abstract class WorkEntryMixin extends FacebookObjectMixin {
 	@JsonProperty("start_date")
 	String startDate;
 	
-	
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static abstract class ProjectMixin {
 		
 		@JsonProperty("description")
