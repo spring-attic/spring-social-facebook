@@ -24,7 +24,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-class PagedListUtils {
+public class PagedListUtils {
 
 	public static PagingParameters getPagedListParameters(JsonNode pagingNode, String pageKey) {
 		if (pagingNode == null || pagingNode.get(pageKey) == null) {
