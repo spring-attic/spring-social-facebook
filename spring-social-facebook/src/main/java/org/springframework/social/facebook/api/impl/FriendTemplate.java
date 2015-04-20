@@ -117,7 +117,7 @@ class FriendTemplate implements FriendOperations {
 
 	public PagedList<UserTaggableFriend> getTaggableFriends() {
 		return graphApi.fetchConnections("me", "taggable_friends", UserTaggableFriend.class, 
-				"id", "name" ,"picturefields(is_silhouette,url,width,height)", "first_name", "last_name", "middle_name");
+				"id", "name" ,"picture", "first_name", "last_name", "middle_name");  
 	}
 	
 	private static final String FULL_PROFILE_FIELDS = "id,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,bio,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";
