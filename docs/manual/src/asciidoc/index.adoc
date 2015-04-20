@@ -220,18 +220,18 @@ For complete details on all of the operations available, refer to the JavaDoc.
 You can retrieve the authenticated user's Facebook profile data using the `Facebook#userOperations.getUserProfile()` method:
 
 ```java
-FacebookProfile profile = facebook.userOperations().getUserProfile();
+User profile = facebook.userOperations().getUserProfile();
 ```
 
-The `FacebookProfile` object will contain basic profile information about the authenticating user, including their first and last name and their Facebook ID. 
+The `User` object will contain basic profile information about the authenticating user, including their first and last name and their Facebook ID. 
 Depending on what authorization scope has been granted to the application, it may also include additional details about the user such as their email address, birthday, hometown, and religious and political affiliations. 
 For example, `getBirthday()` will return the current user's birthday if the application has been granted "user_birthday" permission; null otherwise. 
-Consult the JavaDoc for `FacebookProfile` for details on which permissions are required for each property.
+Consult the JavaDoc for `User` for details on which permissions are required for each property.
 
 You can also ask for a Facebook profile for a specific Facebook user (not necessarily the authenticated user) by passing a user ID (or Facebook alias) to `getUserProfile()`:
 
 ```java
-FacebookProfile profile = facebook.userOperations().getUserProfile("4");
+User profile = facebook.userOperations().getUserProfile("4");
 ```
 
 
@@ -248,13 +248,13 @@ This returns a list of Facebook IDs belonging to the current user's list of frie
 This is just a list of String IDs, so to retrieve an individual user's profile data, you can turn around and call `getUserProfile()`, passing in one of those IDs to retrieve the profile data for an individual user:
 
 ```java
-FacebookProfile firstFriend = facebook.userOperations().getUserProfile(friendIds.get(0));
+User firstFriend = facebook.userOperations().getUserProfile(friendIds.get(0));
 ```
 
-Or you can get a list of user's friends as `FacebookProfile` by calling `getFriendProfiles()`:
+Or you can get a list of user's friends as `User` by calling `getFriendProfiles()`:
 
 ```java
-List<FacebookProfile> friends = facebook.friendOperations().getFriendProfiles();
+List<User> friends = facebook.friendOperations().getFriendProfiles();
 ```
 
 Facebook also enables users to organize their friends into friend lists.
