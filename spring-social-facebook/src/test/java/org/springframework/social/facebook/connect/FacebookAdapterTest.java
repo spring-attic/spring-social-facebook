@@ -17,11 +17,14 @@ package org.springframework.social.facebook.connect;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.UserOperations;
 
@@ -45,15 +48,19 @@ public class FacebookAdapterTest {
 	}
 
 	@Test
-	public void setConnectionValues() {		
+	public void setConnectionValues() throws Exception {
 		UserOperations userOperations = Mockito.mock(UserOperations.class);
 		Mockito.when(facebook.userOperations()).thenReturn(userOperations);
-		Mockito.when(userOperations.getUserProfile()).thenReturn(new User("12345678", "Craig Walls", "Craig", "Walls", null, null));
+		User user = new User("12345678", "Craig Walls", "Craig", "Walls", null, null);
+		Field linkField = user.getClass().getDeclaredField("link");
+		linkField.setAccessible(true);
+		linkField.set(user, "http://www.facebook.com/975041837");
+		Mockito.when(userOperations.getUserProfile()).thenReturn(user);
 		TestConnectionValues connectionValues = new TestConnectionValues();
 		apiAdapter.setConnectionValues(facebook, connectionValues);
 		assertEquals("Craig Walls", connectionValues.getDisplayName());
-		assertEquals("https://graph.facebook.com/12345678/picture", connectionValues.getImageUrl());
-		assertEquals("https://www.facebook.com/app_scoped_user_id/12345678/", connectionValues.getProfileUrl());
+		assertEquals(GraphApi.GRAPH_API_URL + "12345678/picture", connectionValues.getImageUrl());
+		assertEquals("http://www.facebook.com/975041837", connectionValues.getProfileUrl());
 		assertEquals("12345678", connectionValues.getProviderUserId());
 	}
 
