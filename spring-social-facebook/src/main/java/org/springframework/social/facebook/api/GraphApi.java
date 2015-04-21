@@ -101,6 +101,16 @@ public interface GraphApi {
 	 */
 	byte[] fetchImage(String objectId, String connectionName, ImageType imageType);	
 
+ 	 /**
+	 * Fetches an image as an array of bytes.
+	 * @param objectId the object ID
+	 * @param connectionName the connection name
+	 * @param width desired width of the image (optional)
+	 * @param height desired height of the image (optional)
+	 * @return an image as an array of bytes.
+	 */
+	byte[] fetchImage(String objectId, String connectionName, Integer width, Integer height);
+
 	/**
 	 * Publishes data to an object's connection.
 	 * Requires appropriate permission to publish to the object connection.
