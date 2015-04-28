@@ -1,0 +1,106 @@
+{
+  "data": [
+    {
+      "account_id": "123456789",
+      "account_name": "Account Test Name #1",
+      "date_start": "2015-02-19",
+      "date_stop": "2015-04-23",
+      "actions_per_impression": 0.016042780748663,
+      "clicks": 8,
+      "unique_clicks": 5,
+      "cost_per_result": 0.66666666666667,
+      "cost_per_total_action": 0.66666666666667,
+      "cpc": 0.25,
+      "cost_per_unique_click": 0.4,
+      "cpm": 10.695187165775,
+      "cpp": 10.869565217391,
+      "ctr": 4.2780748663102,
+      "unique_ctr": 2.7173913043478,
+      "frequency": 1.0163043478261,
+      "impressions": "187",
+      "unique_impressions": 184,
+      "reach": 184,
+      "result_rate": 1.6042780748663,
+      "results": 3,
+      "roas": 1,
+      "social_clicks": 2,
+      "unique_social_clicks": 3,
+      "social_impressions": 4,
+      "unique_social_impressions": 5,
+      "social_reach": 6,
+      "spend": 2,
+      "today_spend": 0,
+      "total_action_value": 0,
+      "total_actions": 3,
+      "total_unique_actions": 2,
+      "actions": [
+        {
+          "action_type": "comment",
+          "value": 2
+        },
+        {
+          "action_type": "post_like",
+          "value": 1
+        },
+        {
+          "action_type": "page_engagement",
+          "value": 3
+        },
+        {
+          "action_type": "post_engagement",
+          "value": 3
+        }
+      ],
+      "unique_actions": [
+        {
+          "action_type": "comment",
+          "value": 1
+        },
+        {
+          "action_type": "post_like",
+          "value": 1
+        },
+        {
+          "action_type": "page_engagement",
+          "value": 2
+        },
+        {
+          "action_type": "post_engagement",
+          "value": 2
+        }
+      ],
+      "cost_per_action_type": [
+        {
+          "action_type": "comment",
+          "value": 1
+        },
+        {
+          "action_type": "post_like",
+          "value": 2
+        },
+        {
+          "action_type": "page_engagement",
+          "value": 0.66666666666667
+        },
+        {
+          "action_type": "post_engagement",
+          "value": 0.66666666666667
+        }
+      ],
+      "video_start_actions": [
+        {
+          "action_type": "video_view",
+          "value": 0
+        }
+      ],
+      "date_start": "2015-02-19",
+      "date_stop": "2015-04-21"
+    }
+  ],
+  "paging": {
+    "cursors": {
+      "before": "MA==",
+      "after": "MA=="
+    }
+  }
+}

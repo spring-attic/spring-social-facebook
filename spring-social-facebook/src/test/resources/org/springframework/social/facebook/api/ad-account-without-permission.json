@@ -1,0 +1,50 @@
+{
+  "id": "act_123456789",
+  "account_groups": [
+    {
+      "account_group_id": "987654321",
+      "name": "Test group name",
+      "status": 1
+    }
+  ],
+  "account_id": 123456789,
+  "account_status": 1,
+  "age": 10.0036226851851852,
+  "amount_spent": "1234",
+  "balance": "10000",
+  "business_city": "Poznan",
+  "business_country_code": "PL",
+  "business_name": "Some business name for the account",
+  "business_state": "wielkopolska",
+  "business_street": "Some street 79A",
+  "business_zip": "66-777",
+  "capabilities": [
+    "DIRECT_SALES",
+    "VIEW_TAGS"
+  ],
+  "created_time": "2015-02-19T00:31:33+0100",
+  "currency": "PLN",
+  "daily_spend_limit": "93263",
+  "end_advertiser": 987654321,
+  "funding_source": "1122334455",
+  "is_personal": 1,
+  "media_agency": 54321,
+  "name": "This is a test account",
+  "offsite_pixels_tos_accepted": false,
+  "partner": 111222333,
+  "spend_cap": "0",
+  "timezone_id": 106,
+  "timezone_name": "Europe/Warsaw",
+  "timezone_offset_hours_utc": 2,
+  "users": {
+    "data": [
+      {
+        "id": "1234",
+        "permissions": [
+        ],
+        "role": 1001
+      }
+    ]
+  },
+  "tax_id_status": 3
+}

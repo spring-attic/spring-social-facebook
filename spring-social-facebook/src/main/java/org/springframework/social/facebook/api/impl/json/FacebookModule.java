@@ -19,6 +19,11 @@ import org.springframework.social.facebook.api.Account;
 import org.springframework.social.facebook.api.Achievement;
 import org.springframework.social.facebook.api.AchievementType;
 import org.springframework.social.facebook.api.Action;
+import org.springframework.social.facebook.api.AdAccount;
+import org.springframework.social.facebook.api.AdAccountGroup;
+import org.springframework.social.facebook.api.AdInsight;
+import org.springframework.social.facebook.api.AdInsightAction;
+import org.springframework.social.facebook.api.AdUser;
 import org.springframework.social.facebook.api.Album;
 import org.springframework.social.facebook.api.ApplicationReference;
 import org.springframework.social.facebook.api.Comment;
@@ -170,6 +175,16 @@ public class FacebookModule extends SimpleModule {
 		context.setMixInAnnotations(VideoUploadLimits.class, VideoUploadLimitsMixin.class);
 		
 		context.setMixInAnnotations(ProfilePictureSource.class, ProfilePictureSourceMixin.class);
-		
+
+
+		context.setMixInAnnotations(AdAccountGroup.class, AdAccountGroupMixin.class);
+		context.setMixInAnnotations(AdAccount.AgencyClientDeclaration.class, AdAccountMixin.AgencyClientDeclarationMixin.class);
+		context.setMixInAnnotations(AdUser.class, AdUserMixin.class);
+
+		context.setMixInAnnotations(AdInsightAction.class, AdInsightActionMixin.class);
+		context.setMixInAnnotations(AdInsight.class, AdInsightMixin.class);
+
+		context.setMixInAnnotations(AdAccount.class, AdAccountMixin.class);
+
 	}
 }
