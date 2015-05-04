@@ -1,6 +1,7 @@
 package org.springframework.social.facebook.api.impl;
 
 import org.springframework.social.facebook.api.AccountOperations;
+import org.springframework.social.facebook.api.CampaignOperations;
 import org.springframework.social.facebook.api.FacebookAds;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.social.facebook.api.FacebookAds;
 public class FacebookAdsTemplate extends FacebookTemplate implements FacebookAds {
 
 	private AccountOperations accountOperations;
+	private CampaignOperations campaignOperations;
 
 	public FacebookAdsTemplate() {
 		super(null);
@@ -26,7 +28,12 @@ public class FacebookAdsTemplate extends FacebookTemplate implements FacebookAds
 		return accountOperations;
 	}
 
+	public CampaignOperations campaignOperations() {
+		return campaignOperations;
+	}
+
 	private void initSubApis() {
 		accountOperations = new AccountTemplate(this, getRestTemplate(), isAuthorized());
+		campaignOperations = new CampaignTemplate(this, getRestTemplate(), isAuthorized());
 	}
 }
