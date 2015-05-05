@@ -1,0 +1,11 @@
+{
+  "error": {
+    "message": "Invalid parameter",
+    "type": "FacebookApiException",
+    "code": 100,
+    "error_subcode": 1487564,
+    "is_transient": false,
+    "error_user_title": "Update Campaign Status",
+    "error_user_msg": "New campaigns need to be either active or paused."
+  }
+}

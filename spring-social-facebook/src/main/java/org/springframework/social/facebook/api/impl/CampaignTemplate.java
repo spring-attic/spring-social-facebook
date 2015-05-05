@@ -1,8 +1,13 @@
 package org.springframework.social.facebook.api.impl;
 
 import org.springframework.social.facebook.api.AdCampaign;
+import org.springframework.social.facebook.api.AdCampaign.BuyingType;
+import org.springframework.social.facebook.api.AdCampaign.CampaignObjective;
+import org.springframework.social.facebook.api.AdCampaign.CampaignStatus;
 import org.springframework.social.facebook.api.CampaignOperations;
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -25,17 +30,38 @@ public class CampaignTemplate extends AbstractFacebookOperations implements Camp
 		return graphApi.fetchObject(id, AdCampaign.class, CampaignOperations.AD_CAMPAIGN_FIELDS);
 	}
 
-	public int createAdCampaign(String name, AdCampaign.CampaignStatus status) {
-		return 0;
+	public String createAdCampaign(String accountId, String name, CampaignStatus status) {
+		return createAdCampaign(accountId, name, status, null, null);
 	}
 
-	public int createAdCampaign(String name, AdCampaign.CampaignStatus status, AdCampaign.CampaignObjective objective, int spendCap) {
-		return 0;
+	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective) {
+		return createAdCampaign(accountId, name, status, objective, null);
 	}
 
-	public int createAdCampaign(String name, AdCampaign.CampaignStatus status, AdCampaign.CampaignObjective objective, int spendCap, AdCampaign.BuyingType buyingType) {
-		return 0;
+	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, int spendCap) {
+		requireAuthorization();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("name", name);
+		map.add("campaign_group_status", status.name());
+		map.add("objective", objective.name());
+		map.add("spend_cap", String.valueOf(spendCap));
+		return graphApi.publish("act_" + accountId, "adcampaign_groups", map);
 	}
+
+	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, BuyingType buyingType) {
+		requireAuthorization();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("name", name);
+		map.add("campaign_group_status", status.name());
+		if (objective != null) {
+			map.add("objective", objective.name());
+		}
+		if (buyingType != null) {
+			map.add("buying_type", buyingType.name());
+		}
+		return graphApi.publish("act_" + accountId, "adcampaign_groups", map);
+	}
+
 
 	public void updateAdCampaignName(String campaignId, String name) {
 

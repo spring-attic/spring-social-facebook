@@ -9,8 +9,11 @@ import org.springframework.social.facebook.api.AdCampaign.CampaignObjective;
 import org.springframework.social.facebook.api.AdCampaign.CampaignStatus;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 /**
@@ -57,5 +60,84 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 		unauthorizedFacebookAds.campaignOperations().getAdCampaign("600123456789");
 	}
 
+	@Test
+	public void createCampaign_withNameAndStatus() throws Exception {
+		String requestBody = "name=Campaign+created+by+SpringSocialFacebook&campaign_group_status=PAUSED";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
+		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign created by SpringSocialFacebook", CampaignStatus.PAUSED));
+		mockServer.verify();
+	}
 
+	@Test
+	public void createCampaign_withInvalidStatus() throws Exception {
+		// new campaigns can be created only with statuses ACTIVE or PAUSED
+		String requestBody = "name=Campaign+with+invalid+status&campaign_group_status=ARCHIVED";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withBadRequest().body(jsonResource("error-invalid-update-campaign-status")).contentType(MediaType.APPLICATION_JSON));
+
+		try {
+			facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with invalid status", CampaignStatus.ARCHIVED);
+			fail();
+		} catch (InvalidCampaignStatusException e) {
+			assertEquals("New campaigns need to be either active or paused.", e.getMessage());
+			assertEquals("facebook", e.getProviderId());
+		}
+	}
+
+	@Test
+	public void createCampaign_withObjective() throws Exception {
+		String requestBody = "name=Campaign+with+objective&campaign_group_status=ACTIVE&objective=PAGE_LIKES";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
+		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with objective",
+				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES));
+		mockServer.verify();
+	}
+
+	@Test
+	public void createCampaign_withBuyingType() throws Exception {
+		String requestBody = "name=Campaign+with+objective&campaign_group_status=ACTIVE&objective=PAGE_LIKES&buying_type=AUCTION";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
+		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with objective",
+				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, BuyingType.AUCTION));
+		mockServer.verify();
+	}
+
+	@Test
+	public void createCampaign_withSpendCap() throws Exception {
+		String requestBody = "name=Campaign+with+spend+cap&campaign_group_status=ACTIVE&objective=PAGE_LIKES&spend_cap=50000";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
+		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with spend cap",
+				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, 50000));
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void createCampaign_withSpendCap_unauthorized() throws Exception {
+		unauthorizedFacebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with spend cap",
+				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, 50000);
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void createCampaign_unauthorized() throws Exception {
+		unauthorizedFacebookAds.campaignOperations().createAdCampaign("123456789", "Campaign created by SpringSocialFacebook", CampaignStatus.PAUSED);
+	}
 }
