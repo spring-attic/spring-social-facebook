@@ -134,4 +134,89 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 	public void createCampaign_unauthorized() throws Exception {
 		unauthorizedFacebookAds.campaignOperations().createAdCampaign("123456789", "Campaign created by SpringSocialFacebook", CampaignStatus.PAUSED);
 	}
+
+	@Test
+	public void updateAdCampaignName() throws Exception {
+		String requestBody = "name=New+campaign+name";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/600123456789"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"status\": \"true\"}", MediaType.APPLICATION_JSON));
+		facebookAds.campaignOperations().updateAdCampaignName("600123456789", "New campaign name");
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void updateAdCampaignName_unauthorized() throws Exception {
+		unauthorizedFacebookAds.campaignOperations().updateAdCampaignName("600123456789", "New campaign name");
+	}
+
+	@Test
+	public void updateAdCampaignStatus() throws Exception {
+		String requestBody = "status=ACTIVE";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/600123456789"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"status\": \"true\"}", MediaType.APPLICATION_JSON));
+		facebookAds.campaignOperations().updateAdCampaignStatus("600123456789", CampaignStatus.ACTIVE);
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void updateAdCampaignStatus_unauthorized() throws Exception {
+		unauthorizedFacebookAds.campaignOperations().updateAdCampaignStatus("600123456789", CampaignStatus.ACTIVE);
+	}
+
+	@Test
+	public void updateAdCampaignObjective() throws Exception {
+		String requestBody = "objective=POST_ENGAGEMENT";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/600123456789"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"status\": \"true\"}", MediaType.APPLICATION_JSON));
+		facebookAds.campaignOperations().updateAdCampaignObjective("600123456789", CampaignObjective.POST_ENGAGEMENT);
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void updateAdCampaignObjective_unauthorized() throws Exception {
+		unauthorizedFacebookAds.campaignOperations().updateAdCampaignObjective("600123456789", CampaignObjective.POST_ENGAGEMENT);
+	}
+
+	@Test
+	public void updateAdCampaignSpendCap() throws Exception {
+		String requestBody = "spend_cap=60000";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/600123456789"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"status\": \"true\"}", MediaType.APPLICATION_JSON));
+		facebookAds.campaignOperations().updateAdCampaignSpendCap("600123456789", 60000);
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void updateAdCampaignSpendCap_unauthorized() throws Exception {
+		unauthorizedFacebookAds.campaignOperations().updateAdCampaignSpendCap("600123456789", 60000);
+	}
+
+	@Test
+	public void deleteAdCampaign() throws Exception {
+		String requestBody = "campaign_group_status=DELETED";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/600123456789"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"status\": \"true\"}", MediaType.APPLICATION_JSON));
+		facebookAds.campaignOperations().deleteAdCampaign("600123456789");
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void deleteAdCampaign_unauthorized() throws Exception {
+		unauthorizedFacebookAds.campaignOperations().deleteAdCampaign("600123456789");
+	}
 }

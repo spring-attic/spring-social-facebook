@@ -56,22 +56,37 @@ public class CampaignTemplate extends AbstractFacebookOperations implements Camp
 	}
 
 	public void updateAdCampaignName(String campaignId, String name) {
-
+		requireAuthorization();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("name", name);
+		graphApi.post(campaignId, map);
 	}
 
-	public void updateAdCampaignStatus(String campaignId, AdCampaign.CampaignStatus status) {
-
+	public void updateAdCampaignStatus(String campaignId, CampaignStatus status) {
+		requireAuthorization();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("status", status.name());
+		graphApi.post(campaignId, map);
 	}
 
-	public void updateAdCampaignObjective(String campaignId, AdCampaign.CampaignObjective objective) {
-
+	public void updateAdCampaignObjective(String campaignId, CampaignObjective objective) {
+		requireAuthorization();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("objective", objective.name());
+		graphApi.post(campaignId, map);
 	}
 
 	public void updateAdCampaignSpendCap(String campaignId, int spendCap) {
-
+		requireAuthorization();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("spend_cap", String.valueOf(spendCap));
+		graphApi.post(campaignId, map);
 	}
 
-	public void deleteAdCampaign(String id) {
-
+	public void deleteAdCampaign(String campaignId) {
+		requireAuthorization();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("campaign_group_status", CampaignStatus.DELETED.name());
+		graphApi.post(campaignId, map);
 	}
 }

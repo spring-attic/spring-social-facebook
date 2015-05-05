@@ -123,10 +123,10 @@ public interface CampaignOperations {
 	/**
 	 * Deletes the ad campaign given by id.
 	 *
-	 * @param id the id of the campaign to delete
+	 * @param campaignId the id of the campaign to delete
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
-	void deleteAdCampaign(String id);
+	void deleteAdCampaign(String campaignId);
 }
