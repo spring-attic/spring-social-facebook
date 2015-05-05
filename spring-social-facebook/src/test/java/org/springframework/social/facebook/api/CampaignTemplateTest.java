@@ -35,7 +35,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals(CampaignStatus.ACTIVE, campaign.getCampaignStatus());
 		assertEquals("The test campaign name", campaign.getName());
 		assertEquals(CampaignObjective.POST_ENGAGEMENT, campaign.getObjective());
-		assertEquals(1000, campaign.getSpendCap());
+		assertEquals("1000", campaign.getSpendCap());
 	}
 
 	@Test
@@ -93,47 +93,41 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 
 	@Test
 	public void createCampaign_withObjective() throws Exception {
-		String requestBody = "name=Campaign+with+objective&campaign_group_status=ACTIVE&objective=PAGE_LIKES";
+		String requestBody = "name=Campaign+with+objective&campaign_group_status=ACTIVE&objective=PAGE_LIKES&spend_cap=50000";
 		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
 		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with objective",
-				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES));
+				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, "50000"));
 		mockServer.verify();
 	}
 
 	@Test
-	public void createCampaign_withBuyingType() throws Exception {
-		String requestBody = "name=Campaign+with+objective&campaign_group_status=ACTIVE&objective=PAGE_LIKES&buying_type=AUCTION";
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
-				.andExpect(method(POST))
-				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andExpect(content().string(requestBody))
-				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
-		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with objective",
-				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, BuyingType.AUCTION));
-		mockServer.verify();
-	}
-
-	@Test
-	public void createCampaign_withSpendCap() throws Exception {
-		String requestBody = "name=Campaign+with+spend+cap&campaign_group_status=ACTIVE&objective=PAGE_LIKES&spend_cap=50000";
+	public void createCampaign_withoutSpendCap() throws Exception {
+		String requestBody = "name=Campaign+with+spend+cap&campaign_group_status=ACTIVE&objective=PAGE_LIKES";
 		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
 		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with spend cap",
-				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, 50000));
+				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, null));
 		mockServer.verify();
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void createCampaign_withSpendCap_unauthorized() throws Exception {
-		unauthorizedFacebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with spend cap",
-				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, 50000);
+	@Test
+	public void createCampaign_withBuyingType() throws Exception {
+		String requestBody = "name=Campaign+with+objective&campaign_group_status=ACTIVE&objective=PAGE_LIKES&spend_cap=50000&buying_type=AUCTION";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
+		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with objective",
+				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, "50000", BuyingType.AUCTION));
+		mockServer.verify();
 	}
 
 	@Test(expected = NotAuthorizedException.class)

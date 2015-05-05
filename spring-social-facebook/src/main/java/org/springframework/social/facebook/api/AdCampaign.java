@@ -12,7 +12,7 @@ public class AdCampaign extends FacebookObject {
 	private CampaignStatus campaignStatus;
 	private String name;
 	private CampaignObjective objective;
-	private int spendCap;
+	private String spendCap;
 
 	public AdCampaign() {
 	}
@@ -41,7 +41,7 @@ public class AdCampaign extends FacebookObject {
 		return objective;
 	}
 
-	public int getSpendCap() {
+	public String getSpendCap() {
 		return spendCap;
 	}
 

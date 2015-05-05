@@ -50,37 +50,23 @@ public interface CampaignOperations {
 	 * @param name      the name of the new campaign
 	 * @param status    the status of the new campaign (ACTIVE or PAUSED)
 	 * @param objective the objective of this ad campaign
+	 * @param spendCap  the spend cap for the campaign defined as value of cents in your currency, set to null to allow unlimited spend. A minimum value is $100 USD (or approximate local equivalent).
 	 * @return the id of the ad campaign created
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 * @throws InvalidCampaignStatusException  if you provided wrong status for the new campaign
 	 */
-	String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective);
+	String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, String spendCap);
 
 	/**
 	 * Creates new campaign with given name, status, objective and spend cap.
-	 *
-	 * @param accountId the id of the ad account
-	 * @param name      the name of the new campaign
-	 * @param status    the status of the new campaign (ACTIVE or PAUSED)
-	 * @param objective the objective of this ad campaign
-	 * @param spendCap  the spend cap for the campaign defined as integer value of cents in your currency
-	 * @return the id of the ad campaign created
-	 * @throws ApiException                    if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
-	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
-	 * @throws InvalidCampaignStatusException  if you provided wrong status for the new campaign
-	 */
-	String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, int spendCap);
-
-	/**
-	 * Creates new campaign with given name, status, objective and buying type.
 	 *
 	 * @param accountId  the id of the ad account
 	 * @param name       the name of the new campaign
 	 * @param status     the status of the new campaign (ACTIVE or PAUSED)
 	 * @param objective  the objective of this ad campaign
+	 * @param spendCap   the spend cap for the campaign defined as value of cents in your currency, set to null to allow unlimited spend. A minimum value is $100 USD (or approximate local equivalent).
 	 * @param buyingType buying type - this field will help Facebook make future optimizations to delivery, pricing, and limits
 	 * @return the id of the ad campaign created
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
@@ -88,7 +74,7 @@ public interface CampaignOperations {
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 * @throws InvalidCampaignStatusException  if you provided wrong status for the new campaign
 	 */
-	String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, BuyingType buyingType);
+	String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, String spendCap, BuyingType buyingType);
 
 	/**
 	 * Updates the name of the ad campaign.

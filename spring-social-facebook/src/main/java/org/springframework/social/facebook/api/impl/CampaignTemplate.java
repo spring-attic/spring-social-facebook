@@ -34,21 +34,11 @@ public class CampaignTemplate extends AbstractFacebookOperations implements Camp
 		return createAdCampaign(accountId, name, status, null, null);
 	}
 
-	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective) {
-		return createAdCampaign(accountId, name, status, objective, null);
+	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, String spendCap) {
+		return createAdCampaign(accountId, name, status, objective, spendCap, null);
 	}
 
-	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, int spendCap) {
-		requireAuthorization();
-		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-		map.add("name", name);
-		map.add("campaign_group_status", status.name());
-		map.add("objective", objective.name());
-		map.add("spend_cap", String.valueOf(spendCap));
-		return graphApi.publish("act_" + accountId, "adcampaign_groups", map);
-	}
-
-	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, BuyingType buyingType) {
+	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, String spendCap, BuyingType buyingType) {
 		requireAuthorization();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("name", name);
@@ -56,12 +46,14 @@ public class CampaignTemplate extends AbstractFacebookOperations implements Camp
 		if (objective != null) {
 			map.add("objective", objective.name());
 		}
+		if (spendCap != null) {
+			map.add("spend_cap", spendCap);
+		}
 		if (buyingType != null) {
 			map.add("buying_type", buyingType.name());
 		}
 		return graphApi.publish("act_" + accountId, "adcampaign_groups", map);
 	}
-
 
 	public void updateAdCampaignName(String campaignId, String name) {
 
