@@ -32,7 +32,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals("600123456789", campaign.getId());
 		assertEquals("123456789", campaign.getAccountId());
 		assertEquals(BuyingType.AUCTION, campaign.getBuyingType());
-		assertEquals(CampaignStatus.ACTIVE, campaign.getCampaignStatus());
+		assertEquals(CampaignStatus.ACTIVE, campaign.getStatus());
 		assertEquals("The test campaign name", campaign.getName());
 		assertEquals(CampaignObjective.POST_ENGAGEMENT, campaign.getObjective());
 		assertEquals("1000", campaign.getSpendCap());
@@ -49,7 +49,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals("600123456789", campaign.getId());
 		assertEquals("123456789", campaign.getAccountId());
 		assertEquals(BuyingType.UNKNOWN, campaign.getBuyingType());
-		assertEquals(CampaignStatus.UNKNOWN, campaign.getCampaignStatus());
+		assertEquals(CampaignStatus.UNKNOWN, campaign.getStatus());
 		assertEquals("The test campaign name", campaign.getName());
 		assertEquals(CampaignObjective.UNKNOWN, campaign.getObjective());
 
@@ -154,7 +154,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 
 	@Test
 	public void updateAdCampaignStatus() throws Exception {
-		String requestBody = "status=ACTIVE";
+		String requestBody = "campaign_group_status=ACTIVE";
 		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/600123456789"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))

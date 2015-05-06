@@ -33,7 +33,7 @@ abstract public class AdCampaignMixin extends FacebookObjectMixin {
 
 	@JsonProperty("campaign_group_status")
 	@JsonDeserialize(using = CampaignStatusDeserializer.class)
-	private CampaignStatus campaignStatus;
+	private CampaignStatus status;
 
 	@JsonProperty("name")
 	private String name;

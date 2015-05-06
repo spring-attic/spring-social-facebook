@@ -88,7 +88,7 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 				throw new DuplicateStatusException(FACEBOOK_PROVIDER_ID, error.getMessage());
 			} else if (code == DATA_OBJECT_NOT_FOUND || code == PATH_UNKNOWN) {
 				throw new ResourceNotFoundException(FACEBOOK_PROVIDER_ID, error.getMessage());
-			} else if (code == PARAM && error.getSubcode() == 1487564) {
+			} else if (code == PARAM && error.getSubcode() != null && error.getSubcode() == 1487564) {
 				throw new InvalidCampaignStatusException(FACEBOOK_PROVIDER_ID, error.getUserMessage());
 			} else {
 				throw new UncategorizedApiException(FACEBOOK_PROVIDER_ID, error.getMessage(), null);

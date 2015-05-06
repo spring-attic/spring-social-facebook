@@ -65,7 +65,7 @@ public class CampaignTemplate extends AbstractFacebookOperations implements Camp
 	public void updateAdCampaignStatus(String campaignId, CampaignStatus status) {
 		requireAuthorization();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-		map.add("status", status.name());
+		map.add("campaign_group_status", status.name());
 		graphApi.post(campaignId, map);
 	}
 

@@ -9,7 +9,7 @@ public class AdCampaign extends FacebookObject {
 	private String id;
 	private String accountId;
 	private BuyingType buyingType;
-	private CampaignStatus campaignStatus;
+	private CampaignStatus status;
 	private String name;
 	private CampaignObjective objective;
 	private String spendCap;
@@ -17,8 +17,8 @@ public class AdCampaign extends FacebookObject {
 	public AdCampaign() {
 	}
 
-	public CampaignStatus getCampaignStatus() {
-		return campaignStatus;
+	public CampaignStatus getStatus() {
+		return status;
 	}
 
 	public String getName() {
