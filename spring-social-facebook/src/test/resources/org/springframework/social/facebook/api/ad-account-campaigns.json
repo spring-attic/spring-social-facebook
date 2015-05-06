@@ -1,0 +1,35 @@
+{
+  "data": [
+    {
+      "id": "601123456789",
+      "account_id": "123456789",
+      "buying_type": "AUCTION",
+      "campaign_group_status": "ACTIVE",
+      "name": "Campaign #1",
+      "objective": "POST_ENGAGEMENT"
+    },
+    {
+      "id": "602123456789",
+      "account_id": "123456789",
+      "buying_type": "FIXED_CPM",
+      "campaign_group_status": "PAUSED",
+      "name": "Campaign #2",
+      "objective": "NONE"
+    },
+    {
+      "id": "603123456789",
+      "account_id": "123456789",
+      "buying_type": "RESERVED",
+      "campaign_group_status": "ARCHIVED",
+      "name": "Campaign #3",
+      "objective": "WEBSITE_CONVERSIONS",
+      "spend_cap": 50000
+    }
+  ],
+  "paging": {
+    "cursors": {
+      "before": "NjAyNDE2Nzg5NTY1MA==",
+      "after": "NjAyNTIwMDQ1MTQ1MA=="
+    }
+  }
+}

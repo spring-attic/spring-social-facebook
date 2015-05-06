@@ -54,6 +54,13 @@ public interface AccountOperations {
 	AdAccount getAdAccount(String accountId);
 
 	/**
+	 * Get all ad campaigns of an ad account.
+	 * @param id the id of an ad account
+	 * @return the list of {@link AdCampaign} objects
+	 */
+	PagedList<AdCampaign> getAdAccountCampaigns(String id);
+
+	/**
 	 * Get all users of the ad account.
 	 *
 	 * @param accountId the id of an ad account

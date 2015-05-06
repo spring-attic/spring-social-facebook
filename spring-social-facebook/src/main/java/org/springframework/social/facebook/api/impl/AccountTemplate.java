@@ -33,6 +33,10 @@ public class AccountTemplate extends AbstractFacebookOperations implements Accou
 		return graphApi.fetchObject(id, AdAccount.class, AD_ACCOUNT_FIELDS);
 	}
 
+	public PagedList<AdCampaign> getAdAccountCampaigns(String id) {
+		return graphApi.fetchConnections(id, "adcampaign_groups", AdCampaign.class, CampaignOperations.AD_CAMPAIGN_FIELDS);
+	}
+
 	public List<AdUser> getAdAccountUsers(String accountId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(accountId, "users", AdUser.class);

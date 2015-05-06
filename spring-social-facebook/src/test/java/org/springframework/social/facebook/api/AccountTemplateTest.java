@@ -7,6 +7,9 @@ import org.springframework.social.facebook.api.AdAccount.Capabilities;
 import org.springframework.social.facebook.api.AdAccount.TaxStatus;
 import org.springframework.social.facebook.api.AdUser.AdUserPermission;
 import org.springframework.social.facebook.api.AdUser.AdUserRole;
+import org.springframework.social.facebook.api.AdCampaign.CampaignObjective;
+import org.springframework.social.facebook.api.AdCampaign.BuyingType;
+import org.springframework.social.facebook.api.AdCampaign.CampaignStatus;
 
 import java.util.List;
 
@@ -204,6 +207,37 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 	@Test(expected = NotAuthorizedException.class)
 	public void getAdAccount_unauthorized() throws Exception {
 		unauthorizedFacebookAds.accountOperations().getAdAccount("act_123456789");
+	}
+
+	@Test
+	public void getAdAccountCampaigns() throws Exception {
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups?fields=id%2Caccount_id%2Cbuying_type%2Ccampaign_group_status%2Cname%2Cobjective%2Cspend_cap"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("ad-account-campaigns"), MediaType.APPLICATION_JSON));
+		PagedList<AdCampaign> campaigns = facebookAds.accountOperations().getAdAccountCampaigns("act_123456789");
+		assertEquals(3, campaigns.size());
+		assertEquals("601123456789", campaigns.get(0).getId());
+		assertEquals("123456789", campaigns.get(0).getAccountId());
+		assertEquals(BuyingType.AUCTION, campaigns.get(0).getBuyingType());
+		assertEquals(CampaignStatus.ACTIVE, campaigns.get(0).getCampaignStatus());
+		assertEquals("Campaign #1", campaigns.get(0).getName());
+		assertEquals(CampaignObjective.POST_ENGAGEMENT, campaigns.get(0).getObjective());
+		assertEquals(null, campaigns.get(0).getSpendCap());
+		assertEquals("602123456789", campaigns.get(1).getId());
+		assertEquals("123456789", campaigns.get(1).getAccountId());
+		assertEquals(BuyingType.FIXED_CPM, campaigns.get(1).getBuyingType());
+		assertEquals(CampaignStatus.PAUSED, campaigns.get(1).getCampaignStatus());
+		assertEquals("Campaign #2", campaigns.get(1).getName());
+		assertEquals(CampaignObjective.NONE, campaigns.get(1).getObjective());
+		assertEquals(null, campaigns.get(1).getSpendCap());
+		assertEquals("603123456789", campaigns.get(2).getId());
+		assertEquals("123456789", campaigns.get(2).getAccountId());
+		assertEquals(BuyingType.RESERVED, campaigns.get(2).getBuyingType());
+		assertEquals(CampaignStatus.ARCHIVED, campaigns.get(2).getCampaignStatus());
+		assertEquals("Campaign #3", campaigns.get(2).getName());
+		assertEquals(CampaignObjective.WEBSITE_CONVERSIONS, campaigns.get(2).getObjective());
+		assertEquals("50000", campaigns.get(2).getSpendCap());
 	}
 
 	@Test
