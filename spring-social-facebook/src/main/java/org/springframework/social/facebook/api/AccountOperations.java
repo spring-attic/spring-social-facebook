@@ -55,8 +55,12 @@ public interface AccountOperations {
 
 	/**
 	 * Get all ad campaigns of an ad account.
+	 *
 	 * @param id the id of an ad account
 	 * @return the list of {@link AdCampaign} objects
+	 * @throws ApiException                    if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
+	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
 	PagedList<AdCampaign> getAdAccountCampaigns(String id);
 
