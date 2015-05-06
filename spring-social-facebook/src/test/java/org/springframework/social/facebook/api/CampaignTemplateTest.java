@@ -68,7 +68,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
-		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign created by SpringSocialFacebook", CampaignStatus.PAUSED));
+		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("act_123456789", "Campaign created by SpringSocialFacebook", CampaignStatus.PAUSED));
 		mockServer.verify();
 	}
 
@@ -83,7 +83,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 				.andRespond(withBadRequest().body(jsonResource("error-invalid-update-campaign-status")).contentType(MediaType.APPLICATION_JSON));
 
 		try {
-			facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with invalid status", CampaignStatus.ARCHIVED);
+			facebookAds.campaignOperations().createAdCampaign("act_123456789", "Campaign with invalid status", CampaignStatus.ARCHIVED);
 			fail();
 		} catch (InvalidCampaignStatusException e) {
 			assertEquals("New campaigns need to be either active or paused.", e.getMessage());
@@ -99,7 +99,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
-		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with objective",
+		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("act_123456789", "Campaign with objective",
 				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, "50000"));
 		mockServer.verify();
 	}
@@ -112,7 +112,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
-		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with spend cap",
+		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("act_123456789", "Campaign with spend cap",
 				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, null));
 		mockServer.verify();
 	}
@@ -125,14 +125,14 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\": \"601123456789\"}", MediaType.APPLICATION_JSON));
-		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("123456789", "Campaign with objective",
+		assertEquals("601123456789", facebookAds.campaignOperations().createAdCampaign("act_123456789", "Campaign with objective",
 				CampaignStatus.ACTIVE, CampaignObjective.PAGE_LIKES, "50000", BuyingType.AUCTION));
 		mockServer.verify();
 	}
 
 	@Test(expected = NotAuthorizedException.class)
 	public void createCampaign_unauthorized() throws Exception {
-		unauthorizedFacebookAds.campaignOperations().createAdCampaign("123456789", "Campaign created by SpringSocialFacebook", CampaignStatus.PAUSED);
+		unauthorizedFacebookAds.campaignOperations().createAdCampaign("act_123456789", "Campaign created by SpringSocialFacebook", CampaignStatus.PAUSED);
 	}
 
 	@Test

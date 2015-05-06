@@ -30,15 +30,15 @@ public class CampaignTemplate extends AbstractFacebookOperations implements Camp
 		return graphApi.fetchObject(id, AdCampaign.class, CampaignOperations.AD_CAMPAIGN_FIELDS);
 	}
 
-	public String createAdCampaign(String accountId, String name, CampaignStatus status) {
-		return createAdCampaign(accountId, name, status, null, null);
+	public String createAdCampaign(String adAccountId, String name, CampaignStatus status) {
+		return createAdCampaign(adAccountId, name, status, null, null);
 	}
 
-	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, String spendCap) {
-		return createAdCampaign(accountId, name, status, objective, spendCap, null);
+	public String createAdCampaign(String adAccountId, String name, CampaignStatus status, CampaignObjective objective, String spendCap) {
+		return createAdCampaign(adAccountId, name, status, objective, spendCap, null);
 	}
 
-	public String createAdCampaign(String accountId, String name, CampaignStatus status, CampaignObjective objective, String spendCap, BuyingType buyingType) {
+	public String createAdCampaign(String adAccountId, String name, CampaignStatus status, CampaignObjective objective, String spendCap, BuyingType buyingType) {
 		requireAuthorization();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("name", name);
@@ -52,7 +52,7 @@ public class CampaignTemplate extends AbstractFacebookOperations implements Camp
 		if (buyingType != null) {
 			map.add("buying_type", buyingType.name());
 		}
-		return graphApi.publish("act_" + accountId, "adcampaign_groups", map);
+		return graphApi.publish(adAccountId, "adcampaign_groups", map);
 	}
 
 	public void updateAdCampaignName(String campaignId, String name) {
