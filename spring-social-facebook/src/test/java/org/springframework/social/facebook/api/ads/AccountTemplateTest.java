@@ -225,21 +225,21 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals(CampaignStatus.ACTIVE, campaigns.get(0).getStatus());
 		assertEquals("Campaign #1", campaigns.get(0).getName());
 		assertEquals(CampaignObjective.POST_ENGAGEMENT, campaigns.get(0).getObjective());
-		assertEquals(null, campaigns.get(0).getSpendCap());
+		assertEquals(0, campaigns.get(0).getSpendCap());
 		assertEquals("602123456789", campaigns.get(1).getId());
 		assertEquals("123456789", campaigns.get(1).getAccountId());
 		assertEquals(BuyingType.FIXED_CPM, campaigns.get(1).getBuyingType());
 		assertEquals(CampaignStatus.PAUSED, campaigns.get(1).getStatus());
 		assertEquals("Campaign #2", campaigns.get(1).getName());
 		assertEquals(CampaignObjective.NONE, campaigns.get(1).getObjective());
-		assertEquals(null, campaigns.get(1).getSpendCap());
+		assertEquals(0, campaigns.get(1).getSpendCap());
 		assertEquals("603123456789", campaigns.get(2).getId());
 		assertEquals("123456789", campaigns.get(2).getAccountId());
 		assertEquals(BuyingType.RESERVED, campaigns.get(2).getBuyingType());
 		assertEquals(CampaignStatus.ARCHIVED, campaigns.get(2).getStatus());
 		assertEquals("Campaign #3", campaigns.get(2).getName());
 		assertEquals(CampaignObjective.WEBSITE_CONVERSIONS, campaigns.get(2).getObjective());
-		assertEquals("50000", campaigns.get(2).getSpendCap());
+		assertEquals(50000, campaigns.get(2).getSpendCap());
 	}
 
 	@Test

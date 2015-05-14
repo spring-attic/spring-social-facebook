@@ -44,7 +44,7 @@ abstract public class AdCampaignMixin extends FacebookObjectMixin {
 	private CampaignObjective objective;
 
 	@JsonProperty("spend_cap")
-	private String spendCap;
+	private int spendCap;
 
 
 	private static class BuyingTypeDeserializer extends JsonDeserializer<BuyingType> {
