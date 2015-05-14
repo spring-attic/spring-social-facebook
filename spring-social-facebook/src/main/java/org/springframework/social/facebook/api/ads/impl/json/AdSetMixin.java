@@ -1,4 +1,4 @@
-package org.springframework.social.facebook.api.impl.json;
+package org.springframework.social.facebook.api.ads.impl.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,9 +7,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.springframework.social.facebook.api.AdSet;
-import org.springframework.social.facebook.api.AdSet.AdSetStatus;
-import org.springframework.social.facebook.api.AdSet.BidType;
+import org.springframework.social.facebook.api.ads.AdSet.AdSetStatus;
+import org.springframework.social.facebook.api.ads.AdSet.BidType;
+import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 import java.io.IOException;
 import java.util.Date;

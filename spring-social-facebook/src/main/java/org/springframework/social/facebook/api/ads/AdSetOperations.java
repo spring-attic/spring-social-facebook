@@ -1,4 +1,4 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
 
 /**
  * Defines operations for working with Facebook Ad set object.
