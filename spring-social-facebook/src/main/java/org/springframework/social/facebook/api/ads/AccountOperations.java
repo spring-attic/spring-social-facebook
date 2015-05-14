@@ -3,7 +3,7 @@ package org.springframework.social.facebook.api.ads;
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
-import org.springframework.social.facebook.api.*;
+import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.ads.AdUser.AdUserRole;
 
 /**
@@ -78,7 +78,7 @@ public interface AccountOperations {
 	 * Add the user to the ad account.
 	 *
 	 * @param accountId the ID of the ad account (account_id)
-	 * @param userId    the id of an user
+	 * @param userId    the id of an user (App Scoped User ID)
 	 * @param role      the role for the new user in ad account
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_management" permission.
@@ -90,7 +90,7 @@ public interface AccountOperations {
 	 * Remove user's access to an ad account.
 	 *
 	 * @param accountId the ID of the ad account (account_id)
-	 * @param userId    the id of an user
+	 * @param userId    the id of an user (App Scoped User ID)
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
