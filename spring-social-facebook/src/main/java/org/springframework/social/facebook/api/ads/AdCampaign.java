@@ -1,4 +1,6 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
+
+import org.springframework.social.facebook.api.FacebookObject;
 
 /**
  * Model class representing an ad campaign.
@@ -12,7 +14,7 @@ public class AdCampaign extends FacebookObject {
 	private CampaignStatus status;
 	private String name;
 	private CampaignObjective objective;
-	private String spendCap;
+	private int spendCap;
 
 	public AdCampaign() {
 	}
@@ -21,8 +23,16 @@ public class AdCampaign extends FacebookObject {
 		return status;
 	}
 
+	public void setStatus(CampaignStatus status) {
+		this.status = status;
+	}
+
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getId() {
@@ -37,12 +47,24 @@ public class AdCampaign extends FacebookObject {
 		return buyingType;
 	}
 
+	public void setBuyingType(BuyingType buyingType) {
+		this.buyingType = buyingType;
+	}
+
 	public CampaignObjective getObjective() {
 		return objective;
 	}
 
-	public String getSpendCap() {
+	public void setObjective(CampaignObjective objective) {
+		this.objective = objective;
+	}
+
+	public int getSpendCap() {
 		return spendCap;
+	}
+
+	public void setSpendCap(int spendCap) {
+		this.spendCap = spendCap;
 	}
 
 	public enum BuyingType {

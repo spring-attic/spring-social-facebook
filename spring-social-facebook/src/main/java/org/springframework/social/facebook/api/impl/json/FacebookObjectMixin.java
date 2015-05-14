@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class FacebookObjectMixin {
+public abstract class FacebookObjectMixin {
 
 	@JsonAnySetter
 	abstract void add(String key, Object value);

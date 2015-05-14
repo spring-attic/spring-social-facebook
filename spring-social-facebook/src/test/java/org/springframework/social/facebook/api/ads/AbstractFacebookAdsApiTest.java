@@ -1,9 +1,9 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
 
 import org.junit.Before;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.social.facebook.api.impl.FacebookAdsTemplate;
+import org.springframework.social.facebook.api.ads.impl.FacebookAdsTemplate;
 import org.springframework.test.web.client.MockRestServiceServer;
 
 import java.text.DateFormat;

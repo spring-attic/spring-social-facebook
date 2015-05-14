@@ -1,4 +1,4 @@
-package org.springframework.social.facebook.api.impl.json;
+package org.springframework.social.facebook.api.ads.impl.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,9 +7,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.springframework.social.facebook.api.AdCampaign.BuyingType;
-import org.springframework.social.facebook.api.AdCampaign.CampaignObjective;
-import org.springframework.social.facebook.api.AdCampaign.CampaignStatus;
+import org.springframework.social.facebook.api.ads.AdCampaign.BuyingType;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignObjective;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignStatus;
+import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 import java.io.IOException;
 
@@ -43,7 +44,7 @@ abstract public class AdCampaignMixin extends FacebookObjectMixin {
 	private CampaignObjective objective;
 
 	@JsonProperty("spend_cap")
-	private String spendCap;
+	private int spendCap;
 
 
 	private static class BuyingTypeDeserializer extends JsonDeserializer<BuyingType> {

@@ -1,4 +1,6 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
+
+import org.springframework.social.facebook.api.FacebookObject;
 
 import java.util.Date;
 import java.util.List;
@@ -145,6 +147,10 @@ public class AdAccount extends FacebookObject {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public boolean isOffsitePixelsTOSAccepted() {
 		return offsitePixelsTOSAccepted;
 	}
@@ -155,6 +161,10 @@ public class AdAccount extends FacebookObject {
 
 	public String getSpendCap() {
 		return spendCap;
+	}
+
+	public void setSpendCap(String spendCap) {
+		this.spendCap = spendCap;
 	}
 
 	public int getTimezoneId() {

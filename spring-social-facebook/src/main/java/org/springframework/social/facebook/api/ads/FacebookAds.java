@@ -1,6 +1,6 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
 
-import org.springframework.social.facebook.api.impl.FacebookAdsTemplate;
+import org.springframework.social.facebook.api.ads.impl.FacebookAdsTemplate;
 
 /**
  * Interface specifying a basic set of operations for interacting with Facebook Marketing API.

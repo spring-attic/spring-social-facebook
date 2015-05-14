@@ -1,4 +1,4 @@
-package org.springframework.social.facebook.api.impl.json;
+package org.springframework.social.facebook.api.ads.impl.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,13 +11,14 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.springframework.social.facebook.api.AdAccount;
-import org.springframework.social.facebook.api.AdAccount.AccountStatus;
-import org.springframework.social.facebook.api.AdAccount.AgencyClientDeclaration;
-import org.springframework.social.facebook.api.AdAccount.Capabilities;
-import org.springframework.social.facebook.api.AdAccount.TaxStatus;
-import org.springframework.social.facebook.api.AdAccountGroup;
-import org.springframework.social.facebook.api.AdUser;
+import org.springframework.social.facebook.api.ads.AdAccount.AccountStatus;
+import org.springframework.social.facebook.api.ads.AdAccount.AgencyClientDeclaration;
+import org.springframework.social.facebook.api.ads.AdAccount.Capabilities;
+import org.springframework.social.facebook.api.ads.AdAccount.TaxStatus;
+import org.springframework.social.facebook.api.ads.AdAccountGroup;
+import org.springframework.social.facebook.api.ads.AdUser;
+import org.springframework.social.facebook.api.impl.json.FacebookModule;
+import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 import java.io.IOException;
 import java.util.*;
@@ -28,7 +29,7 @@ import java.util.*;
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class AdAccountMixin extends FacebookObjectMixin {
+public abstract class AdAccountMixin extends FacebookObjectMixin {
 
 	@JsonProperty("id")
 	String id;
