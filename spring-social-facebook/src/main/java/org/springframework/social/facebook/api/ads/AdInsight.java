@@ -1,4 +1,4 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
 
 import java.util.Date;
 import java.util.List;

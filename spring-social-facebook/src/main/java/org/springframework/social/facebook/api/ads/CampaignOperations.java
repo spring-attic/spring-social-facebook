@@ -1,11 +1,12 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
 
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
-import org.springframework.social.facebook.api.AdCampaign.BuyingType;
-import org.springframework.social.facebook.api.AdCampaign.CampaignObjective;
-import org.springframework.social.facebook.api.AdCampaign.CampaignStatus;
+import org.springframework.social.facebook.api.ads.AdCampaign.BuyingType;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignObjective;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignStatus;
+import org.springframework.social.facebook.api.InvalidCampaignStatusException;
 
 /**
  * Defines operations for working with Facebook Ad Campaign object.

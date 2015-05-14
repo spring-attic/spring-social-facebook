@@ -1,13 +1,14 @@
-package org.springframework.social.facebook.api.impl.json;
+package org.springframework.social.facebook.api.ads.impl.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 /**
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class AdInsightActionMixin extends FacebookObjectMixin {
+public abstract class AdInsightActionMixin extends FacebookObjectMixin {
     @JsonProperty("action_type")
     private String actionType;
 

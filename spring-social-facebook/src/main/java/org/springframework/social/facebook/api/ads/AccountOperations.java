@@ -1,11 +1,10 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
 
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
-import org.springframework.social.facebook.api.AdUser.AdUserRole;
-
-import java.util.List;
+import org.springframework.social.facebook.api.*;
+import org.springframework.social.facebook.api.ads.AdUser.AdUserRole;
 
 /**
  * Defines operations for working with Facebook Marketing API Ad Account object.
@@ -40,12 +39,12 @@ public interface AccountOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
-	List<AdAccount> getAdAccounts(String userId);
+	PagedList<AdAccount> getAdAccounts(String userId);
 
 	/**
 	 * Get the ad account by given id.
 	 *
-	 * @param accountId the id of an ad account
+	 * @param accountId the ID of the ad account (account_id)
 	 * @return the {@link AdAccount} object
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
@@ -56,53 +55,52 @@ public interface AccountOperations {
 	/**
 	 * Get all ad campaigns of an ad account.
 	 *
-	 * @param id the id of an ad account
+	 * @param accountId the ID of the ad account (account_id)
 	 * @return the list of {@link AdCampaign} objects
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
-	PagedList<AdCampaign> getAdAccountCampaigns(String id);
+	PagedList<AdCampaign> getAdAccountCampaigns(String accountId);
 
 	/**
 	 * Get all users of the ad account.
 	 *
-	 * @param accountId the id of an ad account
+	 * @param accountId the ID of the ad account, the string act_{ad_account_id}
 	 * @return the list of {@link AdUser} objects
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
-	List<AdUser> getAdAccountUsers(String accountId);
+	PagedList<AdUser> getAdAccountUsers(String accountId);
 
-//	problems with Facebook Marketing API
-//	/**
-//	 * Add the user to the ad account.
-//	 *
-//	 * @param accountId the id of an ad account
-//	 * @param userId    the id of an user
-//	 * @param role      the role for the new user in ad account
-//	 * @throws ApiException                    if there is an error while communicating with Facebook.
-//	 * @throws InsufficientPermissionException if the user has not granted "ads_management" permission.
-//	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
-//	 */
-//	void addUserToAdAccount(String accountId, String userId, AdUserRole role);
-//
-//	/**
-//	 * Remove user's access to an ad account.
-//	 *
-//	 * @param accountId the id of an ad account
-//	 * @param userId    the id of an user
-//	 * @throws ApiException                    if there is an error while communicating with Facebook.
-//	 * @throws InsufficientPermissionException if the user has not granted "ads_management" permission.
-//	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
-//	 */
-//	void deleteUserFromAdAccount(String accountId, String userId);
+	/**
+	 * Add the user to the ad account.
+	 *
+	 * @param accountId the ID of the ad account (account_id)
+	 * @param userId    the id of an user
+	 * @param role      the role for the new user in ad account
+	 * @throws ApiException                    if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "ads_management" permission.
+	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
+	 */
+	void addUserToAdAccount(String accountId, String userId, AdUserRole role);
+
+	/**
+	 * Remove user's access to an ad account.
+	 *
+	 * @param accountId the ID of the ad account (account_id)
+	 * @param userId    the id of an user
+	 * @throws ApiException                    if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "ads_management" permission.
+	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
+	 */
+	void deleteUserFromAdAccount(String accountId, String userId);
 
 	/**
 	 * Get the insight for the ad account in aggregate.
 	 *
-	 * @param accountId the id of an ad account.
+	 * @param accountId the ID of the ad account (account_id)
 	 * @return the {@link AdInsight} object
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
@@ -111,24 +109,15 @@ public interface AccountOperations {
 	AdInsight getAdAccountInsight(String accountId);
 
 	/**
-	 * Updates the ad account name.
+	 * Updates the ad account with information given in adAccount object.
+	 * Currently only updates on ad account name and spend_cap are supported.
 	 *
-	 * @param accountId the id of an ad account.
-	 * @param name      the new account name
+	 * @param accountId the ID of the ad account (account_id)
+	 * @param adAccount the ad account object containing updated account information
+	 * @return true if the update succeeded
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
+	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 */
-	void updateAdAccountName(String accountId, String name);
-
-	/**
-	 * Updates the ad account spending cap.
-	 *
-	 * @param accountId the id of an ad account.
-	 * @param spendCap  The total amount that account can spend. Value specified in basic unit of the currency, e.g. dollars for USD.
-	 * @throws ApiException                    if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "ads_management" permission.
-	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
-	 */
-	void updateAdAccountSpendCap(String accountId, int spendCap);
+	boolean updateAdAccount(String accountId, AdAccount adAccount);
 }

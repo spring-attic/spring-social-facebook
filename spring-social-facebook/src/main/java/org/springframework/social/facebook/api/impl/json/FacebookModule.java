@@ -19,6 +19,8 @@ import org.springframework.social.facebook.api.*;
 import org.springframework.social.facebook.api.Photo.Image;
 import org.springframework.social.facebook.api.Video.VideoFormat;
 import org.springframework.social.facebook.api.WorkEntry.Project;
+import org.springframework.social.facebook.api.ads.*;
+import org.springframework.social.facebook.api.ads.impl.json.*;
 import org.springframework.social.facebook.api.impl.json.PhotoMixin.ImageMixin;
 import org.springframework.social.facebook.api.impl.json.VideoMixin.VideoFormatMixin;
 import org.springframework.social.facebook.api.impl.json.WorkEntryMixin.ProjectMixin;

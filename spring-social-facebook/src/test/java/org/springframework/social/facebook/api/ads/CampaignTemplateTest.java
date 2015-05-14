@@ -1,12 +1,15 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
 
 import org.springframework.social.NotAuthorizedException;
-import org.springframework.social.facebook.api.AdCampaign.BuyingType;
-import org.springframework.social.facebook.api.AdCampaign.CampaignObjective;
-import org.springframework.social.facebook.api.AdCampaign.CampaignStatus;
+import org.springframework.social.facebook.api.InvalidCampaignStatusException;
+import org.springframework.social.facebook.api.ads.AbstractFacebookAdsApiTest;
+import org.springframework.social.facebook.api.ads.AdCampaign;
+import org.springframework.social.facebook.api.ads.AdCampaign.BuyingType;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignObjective;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignStatus;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

@@ -1,11 +1,12 @@
-package org.springframework.social.facebook.api.impl;
+package org.springframework.social.facebook.api.ads.impl;
 
-import org.springframework.social.facebook.api.AdCampaign;
-import org.springframework.social.facebook.api.AdCampaign.BuyingType;
-import org.springframework.social.facebook.api.AdCampaign.CampaignObjective;
-import org.springframework.social.facebook.api.AdCampaign.CampaignStatus;
-import org.springframework.social.facebook.api.CampaignOperations;
+import org.springframework.social.facebook.api.ads.AdCampaign;
+import org.springframework.social.facebook.api.ads.AdCampaign.BuyingType;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignObjective;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignStatus;
+import org.springframework.social.facebook.api.ads.CampaignOperations;
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.impl.AbstractFacebookOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;

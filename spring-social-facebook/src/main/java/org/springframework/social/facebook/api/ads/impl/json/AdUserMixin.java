@@ -1,4 +1,4 @@
-package org.springframework.social.facebook.api.impl.json;
+package org.springframework.social.facebook.api.ads.impl.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,8 +8,9 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.springframework.social.facebook.api.AdUser.AdUserPermission;
-import org.springframework.social.facebook.api.AdUser.AdUserRole;
+import org.springframework.social.facebook.api.ads.AdUser.AdUserPermission;
+import org.springframework.social.facebook.api.ads.AdUser.AdUserRole;
+import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.List;
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class AdUserMixin extends FacebookObjectMixin {
+public abstract class AdUserMixin extends FacebookObjectMixin {
 	@JsonProperty("id")
 	private String id;
 

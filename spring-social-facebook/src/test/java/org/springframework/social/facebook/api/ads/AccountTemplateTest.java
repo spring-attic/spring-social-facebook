@@ -1,15 +1,17 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
-import org.springframework.social.facebook.api.AdAccount.Capabilities;
-import org.springframework.social.facebook.api.AdAccount.TaxStatus;
-import org.springframework.social.facebook.api.AdUser.AdUserPermission;
-import org.springframework.social.facebook.api.AdUser.AdUserRole;
-import org.springframework.social.facebook.api.AdCampaign.CampaignObjective;
-import org.springframework.social.facebook.api.AdCampaign.BuyingType;
-import org.springframework.social.facebook.api.AdCampaign.CampaignStatus;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.ads.*;
+import org.springframework.social.facebook.api.ads.AdAccount.Capabilities;
+import org.springframework.social.facebook.api.ads.AdAccount.TaxStatus;
+import org.springframework.social.facebook.api.ads.AdCampaign.BuyingType;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignObjective;
+import org.springframework.social.facebook.api.ads.AdCampaign.CampaignStatus;
+import org.springframework.social.facebook.api.ads.AdUser.AdUserPermission;
+import org.springframework.social.facebook.api.ads.AdUser.AdUserRole;
 
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account"), MediaType.APPLICATION_JSON));
 
-		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("act_123456789");
+		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("123456789");
 		assertAdAccountFields(adAccount);
 		assertEquals(AdAccount.AccountStatus.ACTIVE, adAccount.getStatus());
 		assertEquals(1, adAccount.getUsers().size());
@@ -74,7 +76,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-temporarily-unavailable"), MediaType.APPLICATION_JSON));
 
-		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("act_123456789");
+		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("123456789");
 		assertAdAccountFields(adAccount);
 		assertEquals(AdAccount.AccountStatus.TEMPORARILY_UNAVAILABLE, adAccount.getStatus());
 		assertEquals(1, adAccount.getUsers().size());
@@ -91,7 +93,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-unknown-capabilities"), MediaType.APPLICATION_JSON));
-		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("act_123456789");
+		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("123456789");
 		assertEquals("act_123456789", adAccount.getId());
 		assertEquals(123456789, adAccount.getAccountId());
 		assertEquals(4, adAccount.getCapabilities().size());
@@ -108,7 +110,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-no-users"), MediaType.APPLICATION_JSON));
 
-		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("act_123456789");
+		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("123456789");
 		assertAdAccountFields(adAccount);
 		assertEquals(0, adAccount.getUsers().size());
 	}
@@ -120,7 +122,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-with-few-users"), MediaType.APPLICATION_JSON));
 
-		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("act_123456789");
+		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("123456789");
 		assertAdAccountFields(adAccount);
 		assertEquals(2, adAccount.getUsers().size());
 		assertEquals("1234", adAccount.getUsers().get(0).getId());
@@ -141,7 +143,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-without-permission"), MediaType.APPLICATION_JSON));
 
-		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("act_123456789");
+		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("123456789");
 		assertAdAccountFields(adAccount);
 		assertEquals(1, adAccount.getUsers().size());
 		assertEquals("1234", adAccount.getUsers().get(0).getId());
@@ -156,7 +158,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-with-agency"), MediaType.APPLICATION_JSON));
 
-		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("act_123456789");
+		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("123456789");
 		assertAdAccountFields(adAccount);
 		assertEquals(1, adAccount.getAgencyClientDeclaration().getAgencyRepresentingClient());
 		assertEquals(0, adAccount.getAgencyClientDeclaration().getClientBasedInFrance());
@@ -179,7 +181,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-with-funding-details"), MediaType.APPLICATION_JSON));
 
-		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("act_123456789");
+		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("123456789");
 		assertAdAccountFields(adAccount);
 		assertTrue(adAccount.getFundingSourceDetails().containsKey("id"));
 		assertEquals("12345678987654321", adAccount.getFundingSourceDetails().get("id"));
@@ -196,7 +198,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-with-tos-accepted"), MediaType.APPLICATION_JSON));
 
-		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("act_123456789");
+		AdAccount adAccount = facebookAds.accountOperations().getAdAccount("123456789");
 		assertAdAccountFields(adAccount);
 		assertTrue(adAccount.getTosAccepted().containsKey("206760949512025"));
 		assertEquals((Integer) 1, adAccount.getTosAccepted().get("206760949512025"));
@@ -206,7 +208,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 
 	@Test(expected = NotAuthorizedException.class)
 	public void getAdAccount_unauthorized() throws Exception {
-		unauthorizedFacebookAds.accountOperations().getAdAccount("act_123456789");
+		unauthorizedFacebookAds.accountOperations().getAdAccount("123456789");
 	}
 
 	@Test
@@ -215,7 +217,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-campaigns"), MediaType.APPLICATION_JSON));
-		PagedList<AdCampaign> campaigns = facebookAds.accountOperations().getAdAccountCampaigns("act_123456789");
+		PagedList<AdCampaign> campaigns = facebookAds.accountOperations().getAdAccountCampaigns("123456789");
 		assertEquals(3, campaigns.size());
 		assertEquals("601123456789", campaigns.get(0).getId());
 		assertEquals("123456789", campaigns.get(0).getAccountId());
@@ -247,7 +249,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-users"), MediaType.APPLICATION_JSON));
 
-		List<AdUser> adAccountUsers = facebookAds.accountOperations().getAdAccountUsers("act_123456789");
+		List<AdUser> adAccountUsers = facebookAds.accountOperations().getAdAccountUsers("123456789");
 		assertEquals(3, adAccountUsers.size());
 		assertEquals("123456789", adAccountUsers.get(0).getId());
 		assertEquals("Account #1", adAccountUsers.get(0).getName());
@@ -274,42 +276,42 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 
 	@Test(expected = NotAuthorizedException.class)
 	public void getAccountUsers_unauthorized() throws Exception {
-		unauthorizedFacebookAds.accountOperations().getAdAccountUsers("act_123456789");
+		unauthorizedFacebookAds.accountOperations().getAdAccountUsers("123456789");
 	}
 
-//	@Test
-//	public void addUserToAccount() throws Exception {
-//		String requestBody = "uid=123456&role=1002";
-//		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/users/"))
-//				.andExpect(method(POST))
-//				.andExpect(content().string(requestBody))
-//				.andExpect(header("Authorization", "OAuth someAccessToken"))
-//				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
-//		facebookAds.accountOperations().addUserToAdAccount("act_123456789", "123456", AdUserRole.ADVERTISER);
-//		mockServer.verify();
-//	}
-//
-//	@Test(expected = NotAuthorizedException.class)
-//	public void addUserToAccount_unauthorized() throws Exception {
-//		unauthorizedFacebookAds.accountOperations().addUserToAdAccount("act_123456789", "123456", AdUserRole.ADVERTISER);
-//	}
-//
-//	@Test
-//	public void deleteUserFromAccount() throws Exception {
-//		String requestBody = "method=delete";
-//		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/users/123456"))
-//				.andExpect(method(POST))
-//				.andExpect(header("Authorization", "OAuth someAccessToken"))
-//				.andExpect(content().string(requestBody))
-//				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
-//		facebookAds.accountOperations().deleteUserFromAdAccount("act_123456789", "123456");
-//		mockServer.verify();
-//	}
-//
-//	@Test(expected = NotAuthorizedException.class)
-//	public void deleteUserFromAccount_unauthorized() throws Exception {
-//		unauthorizedFacebookAds.accountOperations().deleteUserFromAdAccount("act_123456789", "123456");
-//	}
+	@Test
+	public void addUserToAccount() throws Exception {
+		String requestBody = "uid=123456&role=1002";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/users/"))
+				.andExpect(method(POST))
+				.andExpect(content().string(requestBody))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
+		facebookAds.accountOperations().addUserToAdAccount("123456789", "123456", AdUserRole.ADVERTISER);
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void addUserToAccount_unauthorized() throws Exception {
+		unauthorizedFacebookAds.accountOperations().addUserToAdAccount("123456789", "123456", AdUserRole.ADVERTISER);
+	}
+
+	@Test
+	public void deleteUserFromAccount() throws Exception {
+		String requestBody = "method=delete";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/users/123456"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
+		facebookAds.accountOperations().deleteUserFromAdAccount("123456789", "123456");
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void deleteUserFromAccount_unauthorized() throws Exception {
+		unauthorizedFacebookAds.accountOperations().deleteUserFromAdAccount("123456789", "123456");
+	}
 
 	@Test
 	public void getAccountInsight() throws Exception {
@@ -318,7 +320,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-account-insights"), MediaType.APPLICATION_JSON));
 
-		AdInsight insight = facebookAds.accountOperations().getAdAccountInsight("act_123456789");
+		AdInsight insight = facebookAds.accountOperations().getAdAccountInsight("123456789");
 		assertEquals("123456789", insight.getAccountId());
 		assertEquals("Account Test Name #1", insight.getAccountName());
 		assertEquals(0.016042780748663, insight.getActionsPerImpression(), EPSILON);
@@ -383,41 +385,60 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 
 	@Test(expected = NotAuthorizedException.class)
 	public void getAccountInsight_unauthorized() throws Exception {
-		unauthorizedFacebookAds.accountOperations().getAdAccountInsight("act_123456789");
+		unauthorizedFacebookAds.accountOperations().getAdAccountInsight("123456789");
 	}
 
 	@Test
-	public void updateAccountName() throws Exception {
-		String requestBody = "name=New+account+name";
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/"))
+	public void updateAdAccount_nameOnly() throws Exception {
+		String requestBody = "name=New+Test+Name";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
-		facebookAds.accountOperations().updateAdAccountName("act_123456789", "New account name");
+		AdAccount adAccount = new AdAccount();
+		adAccount.setName("New Test Name");
+		boolean updateStatus = facebookAds.accountOperations().updateAdAccount("123456789", adAccount);
+		assertTrue(updateStatus);
 		mockServer.verify();
 	}
 
-	@Test(expected = NotAuthorizedException.class)
-	public void updateAccountName_unauthorized() throws Exception {
-		unauthorizedFacebookAds.accountOperations().updateAdAccountName("act_123456789", "New account name");
-	}
-
 	@Test
-	public void updateAccountSpendCap() throws Exception {
-		String requestBody = "spend_cap=100";
-		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/"))
+	public void updateAdAccount_spendCapOnly() throws Exception {
+		String requestBody = "spend_cap=10000";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
-		facebookAds.accountOperations().updateAdAccountSpendCap("act_123456789", 100);
+		AdAccount adAccount = new AdAccount();
+		adAccount.setSpendCap("10000");
+		boolean updateStatus = facebookAds.accountOperations().updateAdAccount("123456789", adAccount);
+		assertTrue(updateStatus);
+		mockServer.verify();
+	}
+
+	@Test
+	public void updateAdAccount_bothNameAndSpendCap() throws Exception {
+		String requestBody = "name=Super+cool+name&spend_cap=11111";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
+		AdAccount adAccount = new AdAccount();
+		adAccount.setName("Super cool name");
+		adAccount.setSpendCap("11111");
+		boolean updateStatus = facebookAds.accountOperations().updateAdAccount("123456789", adAccount);
+		assertTrue(updateStatus);
 		mockServer.verify();
 	}
 
 	@Test(expected = NotAuthorizedException.class)
-	public void updateAccountSpendCap_unauthorized() throws Exception {
-		unauthorizedFacebookAds.accountOperations().updateAdAccountSpendCap("act_123456789", 100);
+	public void updateAdAccount_unauthorized() throws Exception {
+		AdAccount adAccount = new AdAccount();
+		adAccount.setName("abc");
+		unauthorizedFacebookAds.accountOperations().updateAdAccount("123456789", adAccount);
 	}
 
 	private void assertAdAccountsFields(List<AdAccount> adAccounts) {

@@ -1,4 +1,6 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
+
+import org.springframework.social.facebook.api.FacebookObject;
 
 /**
  * Model class representing an ad account group.

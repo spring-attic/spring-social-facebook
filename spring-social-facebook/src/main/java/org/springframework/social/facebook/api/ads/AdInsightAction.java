@@ -1,4 +1,4 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
 
 /**
  * Model class representing an ad insight action.

@@ -1,8 +1,9 @@
-package org.springframework.social.facebook.api.impl.json;
+package org.springframework.social.facebook.api.ads.impl.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.social.facebook.api.AdInsightAction;
+import org.springframework.social.facebook.api.ads.AdInsightAction;
+import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class AdInsightMixin extends FacebookObjectMixin {
+public abstract class AdInsightMixin extends FacebookObjectMixin {
 	// id fields
 	@JsonProperty("account_id")
 	private String accountId;

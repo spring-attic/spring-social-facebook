@@ -1,14 +1,15 @@
-package org.springframework.social.facebook.api.impl.json;
+package org.springframework.social.facebook.api.ads.impl.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 /**
  * Annotated mixin to add Jackson annotations to AdAccountGroup.
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class AdAccountGroupMixin extends FacebookObjectMixin {
+public abstract class AdAccountGroupMixin extends FacebookObjectMixin {
 
 	@JsonProperty("account_group_id")
 	private String id;

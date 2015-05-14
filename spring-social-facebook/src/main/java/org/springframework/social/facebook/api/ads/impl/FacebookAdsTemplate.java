@@ -1,8 +1,11 @@
-package org.springframework.social.facebook.api.impl;
+package org.springframework.social.facebook.api.ads.impl;
 
-import org.springframework.social.facebook.api.AccountOperations;
-import org.springframework.social.facebook.api.CampaignOperations;
-import org.springframework.social.facebook.api.FacebookAds;
+import org.springframework.social.facebook.api.ads.AccountOperations;
+import org.springframework.social.facebook.api.ads.CampaignOperations;
+import org.springframework.social.facebook.api.ads.FacebookAds;
+import org.springframework.social.facebook.api.ads.impl.AccountTemplate;
+import org.springframework.social.facebook.api.ads.impl.CampaignTemplate;
+import org.springframework.social.facebook.api.impl.FacebookTemplate;
 
 /**
  * This is the central class for interacting with Facebook Marketing API.
