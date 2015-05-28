@@ -26,15 +26,39 @@ public class AdSetTemplate extends AbstractFacebookOperations implements AdSetOp
 	}
 
 	public AdSet getAdSet(String id) {
+		requireAuthorization();
 		return graphApi.fetchObject(id, AdSet.class, AdSetOperations.AD_SET_FIELDS);
 	}
 
 	public String createAdSet(String accountId, AdSet adSet) {
+		requireAuthorization();
+		MultiValueMap<String, Object> data = mapCommonFields(adSet);
+		data.set("campaign_group_id", adSet.getCampaignId());
+		return graphApi.publish(getAdAccountId(accountId), "adcampaigns", data);
+	}
+
+	public boolean updateAdSet(String adSetId, AdSet adSet) {
+		requireAuthorization();
+		MultiValueMap<String, Object> data = mapCommonFields(adSet);
+		return graphApi.update(adSetId, data);
+	}
+
+	public void deleteAdSet(String adSetId) {
+		requireAuthorization();
+		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
+		data.add("campaign_status", "DELETED");
+		graphApi.post(adSetId, data);
+	}
+
+	private MultiValueMap<String, Object> mapCommonFields(AdSet adSet) {
 		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
 		data.set("date_format", "U");
-		data.set("campaign_group_id", adSet.getCampaignId());
-		data.set("name", adSet.getName());
-		data.set("campaign_status", adSet.getStatus().name());
+		if (adSet.getName() != null) {
+			data.set("name", adSet.getName());
+		}
+		if (adSet.getStatus() != null) {
+			data.set("campaign_status", adSet.getStatus().name());
+		}
 		data.set("is_autobid", String.valueOf(adSet.isAutobid()));
 		if (adSet.getBidInfo() != null) {
 			try {
@@ -43,13 +67,17 @@ public class AdSetTemplate extends AbstractFacebookOperations implements AdSetOp
 				e.printStackTrace();
 			}
 		}
-		data.set("bid_type", adSet.getBidType().name());
+		if (adSet.getBidType() != null) {
+			data.set("bid_type", adSet.getBidType().name());
+		}
 		data.set("daily_budget", String.valueOf(adSet.getDailyBudget()));
 		data.set("lifetime_budget", String.valueOf(adSet.getLifetimeBudget()));
-		try {
-			data.set("targeting", mapper.writeValueAsString(adSet.getTargeting()));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+		if (adSet.getTargeting() != null) {
+			try {
+				data.set("targeting", mapper.writeValueAsString(adSet.getTargeting()));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		}
 		if (adSet.getStartTime() != null) {
 			data.set("start_time", getUnixTime(adSet.getStartTime()));
@@ -57,7 +85,6 @@ public class AdSetTemplate extends AbstractFacebookOperations implements AdSetOp
 		if (adSet.getEndTime() != null) {
 			data.set("end_time", getUnixTime(adSet.getEndTime()));
 		}
-
-		return graphApi.publish(getAdAccountId(accountId), "adcampaigns", data);
+		return data;
 	}
 }

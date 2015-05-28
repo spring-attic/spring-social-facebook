@@ -2,6 +2,7 @@ package org.springframework.social.facebook.api.ads;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.ads.AdSet.AdSetStatus;
 import org.springframework.social.facebook.api.ads.AdSet.BidType;
 
@@ -98,9 +99,14 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals(toDate("2015-04-10T13:32:09+0200"), adSet.getUpdatedTime());
 	}
 
+	@Test(expected = NotAuthorizedException.class)
+	public void getAdSet_unauthorized() throws Exception {
+		unauthorizedFacebookAds.adSetOperations().getAdSet("700123456789");
+	}
+
 	@Test
 	public void createAdSet() throws Exception {
-		String requestBody = "date_format=U&campaign_group_id=600123456789&name=Test+AdSet&campaign_status=PAUSED&is_autobid=true&bid_type=ABSOLUTE_OCPM&daily_budget=0&lifetime_budget=200&targeting=%7B%22geo_locations%22%3A%7B%22countries%22%3A%5B%22PL%22%5D%7D%7D&end_time=1432231200";
+		String requestBody = "date_format=U&name=Test+AdSet&campaign_status=PAUSED&is_autobid=true&bid_type=ABSOLUTE_OCPM&daily_budget=0&lifetime_budget=200&targeting=%7B%22geo_locations%22%3A%7B%22countries%22%3A%5B%22PL%22%5D%7D%7D&end_time=1432231200&campaign_group_id=600123456789";
 		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaigns"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -127,11 +133,11 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 
 	@Test
 	public void createAdSet_withAllFields() throws Exception {
-		String requestBody = "date_format=U&campaign_group_id=601123456789&name=Test+AdSet+2&campaign_status=ACTIVE&is_autobid=false&" +
+		String requestBody = "date_format=U&name=Test+AdSet+2&campaign_status=ACTIVE&is_autobid=false&" +
 				"bid_info=%7B%22REACH%22%3A%221000%22%2C%22ACTIONS%22%3A%22200%22%2C%22SOCIAL%22%3A%22110%22%2C%22CLICKS%22%3A%22500%22%7D&" +
 				"bid_type=ABSOLUTE_OCPM&daily_budget=4000&lifetime_budget=0&" +
 				"targeting=%7B%22genders%22%3A%5B1%2C2%5D%2C%22age_min%22%3A45%2C%22age_max%22%3A55%2C%22relationship_statuses%22%3A%5B10%2C12%5D%2C%22interested_in%22%3A%5B1%2C2%5D%2C%22geo_locations%22%3A%7B%22countries%22%3A%5B%22PL%22%2C%22DE%22%2C%22US%22%2C%22FR%22%5D%2C%22regions%22%3A%5B%7B%22key%22%3A%223847%22%7D%2C%7B%22key%22%3A%221111%22%7D%2C%7B%22key%22%3A%221234%22%7D%2C%7B%22key%22%3A%229888%22%7D%5D%2C%22cities%22%3A%5B%7B%22key%22%3A%222430536%22%2C%22radius%22%3A12%2C%22distance_unit%22%3A%22mile%22%7D%2C%7B%22key%22%3A%22777555%22%2C%22radius%22%3A1024%2C%22distance_unit%22%3A%22kilometer%22%7D%5D%2C%22zips%22%3A%5B%7B%22key%22%3A%22PL%3A62030%22%7D%2C%7B%22key%22%3A%22US%3A88123%22%7D%2C%7B%22key%22%3A%22FR%3A33144%22%7D%5D%2C%22location_types%22%3A%5B%22home%22%2C%22recent%22%5D%7D%2C%22excluded_geo_locations%22%3A%7B%22countries%22%3A%5B%22HU%22%2C%22JP%22%5D%2C%22regions%22%3A%5B%7B%22key%22%3A%221122%22%7D%2C%7B%22key%22%3A%2231415%22%7D%5D%2C%22cities%22%3A%5B%7B%22key%22%3A%2288997766%22%2C%22radius%22%3A12345%2C%22distance_unit%22%3A%22mile%22%7D%5D%2C%22zips%22%3A%5B%7B%22key%22%3A%22JP%3A44552%22%7D%5D%2C%22location_types%22%3A%5B%22home%22%5D%7D%2C%22page_types%22%3A%5B%22desktopfeed%22%2C%22mobilefeed-and-external%22%5D%2C%22connections%22%3A%5B%22123456789%22%2C%2255442211%22%5D%2C%22excluded_connections%22%3A%5B%2233441122%22%5D%2C%22friends_of_connections%22%3A%5B%22987654321%22%5D%2C%22interests%22%3A%5B%7B%22id%22%3A986123123123%2C%22name%22%3A%22Football%22%7D%5D%2C%22behaviors%22%3A%5B%7B%22id%22%3A1%2C%22name%22%3A%22Some+behavior%22%7D%5D%2C%22education_schools%22%3A%5B%7B%22id%22%3A10593123549%2C%22name%22%3A%22Poznan+University+of+Technology%22%7D%5D%2C%22education_statuses%22%3A%5B9%5D%2C%22college_years%22%3A%5B8%5D%2C%22education_majors%22%3A%5B%7B%22id%22%3A12%2C%22name%22%3A%22Some+major%22%7D%5D%2C%22work_employers%22%3A%5B%7B%22id%22%3A43125%2C%22name%22%3A%22Super+company%22%7D%5D%2C%22work_positions%22%3A%5B%7B%22id%22%3A11111%2C%22name%22%3A%22Developer%22%7D%5D%7D&" +
-				"start_time=1432742400&end_time=1435420799";
+				"start_time=1432742400&end_time=1435420799&campaign_group_id=601123456789";
 		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaigns"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -195,5 +201,53 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 
 		assertEquals("702123456789", facebookAds.adSetOperations().createAdSet("123456789", adSet));
 		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void createAdSet_unauthorized() throws Exception {
+		unauthorizedFacebookAds.adSetOperations().createAdSet("123456789", new AdSet());
+	}
+
+	@Test
+	public void updateAdSet() throws Exception {
+		String requestBody = "date_format=U&name=New+AdSet+name&campaign_status=ARCHIVED&is_autobid=true&daily_budget=0&lifetime_budget=50000&start_time=1432833720";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/700123456789"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"success\": \"true\"}", MediaType.APPLICATION_JSON));
+
+		AdSet adSet = new AdSet();
+		adSet.setName("New AdSet name");
+		adSet.setStatus(AdSetStatus.ARCHIVED);
+		adSet.setLifetimeBudget(50000);
+		adSet.setAutobid(true);
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		adSet.setStartTime(formatter.parse("2015-05-28 19:22:00"));
+
+		assertTrue(facebookAds.adSetOperations().updateAdSet("700123456789", adSet));
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void updateAdSet_unauthorized() throws Exception {
+		unauthorizedFacebookAds.adSetOperations().updateAdSet("700123456789", new AdSet());
+	}
+
+	@Test
+	public void deleteAdSet() throws Exception {
+		String requestBody = "campaign_status=DELETED";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/700123456789"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"status\": \"true\"}", MediaType.APPLICATION_JSON));
+		facebookAds.adSetOperations().deleteAdSet("700123456789");
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void deleteAdSet_unauthorized() throws Exception {
+		unauthorizedFacebookAds.adSetOperations().deleteAdSet("700123456789");
 	}
 }
