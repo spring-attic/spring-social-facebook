@@ -17,6 +17,8 @@ package org.springframework.social.facebook.api.impl;
 
 import org.springframework.social.MissingAuthorizationException;
 
+import java.util.Date;
+
 public class AbstractFacebookOperations {
 	
 	private final boolean isAuthorized;
@@ -34,5 +36,8 @@ public class AbstractFacebookOperations {
 			throw new MissingAuthorizationException("facebook");
 		}
 	}
-	
+
+	public String getUnixTime(Date date) {
+		return date != null ? String.valueOf(date.getTime() / 1000L) : "";
+	}
 }

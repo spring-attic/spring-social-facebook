@@ -18,7 +18,7 @@ public class AdSet extends FacebookObject {
 	private AdSetStatus status;
 
 	private boolean autobid;
-	private Object bidInfo;
+	private BidInfo bidInfo;
 	private BidType bidType;
 
 	private int budgetRemaining;
@@ -26,8 +26,7 @@ public class AdSet extends FacebookObject {
 	private int lifetimeBudget;
 
 	private List<String> creativeSequence;
-	private Object promotedObject;
-	private Object targeting;
+	private Targeting targeting;
 
 	private Date startTime;
 	private Date endTime;
@@ -46,24 +45,48 @@ public class AdSet extends FacebookObject {
 		return campaignId;
 	}
 
+	public void setCampaignId(String campaignId) {
+		this.campaignId = campaignId;
+	}
+
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public AdSetStatus getStatus() {
 		return status;
 	}
 
+	public void setStatus(AdSetStatus status) {
+		this.status = status;
+	}
+
 	public boolean isAutobid() {
 		return autobid;
 	}
 
-	public Object getBidInfo() {
+	public void setAutobid(boolean autobid) {
+		this.autobid = autobid;
+	}
+
+	public BidInfo getBidInfo() {
 		return bidInfo;
+	}
+
+	public void setBidInfo(BidInfo bidInfo) {
+		this.bidInfo = bidInfo;
 	}
 
 	public BidType getBidType() {
 		return bidType;
+	}
+
+	public void setBidType(BidType bidType) {
+		this.bidType = bidType;
 	}
 
 	public int getBudgetRemaining() {
@@ -74,28 +97,44 @@ public class AdSet extends FacebookObject {
 		return dailyBudget;
 	}
 
+	public void setDailyBudget(int dailyBudget) {
+		this.dailyBudget = dailyBudget;
+	}
+
 	public int getLifetimeBudget() {
 		return lifetimeBudget;
+	}
+
+	public void setLifetimeBudget(int lifetimeBudget) {
+		this.lifetimeBudget = lifetimeBudget;
 	}
 
 	public List<String> getCreativeSequence() {
 		return creativeSequence;
 	}
 
-	public Object getPromotedObject() {
-		return promotedObject;
+	public Targeting getTargeting() {
+		return targeting;
 	}
 
-	public Object getTargeting() {
-		return targeting;
+	public void setTargeting(Targeting targeting) {
+		this.targeting = targeting;
 	}
 
 	public Date getStartTime() {
 		return startTime;
 	}
 
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
 	public Date getEndTime() {
 		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 	public Date getCreatedTime() {

@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.social.facebook.api.ads.AdSet.AdSetStatus;
 import org.springframework.social.facebook.api.ads.AdSet.BidType;
+import org.springframework.social.facebook.api.ads.BidInfo;
+import org.springframework.social.facebook.api.ads.Targeting;
 import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 import java.io.IOException;
@@ -34,7 +36,7 @@ abstract public class AdSetMixin extends FacebookObjectMixin {
 	@JsonProperty("name")
 	private String name;
 
-	@JsonProperty("campaign_stats")
+	@JsonProperty("campaign_status")
 	@JsonDeserialize(using = AdSetStatusDeserializer.class)
 	private AdSetStatus status;
 
@@ -42,7 +44,7 @@ abstract public class AdSetMixin extends FacebookObjectMixin {
 	private boolean autobid;
 
 	@JsonProperty("bid_info")
-	private Object bidInfo;
+	private BidInfo bidInfo;
 
 	@JsonProperty("bid_type")
 	@JsonDeserialize(using = BidTypeDeserializer.class)
@@ -60,11 +62,8 @@ abstract public class AdSetMixin extends FacebookObjectMixin {
 	@JsonProperty("creative_sequence")
 	private List<String> creativeSequence;
 
-	@JsonProperty("promoted_object")
-	private Object promotedObject;
-
 	@JsonProperty("targeting")
-	private Object targeting;
+	private Targeting targeting;
 
 	@JsonProperty("start_time")
 	private Date startTime;
@@ -78,7 +77,7 @@ abstract public class AdSetMixin extends FacebookObjectMixin {
 	@JsonProperty("updated_time")
 	private Date updatedTime;
 
-	private class AdSetStatusDeserializer extends JsonDeserializer<AdSetStatus> {
+	private static class AdSetStatusDeserializer extends JsonDeserializer<AdSetStatus> {
 		@Override
 		public AdSetStatus deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			try {
@@ -89,7 +88,7 @@ abstract public class AdSetMixin extends FacebookObjectMixin {
 		}
 	}
 
-	private class BidTypeDeserializer extends JsonDeserializer<BidType> {
+	private static class BidTypeDeserializer extends JsonDeserializer<BidType> {
 		@Override
 		public BidType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			try {

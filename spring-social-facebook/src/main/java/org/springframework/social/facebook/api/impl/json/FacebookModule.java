@@ -132,5 +132,12 @@ public class FacebookModule extends SimpleModule {
 
 		context.setMixInAnnotations(AdAccount.class, AdAccountMixin.class);
 		context.setMixInAnnotations(AdCampaign.class, AdCampaignMixin.class);
+
+		context.setMixInAnnotations(BidInfo.class, BidInfoMixin.class);
+		context.setMixInAnnotations(Targeting.class, TargetingMixin.class);
+		context.setMixInAnnotations(TargetingCityEntry.class, TargetingCityEntryMixin.class);
+		context.setMixInAnnotations(TargetingEntry.class, TargetingEntryMixin.class);
+		context.setMixInAnnotations(TargetingLocation.class, TargetingLocationMixin.class);
+		context.setMixInAnnotations(AdSet.class, AdSetMixin.class);
 	}
 }
