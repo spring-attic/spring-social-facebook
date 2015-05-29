@@ -4,6 +4,8 @@ import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCampaign.CampaignStatus;
+import org.springframework.social.facebook.api.ads.AdSet;
+import org.springframework.social.facebook.api.ads.AdSetOperations;
 import org.springframework.social.facebook.api.ads.CampaignOperations;
 import org.springframework.social.facebook.api.impl.AbstractFacebookOperations;
 import org.springframework.util.LinkedMultiValueMap;
@@ -33,6 +35,11 @@ public class CampaignTemplate extends AbstractFacebookOperations implements Camp
 	public AdCampaign getAdCampaign(String id) {
 		requireAuthorization();
 		return graphApi.fetchObject(id, AdCampaign.class, CampaignOperations.AD_CAMPAIGN_FIELDS);
+	}
+
+	public PagedList<AdSet> getAdCampaignSets(String campaignId) {
+		requireAuthorization();
+		return graphApi.fetchConnections(campaignId, "adcampaigns", AdSet.class, AdSetOperations.AD_SET_FIELDS);
 	}
 
 	public String createAdCampaign(String accountId, AdCampaign adCampaign) {

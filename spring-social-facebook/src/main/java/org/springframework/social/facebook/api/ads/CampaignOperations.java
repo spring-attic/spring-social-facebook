@@ -40,6 +40,17 @@ public interface CampaignOperations {
 	AdCampaign getAdCampaign(String id);
 
 	/**
+	 * Get all ad sets from one ad campaign.
+	 *
+	 * @param campaignId the id of the campaign
+	 * @return the list of {@link AdSet} objects
+	 * @throws ApiException                    if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
+	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
+	 */
+	PagedList<AdSet> getAdCampaignSets(String campaignId);
+
+	/**
 	 * Creates new campaign based on adCampaign object.
 	 *
 	 * @param accountId  the ID of the ad account (account_id)

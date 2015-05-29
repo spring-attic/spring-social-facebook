@@ -3,6 +3,7 @@ package org.springframework.social.facebook.api.ads.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.ads.AdSet;
 import org.springframework.social.facebook.api.ads.AdSetOperations;
 import org.springframework.social.facebook.api.impl.AbstractFacebookOperations;
@@ -23,6 +24,16 @@ public class AdSetTemplate extends AbstractFacebookOperations implements AdSetOp
 		this.graphApi = graphApi;
 		this.restTemplate = restTemplate;
 		this.mapper = mapper;
+	}
+
+	public PagedList<AdSet> getAdSets(String accountId) {
+		requireAuthorization();
+		return graphApi.fetchConnections(getAdAccountId(accountId), "adcampaigns", AdSet.class, AdSetOperations.AD_SET_FIELDS);
+	}
+
+	public PagedList<AdSet> getCampaignAdSets(String campaignId) {
+		requireAuthorization();
+		return graphApi.fetchConnections(campaignId, "adcampaigns", AdSet.class, AdSetOperations.AD_SET_FIELDS);
 	}
 
 	public AdSet getAdSet(String id) {

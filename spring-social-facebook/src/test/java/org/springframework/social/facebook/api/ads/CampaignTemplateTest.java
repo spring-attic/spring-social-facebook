@@ -102,6 +102,68 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 	}
 
 	@Test
+	public void getAdCampaignSets() throws Exception {
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/600123456789/adcampaigns?fields=account_id%2Cbid_info%2Cbid_type%2Cbudget_remaining%2Ccampaign_group_id%2Ccampaign_status%2Ccreated_time%2Ccreative_sequence%2Cdaily_budget%2Cend_time%2Cid%2Cis_autobid%2Clifetime_budget%2Cname%2Cpromoted_object%2Cstart_time%2Ctargeting%2Cupdated_time"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("ad-sets"), MediaType.APPLICATION_JSON));
+
+		PagedList<AdSet> adSets = facebookAds.campaignOperations().getAdCampaignSets("600123456789");
+		assertEquals(2, adSets.size());
+		assertEquals("123456789", adSets.get(0).getAccountId());
+		assertEquals(AdSet.BidType.ABSOLUTE_OCPM, adSets.get(0).getBidType());
+		assertEquals(37407, adSets.get(0).getBudgetRemaining());
+		assertEquals("600123456789", adSets.get(0).getCampaignId());
+		assertEquals(AdSet.AdSetStatus.PAUSED, adSets.get(0).getStatus());
+		assertEquals(toDate("2015-05-27T11:58:34+0200"), adSets.get(0).getCreatedTime());
+		assertEquals(40000, adSets.get(0).getDailyBudget());
+		assertEquals(toDate("2015-05-29T22:26:40+0200"), adSets.get(0).getEndTime());
+		assertEquals("700123456789", adSets.get(0).getId());
+		assertTrue(adSets.get(0).isAutobid());
+		assertEquals(0, adSets.get(0).getLifetimeBudget());
+		assertEquals("Test AdSet", adSets.get(0).getName());
+		assertEquals(toDate("2015-05-27T11:58:34+0200"), adSets.get(0).getStartTime());
+		assertEquals(Integer.valueOf(65), adSets.get(0).getTargeting().getAgeMax());
+		assertEquals(Integer.valueOf(18), adSets.get(0).getTargeting().getAgeMin());
+		assertEquals("BR", adSets.get(0).getTargeting().getGeoLocations().getCountries().get(0));
+		assertEquals(TargetingLocation.LocationType.HOME, adSets.get(0).getTargeting().getGeoLocations().getLocationTypes().get(0));
+		assertEquals(toDate("2015-05-27T11:58:34+0200"), adSets.get(0).getUpdatedTime());
+
+		assertEquals("123456789", adSets.get(1).getAccountId());
+		assertEquals(AdSet.BidType.ABSOLUTE_OCPM, adSets.get(1).getBidType());
+		assertEquals(0, adSets.get(1).getBudgetRemaining());
+		assertEquals("601123456789", adSets.get(1).getCampaignId());
+		assertEquals(AdSet.AdSetStatus.ACTIVE, adSets.get(1).getStatus());
+		assertEquals(toDate("2015-04-10T09:28:54+0200"), adSets.get(1).getCreatedTime());
+		assertEquals(0, adSets.get(1).getDailyBudget());
+		assertEquals(toDate("2015-04-13T09:19:00+0200"), adSets.get(1).getEndTime());
+		assertEquals("701123456789", adSets.get(1).getId());
+		assertTrue(adSets.get(1).isAutobid());
+		assertEquals(200, adSets.get(1).getLifetimeBudget());
+		assertEquals("Real ad set", adSets.get(1).getName());
+		assertEquals(toDate("2015-04-12T09:19:00+0200"), adSets.get(1).getStartTime());
+		assertEquals(Integer.valueOf(20), adSets.get(1).getTargeting().getAgeMax());
+		assertEquals(Integer.valueOf(18), adSets.get(1).getTargeting().getAgeMin());
+		assertEquals(6004854404172L, adSets.get(1).getTargeting().getBehaviors().get(0).getId());
+		assertEquals("Technology late adopters", adSets.get(1).getTargeting().getBehaviors().get(0).getName());
+		assertEquals(Targeting.Gender.MALE, adSets.get(1).getTargeting().getGenders().get(0));
+		assertEquals("PL", adSets.get(1).getTargeting().getGeoLocations().getCountries().get(0));
+		assertEquals(TargetingLocation.LocationType.HOME, adSets.get(1).getTargeting().getGeoLocations().getLocationTypes().get(0));
+		assertEquals(TargetingLocation.LocationType.RECENT, adSets.get(1).getTargeting().getGeoLocations().getLocationTypes().get(1));
+		assertEquals(6003629266583L, adSets.get(1).getTargeting().getInterests().get(0).getId());
+		assertEquals("Hard drives", adSets.get(1).getTargeting().getInterests().get(0).getName());
+		assertEquals(Targeting.PageType.FEED, adSets.get(1).getTargeting().getPageTypes().get(0));
+		assertEquals(toDate("2015-04-10T13:32:09+0200"), adSets.get(1).getUpdatedTime());
+
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void getAdCampaignSets_unauthorized() throws Exception {
+		unauthorizedFacebookAds.campaignOperations().getAdCampaignSets("600123456789");
+	}
+
+	@Test
 	public void createCampaign_withNameOnly() throws Exception {
 		String requestBody = "name=Campaign+created+by+SpringSocialFacebook";
 		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaign_groups"))
