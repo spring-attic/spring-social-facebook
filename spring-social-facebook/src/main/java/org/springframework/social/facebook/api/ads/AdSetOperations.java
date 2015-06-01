@@ -17,6 +17,15 @@ public interface AdSetOperations {
 			"start_time", "targeting", "updated_time"
 	};
 
+	static final String[] AD_SET_INSIGHT_FIELDS = {
+			"account_id", "account_name", "date_start", "date_stop", "actions_per_impression", "clicks", "unique_clicks",
+			"cost_per_result", "cost_per_total_action", "cpc", "cost_per_unique_click", "cpm", "cpp", "ctr", "unique_ctr",
+			"frequency", "impressions", "unique_impressions", "objective", "reach", "result_rate", "results", "roas",
+			"social_clicks", "unique_social_clicks", "social_impressions", "unique_social_impressions", "social_reach",
+			"spend", "today_spend", "total_action_value", "total_actions", "total_unique_actions", "actions",
+			"unique_actions", "cost_per_action_type", "video_start_actions"
+	};
+
 	/**
 	 * Gets all ad sets from ad account given by account id.
 	 *
@@ -49,6 +58,17 @@ public interface AdSetOperations {
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
 	AdSet getAdSet(String id);
+
+	/**
+	 * Get the insight for the ad set.
+	 *
+	 * @param adSetId the id of the ad set
+	 * @return the {@ink Insight} object
+	 * @throws ApiException                    if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
+	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
+	 */
+	AdInsight getAdSetInsight(String adSetId);
 
 	/**
 	 * Creates an ad set in the given account
