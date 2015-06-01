@@ -132,7 +132,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals("123456789", adSets.get(1).getAccountId());
 		assertEquals(AdSet.BidType.ABSOLUTE_OCPM, adSets.get(1).getBidType());
 		assertEquals(0, adSets.get(1).getBudgetRemaining());
-		assertEquals("601123456789", adSets.get(1).getCampaignId());
+		assertEquals("600123456789", adSets.get(1).getCampaignId());
 		assertEquals(AdSet.AdSetStatus.ACTIVE, adSets.get(1).getStatus());
 		assertEquals(toDate("2015-04-10T09:28:54+0200"), adSets.get(1).getCreatedTime());
 		assertEquals(0, adSets.get(1).getDailyBudget());
@@ -372,5 +372,82 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 	@Test(expected = NotAuthorizedException.class)
 	public void deleteAdCampaign_unauthorized() throws Exception {
 		unauthorizedFacebookAds.campaignOperations().deleteAdCampaign("600123456789");
+	}
+
+	@Test
+	public void getAdCampaignInsights() throws Exception {
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/600123456789/insights?fields=account_id%2Caccount_name%2Cdate_start%2Cdate_stop%2Cactions_per_impression%2Cclicks%2Cunique_clicks%2Ccost_per_result%2Ccost_per_total_action%2Ccpc%2Ccost_per_unique_click%2Ccpm%2Ccpp%2Cctr%2Cunique_ctr%2Cfrequency%2Cimpressions%2Cunique_impressions%2Cobjective%2Creach%2Cresult_rate%2Cresults%2Croas%2Csocial_clicks%2Cunique_social_clicks%2Csocial_impressions%2Cunique_social_impressions%2Csocial_reach%2Cspend%2Ctoday_spend%2Ctotal_action_value%2Ctotal_actions%2Ctotal_unique_actions%2Cactions%2Cunique_actions%2Ccost_per_action_type%2Cvideo_start_actions"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("ad-campaign-insights"), MediaType.APPLICATION_JSON));
+
+		AdInsight insight = facebookAds.campaignOperations().getAdCampaignInsight("600123456789");
+		assertEquals("123456789", insight.getAccountId());
+		assertEquals("Test account name", insight.getAccountName());
+		assertEquals(0.016042780748663, insight.getActionsPerImpression(), EPSILON);
+		assertEquals(8, insight.getClicks());
+		assertEquals(5, insight.getUniqueClicks());
+		assertEquals(0.66666666666667, insight.getCostPerResult(), EPSILON);
+		assertEquals(0.66666666666667, insight.getCostPerTotalAction(), EPSILON);
+		assertEquals(0.25, insight.getCostPerClick(), EPSILON);
+		assertEquals(0.4, insight.getCostPerUniqueClick(), EPSILON);
+		assertEquals(10.695187165775, insight.getCpm(), EPSILON);
+		assertEquals(10.869565217391, insight.getCpp(), EPSILON);
+		assertEquals(4.2780748663102, insight.getCtr(), EPSILON);
+		assertEquals(2.7173913043478, insight.getUniqueCtr(), EPSILON);
+		assertEquals(1.0163043478261, insight.getFrequency(), EPSILON);
+		assertEquals(187, insight.getImpressions());
+		assertEquals(184, insight.getUniqueImpressions());
+		assertEquals(184, insight.getReach());
+		assertEquals(1.6042780748663, insight.getResultRate(), EPSILON);
+		assertEquals(3, insight.getResults());
+		assertEquals(0, insight.getRoas());
+		assertEquals(0, insight.getSocialClicks());
+		assertEquals(0, insight.getUniqueSocialClicks());
+		assertEquals(0, insight.getSocialImpressions());
+		assertEquals(0, insight.getUniqueSocialImpressions());
+		assertEquals(0, insight.getSocialReach());
+		assertEquals(2, insight.getSpend());
+		assertEquals(0, insight.getTodaySpend());
+		assertEquals(0, insight.getTotalActionValue());
+		assertEquals(3, insight.getTotalActions());
+		assertEquals(2, insight.getTotalUniqueActions());
+		assertEquals(4, insight.getActions().size());
+		assertEquals("comment", insight.getActions().get(0).getActionType());
+		assertEquals(2, insight.getActions().get(0).getValue(), EPSILON);
+		assertEquals("post_like", insight.getActions().get(1).getActionType());
+		assertEquals(1, insight.getActions().get(1).getValue(), EPSILON);
+		assertEquals("page_engagement", insight.getActions().get(2).getActionType());
+		assertEquals(3, insight.getActions().get(2).getValue(), EPSILON);
+		assertEquals("post_engagement", insight.getActions().get(3).getActionType());
+		assertEquals(3, insight.getActions().get(3).getValue(), EPSILON);
+		assertEquals(4, insight.getUniqueActions().size());
+		assertEquals("comment", insight.getUniqueActions().get(0).getActionType());
+		assertEquals(1, insight.getUniqueActions().get(0).getValue(), EPSILON);
+		assertEquals("post_like", insight.getUniqueActions().get(1).getActionType());
+		assertEquals(1, insight.getUniqueActions().get(1).getValue(), EPSILON);
+		assertEquals("page_engagement", insight.getUniqueActions().get(2).getActionType());
+		assertEquals(2, insight.getUniqueActions().get(2).getValue(), EPSILON);
+		assertEquals("post_engagement", insight.getUniqueActions().get(3).getActionType());
+		assertEquals(2, insight.getUniqueActions().get(3).getValue(), EPSILON);
+		assertEquals(4, insight.getCostPerActionType().size());
+		assertEquals("comment", insight.getCostPerActionType().get(0).getActionType());
+		assertEquals(1, insight.getCostPerActionType().get(0).getValue(), EPSILON);
+		assertEquals("post_like", insight.getCostPerActionType().get(1).getActionType());
+		assertEquals(2, insight.getCostPerActionType().get(1).getValue(), EPSILON);
+		assertEquals("page_engagement", insight.getCostPerActionType().get(2).getActionType());
+		assertEquals(0.66666666666667, insight.getCostPerActionType().get(2).getValue(), EPSILON);
+		assertEquals("post_engagement", insight.getCostPerActionType().get(3).getActionType());
+		assertEquals(0.66666666666667, insight.getCostPerActionType().get(3).getValue(), EPSILON);
+		assertEquals(1, insight.getVideoStartActions().size());
+		assertEquals("video_view", insight.getVideoStartActions().get(0).getActionType());
+		assertEquals(0, insight.getVideoStartActions().get(0).getValue(), EPSILON);
+
+		mockServer.verify();
+	}
+
+	@Test(expected = NotAuthorizedException.class)
+	public void getAdCampaignInsights_unauthorized() throws Exception {
+		unauthorizedFacebookAds.campaignOperations().getAdCampaignInsight("600123456789");
 	}
 }
