@@ -30,14 +30,14 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("ad-sets"), MediaType.APPLICATION_JSON));
 
-		PagedList<AdSet> adSets = facebookAds.adSetOperations().getAdSets("123456789");
+		PagedList<AdSet> adSets = facebookAds.adSetOperations().getAccountAdSets("123456789");
 		verifyAdSets(adSets);
 		mockServer.verify();
 	}
 
 	@Test(expected = NotAuthorizedException.class)
 	public void getAdSets_unauthorized() throws Exception {
-		unauthorizedFacebookAds.adSetOperations().getAdSets("123456789");
+		unauthorizedFacebookAds.adSetOperations().getAccountAdSets("123456789");
 	}
 
 	@Test
@@ -325,7 +325,7 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
-				.andRespond(withSuccess("{\"success\": \"true\"}", MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess("{\"success\": true}", MediaType.APPLICATION_JSON));
 
 		AdSet adSet = new AdSet();
 		adSet.setName("New AdSet name");

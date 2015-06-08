@@ -35,7 +35,7 @@ public interface AdSetOperations {
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
-	PagedList<AdSet> getAdSets(String accountId);
+	PagedList<AdSet> getAccountAdSets(String accountId);
 
 	/**
 	 * Get all ad sets for the given campaign
@@ -63,7 +63,7 @@ public interface AdSetOperations {
 	 * Get the insight for the ad set.
 	 *
 	 * @param adSetId the id of the ad set
-	 * @return the {@ink Insight} object
+	 * @return the {@link AdInsight} object
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.

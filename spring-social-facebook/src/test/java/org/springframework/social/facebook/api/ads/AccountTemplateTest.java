@@ -285,7 +285,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(method(POST))
 				.andExpect(content().string(requestBody))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
-				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess("{\"success\":true}", MediaType.APPLICATION_JSON));
 		facebookAds.accountOperations().addUserToAdAccount("123456789", "123456", AdUserRole.ADVERTISER);
 		mockServer.verify();
 	}
@@ -302,7 +302,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
-				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess("{\"success\":true}", MediaType.APPLICATION_JSON));
 		facebookAds.accountOperations().deleteUserFromAdAccount("123456789", "123456");
 		mockServer.verify();
 	}
@@ -394,7 +394,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
-				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess("{\"success\":true}", MediaType.APPLICATION_JSON));
 		AdAccount adAccount = new AdAccount();
 		adAccount.setName("New Test Name");
 		boolean updateStatus = facebookAds.accountOperations().updateAdAccount("123456789", adAccount);
@@ -409,7 +409,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
-				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess("{\"success\":true}", MediaType.APPLICATION_JSON));
 		AdAccount adAccount = new AdAccount();
 		adAccount.setSpendCap("10000");
 		boolean updateStatus = facebookAds.accountOperations().updateAdAccount("123456789", adAccount);
@@ -424,7 +424,7 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
-				.andRespond(withSuccess("{\"success\":\"true\"}", MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess("{\"success\":true}", MediaType.APPLICATION_JSON));
 		AdAccount adAccount = new AdAccount();
 		adAccount.setName("Super cool name");
 		adAccount.setSpendCap("11111");

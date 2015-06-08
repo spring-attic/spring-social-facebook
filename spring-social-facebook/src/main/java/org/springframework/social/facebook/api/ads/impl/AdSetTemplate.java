@@ -27,7 +27,7 @@ public class AdSetTemplate extends AbstractFacebookOperations implements AdSetOp
 		this.mapper = mapper;
 	}
 
-	public PagedList<AdSet> getAdSets(String accountId) {
+	public PagedList<AdSet> getAccountAdSets(String accountId) {
 		requireAuthorization();
 		return graphApi.fetchConnections(getAdAccountId(accountId), "adcampaigns", AdSet.class, AdSetOperations.AD_SET_FIELDS);
 	}
