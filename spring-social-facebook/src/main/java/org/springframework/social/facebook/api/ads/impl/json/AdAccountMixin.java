@@ -201,10 +201,14 @@ public abstract class AdAccountMixin extends FacebookObjectMixin {
 			mapper.registerModule(new FacebookModule());
 			jp.setCodec(mapper);
 			if (jp.hasCurrentToken()) {
-				JsonNode dataNode = jp.readValueAs(JsonNode.class).get("data");
-				if (dataNode != null) {
-					return (List<AdUser>) mapper.reader(new TypeReference<List<AdUser>>() {
-					}).readValue(dataNode);
+				try {
+					JsonNode dataNode = jp.readValueAs(JsonNode.class).get("data");
+					if (dataNode != null) {
+						return (List<AdUser>) mapper.reader(new TypeReference<List<AdUser>>() {
+						}).readValue(dataNode);
+					}
+				} catch (IOException e) {
+					return Collections.emptyList();
 				}
 			}
 

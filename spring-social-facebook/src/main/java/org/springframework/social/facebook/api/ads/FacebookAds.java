@@ -11,4 +11,5 @@ import org.springframework.social.facebook.api.ads.impl.FacebookAdsTemplate;
 public interface FacebookAds {
 	AccountOperations accountOperations();
 	CampaignOperations campaignOperations();
+	AdSetOperations adSetOperations();
 }

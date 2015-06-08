@@ -26,6 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public abstract class FacebookObjectMixin {
 
 	@JsonAnySetter
-	abstract void add(String key, Object value);
+	protected abstract void add(String key, Object value);
 
 }

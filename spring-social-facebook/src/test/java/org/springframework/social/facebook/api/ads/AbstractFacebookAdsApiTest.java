@@ -18,6 +18,7 @@ import java.util.Locale;
 public class AbstractFacebookAdsApiTest {
 	protected static final String ACCESS_TOKEN = "someAccessToken";
 	private static final DateFormat FB_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
+	protected static final double EPSILON = 0.000000000001;
 	protected FacebookAdsTemplate facebookAds;
 	protected FacebookAdsTemplate unauthorizedFacebookAds;
 	protected MockRestServiceServer mockServer;

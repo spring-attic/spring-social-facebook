@@ -3,21 +3,21 @@ package org.springframework.social.facebook.api.ads;
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
-import org.springframework.social.facebook.api.InvalidCampaignStatusException;
 import org.springframework.social.facebook.api.PagedList;
 
 /**
- * Defines operations for working with Facebook Ad Campaign object.
+ * Defines operations for working with Facebook Ad set object.
  *
  * @author Sebastian Górecki
  */
-public interface CampaignOperations {
-
-	static final String[] AD_CAMPAIGN_FIELDS = {
-			"id", "account_id", "buying_type", "campaign_group_status", "name", "objective", "spend_cap"
+public interface AdSetOperations {
+	static final String[] AD_SET_FIELDS = {
+			"account_id", "bid_info", "bid_type", "budget_remaining", "campaign_group_id", "campaign_status", "created_time",
+			"creative_sequence", "daily_budget", "end_time", "id", "is_autobid", "lifetime_budget", "name", "promoted_object",
+			"start_time", "targeting", "updated_time"
 	};
 
-	static final String[] AD_CAMPAIGN_INSIGHT_FIELDS = {
+	static final String[] AD_SET_INSIGHT_FIELDS = {
 			"account_id", "account_name", "date_start", "date_stop", "actions_per_impression", "clicks", "unique_clicks",
 			"cost_per_result", "cost_per_total_action", "cpc", "cost_per_unique_click", "cpm", "cpp", "ctr", "unique_ctr",
 			"frequency", "impressions", "unique_impressions", "objective", "reach", "result_rate", "results", "roas",
@@ -27,81 +27,80 @@ public interface CampaignOperations {
 	};
 
 	/**
-	 * Gets all ad campaigns belonging to user.
+	 * Gets all ad sets from ad account given by account id.
 	 *
-	 * @param accountId the ID of the ad account (account_id)
-	 * @return the list of {@link AdCampaign} objects
-	 * @throws ApiException                    if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
-	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
-	 */
-	PagedList<AdCampaign> getAdCampaigns(String accountId);
-
-	/**
-	 * Get the campaign by given id.
-	 *
-	 * @param id the id of the campaign
-	 * @return the {@link AdCampaign} object.
-	 * @throws ApiException                    if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
-	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
-	 */
-	AdCampaign getAdCampaign(String id);
-
-	/**
-	 * Get all ad sets from one ad campaign.
-	 *
-	 * @param campaignId the id of the campaign
+	 * @param accountId the ID of an ad account
 	 * @return the list of {@link AdSet} objects
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
-	PagedList<AdSet> getAdCampaignSets(String campaignId);
+	PagedList<AdSet> getAccountAdSets(String accountId);
 
 	/**
-	 * Get the insight of the ad campaign.
+	 * Get all ad sets for the given campaign
 	 *
-	 * @param campaignId the id of the campaign
+	 * @param campaignId the id of the ad campaing
+	 * @return the list of {@link AdSet} objects.
+	 * @throws ApiException                    if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
+	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
+	 */
+	PagedList<AdSet> getCampaignAdSets(String campaignId);
+
+	/**
+	 * Gets ad set by given id.
+	 *
+	 * @param id the id of the ad set
+	 * @return the {@link AdSet} object
+	 * @throws ApiException                    if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
+	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
+	 */
+	AdSet getAdSet(String id);
+
+	/**
+	 * Get the insight for the ad set.
+	 *
+	 * @param adSetId the id of the ad set
 	 * @return the {@link AdInsight} object
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
-	AdInsight getAdCampaignInsight(String campaignId);
+	AdInsight getAdSetInsight(String adSetId);
 
 	/**
-	 * Creates new campaign based on adCampaign object.
+	 * Creates an ad set in the given account
 	 *
-	 * @param accountId  the ID of the ad account (account_id)
-	 * @param adCampaign the ad campaign object
-	 * @return the id of the created ad campaign
+	 * @param accountId the account id
+	 * @param adSet     the ad set object
+	 * @return the id of the new ad set.
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
-	 * @throws InvalidCampaignStatusException  if you provided wrong status for the new campaign
 	 */
-	String createAdCampaign(String accountId, AdCampaign adCampaign);
+	String createAdSet(String accountId, AdSet adSet);
 
 	/**
-	 * Updates the ad campaign with information in adCampaign object.
+	 * Updates the ad set.
 	 *
-	 * @param campaignId the ID of the ad campaign to update
-	 * @param adCampaign the ad campaign object
+	 * @param adSetId the id of the ad set
+	 * @param adSet   the ad set object
 	 * @return true if update was successful
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
-	boolean updateAdCampaign(String campaignId, AdCampaign adCampaign);
+	boolean updateAdSet(String adSetId, AdSet adSet);
 
 	/**
-	 * Deletes the ad campaign given by id.
+	 * Deletes ad set given by id.
 	 *
-	 * @param campaignId the id of the campaign to delete
+	 * @param adSetId the id of the ad set
 	 * @throws ApiException                    if there is an error while communicating with Facebook.
 	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
-	void deleteAdCampaign(String campaignId);
+	void deleteAdSet(String adSetId);
 }

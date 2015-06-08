@@ -278,8 +278,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	public boolean update(String objectId, MultiValueMap<String, Object> data) {
 		MultiValueMap<String, Object> requestData = new LinkedMultiValueMap<String, Object>(data);
 		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId).build();
-		Map<String, String> response = getRestTemplate().postForObject(uri, requestData, Map.class);
-		return Boolean.valueOf(response.get("success"));
+		Map<String, Object> response = getRestTemplate().postForObject(uri, requestData, Map.class);
+		return (Boolean) response.get("success");
 	}
 
 	public void delete(String objectId) {
