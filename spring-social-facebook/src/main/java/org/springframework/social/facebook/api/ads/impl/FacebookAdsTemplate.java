@@ -15,6 +15,7 @@ public class FacebookAdsTemplate extends FacebookTemplate implements FacebookAds
 	private AccountOperations accountOperations;
 	private CampaignOperations campaignOperations;
 	private AdSetOperations adSetOperations;
+	private CreativeOperations creativeOperations;
 
 	public FacebookAdsTemplate() {
 		super(null);
@@ -36,9 +37,12 @@ public class FacebookAdsTemplate extends FacebookTemplate implements FacebookAds
 
 	public AdSetOperations adSetOperations() { return adSetOperations; }
 
+	public CreativeOperations creativeOperations() { return creativeOperations; }
+
 	private void initSubApis() {
 		accountOperations = new AccountTemplate(this, getRestTemplate(), isAuthorized());
 		campaignOperations = new CampaignTemplate(this, getRestTemplate(), isAuthorized());
 		adSetOperations = new AdSetTemplate(this, getRestTemplate(), getJsonMessageConverter().getObjectMapper(), isAuthorized());
+		creativeOperations = new CreativeTemplate(this, getRestTemplate(), isAuthorized());
 	}
 }

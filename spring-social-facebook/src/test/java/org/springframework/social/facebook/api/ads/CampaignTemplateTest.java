@@ -364,7 +364,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
-				.andRespond(withSuccess("{\"status\": true}", MediaType.APPLICATION_JSON));
+				.andRespond(withSuccess("{\"success\": true}", MediaType.APPLICATION_JSON));
 		facebookAds.campaignOperations().deleteAdCampaign("600123456789");
 		mockServer.verify();
 	}
