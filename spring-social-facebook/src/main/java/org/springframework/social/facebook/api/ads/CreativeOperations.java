@@ -17,15 +17,6 @@ public interface CreativeOperations {
 			"object_url", "run_status", "title", "url_tags", "thumbnail_url", "object_type", "id"
 	};
 
-	static final String[] AD_CREATIVE_INSIGHT_FIELDS = {
-			"account_id", "account_name", "date_start", "date_stop", "actions_per_impression", "clicks", "unique_clicks",
-			"cost_per_result", "cost_per_total_action", "cpc", "cost_per_unique_click", "cpm", "cpp", "ctr", "unique_ctr",
-			"frequency", "impressions", "unique_impressions", "objective", "reach", "result_rate", "results", "roas",
-			"social_clicks", "unique_social_clicks", "social_impressions", "unique_social_impressions", "social_reach",
-			"spend", "today_spend", "total_action_value", "total_actions", "total_unique_actions", "actions",
-			"unique_actions", "cost_per_action_type", "video_start_actions"
-	};
-
 	/**
 	 * Retrieve an account's ad creatives.
 	 *
@@ -58,17 +49,6 @@ public interface CreativeOperations {
 	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
 	 */
 	AdCreative getAdCreative(String creativeId);
-
-	/**
-	 * Get insights about ad creative.
-	 *
-	 * @param creativeId the id of the ad creative.
-	 * @return the {@link AdInsight} object.
-	 * @throws ApiException                    if there is an error while communicating with Facebook.
-	 * @throws InsufficientPermissionException if the user has not granted "ads_read" or "ads_management" permission.
-	 * @throws MissingAuthorizationException   if FacebookAdsTemplate was not created with an access token.
-	 */
-	AdInsight getAdCreativeInsight(String creativeId);
 
 	/**
 	 * Create an ad creative in the given account.

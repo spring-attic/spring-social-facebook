@@ -40,12 +40,6 @@ public class CreativeTemplate extends AbstractFacebookOperations implements Crea
 		return graphApi.fetchObject(creativeId, AdCreative.class, CreativeOperations.AD_CREATIVE_FIELDS);
 	}
 
-	public AdInsight getAdCreativeInsight(String creativeId) {
-		requireAuthorization();
-		PagedList<AdInsight> insights = graphApi.fetchConnections(creativeId, "insights", AdInsight.class, CreativeOperations.AD_CREATIVE_INSIGHT_FIELDS);
-		return insights.get(0);
-	}
-
 	public String createAdCreative(String accountId, AdCreative creative) {
 		requireAuthorization();
 		MultiValueMap<String, Object> data = mapCommonFields(creative);
@@ -61,9 +55,7 @@ public class CreativeTemplate extends AbstractFacebookOperations implements Crea
 
 	public void deleteAdCreative(String creativeId) {
 		requireAuthorization();
-		MultiValueMap<String, Object> data = new LinkedMultiValueMap<String, Object>();
-		data.add("run_status", AdCreative.AdCreativeStatus.DELETED.name());
-		graphApi.post(creativeId, data);
+		restTemplate.delete(GraphApi.GRAPH_API_URL + creativeId);
 	}
 
 	private MultiValueMap<String, Object> mapCommonFields(AdCreative creative) {
