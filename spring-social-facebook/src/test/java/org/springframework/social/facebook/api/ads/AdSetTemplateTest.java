@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.ads.AdSet.AdSetStatus;
-import org.springframework.social.facebook.api.ads.AdSet.BidType;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

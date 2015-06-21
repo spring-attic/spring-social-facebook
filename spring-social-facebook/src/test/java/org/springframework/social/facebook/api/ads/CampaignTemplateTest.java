@@ -6,8 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.InvalidCampaignStatusException;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.ads.AbstractFacebookAdsApiTest;
-import org.springframework.social.facebook.api.ads.AdCampaign;
 import org.springframework.social.facebook.api.ads.AdCampaign.BuyingType;
 import org.springframework.social.facebook.api.ads.AdCampaign.CampaignObjective;
 import org.springframework.social.facebook.api.ads.AdCampaign.CampaignStatus;
@@ -111,7 +109,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 		PagedList<AdSet> adSets = facebookAds.campaignOperations().getAdCampaignSets("600123456789");
 		assertEquals(2, adSets.size());
 		assertEquals("123456789", adSets.get(0).getAccountId());
-		assertEquals(AdSet.BidType.ABSOLUTE_OCPM, adSets.get(0).getBidType());
+		assertEquals(BidType.ABSOLUTE_OCPM, adSets.get(0).getBidType());
 		assertEquals(37407, adSets.get(0).getBudgetRemaining());
 		assertEquals("600123456789", adSets.get(0).getCampaignId());
 		assertEquals(AdSet.AdSetStatus.PAUSED, adSets.get(0).getStatus());
@@ -130,7 +128,7 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals(toDate("2015-05-27T11:58:34+0200"), adSets.get(0).getUpdatedTime());
 
 		assertEquals("123456789", adSets.get(1).getAccountId());
-		assertEquals(AdSet.BidType.ABSOLUTE_OCPM, adSets.get(1).getBidType());
+		assertEquals(BidType.ABSOLUTE_OCPM, adSets.get(1).getBidType());
 		assertEquals(0, adSets.get(1).getBudgetRemaining());
 		assertEquals("600123456789", adSets.get(1).getCampaignId());
 		assertEquals(AdSet.AdSetStatus.ACTIVE, adSets.get(1).getStatus());

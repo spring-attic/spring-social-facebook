@@ -145,10 +145,6 @@ public class AdSet extends FacebookObject {
 		return updatedTime;
 	}
 
-	public enum BidType {
-		CPM, CPC, MULTI_PREMIUM, ABSOLUTE_OCPM, CPA, UNKNOWN
-	}
-
 	public enum AdSetStatus {
 		ACTIVE, PAUSED, ARCHIVED, DELETED, CAMPAIGN_GROUP_PAUSED, UNKNOWN
 	}

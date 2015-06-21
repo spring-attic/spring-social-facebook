@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.social.facebook.api.ads.AdSet.AdSetStatus;
-import org.springframework.social.facebook.api.ads.AdSet.BidType;
+import org.springframework.social.facebook.api.ads.BidType;
 import org.springframework.social.facebook.api.ads.BidInfo;
 import org.springframework.social.facebook.api.ads.Targeting;
 import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
