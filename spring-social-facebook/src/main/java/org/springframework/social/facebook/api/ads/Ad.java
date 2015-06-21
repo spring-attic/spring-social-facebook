@@ -99,10 +99,9 @@ public class Ad {
 		@JsonCreator
 		public static AdStatus fromValue(String value) {
 			for (AdStatus status : AdStatus.values()) {
-				if (value.equals(status.name())) {
+				if (status.name().equals(value)) {
 					return status;
 				}
-				return UNKNOWN;
 			}
 			return UNKNOWN;
 		}

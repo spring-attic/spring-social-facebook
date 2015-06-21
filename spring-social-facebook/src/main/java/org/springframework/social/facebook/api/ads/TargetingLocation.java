@@ -65,7 +65,7 @@ public class TargetingLocation {
 		}
 
 		@JsonCreator
-		public static LocationType forValue(String value) {
+		public static LocationType fromValue(String value) {
 			for (LocationType type : LocationType.values()) {
 				if (type.getValue().equals(value)) return type;
 			}

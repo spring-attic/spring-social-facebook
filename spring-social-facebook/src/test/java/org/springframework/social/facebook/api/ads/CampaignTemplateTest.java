@@ -10,9 +10,7 @@ import org.springframework.social.facebook.api.ads.AdCampaign.BuyingType;
 import org.springframework.social.facebook.api.ads.AdCampaign.CampaignObjective;
 import org.springframework.social.facebook.api.ads.AdCampaign.CampaignStatus;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
@@ -91,7 +89,25 @@ public class CampaignTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals(CampaignStatus.UNKNOWN, campaign.getStatus());
 		assertEquals("The test campaign name", campaign.getName());
 		assertEquals(CampaignObjective.UNKNOWN, campaign.getObjective());
+		mockServer.verify();
+	}
 
+	@Test
+	public void getCampaign_withEmptyBuyingType() throws Exception {
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/609123456789?fields=id%2Caccount_id%2Cbuying_type%2Ccampaign_group_status%2Cname%2Cobjective%2Cspend_cap"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("ad-campaign-empty-buying-type"), MediaType.APPLICATION_JSON));
+
+		AdCampaign campaign = facebookAds.campaignOperations().getAdCampaign("609123456789");
+		assertEquals("609123456789", campaign.getId());
+		assertEquals("123456789", campaign.getAccountId());
+		assertNull(campaign.getBuyingType());
+		assertEquals(CampaignStatus.ACTIVE, campaign.getStatus());
+		assertEquals("The test campaign name", campaign.getName());
+		assertEquals(CampaignObjective.POST_ENGAGEMENT, campaign.getObjective());
+		assertEquals(1000, campaign.getSpendCap());
+		mockServer.verify();
 	}
 
 	@Test(expected = NotAuthorizedException.class)

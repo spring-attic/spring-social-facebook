@@ -134,9 +134,11 @@ public class AdCreative {
 		PAGE, DOMAIN, EVENT, STORE_ITEM, OFFER, SHARE, PHOTO, STATUS, VIDEO, APPLICATION, INVALID, UNKNOWN;
 
 		@JsonCreator
-		public static AdCreativeType forValue(String value) {
+		public static AdCreativeType fromValue(String value) {
 			for (AdCreativeType type : AdCreativeType.values()) {
-				if (type.name().equals(value)) return type;
+				if (type.name().equals(value)) {
+					return type;
+				}
 			}
 			return UNKNOWN;
 		}
@@ -147,9 +149,11 @@ public class AdCreative {
 		CAMPAIGN_PAUSED, ADGROUP_PAUSED, CAMPAIGN_GROUP_PAUSED, ARCHIVED, UNKNOWN;
 
 		@JsonCreator
-		public static AdCreativeStatus forValue(String value) {
+		public static AdCreativeStatus fromValue(String value) {
 			for (AdCreativeStatus status : AdCreativeStatus.values()) {
-				if (status.name().equals(value)) return status;
+				if (status.name().equals(value)) {
+					return status;
+				}
 			}
 			return UNKNOWN;
 		}

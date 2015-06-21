@@ -130,6 +130,37 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals(toDate("2015-04-10T13:32:09+0200"), adSet.getUpdatedTime());
 	}
 
+	@Test
+	public void getAdSet_wrongStatus() throws Exception {
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/709123456789?fields=account_id%2Cbid_info%2Cbid_type%2Cbudget_remaining%2Ccampaign_group_id%2Ccampaign_status%2Ccreated_time%2Ccreative_sequence%2Cdaily_budget%2Cend_time%2Cid%2Cis_autobid%2Clifetime_budget%2Cname%2Cpromoted_object%2Cstart_time%2Ctargeting%2Cupdated_time"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("ad-set-wrong-status"), MediaType.APPLICATION_JSON));
+		AdSet adSet = facebookAds.adSetOperations().getAdSet("709123456789");
+		assertEquals("709123456789", adSet.getId());
+		assertEquals("123456789", adSet.getAccountId());
+		assertEquals("600123456789", adSet.getCampaignId());
+		assertEquals("Test AdSet", adSet.getName());
+		assertEquals(AdSetStatus.UNKNOWN, adSet.getStatus());
+		mockServer.verify();
+	}
+
+	@Test
+	public void getAdSet_wrongBidType() throws Exception {
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/710123456789?fields=account_id%2Cbid_info%2Cbid_type%2Cbudget_remaining%2Ccampaign_group_id%2Ccampaign_status%2Ccreated_time%2Ccreative_sequence%2Cdaily_budget%2Cend_time%2Cid%2Cis_autobid%2Clifetime_budget%2Cname%2Cpromoted_object%2Cstart_time%2Ctargeting%2Cupdated_time"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("ad-set-wrong-bid-type"), MediaType.APPLICATION_JSON));
+		AdSet adSet = facebookAds.adSetOperations().getAdSet("710123456789");
+		assertEquals("710123456789", adSet.getId());
+		assertEquals("123456789", adSet.getAccountId());
+		assertEquals("600123456789", adSet.getCampaignId());
+		assertEquals("Test AdSet", adSet.getName());
+		assertEquals(AdSetStatus.ACTIVE, adSet.getStatus());
+		assertEquals(BidType.UNKNOWN, adSet.getBidType());
+		mockServer.verify();
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getAdSet_unauthorized() throws Exception {
 		unauthorizedFacebookAds.adSetOperations().getAdSet("700123456789");

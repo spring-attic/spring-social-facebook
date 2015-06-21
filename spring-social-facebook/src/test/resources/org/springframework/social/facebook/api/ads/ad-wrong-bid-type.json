@@ -1,0 +1,45 @@
+{
+  "id": "100123456789",
+  "account_id": "123456789",
+  "adgroup_status": "ACTIVE",
+  "bid_type": "WRONG_BID_TYPE",
+  "campaign_id": "800123456789",
+  "campaign_group_id": "700123456789",
+  "created_time": "2015-04-10T09:28:54+0200",
+  "creative": {
+    "id": "900123456789"
+  },
+  "name": "Test ad name",
+  "targeting": {
+    "age_max": 20,
+    "age_min": 18,
+    "behaviors": [
+      {
+        "id": "6004854404172",
+        "name": "Technology late adopters"
+      }
+    ],
+    "genders": [
+      1
+    ],
+    "geo_locations": {
+      "countries": [
+        "PL"
+      ],
+      "location_types": [
+        "home",
+        "recent"
+      ]
+    },
+    "interests": [
+      {
+        "id": "6003629266583",
+        "name": "Hard drives"
+      }
+    ],
+    "page_types": [
+      "feed"
+    ]
+  },
+  "updated_time": "2015-04-10T13:32:09+0200"
+}

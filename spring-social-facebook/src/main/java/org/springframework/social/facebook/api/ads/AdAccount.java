@@ -1,5 +1,7 @@
 package org.springframework.social.facebook.api.ads;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import org.springframework.social.facebook.api.FacebookObject;
 
 import java.util.Date;
@@ -27,7 +29,7 @@ public class AdAccount extends FacebookObject {
 	private String businessStreet;
 	private String businessStreet2;
 	private String businessZip;
-	private List<Capabilities> capabilities;
+	private List<Capability> capabilities;
 	private Date createdTime;
 	private String currency;
 	private String dailySpendLimit;
@@ -107,7 +109,7 @@ public class AdAccount extends FacebookObject {
 		return businessZip;
 	}
 
-	public List<Capabilities> getCapabilities() {
+	public List<Capability> getCapabilities() {
 		return capabilities;
 	}
 
@@ -192,22 +194,75 @@ public class AdAccount extends FacebookObject {
 	}
 
 	public enum AccountStatus {
-		ACTIVE, DISABLED, UNSETTLED, PENDING_REVIEW, IN_GRACE_PERIOD, TEMPORARILY_UNAVAILABLE, PENDING_CLOSURE, UNKNOWN
+		ACTIVE(1), DISABLED(2), UNSETTLED(3), PENDING_REVIEW(7), IN_GRACE_PERIOD(9), TEMPORARILY_UNAVAILABLE(101),
+		PENDING_CLOSURE(100), UNKNOWN(0);
+
+		private final int value;
+
+		AccountStatus(int value) {
+			this.value = value;
+		}
+
+		@JsonCreator
+		public static AccountStatus fromValue(int value) {
+			for (AccountStatus status : AccountStatus.values()) {
+				if (status.getValue() == value) {
+					return status;
+				}
+			}
+			return UNKNOWN;
+		}
+
+		@JsonGetter
+		public int getValue() {
+			return value;
+		}
 	}
 
-	public enum Capabilities {
+	public enum Capability {
 		BULK_ACCOUNT, CAN_CREATE_LOOKALIKES_WITH_CUSTOM_RATIO, CAN_USE_CONVERSION_LOOKALIKES, CAN_USE_MOBILE_EXTERNAL_PAGE_TYPE_FOR_LPP,
 		CAN_USE_REACH_AND_FREQUENCY, CUSTOM_CLUSTER_SHARING, DIRECT_SALES, HAS_AD_SET_TARGETING, HAS_AVAILABLE_PAYMENT_METHODS,
 		HOLDOUT_VIEW_TAGS, MOBILE_ADVERTISER_ID_UPLOAD, MOBILE_APP_REENGAGEMENT_ADS, MOBILE_APP_VIDEO_ADS,
 		NEKO_DESKTOP_CANVAS_APP_ADS, NEW_CAMPAIGN_STRUCTURE, PREMIUM, VIEW_TAGS, PRORATED_BUDGET, OFFSITE_CONVERSION_HIGH_BID,
 		CAN_USE_MOBILE_EXTERNAL_PAGE_TYPE, CAN_USE_OLD_AD_TYPES, CAN_USE_VIDEO_METRICS_BREAKDOWN, ADS_CF_INSTORE_DAILY_BUDGET,
 		AD_SET_PROMOTED_OBJECT_APP, AD_SET_PROMOTED_OBJECT_OFFER, AD_SET_PROMOTED_OBJECT_PAGE, AD_SET_PROMOTED_OBJECT_PIXEL,
-		CONNECTIONS_UI_V2, LOOKALIKE_AUDIENCE, CUSTOM_AUDIENCES_OPT_OUT_LINK, CUSTOM_AUDIENCES_FOLDERS, UNKNOWN
+		CONNECTIONS_UI_V2, LOOKALIKE_AUDIENCE, CUSTOM_AUDIENCES_OPT_OUT_LINK, CUSTOM_AUDIENCES_FOLDERS, UNKNOWN;
+
+		@JsonCreator
+		public static Capability fromValue(String value) {
+			for (Capability capability : Capability.values()) {
+				if (capability.name().equals(value)) {
+					return capability;
+				}
+			}
+			return UNKNOWN;
+		}
 	}
 
 	public enum TaxStatus {
-		UNKNOWN, VAT_NOT_REQUIRED_US_CA, VAT_INFORMATION_REQUIRED, VAT_INFORMATION_SUBMITTED, OFFLINE_VAT_VALIDATION_FAILED,
-		ACCOUNT_IS_PERSONAL_ACCOUNT
+		VAT_NOT_REQUIRED_US_CA(1), VAT_INFORMATION_REQUIRED(2), VAT_INFORMATION_SUBMITTED(3), OFFLINE_VAT_VALIDATION_FAILED(4),
+		ACCOUNT_IS_PERSONAL_ACCOUNT(5), UNKNOWN(0);
+
+		private final int value;
+
+		TaxStatus(int value) {
+			this.value = value;
+		}
+
+		@JsonCreator
+		public static TaxStatus fromValue(int value) {
+			for (TaxStatus status : TaxStatus.values()) {
+				if (status.getValue() == value) {
+					return status;
+				}
+			}
+			return UNKNOWN;
+		}
+
+		@JsonGetter
+		public int getValue() {
+			return value;
+		}
 	}
 
 	public class AgencyClientDeclaration {

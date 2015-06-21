@@ -6,51 +6,52 @@ import org.springframework.social.facebook.api.ads.AdCreative;
 import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 /**
+ * Annotated mixin to add Jackson annotations to AdCreative.
+ *
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract public class AdCreativeMixin extends FacebookObjectMixin {
 
 	@JsonProperty("id")
-	private String id;
+	String id;
 
 	@JsonProperty("object_type")
-	private AdCreative.AdCreativeType type;
+	AdCreative.AdCreativeType type;
 
 	@JsonProperty("name")
-	private String name;
+	String name;
 
 	@JsonProperty("title")
-	private String title;
+	String title;
 
 	@JsonProperty("run_status")
-	private AdCreative.AdCreativeStatus status;
+	AdCreative.AdCreativeStatus status;
 
 	@JsonProperty("body")
-	private String body;
+	String body;
 
 	@JsonProperty("object_id")
-	private String objectId;
+	String objectId;
 
 	@JsonProperty("image_hash")
-	private String imageHash;
+	String imageHash;
 
 	@JsonProperty("image_url")
-	private String imageUrl;
+	String imageUrl;
 
 	@JsonProperty("link_url")
-	private String linkUrl;
+	String linkUrl;
 
 	@JsonProperty("object_story_id")
-	private String objectStoryId;
+	String objectStoryId;
 
 	@JsonProperty("object_url")
-	private String objectUrl;
+	String objectUrl;
 
 	@JsonProperty("url_tags")
-	private String urlTags;
+	String urlTags;
 
 	@JsonProperty("thumbnail_url")
-	private String thumbnailUrl;
-
+	String thumbnailUrl;
 }

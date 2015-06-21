@@ -6,17 +6,18 @@ import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 /**
  * Annotated mixin to add Jackson annotations to AdAccountGroup.
+ *
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AdAccountGroupMixin extends FacebookObjectMixin {
 
 	@JsonProperty("account_group_id")
-	private String id;
+	String id;
 
 	@JsonProperty("name")
-	private String name;
+	String name;
 
 	@JsonProperty("status")
-	private int status;
+	int status;
 }

@@ -20,58 +20,41 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * Annotated mixin to add Jackson annotations to TargetingLocation.
+ *
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(using = TargetingLocationSerializer.class)
 public abstract class TargetingLocationMixin extends FacebookObjectMixin {
 	@JsonProperty("countries")
-	private List<String> countries;
+	List<String> countries;
 
 	@JsonProperty("regions")
-	@JsonDeserialize(using = RegionListDeserializer.class)
-	private List<String> regions;
+	@JsonDeserialize(using = ListOfMapsDeserializer.class)
+	List<String> regions;
 
 	@JsonProperty("cities")
-	private List<TargetingCityEntry> cities;
+	List<TargetingCityEntry> cities;
 
 	@JsonProperty("zips")
-	@JsonDeserialize(using = ZipListDeserializer.class)
-	private List<String> zips;
+	@JsonDeserialize(using = ListOfMapsDeserializer.class)
+	List<String> zips;
 
 	@JsonProperty("location_types")
-	private List<LocationType> locationTypes;
+	List<LocationType> locationTypes;
 
-	private static class RegionListDeserializer extends JsonDeserializer<List<String>> {
+	private static class ListOfMapsDeserializer extends JsonDeserializer<List<String>> {
 		@Override
 		public List<String> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
-				List<String> regions = new ArrayList<String>();
+				List<String> retList = new ArrayList<String>();
 				try {
 					while (jp.nextToken() != JsonToken.END_ARRAY) {
 						HashMap<String, String> regionMap = jp.readValueAs(HashMap.class);
-						regions.add(regionMap.get("key"));
+						retList.add(regionMap.get("key"));
 					}
-					return regions;
-				} catch (IOException e) {
-					return Collections.emptyList();
-				}
-			}
-			return Collections.emptyList();
-		}
-	}
-
-	private static class ZipListDeserializer extends JsonDeserializer<List<String>> {
-		@Override
-		public List<String> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-			if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
-				List<String> zips = new ArrayList<String>();
-				try {
-					while (jp.nextToken() != JsonToken.END_ARRAY) {
-						HashMap<String, String> zipMap = jp.readValueAs(HashMap.class);
-						zips.add(zipMap.get("key"));
-					}
-					return zips;
+					return retList;
 				} catch (IOException e) {
 					return Collections.emptyList();
 				}

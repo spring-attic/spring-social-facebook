@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.social.facebook.api.ads.AdAccount.AccountStatus;
 import org.springframework.social.facebook.api.ads.AdAccount.AgencyClientDeclaration;
-import org.springframework.social.facebook.api.ads.AdAccount.Capabilities;
+import org.springframework.social.facebook.api.ads.AdAccount.Capability;
 import org.springframework.social.facebook.api.ads.AdAccount.TaxStatus;
 import org.springframework.social.facebook.api.ads.AdAccountGroup;
 import org.springframework.social.facebook.api.ads.AdUser;
@@ -41,7 +41,6 @@ public abstract class AdAccountMixin extends FacebookObjectMixin {
 	long accountId;
 
 	@JsonProperty("account_status")
-	@JsonDeserialize(using = AccountStatusDeserializer.class)
 	AccountStatus status;
 
 	@JsonProperty("age")
@@ -78,8 +77,7 @@ public abstract class AdAccountMixin extends FacebookObjectMixin {
 	String businessZip;
 
 	@JsonProperty("capabilities")
-	@JsonDeserialize(using = CapabilitiesListDeserializer.class)
-	List<Capabilities> capabilities;
+	List<Capability> capabilities;
 
 	@JsonProperty("created_time")
 	Date createdTime;
@@ -134,64 +132,7 @@ public abstract class AdAccountMixin extends FacebookObjectMixin {
 	List<AdUser> users;
 
 	@JsonProperty("tax_id_status")
-	@JsonDeserialize(using = TaxStatusDeserializer.class)
 	TaxStatus taxStatus;
-
-	private static class AccountStatusDeserializer extends JsonDeserializer<AccountStatus> {
-		@Override
-		public AccountStatus deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-			try {
-				int status = jp.getIntValue();
-				switch (status) {
-					case 1:
-						return AccountStatus.ACTIVE;
-					case 2:
-						return AccountStatus.DISABLED;
-					case 3:
-						return AccountStatus.UNSETTLED;
-					case 7:
-						return AccountStatus.PENDING_REVIEW;
-					case 9:
-						return AccountStatus.IN_GRACE_PERIOD;
-					case 101:
-						return AccountStatus.TEMPORARILY_UNAVAILABLE;
-					case 100:
-						return AccountStatus.PENDING_CLOSURE;
-					default:
-						return AccountStatus.UNKNOWN;
-				}
-			} catch (IOException e) {
-				return AccountStatus.UNKNOWN;
-			}
-		}
-	}
-
-	private static class TaxStatusDeserializer extends JsonDeserializer<TaxStatus> {
-		@Override
-		public TaxStatus deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-			try {
-				int status = jp.getIntValue();
-				switch (status) {
-					case 0:
-						return TaxStatus.UNKNOWN;
-					case 1:
-						return TaxStatus.VAT_NOT_REQUIRED_US_CA;
-					case 2:
-						return TaxStatus.VAT_INFORMATION_REQUIRED;
-					case 3:
-						return TaxStatus.VAT_INFORMATION_SUBMITTED;
-					case 4:
-						return TaxStatus.OFFLINE_VAT_VALIDATION_FAILED;
-					case 5:
-						return TaxStatus.ACCOUNT_IS_PERSONAL_ACCOUNT;
-					default:
-						return TaxStatus.UNKNOWN;
-				}
-			} catch (IOException e) {
-				return TaxStatus.UNKNOWN;
-			}
-		}
-	}
 
 	private static class AdUserListDeserializer extends JsonDeserializer<List<AdUser>> {
 		@SuppressWarnings("unchecked")
@@ -212,29 +153,6 @@ public abstract class AdAccountMixin extends FacebookObjectMixin {
 				}
 			}
 
-			return Collections.emptyList();
-		}
-	}
-
-	private static class CapabilitiesListDeserializer extends JsonDeserializer<List<Capabilities>> {
-		@Override
-		public List<Capabilities> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-			if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
-				List<Capabilities> capabilities = new ArrayList<Capabilities>();
-				try {
-					while (jp.nextToken() != JsonToken.END_ARRAY) {
-						String capability = jp.getValueAsString();
-						try {
-							capabilities.add(Capabilities.valueOf(capability.toUpperCase()));
-						} catch (IllegalArgumentException e) {
-							capabilities.add(Capabilities.UNKNOWN);
-						}
-					}
-					return capabilities;
-				} catch (IOException e) {
-					return Collections.emptyList();
-				}
-			}
 			return Collections.emptyList();
 		}
 	}

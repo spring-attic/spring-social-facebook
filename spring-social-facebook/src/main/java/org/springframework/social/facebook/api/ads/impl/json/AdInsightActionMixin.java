@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 /**
+ * Annotated mixin to add Jackson annotations to AdInsightAction.
+ *
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AdInsightActionMixin extends FacebookObjectMixin {
-    @JsonProperty("action_type")
-    private String actionType;
+	@JsonProperty("action_type")
+	String actionType;
 
-    @JsonProperty("value")
-    private double value;
+	@JsonProperty("value")
+	double value;
 }

@@ -10,151 +10,151 @@ import java.util.List;
 
 /**
  * Annotated mixin to add Jackson annotations to AdInsight.
+ *
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AdInsightMixin extends FacebookObjectMixin {
 	// id fields
 	@JsonProperty("account_id")
-	private String accountId;
+	String accountId;
 
 	@JsonProperty("adgroup_id")
-	private String adGroupId;
+	String adGroupId;
 
 	@JsonProperty("campaign_id")
-	private String campaignId;
+	String campaignId;
 
 	@JsonProperty("campaign_group_id")
-	private String campaignGroupId;
+	String campaignGroupId;
 
 	// name fields
 	@JsonProperty("account_name")
-	private String accountName;
+	String accountName;
 
 	@JsonProperty("adgroup_name")
-	private String adGroupName;
+	String adGroupName;
 
 	@JsonProperty("campaign_group_name")
-	private String campaignGroupName;
+	String campaignGroupName;
 
 	@JsonProperty("campaign_name")
-	private String camapignName;
+	String camapignName;
 
 	// date fields
 	@JsonProperty("date_start")
-	private Date dateStart;
+	Date dateStart;
 
 	@JsonProperty("date_stop")
-	private Date dateStop;
+	Date dateStop;
 
 	@JsonProperty("campaign_start")
-	private Date campaignStart;
+	Date campaignStart;
 
 	@JsonProperty("campaign_end")
-	private Date campaignEnd;
+	Date campaignEnd;
 
 	@JsonProperty("campaign_group_end")
-	private Date campaignGroupEnd;
+	Date campaignGroupEnd;
 
 	// general fields
 	@JsonProperty("actions_per_impression")
-	private double actionsPerImpression;
+	double actionsPerImpression;
 
 	@JsonProperty("clicks")
-	private int clicks;
+	int clicks;
 
 	@JsonProperty("unique_clicks")
-	private int uniqueClicks;
+	int uniqueClicks;
 
 	@JsonProperty("cost_per_result")
-	private double costPerResult;
+	double costPerResult;
 
 	@JsonProperty("cost_per_total_action")
-	private double costPerTotalAction;
+	double costPerTotalAction;
 
 	@JsonProperty("cpc")
-	private double costPerClick;
+	double costPerClick;
 
 	@JsonProperty("cost_per_unique_click")
-	private double costPerUniqueClick;
+	double costPerUniqueClick;
 
 	@JsonProperty("cpm")
-	private double cpm;
+	double cpm;
 
 	@JsonProperty("cpp")
-	private double cpp;
+	double cpp;
 
 	@JsonProperty("ctr")
-	private double ctr;
+	double ctr;
 
 	@JsonProperty("unique_ctr")
-	private double uniqueCtr;
+	double uniqueCtr;
 
 	@JsonProperty("frequency")
-	private double frequency;
+	double frequency;
 
 	@JsonProperty("impressions")
-	private int impressions;
+	int impressions;
 
 	@JsonProperty("unique_impressions")
-	private int uniqueImpressions;
+	int uniqueImpressions;
 
 	@JsonProperty("objective")
-	private String objective;
+	String objective;
 
 	@JsonProperty("reach")
-	private int reach;
+	int reach;
 
 	@JsonProperty("result_rate")
-	private double resultRate;
+	double resultRate;
 
 	@JsonProperty("results")
-	private int results;
+	int results;
 
 	@JsonProperty("roas")
-	private int roas;
+	int roas;
 
 	@JsonProperty("social_clicks")
-	private int socialClicks;
+	int socialClicks;
 
 	@JsonProperty("unique_social_clicks")
-	private int uniqueSocialClicks;
+	int uniqueSocialClicks;
 
 	@JsonProperty("social_impressions")
-	private int socialImpressions;
+	int socialImpressions;
 
 	@JsonProperty("unique_social_impressions")
-	private int uniqueSocialImpressions;
+	int uniqueSocialImpressions;
 
 	@JsonProperty("social_reach")
-	private int socialReach;
+	int socialReach;
 
 	@JsonProperty("spend")
-	private int spend;
+	int spend;
 
 	@JsonProperty("today_spend")
-	private int todaySpend;
+	int todaySpend;
 
 	@JsonProperty("total_action_value")
-	private int totalActionValue;
+	int totalActionValue;
 
 	@JsonProperty("total_actions")
-	private int totalActions;
+	int totalActions;
 
 	@JsonProperty("total_unique_actions")
-	private int totalUniqueActions;
+	int totalUniqueActions;
 
 	// action and video fields
 	@JsonProperty("actions")
-	private List<AdInsightAction> actions;
+	List<AdInsightAction> actions;
 
 	@JsonProperty("unique_actions")
-	private List<AdInsightAction> uniqueActions;
+	List<AdInsightAction> uniqueActions;
 
 	@JsonProperty("cost_per_action_type")
-	private List<AdInsightAction> costPerActionType;
+	List<AdInsightAction> costPerActionType;
 
 	@JsonProperty("video_start_actions")
-	private List<AdInsightAction> videoStartActions;
-
+	List<AdInsightAction> videoStartActions;
 }

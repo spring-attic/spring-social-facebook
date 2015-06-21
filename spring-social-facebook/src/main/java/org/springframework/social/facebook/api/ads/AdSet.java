@@ -1,5 +1,6 @@
 package org.springframework.social.facebook.api.ads;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.social.facebook.api.FacebookObject;
 
 import java.util.Date;
@@ -146,6 +147,16 @@ public class AdSet extends FacebookObject {
 	}
 
 	public enum AdSetStatus {
-		ACTIVE, PAUSED, ARCHIVED, DELETED, CAMPAIGN_GROUP_PAUSED, UNKNOWN
+		ACTIVE, PAUSED, ARCHIVED, DELETED, CAMPAIGN_GROUP_PAUSED, UNKNOWN;
+
+		@JsonCreator
+		public static AdSetStatus fromValue(String value) {
+			for (AdSetStatus status : AdSetStatus.values()) {
+				if (status.name().equals(value)) {
+					return status;
+				}
+			}
+			return UNKNOWN;
+		}
 	}
 }

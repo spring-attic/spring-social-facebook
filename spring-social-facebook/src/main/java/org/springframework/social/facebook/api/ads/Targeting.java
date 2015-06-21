@@ -205,7 +205,7 @@ public class Targeting {
 		}
 
 		@JsonCreator
-		public static Gender forValue(int value) {
+		public static Gender fromValue(int value) {
 			for (Gender gender : Gender.values()) {
 				if (gender.getValue() == value) return gender;
 			}
@@ -230,7 +230,7 @@ public class Targeting {
 		}
 
 		@JsonCreator
-		public static RelationshipStatus forValue(int value) {
+		public static RelationshipStatus fromValue(int value) {
 			for (RelationshipStatus status : RelationshipStatus.values()) {
 				if (status.getValue() == value) return status;
 			}
@@ -253,7 +253,7 @@ public class Targeting {
 		}
 
 		@JsonCreator
-		public static InterestedIn forValue(int value) {
+		public static InterestedIn fromValue(int value) {
 			for (InterestedIn interestedIn : InterestedIn.values()) {
 				if (interestedIn.getValue() == value) return interestedIn;
 			}
@@ -279,7 +279,7 @@ public class Targeting {
 		}
 
 		@JsonCreator
-		public static PageType forValue(String value) {
+		public static PageType fromValue(String value) {
 			for (PageType type : PageType.values()) {
 				if (type.getValue().equals(value)) return type;
 			}
@@ -304,7 +304,7 @@ public class Targeting {
 		}
 
 		@JsonCreator
-		public static EducationStatus forValue(int value) {
+		public static EducationStatus fromValue(int value) {
 			for (EducationStatus status : EducationStatus.values()) {
 				if (status.getValue() == value) return status;
 			}

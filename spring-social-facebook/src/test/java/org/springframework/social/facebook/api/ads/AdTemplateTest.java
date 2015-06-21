@@ -106,6 +106,7 @@ public class AdTemplateTest extends AbstractFacebookAdsApiTest {
 		Ad ad = facebookAds.adOperations().getAd("100123456789");
 		verifyAd(ad);
 		assertEquals(Ad.AdStatus.ACTIVE, ad.getStatus());
+		assertEquals(BidType.ABSOLUTE_OCPM, ad.getBidType());
 		mockServer.verify();
 	}
 
@@ -119,6 +120,21 @@ public class AdTemplateTest extends AbstractFacebookAdsApiTest {
 		Ad ad = facebookAds.adOperations().getAd("100123456789");
 		verifyAd(ad);
 		assertEquals(Ad.AdStatus.UNKNOWN, ad.getStatus());
+		assertEquals(BidType.ABSOLUTE_OCPM, ad.getBidType());
+		mockServer.verify();
+	}
+
+	@Test
+	public void getAd_withWrongBidType() throws Exception {
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/100123456789?fields=id%2Caccount_id%2Cadgroup_status%2Cbid_type%2Cbid_info%2Ccampaign_id%2Ccampaign_group_id%2Ccreated_time%2Ccreative%2Cname%2Ctargeting%2Cupdated_time"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("ad-wrong-bid-type"), MediaType.APPLICATION_JSON));
+
+		Ad ad = facebookAds.adOperations().getAd("100123456789");
+		verifyAd(ad);
+		assertEquals(Ad.AdStatus.ACTIVE, ad.getStatus());
+		assertEquals(BidType.UNKNOWN, ad.getBidType());
 		mockServer.verify();
 	}
 
@@ -293,7 +309,6 @@ public class AdTemplateTest extends AbstractFacebookAdsApiTest {
 	private void verifyAd(Ad ad) {
 		assertEquals("100123456789", ad.getId());
 		assertEquals("123456789", ad.getAccountId());
-		assertEquals(BidType.ABSOLUTE_OCPM, ad.getBidType());
 		assertEquals("800123456789", ad.getAdSetId());
 		assertEquals("700123456789", ad.getCampaignId());
 		assertEquals(toDate("2015-04-10T09:28:54+0200"), ad.getCreatedTime());

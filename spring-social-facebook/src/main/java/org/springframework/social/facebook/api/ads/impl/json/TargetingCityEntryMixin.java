@@ -5,17 +5,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
 /**
+ * Annotated mixin to add Jackson annotations to TargetingCityEntry.
+ *
  * @author Sebastian Górecki
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class TargetingCityEntryMixin extends FacebookObjectMixin {
 	@JsonProperty("key")
-	private String key;
+	String key;
 
 	@JsonProperty("radius")
-	private int radius;
+	int radius;
 
 	@JsonProperty("distance_unit")
-	private String distanceUnit;
-
+	String distanceUnit;
 }

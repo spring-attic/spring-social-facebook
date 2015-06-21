@@ -4,8 +4,7 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.ads.*;
-import org.springframework.social.facebook.api.ads.AdAccount.Capabilities;
+import org.springframework.social.facebook.api.ads.AdAccount.Capability;
 import org.springframework.social.facebook.api.ads.AdAccount.TaxStatus;
 import org.springframework.social.facebook.api.ads.AdCampaign.BuyingType;
 import org.springframework.social.facebook.api.ads.AdCampaign.CampaignObjective;
@@ -96,10 +95,10 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals("act_123456789", adAccount.getId());
 		assertEquals(123456789, adAccount.getAccountId());
 		assertEquals(4, adAccount.getCapabilities().size());
-		assertEquals(Capabilities.UNKNOWN, adAccount.getCapabilities().get(0));
-		assertEquals(Capabilities.UNKNOWN, adAccount.getCapabilities().get(1));
-		assertEquals(Capabilities.UNKNOWN, adAccount.getCapabilities().get(2));
-		assertEquals(Capabilities.PREMIUM, adAccount.getCapabilities().get(3));
+		assertEquals(Capability.UNKNOWN, adAccount.getCapabilities().get(0));
+		assertEquals(Capability.UNKNOWN, adAccount.getCapabilities().get(1));
+		assertEquals(Capability.UNKNOWN, adAccount.getCapabilities().get(2));
+		assertEquals(Capability.PREMIUM, adAccount.getCapabilities().get(3));
 	}
 
 	@Test
@@ -464,8 +463,8 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals(null, adAccounts.get(1).getBusinessStreet2());
 		assertEquals("77-777", adAccounts.get(1).getBusinessZip());
 		assertEquals(2, adAccounts.get(1).getCapabilities().size());
-		assertEquals(Capabilities.DIRECT_SALES, adAccounts.get(1).getCapabilities().get(0));
-		assertEquals(Capabilities.VIEW_TAGS, adAccounts.get(1).getCapabilities().get(1));
+		assertEquals(Capability.DIRECT_SALES, adAccounts.get(1).getCapabilities().get(0));
+		assertEquals(Capability.VIEW_TAGS, adAccounts.get(1).getCapabilities().get(1));
 		assertEquals(toDate("2015-04-20T00:31:33+0100"), adAccounts.get(1).getCreatedTime());
 		assertEquals("PLN", adAccounts.get(1).getCurrency());
 		assertEquals("77", adAccounts.get(1).getDailySpendLimit());
@@ -502,8 +501,8 @@ public class AccountTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals(null, adAccount.getBusinessStreet2());
 		assertEquals("66-777", adAccount.getBusinessZip());
 		assertEquals(2, adAccount.getCapabilities().size());
-		assertEquals(Capabilities.DIRECT_SALES, adAccount.getCapabilities().get(0));
-		assertEquals(Capabilities.VIEW_TAGS, adAccount.getCapabilities().get(1));
+		assertEquals(Capability.DIRECT_SALES, adAccount.getCapabilities().get(0));
+		assertEquals(Capability.VIEW_TAGS, adAccount.getCapabilities().get(1));
 		assertEquals(toDate("2015-02-19T00:31:33+0100"), adAccount.getCreatedTime());
 		assertEquals("PLN", adAccount.getCurrency());
 		assertEquals("93263", adAccount.getDailySpendLimit());

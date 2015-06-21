@@ -1,0 +1,8 @@
+{
+  "id": "609123456789",
+  "account_id": "123456789",
+  "campaign_group_status": "ACTIVE",
+  "name": "The test campaign name",
+  "objective": "POST_ENGAGEMENT",
+  "spend_cap": 1000
+}

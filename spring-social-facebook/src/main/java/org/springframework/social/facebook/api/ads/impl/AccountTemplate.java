@@ -1,6 +1,7 @@
 package org.springframework.social.facebook.api.ads.impl;
 
-import org.springframework.social.facebook.api.*;
+import org.springframework.social.facebook.api.GraphApi;
+import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.ads.*;
 import org.springframework.social.facebook.api.ads.AdUser.AdUserRole;
 import org.springframework.social.facebook.api.impl.AbstractFacebookOperations;
@@ -46,7 +47,7 @@ public class AccountTemplate extends AbstractFacebookOperations implements Accou
 		requireAuthorization();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.set("uid", userId);
-		map.set("role", String.valueOf(serializeRole(role)));
+		map.set("role", String.valueOf(role.getValue()));
 		graphApi.post(getAdAccountId(accountId) + "/users", "", map);
 	}
 
@@ -71,21 +72,5 @@ public class AccountTemplate extends AbstractFacebookOperations implements Accou
 			map.set("spend_cap", adAccount.getSpendCap());
 		}
 		return graphApi.update(getAdAccountId(accountId), map);
-	}
-
-	private int serializeRole(AdUserRole role) {
-		switch (role) {
-			case ADMINISTRATOR:
-				return 1001;
-			case ADVERTISER:
-				return 1002;
-			case ANALYST:
-				return 1003;
-			case SALES:
-				return 1004;
-			case UNKNOWN:
-			default:
-				return 0;
-		}
 	}
 }
