@@ -36,7 +36,7 @@ import org.springframework.social.RevokedAuthorizationException;
 import org.springframework.social.ServerException;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.FacebookError;
-import org.springframework.social.facebook.api.InvalidCampaignStatusException;
+import org.springframework.social.facebook.api.ads.InvalidCampaignStatusException;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import com.fasterxml.jackson.core.JsonFactory;

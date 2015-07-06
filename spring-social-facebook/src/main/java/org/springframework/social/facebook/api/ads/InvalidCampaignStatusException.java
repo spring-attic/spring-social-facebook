@@ -1,4 +1,6 @@
-package org.springframework.social.facebook.api;
+package org.springframework.social.facebook.api.ads;
+
+import org.springframework.social.facebook.api.InvalidParameterException;
 
 /**
  * Exception is thrown when a new ad campaign is created with status other that ACTIVE or PAUSED.

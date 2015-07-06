@@ -10,20 +10,17 @@ import org.springframework.social.facebook.api.ads.AdSetOperations;
 import org.springframework.social.facebook.api.impl.AbstractFacebookOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Sebastian Górecki
  */
 public class AdSetTemplate extends AbstractFacebookOperations implements AdSetOperations {
 	private GraphApi graphApi;
-	private RestTemplate restTemplate;
 	private ObjectMapper mapper;
 
-	public AdSetTemplate(GraphApi graphApi, RestTemplate restTemplate, ObjectMapper mapper, boolean authorized) {
+	public AdSetTemplate(GraphApi graphApi, ObjectMapper mapper, boolean authorized) {
 		super(authorized);
 		this.graphApi = graphApi;
-		this.restTemplate = restTemplate;
 		this.mapper = mapper;
 	}
 

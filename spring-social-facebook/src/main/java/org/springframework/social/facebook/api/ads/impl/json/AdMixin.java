@@ -64,6 +64,7 @@ public class AdMixin {
 	Date updatedTime;
 
 	private static class CreativeIdDeserializer extends JsonDeserializer<String> {
+		@SuppressWarnings("unchecked")
 		@Override
 		public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			if (jp.getCurrentToken() == JsonToken.START_OBJECT) {

@@ -7,7 +7,6 @@ import org.springframework.social.facebook.api.ads.AdCampaign.CampaignStatus;
 import org.springframework.social.facebook.api.impl.AbstractFacebookOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Sebastian Górecki
@@ -15,13 +14,10 @@ import org.springframework.web.client.RestTemplate;
 public class CampaignTemplate extends AbstractFacebookOperations implements CampaignOperations {
 
 	private final GraphApi graphApi;
-	private final RestTemplate restTemplate;
 
-
-	public CampaignTemplate(GraphApi graphApi, RestTemplate restTemplate, boolean isAuthorizedForUser) {
+	public CampaignTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
 		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
-		this.restTemplate = restTemplate;
 	}
 
 	public PagedList<AdCampaign> getAdCampaigns(String accountId) {

@@ -3,7 +3,6 @@ package org.springframework.social.facebook.api.ads;
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
-import org.springframework.social.facebook.api.InvalidCampaignStatusException;
 import org.springframework.social.facebook.api.PagedList;
 
 /**

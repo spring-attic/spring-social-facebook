@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 
 import org.springframework.social.NotAuthorizedException;
-import org.springframework.social.facebook.api.InvalidCampaignStatusException;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.ads.AdCampaign.BuyingType;
 import org.springframework.social.facebook.api.ads.AdCampaign.CampaignObjective;

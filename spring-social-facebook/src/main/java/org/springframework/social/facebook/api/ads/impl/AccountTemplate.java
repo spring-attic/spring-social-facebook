@@ -7,7 +7,6 @@ import org.springframework.social.facebook.api.ads.AdUser.AdUserRole;
 import org.springframework.social.facebook.api.impl.AbstractFacebookOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Sebastian Górecki
@@ -16,12 +15,9 @@ public class AccountTemplate extends AbstractFacebookOperations implements Accou
 
 	private final GraphApi graphApi;
 
-	private final RestTemplate restTemplate;
-
-	public AccountTemplate(GraphApi graphApi, RestTemplate restTemplate, boolean isAuthorizedForUser) {
+	public AccountTemplate(GraphApi graphApi, boolean isAuthorizedForUser) {
 		super(isAuthorizedForUser);
 		this.graphApi = graphApi;
-		this.restTemplate = restTemplate;
 	}
 
 	public PagedList<AdAccount> getAdAccounts(String userId) {

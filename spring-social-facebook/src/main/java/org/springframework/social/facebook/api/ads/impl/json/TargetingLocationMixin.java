@@ -45,6 +45,7 @@ public abstract class TargetingLocationMixin extends FacebookObjectMixin {
 	List<LocationType> locationTypes;
 
 	private static class ListOfMapsDeserializer extends JsonDeserializer<List<String>> {
+		@SuppressWarnings("unchecked")
 		@Override
 		public List<String> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			if (jp.getCurrentToken() == JsonToken.START_ARRAY) {
