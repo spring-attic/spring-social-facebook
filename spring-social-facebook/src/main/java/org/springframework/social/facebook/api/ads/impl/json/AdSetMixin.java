@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.social.facebook.api.ads.AdSet.AdSetStatus;
 import org.springframework.social.facebook.api.ads.BidInfo;
 import org.springframework.social.facebook.api.ads.BidType;
+import org.springframework.social.facebook.api.ads.PromotedObject;
 import org.springframework.social.facebook.api.ads.Targeting;
 import org.springframework.social.facebook.api.impl.json.FacebookObjectMixin;
 
@@ -53,6 +54,9 @@ abstract public class AdSetMixin extends FacebookObjectMixin {
 
 	@JsonProperty("creative_sequence")
 	List<String> creativeSequence;
+
+	@JsonProperty("promoted_object")
+	PromotedObject promotedObject;
 
 	@JsonProperty("targeting")
 	Targeting targeting;

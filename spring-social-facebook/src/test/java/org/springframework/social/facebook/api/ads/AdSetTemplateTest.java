@@ -7,11 +7,11 @@ import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.ads.AdSet.AdSetStatus;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
@@ -161,6 +161,31 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 		mockServer.verify();
 	}
 
+	@Test
+	public void getAdSet_withPromotedObject() throws Exception {
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/705123456789?fields=account_id%2Cbid_info%2Cbid_type%2Cbudget_remaining%2Ccampaign_group_id%2Ccampaign_status%2Ccreated_time%2Ccreative_sequence%2Cdaily_budget%2Cend_time%2Cid%2Cis_autobid%2Clifetime_budget%2Cname%2Cpromoted_object%2Cstart_time%2Ctargeting%2Cupdated_time"))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withSuccess(jsonResource("ad-set-promoted-object"), MediaType.APPLICATION_JSON));
+		AdSet adSet = facebookAds.adSetOperations().getAdSet("705123456789");
+		assertEquals("705123456789", adSet.getId());
+		assertEquals("123456789", adSet.getAccountId());
+		assertEquals(Integer.valueOf(500), adSet.getBidInfo().get("CLICKS"));
+		assertEquals(BidType.ABSOLUTE_OCPM, adSet.getBidType());
+		assertEquals(807, adSet.getBudgetRemaining());
+		assertEquals("600123456789", adSet.getCampaignId());
+		assertEquals(AdSetStatus.PAUSED, adSet.getStatus());
+		assertEquals(2000, adSet.getDailyBudget());
+		assertFalse(adSet.isAutobid());
+		assertEquals(0, adSet.getLifetimeBudget());
+		assertEquals("Test promoted object", adSet.getName());
+		assertEquals("999888777666555", adSet.getPromotedObject().get("page_id"));
+		assertEquals(toDate("2015-07-06T14:18:55+0200"), adSet.getCreatedTime());
+		assertEquals(toDate("2015-07-06T14:18:55+0200"), adSet.getStartTime());
+		assertEquals(toDate("2015-07-06T14:18:55+0200"), adSet.getUpdatedTime());
+		mockServer.verify();
+	}
+
 	@Test(expected = NotAuthorizedException.class)
 	public void getAdSet_unauthorized() throws Exception {
 		unauthorizedFacebookAds.adSetOperations().getAdSet("700123456789");
@@ -252,20 +277,7 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andExpect(content().string(requestBody))
 				.andRespond(withSuccess("{\"id\": \"701123456789\"}", MediaType.APPLICATION_JSON));
-		AdSet adSet = new AdSet();
-		adSet.setAutobid(true);
-		adSet.setBidType(BidType.ABSOLUTE_OCPM);
-		adSet.setCampaignId("600123456789");
-		adSet.setStatus(AdSetStatus.PAUSED);
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		adSet.setEndTime(formatter.parse("2015-05-21 20:00:00"));
-		adSet.setName("Test AdSet");
-		TargetingLocation location = new TargetingLocation();
-		location.setCountries(Arrays.asList("PL"));
-		Targeting targeting = new Targeting();
-		targeting.setGeoLocations(location);
-		adSet.setTargeting(targeting);
-		adSet.setLifetimeBudget(200);
+		AdSet adSet = createSampleAdSet();
 
 		assertEquals("701123456789", facebookAds.adSetOperations().createAdSet("123456789", adSet));
 		mockServer.verify();
@@ -274,7 +286,7 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 	@Test
 	public void createAdSet_withAllFields() throws Exception {
 		String requestBody = "date_format=U&name=Test+AdSet+2&campaign_status=ACTIVE&is_autobid=false&" +
-				"bid_info=%7B%22REACH%22%3A%221000%22%2C%22ACTIONS%22%3A%22200%22%2C%22SOCIAL%22%3A%22110%22%2C%22CLICKS%22%3A%22500%22%7D&" +
+				"bid_info=%7B%22REACH%22%3A1000%2C%22ACTIONS%22%3A200%2C%22SOCIAL%22%3A110%2C%22CLICKS%22%3A500%7D&" +
 				"bid_type=ABSOLUTE_OCPM&daily_budget=4000&lifetime_budget=0&" +
 				"targeting=%7B%22genders%22%3A%5B1%2C2%5D%2C%22age_min%22%3A45%2C%22age_max%22%3A55%2C%22relationship_statuses%22%3A%5B10%2C12%5D%2C%22interested_in%22%3A%5B1%2C2%5D%2C%22geo_locations%22%3A%7B%22countries%22%3A%5B%22PL%22%2C%22DE%22%2C%22US%22%2C%22FR%22%5D%2C%22regions%22%3A%5B%7B%22key%22%3A%223847%22%7D%2C%7B%22key%22%3A%221111%22%7D%2C%7B%22key%22%3A%221234%22%7D%2C%7B%22key%22%3A%229888%22%7D%5D%2C%22cities%22%3A%5B%7B%22key%22%3A%222430536%22%2C%22radius%22%3A12%2C%22distance_unit%22%3A%22mile%22%7D%2C%7B%22key%22%3A%22777555%22%2C%22radius%22%3A1024%2C%22distance_unit%22%3A%22kilometer%22%7D%5D%2C%22zips%22%3A%5B%7B%22key%22%3A%22PL%3A62030%22%7D%2C%7B%22key%22%3A%22US%3A88123%22%7D%2C%7B%22key%22%3A%22FR%3A33144%22%7D%5D%2C%22location_types%22%3A%5B%22home%22%2C%22recent%22%5D%7D%2C%22excluded_geo_locations%22%3A%7B%22countries%22%3A%5B%22HU%22%2C%22JP%22%5D%2C%22regions%22%3A%5B%7B%22key%22%3A%221122%22%7D%2C%7B%22key%22%3A%2231415%22%7D%5D%2C%22cities%22%3A%5B%7B%22key%22%3A%2288997766%22%2C%22radius%22%3A12345%2C%22distance_unit%22%3A%22mile%22%7D%5D%2C%22zips%22%3A%5B%7B%22key%22%3A%22JP%3A44552%22%7D%5D%2C%22location_types%22%3A%5B%22home%22%5D%7D%2C%22page_types%22%3A%5B%22desktopfeed%22%2C%22mobilefeed-and-external%22%5D%2C%22connections%22%3A%5B%22123456789%22%2C%2255442211%22%5D%2C%22excluded_connections%22%3A%5B%2233441122%22%5D%2C%22friends_of_connections%22%3A%5B%22987654321%22%5D%2C%22interests%22%3A%5B%7B%22id%22%3A986123123123%2C%22name%22%3A%22Football%22%7D%5D%2C%22behaviors%22%3A%5B%7B%22id%22%3A1%2C%22name%22%3A%22Some+behavior%22%7D%5D%2C%22education_schools%22%3A%5B%7B%22id%22%3A10593123549%2C%22name%22%3A%22Poznan+University+of+Technology%22%7D%5D%2C%22education_statuses%22%3A%5B9%5D%2C%22college_years%22%3A%5B8%5D%2C%22education_majors%22%3A%5B%7B%22id%22%3A12%2C%22name%22%3A%22Some+major%22%7D%5D%2C%22work_employers%22%3A%5B%7B%22id%22%3A43125%2C%22name%22%3A%22Super+company%22%7D%5D%2C%22work_positions%22%3A%5B%7B%22id%22%3A11111%2C%22name%22%3A%22Developer%22%7D%5D%7D&" +
 				"start_time=1432742400&end_time=1435420799&campaign_group_id=601123456789";
@@ -289,10 +301,10 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 		adSet.setStatus(AdSetStatus.ACTIVE);
 		adSet.setAutobid(false);
 		BidInfo bidInfo = new BidInfo();
-		bidInfo.put("ACTIONS", "200");
-		bidInfo.put("REACH", "1000");
-		bidInfo.put("CLICKS", "500");
-		bidInfo.put("SOCIAL", "110");
+		bidInfo.put("ACTIONS", 200);
+		bidInfo.put("REACH", 1000);
+		bidInfo.put("CLICKS", 500);
+		bidInfo.put("SOCIAL", 110);
 		adSet.setBidInfo(bidInfo);
 		adSet.setBidType(BidType.ABSOLUTE_OCPM);
 		adSet.setDailyBudget(4000);
@@ -338,6 +350,24 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		adSet.setStartTime(formatter.parse("2015-05-27 18:00:00"));
 		adSet.setEndTime(formatter.parse("2015-06-27 17:59:59"));
+
+		assertEquals("702123456789", facebookAds.adSetOperations().createAdSet("123456789", adSet));
+		mockServer.verify();
+	}
+
+	@Test
+	public void createAdSet_withPromotedObject() throws Exception {
+		String requestBody = "date_format=U&name=Test+AdSet&campaign_status=PAUSED&is_autobid=true&bid_type=ABSOLUTE_OCPM&daily_budget=0&lifetime_budget=200&promoted_object=%7B%22page_id%22%3A%22111222333444555%22%7D&targeting=%7B%22geo_locations%22%3A%7B%22countries%22%3A%5B%22PL%22%5D%7D%7D&end_time=1432231200&campaign_group_id=600123456789";
+		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adcampaigns"))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\": \"702123456789\"}", MediaType.APPLICATION_JSON));
+
+		AdSet adSet = createSampleAdSet();
+		PromotedObject promotedObject = new PromotedObject();
+		promotedObject.put("page_id", "111222333444555");
+		adSet.setPromotedObject(promotedObject);
 
 		assertEquals("702123456789", facebookAds.adSetOperations().createAdSet("123456789", adSet));
 		mockServer.verify();
@@ -437,5 +467,23 @@ public class AdSetTemplateTest extends AbstractFacebookAdsApiTest {
 		assertEquals("Hard drives", adSets.get(1).getTargeting().getInterests().get(0).getName());
 		assertEquals(Targeting.PageType.FEED, adSets.get(1).getTargeting().getPageTypes().get(0));
 		assertEquals(toDate("2015-04-10T13:32:09+0200"), adSets.get(1).getUpdatedTime());
+	}
+
+	private AdSet createSampleAdSet() throws ParseException {
+		AdSet adSet = new AdSet();
+		adSet.setAutobid(true);
+		adSet.setBidType(BidType.ABSOLUTE_OCPM);
+		adSet.setCampaignId("600123456789");
+		adSet.setStatus(AdSetStatus.PAUSED);
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		adSet.setEndTime(formatter.parse("2015-05-21 20:00:00"));
+		adSet.setName("Test AdSet");
+		TargetingLocation location = new TargetingLocation();
+		location.setCountries(Arrays.asList("PL"));
+		Targeting targeting = new Targeting();
+		targeting.setGeoLocations(location);
+		adSet.setTargeting(targeting);
+		adSet.setLifetimeBudget(200);
+		return adSet;
 	}
 }

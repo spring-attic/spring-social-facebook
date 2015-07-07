@@ -27,6 +27,7 @@ public class AdSet extends FacebookObject {
 	private int lifetimeBudget;
 
 	private List<String> creativeSequence;
+	private PromotedObject promotedObject;
 	private Targeting targeting;
 
 	private Date startTime;
@@ -112,6 +113,14 @@ public class AdSet extends FacebookObject {
 
 	public List<String> getCreativeSequence() {
 		return creativeSequence;
+	}
+
+	public PromotedObject getPromotedObject() {
+		return promotedObject;
+	}
+
+	public void setPromotedObject(PromotedObject promotedObject) {
+		this.promotedObject = promotedObject;
 	}
 
 	public Targeting getTargeting() {

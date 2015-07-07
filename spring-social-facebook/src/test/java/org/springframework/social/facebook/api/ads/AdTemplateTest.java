@@ -240,7 +240,7 @@ public class AdTemplateTest extends AbstractFacebookAdsApiTest {
 
 	@Test
 	public void createAd_withBidInfo() throws Exception {
-		String requestBody = "name=Test+ad&adgroup_status=PAUSED&bid_info=%7B%22REACH%22%3A%2211%22%2C%22ACTIONS%22%3A%2210%22%2C%22SOCIAL%22%3A%2250%22%2C%22CLICKS%22%3A%2212%22%7D&creative=%7B%22creative_id%22%3A+%22900123456789%22%7D&campaign_id=800123456789";
+		String requestBody = "name=Test+ad&adgroup_status=PAUSED&bid_info=%7B%22REACH%22%3A11%2C%22ACTIONS%22%3A10%2C%22SOCIAL%22%3A50%2C%22CLICKS%22%3A12%7D&creative=%7B%22creative_id%22%3A+%22900123456789%22%7D&campaign_id=800123456789";
 		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/act_123456789/adgroups"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -253,10 +253,10 @@ public class AdTemplateTest extends AbstractFacebookAdsApiTest {
 		ad.setAdSetId("800123456789");
 		ad.setCreativeId("900123456789");
 		BidInfo bidInfo = new BidInfo();
-		bidInfo.put("ACTIONS", "10");
-		bidInfo.put("REACH", "11");
-		bidInfo.put("CLICKS", "12");
-		bidInfo.put("SOCIAL", "50");
+		bidInfo.put("ACTIONS", 10);
+		bidInfo.put("REACH", 11);
+		bidInfo.put("CLICKS", 12);
+		bidInfo.put("SOCIAL", 50);
 		ad.setBidInfo(bidInfo);
 		assertEquals("100123456789", facebookAds.adOperations().createAd("123456789", ad));
 		mockServer.verify();
@@ -269,7 +269,7 @@ public class AdTemplateTest extends AbstractFacebookAdsApiTest {
 
 	@Test
 	public void updateAd() throws Exception {
-		String requestBody = "name=Updated+Ad&adgroup_status=ARCHIVED&bid_info=%7B%22CLICKS%22%3A%22500%22%7D";
+		String requestBody = "name=Updated+Ad&adgroup_status=ARCHIVED&bid_info=%7B%22CLICKS%22%3A500%7D";
 		mockServer.expect(requestTo("https://graph.facebook.com/v2.3/100123456789"))
 				.andExpect(method(POST))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
@@ -280,7 +280,7 @@ public class AdTemplateTest extends AbstractFacebookAdsApiTest {
 		ad.setStatus(Ad.AdStatus.ARCHIVED);
 		ad.setName("Updated Ad");
 		BidInfo bidInfo = new BidInfo();
-		bidInfo.put("CLICKS", "500");
+		bidInfo.put("CLICKS", 500);
 		ad.setBidInfo(bidInfo);
 		assertTrue(facebookAds.adOperations().updateAd("100123456789", ad));
 		mockServer.verify();

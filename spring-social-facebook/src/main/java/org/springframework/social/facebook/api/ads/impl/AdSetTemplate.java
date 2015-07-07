@@ -87,6 +87,13 @@ public class AdSetTemplate extends AbstractFacebookOperations implements AdSetOp
 		}
 		data.set("daily_budget", String.valueOf(adSet.getDailyBudget()));
 		data.set("lifetime_budget", String.valueOf(adSet.getLifetimeBudget()));
+		if (adSet.getPromotedObject() != null) {
+			try {
+				data.set("promoted_object", mapper.writeValueAsString(adSet.getPromotedObject()));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		}
 		if (adSet.getTargeting() != null) {
 			try {
 				data.set("targeting", mapper.writeValueAsString(adSet.getTargeting()));

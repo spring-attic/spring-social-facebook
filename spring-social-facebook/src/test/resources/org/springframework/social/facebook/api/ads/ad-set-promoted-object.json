@@ -1,0 +1,33 @@
+{
+  "id": "705123456789",
+  "account_id": "123456789",
+  "bid_info": {
+    "CLICKS": 500
+  },
+  "bid_type": "ABSOLUTE_OCPM",
+  "budget_remaining": 807,
+  "campaign_group_id": "600123456789",
+  "campaign_status": "PAUSED",
+  "created_time": "2015-07-06T14:18:55+0200",
+  "daily_budget": 2000,
+  "is_autobid": false,
+  "lifetime_budget": 0,
+  "name": "Test promoted object",
+  "promoted_object": {
+    "page_id": "999888777666555"
+  },
+  "start_time": "2015-07-06T14:18:55+0200",
+  "targeting": {
+    "age_max": 65,
+    "age_min": 18,
+    "geo_locations": {
+      "countries": [
+        "PL"
+      ],
+      "location_types": [
+        "home"
+      ]
+    }
+  },
+  "updated_time": "2015-07-06T14:18:55+0200"
+}

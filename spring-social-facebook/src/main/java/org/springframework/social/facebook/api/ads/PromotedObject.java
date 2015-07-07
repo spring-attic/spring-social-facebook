@@ -5,5 +5,5 @@ import java.util.HashMap;
 /**
  * @author Sebastian Górecki
  */
-public class BidInfo extends HashMap<String, Integer> {
+public class PromotedObject extends HashMap<String, String> {
 }
