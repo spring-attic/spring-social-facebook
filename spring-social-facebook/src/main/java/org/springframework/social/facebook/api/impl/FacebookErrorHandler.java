@@ -64,7 +64,7 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 	 * @param errorDetails a Map containing a "type" and a "message" corresponding to the Graph API's error response structure.
 	 */
 	void handleFacebookError(HttpStatus statusCode, FacebookError error) {
-		if (error.getCode() != null) {
+		if (error != null && error.getCode() != null) {
 			int code = error.getCode();
 			
 			if (code == UNKNOWN) {
