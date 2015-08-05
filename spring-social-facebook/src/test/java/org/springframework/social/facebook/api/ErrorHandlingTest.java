@@ -83,7 +83,18 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 		facebook.fetchObject("me", User.class);
 		fail();
 	}
-	
+
+	@Test(expected = InvalidParameterException.class)
+	public void code100InvalidParameter() throws Exception {
+		mockServer.expect(requestTo(fbUrl("me/feed")))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andRespond(withStatus(HttpStatus.BAD_REQUEST).body(jsonResource("error-100-invalidParameter")).contentType(MediaType.APPLICATION_JSON));
+		facebook.feedOperations().post("me", "");
+		fail();
+	}
+
+
 	@Test(expected=InvalidAuthorizationException.class)
 	public void code104NoAccessToken() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me")))
@@ -182,6 +193,5 @@ public class ErrorHandlingTest extends AbstractFacebookApiTest {
 			.andRespond(withStatus(HttpStatus.BAD_REQUEST).body(jsonResource("error-2500-bogusPath")).contentType(MediaType.APPLICATION_JSON));
 		facebook.fetchObject("me", User.class);
 		fail();
-	}	
-	
+	}
 }

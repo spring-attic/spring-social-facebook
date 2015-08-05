@@ -36,6 +36,7 @@ import org.springframework.social.RevokedAuthorizationException;
 import org.springframework.social.ServerException;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.facebook.api.FacebookError;
+import org.springframework.social.facebook.api.InvalidParameterException;
 import org.springframework.social.facebook.api.ads.InvalidCampaignStatusException;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
@@ -90,6 +91,8 @@ class FacebookErrorHandler extends DefaultResponseErrorHandler {
 				throw new ResourceNotFoundException(FACEBOOK_PROVIDER_ID, error.getMessage());
 			} else if (code == PARAM && error.getSubcode() != null && error.getSubcode() == 1487564) {
 				throw new InvalidCampaignStatusException(FACEBOOK_PROVIDER_ID, error.getUserMessage());
+			} else if (code == PARAM && error.getSubcode() != null) {
+				throw new InvalidParameterException(FACEBOOK_PROVIDER_ID, error.getUserMessage());
 			} else {
 				throw new UncategorizedApiException(FACEBOOK_PROVIDER_ID, error.getMessage(), null);
 			}
