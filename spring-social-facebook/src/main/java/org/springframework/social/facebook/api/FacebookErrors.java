@@ -194,7 +194,10 @@ public class FacebookErrors {
 	public static final int POKE_OUTSTANDING = 511;
 	public static final int POKE_RATE = 512;
 	public static final int POKE_USER_BLOCKED = 513;
-	
+
+	// Rate limiting errors
+	public static final int USER_APP_TOO_MANY_CALLS = 613;
+
 	// Ref errors
 	public static final int REF_SET_FAILED = 700;
 	
@@ -304,6 +307,9 @@ public class FacebookErrors {
 	public static final int TEST_ACCOUNTS_INVALID_ID = 2901;
 	public static final int TEST_ACCOUNTS_CANT_REMOVE_APP = 2902;
 	public static final int TEST_ACCOUNTS_CANT_DELETE = 2903;
+
+	// Ad Level Rate Limit error
+	public static final int AD_CREATION_LIMIT_EXCEEDED = 1487225;
 	
 	public static boolean isGeneralError(int code) {
 		return code < 100;
