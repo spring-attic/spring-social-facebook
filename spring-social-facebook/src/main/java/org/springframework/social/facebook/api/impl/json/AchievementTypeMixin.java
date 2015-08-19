@@ -30,6 +30,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -64,6 +65,11 @@ abstract class AchievementTypeMixin extends FacebookObjectMixin {
 		public Integer deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			Map map = jp.readValueAs(Map.class);
 			return map.containsKey("points") ? Integer.valueOf(String.valueOf(map.get("points"))): 0; 
+		}
+		
+		@Override
+		public Integer getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+			return 0;
 		}
 	}
 
