@@ -63,15 +63,29 @@ public class WorkEntry extends FacebookObject implements Serializable {
 	}
 	
 	public static class Project {
-		
+
+		private String id;
+
+		private String name;
+
 		private String description;
 
 		private String endDate;
 		
 		private String startDate;
-		
+
+		private Reference from;
+
 		private List<Reference> with;
-		
+
+		public String getId() {
+			return id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
 		public String getDescription() {
 			return description;
 		}
@@ -83,7 +97,11 @@ public class WorkEntry extends FacebookObject implements Serializable {
 		public String getStartDate() {
 			return startDate;
 		}
-		
+
+		public Reference getFrom() {
+			return from;
+		}
+
 		public List<Reference> getWith() {
 			return with;
 		}

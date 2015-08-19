@@ -49,13 +49,11 @@ public class FacebookAdapterTest {
 
 	@Test
 	public void setConnectionValues() throws Exception {
-		UserOperations userOperations = Mockito.mock(UserOperations.class);
-		Mockito.when(facebook.userOperations()).thenReturn(userOperations);
 		User user = new User("12345678", "Craig Walls", "Craig", "Walls", null, null);
 		Field linkField = user.getClass().getDeclaredField("link");
 		linkField.setAccessible(true);
 		linkField.set(user, "http://www.facebook.com/975041837");
-		Mockito.when(userOperations.getUserProfile()).thenReturn(user);
+		Mockito.when(facebook.fetchObject("me", User.class, "id", "name", "link")).thenReturn(user);
 		TestConnectionValues connectionValues = new TestConnectionValues();
 		apiAdapter.setConnectionValues(facebook, connectionValues);
 		assertEquals("Craig Walls", connectionValues.getDisplayName());
