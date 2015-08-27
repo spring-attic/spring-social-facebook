@@ -52,6 +52,8 @@ public class Album extends FacebookObject {
 
 	private Date updatedTime;
 	
+	private Date backdatedTime;
+	
 	public String getId() {
 		return id;
 	}
@@ -110,6 +112,10 @@ public class Album extends FacebookObject {
 
 	public Date getUpdatedTime() {
 		return updatedTime;
+	}
+	
+	public Date getBackdatedTime() {
+		return backdatedTime;
 	}
 	
 	public static enum Type { APP, COVER, PROFILE, MOBILE, WALL, NORMAL, ALBUM, UNKNOWN }
