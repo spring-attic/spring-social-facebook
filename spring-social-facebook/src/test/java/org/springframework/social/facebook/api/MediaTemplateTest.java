@@ -32,7 +32,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getAlbums() {
-		mockServer.expect(requestTo(fbUrl("me/albums?offset=0&limit=25")))
+		mockServer.expect(requestTo(fbUrl("me/albums?limit=25&offset=0&fields=id%2Ccan_upload%2Ccount%2Ccover_photo%2Ccreated_time%2Cfrom%2Clink%2Cname%2Cprivacy%2Ctype%2Cupdated_time%2Clikes%2Ccomments%2Cbackdated_time")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("albums"), MediaType.APPLICATION_JSON));
@@ -42,7 +42,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getAlbums_forSpecificUser() {
-		mockServer.expect(requestTo(fbUrl("192837465/albums?offset=0&limit=25")))
+		mockServer.expect(requestTo(fbUrl("192837465/albums?limit=25&offset=0&fields=id%2Ccan_upload%2Ccount%2Ccover_photo%2Ccreated_time%2Cfrom%2Clink%2Cname%2Cprivacy%2Ctype%2Cupdated_time%2Clikes%2Ccomments%2Cbackdated_time")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("albums"), MediaType.APPLICATION_JSON));
