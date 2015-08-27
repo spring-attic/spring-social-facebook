@@ -81,6 +81,9 @@ abstract class AlbumMixin extends FacebookObjectMixin {
 	@JsonProperty("updated_time")
 	Date updatedTime;
 	
+	@JsonProperty("backdated_time")
+	Date backdatedTime;
+	
 	private static class TypeDeserializer extends JsonDeserializer<Type> {
 		@Override
 		public Type deserialize(JsonParser jp, DeserializationContext ctxt)
