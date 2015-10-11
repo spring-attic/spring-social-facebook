@@ -301,16 +301,35 @@ task updateRootDocs << {
 build.dependsOn('updateRootDocs')
 
 
-
-uploadArchives {
+apply plugin: 'maven-publish'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact myJar
+        }
+    }
     repositories {
-        mavenDeployer {
-            repository(url: "http://modelzuzana.com:8080/nexus/content/repositories/snapshots") {
-                authentication(userName: "deployment", password: "neviempresne")
+        maven {
+            url "http://modelzuzana.com:8080/nexus/content/repositories/snapshots"
+            credentials {
+                username "deployment"
+                password "neviempresne"
             }
-            pom.version = "2.0.2.SNAPSHOT"
-            pom.artifactId = "spring-social-facebook"
-            pom.groupId = "org.springframework.social"
         }
     }
 }
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: "http://modelzuzana.com:8080/nexus/content/repositories/releases") {
+//                authentication(userName: "deployment", password: "neviempresne")
+//            }
+//            pom.version = "$version"
+//            pom.artifactId = "spring-social-facebook"
+//            pom.groupId = "org.springframework.social"
+//        }
+//    }
+//}
+
+task myJar(type: Jar)
+
