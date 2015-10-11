@@ -1,6 +1,11 @@
+apply plugin: 'maven'
+
 buildscript {
     repositories {
         maven { url 'http://repo.spring.io/plugins-release' }
+        maven {
+            url "http://modelzuzana.com:8080/nexus/content/groups/public"
+        }
     }
     dependencies {
         classpath 'org.springframework.build.gradle:docbook-reference-plugin:0.2.8'
@@ -294,3 +299,18 @@ task updateRootDocs << {
 }
 
 build.dependsOn('updateRootDocs')
+
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "http://modelzuzana.com:8080/nexus/content/repositories/snapshots") {
+                authentication(userName: "deployment", password: "neviempresne")
+            }
+            pom.version = "2.0.2.SNAPSHOT"
+            pom.artifactId = "spring-social-facebook"
+            pom.groupId = "org.springframework.social"
+        }
+    }
+}
