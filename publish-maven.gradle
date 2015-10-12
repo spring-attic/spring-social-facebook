@@ -7,6 +7,15 @@ ext.optional = { optionalDeps << it }
 ext.provided = { providedDeps << it }
 
 install {
+    repositories {
+        maven {
+            url "http://modelzuzana.com:8080/nexus/content/repositories/snapshots"
+            credentials {
+                username "deployment"
+                password "neviempresne"
+            }
+        }
+    }
     repositories.mavenInstaller {
         customizePom(pom, project)
     }

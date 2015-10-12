@@ -1,3 +1,5 @@
+apply plugin: 'maven'
+
 buildscript {
     repositories {
         maven { url 'http://repo.spring.io/plugins-release' }
