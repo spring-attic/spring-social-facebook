@@ -23,7 +23,7 @@ import org.springframework.social.MissingAuthorizationException;
 
 
 public interface UserOperations {
-	
+
 	/**
 	 * Retrieves the profile for the authenticated user.
 	 * @return the user's profile information.
@@ -31,7 +31,7 @@ public interface UserOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	User getUserProfile();
-	
+
 	/**
 	 * Retrieves the profile for the specified user.
 	 * @param userId the Facebook user ID to retrieve profile data for.
@@ -81,19 +81,19 @@ public interface UserOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	List<Permission> getUserPermissions();
-	
+
 	/**
 	 * Fetches IDs that the user has on any applications associated with the calling application via Facebook's Business Mapping API.
 	 * @return a list of ID-to-application mapping that the user has on related applications.
 	 */
 	List<UserIdForApp> getIdsForBusiness();
-	
+
 	/**
 	 * Fetches a list of places that the user has checked into or has been tagged at.
 	 * @return a list of place tags for the user.
 	 */
 	List<PlaceTag> getTaggedPlaces();
-	
+
 	/**
 	 * Searches for users.
 	 * @param query the search query (e.g., "Michael Scott")
@@ -102,13 +102,13 @@ public interface UserOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Reference> search(String query);
-	
+
 	static final String[] PROFILE_FIELDS = {
-		"id", "about", "age_range", "address", "bio", "birthday", "context", "cover", "currency", "devices", "education", "email", 
+		"id", "about", "age_range", "bio", "birthday", "context", "cover", "currency", "devices", "education", "email",
 		"favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", "install_type",
-		"is_verified", "languages", "last_name", "link", "locale", "location", "meeting_for", "middle_name", "name", "name_format", 
-		"political", "quotes", "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other", 
-		"sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "video_upload_limits", "viewer_can_send_gift", 
+		"is_verified", "languages", "last_name", "link", "locale", "location", "meeting_for", "middle_name", "name", "name_format",
+		"political", "quotes", "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other",
+		"sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "video_upload_limits", "viewer_can_send_gift",
 		"website", "work"
 	};
 
