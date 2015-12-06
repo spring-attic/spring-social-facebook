@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Annotated mixin to add Jackson annotations to VideoUploadLimits. 
+ * Annotated mixin to add Jackson annotations to VideoUploadLimits.
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,7 +28,7 @@ abstract class VideoUploadLimitsMixin extends FacebookObjectMixin {
 
 	@JsonCreator
 	VideoUploadLimitsMixin(
-			@JsonProperty("length") int length, 
-			@JsonProperty("size") int size) {}
-	
+			@JsonProperty("length") int length,
+			@JsonProperty("size") long size) {}
+
 }
