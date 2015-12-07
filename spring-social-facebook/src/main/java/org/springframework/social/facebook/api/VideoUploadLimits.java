@@ -22,20 +22,19 @@ package org.springframework.social.facebook.api;
 public class VideoUploadLimits extends FacebookObject {
 
 	private final int length;
-	
-	private final int size;
 
-	public VideoUploadLimits(int length, int size) {
+	private final long size;
+
+	public VideoUploadLimits(int length, long size) {
 		this.length = length;
 		this.size = size;
 	}
-	
+
 	public int getLength() {
 		return length;
 	}
-	
-	public int getSize() {
+
+	public long getSize() {
 		return size;
 	}
-	
 }

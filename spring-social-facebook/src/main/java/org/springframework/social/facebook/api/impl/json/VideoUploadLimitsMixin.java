@@ -29,6 +29,6 @@ abstract class VideoUploadLimitsMixin extends FacebookObjectMixin {
 	@JsonCreator
 	VideoUploadLimitsMixin(
 			@JsonProperty("length") int length, 
-			@JsonProperty("size") int size) {}
+			@JsonProperty("size") long size) {}
 	
 }
