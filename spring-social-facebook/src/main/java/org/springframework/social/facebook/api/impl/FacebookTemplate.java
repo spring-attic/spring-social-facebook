@@ -267,7 +267,25 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 
 	public byte[] fetchImage(String objectId, String connectionType, ImageType type) {
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType + "?type=" + type.toString().toLowerCase()).build();
+		return fetchImage(objectId, connectionType, type, null, null);
+	}
+
+	public byte[] fetchImage(String objectId, String connectionType, Integer width, Integer height) {
+		return fetchImage(objectId, connectionType, null, width, height);
+	}
+
+	private byte[] fetchImage(String objectId, String connectionType, ImageType type, Integer width, Integer height) {
+		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType);
+		if (type != null) {
+		  uriBuilder.queryParam("type", type.toString().toLowerCase());
+		}
+		if (width != null) {
+			uriBuilder.queryParam("width", width.toString());
+		}
+		if (height != null) {
+			uriBuilder.queryParam("height", height.toString());
+		}
+		URI uri = uriBuilder.build();
 		ResponseEntity<byte[]> response = getRestTemplate().getForEntity(uri, byte[].class);
 		if(response.getStatusCode() == HttpStatus.FOUND) {
 			throw new UnsupportedOperationException("Attempt to fetch image resulted in a redirect which could not be followed. Add Apache HttpComponents HttpClient to the classpath " +
