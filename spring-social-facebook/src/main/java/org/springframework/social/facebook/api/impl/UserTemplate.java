@@ -69,6 +69,14 @@ class UserTemplate implements UserOperations {
 		return graphApi.fetchImage(userId, "picture", imageType);
 	}
 
+	public byte[] getUserProfileImage(Integer width, Integer height) {
+		return getUserProfileImage("me", width, height);
+	}
+
+	public byte[] getUserProfileImage(String userId, Integer width, Integer height) {
+		return graphApi.fetchImage(userId, "picture", width, height);
+	}
+
 	public List<Permission> getUserPermissions() {
 		JsonNode responseNode = restTemplate.getForObject(GraphApi.GRAPH_API_URL + "me/permissions", JsonNode.class);
 		return deserializePermissionsNodeToList(responseNode);

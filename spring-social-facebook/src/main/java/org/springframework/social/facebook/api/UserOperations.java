@@ -75,6 +75,29 @@ public interface UserOperations {
 	byte[] getUserProfileImage(String userId, ImageType imageType);
 
 	/**
+	 * Retrieves the user's profile image. When height and width are both used,
+	 * the image will be scaled as close to the dimensions as possible and then
+	 * cropped down.
+	 * @param width the desired image width
+	 * @param height the desired image height
+	 * @return an array of bytes containing the user's profile image.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	byte[] getUserProfileImage(Integer width, Integer height);
+
+	/**
+	 * Retrieves the user's profile image. When height and width are both used,
+	 * the image will be scaled as close to the dimensions as possible and then
+	 * cropped down.
+	 * @param userId the Facebook user ID.
+	 * @param width the desired image width
+	 * @param height the desired image height
+	 * @return an array of bytes containing the user's profile image.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	byte[] getUserProfileImage(String userId, Integer width, Integer height);
+
+	/**
 	 * Retrieves a list of permissions that the application has been granted for the authenticated user.
 	 * @return the permissions granted for the user.
 	 * @throws ApiException if there is an error while communicating with Facebook.
