@@ -30,7 +30,7 @@ public class Album extends FacebookObject {
 
 	private int count;
 
-	private String coverPhoto;
+	private Photo coverPhoto;
 
 	private Date createdTime;
 
@@ -52,6 +52,8 @@ public class Album extends FacebookObject {
 
 	private Date updatedTime;
 	
+	private Date backdatedTime;
+	
 	public String getId() {
 		return id;
 	}
@@ -68,7 +70,7 @@ public class Album extends FacebookObject {
 	 * The ID of the Photo object that is the cover photo for the album.
 	 * @return A Photo object ID or null if the album does not have a cover photo
 	 */
-	public String getCoverPhoto() {
+	public Photo getCoverPhoto() {
 		return coverPhoto;
 	}
 
@@ -110,6 +112,10 @@ public class Album extends FacebookObject {
 
 	public Date getUpdatedTime() {
 		return updatedTime;
+	}
+	
+	public Date getBackdatedTime() {
+		return backdatedTime;
 	}
 	
 	public static enum Type { APP, COVER, PROFILE, MOBILE, WALL, NORMAL, ALBUM, UNKNOWN }

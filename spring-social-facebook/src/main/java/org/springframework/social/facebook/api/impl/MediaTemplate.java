@@ -55,8 +55,8 @@ class MediaTemplate implements MediaOperations {
 		return getAlbums(userId, new PagingParameters(25, 0, null, null));
 	}
 	
-	public PagedList<Album> getAlbums(String userId, PagingParameters pagedListParameters) {
-		return graphApi.fetchConnections(userId, "albums", Album.class, getPagingParameters(pagedListParameters));
+	public PagedList<Album> getAlbums(String userId, PagingParameters pagingParameters) {
+		return graphApi.fetchConnections(userId, "albums", Album.class, pagingParameters.toMap(), ALBUM_FIELDS);
 	}
 
 	public Album getAlbum(String albumId) {
@@ -87,7 +87,7 @@ class MediaTemplate implements MediaOperations {
 	}
 	
 	public PagedList<Photo> getPhotos(String objectId, PagingParameters pagedListParameters) {
-		return graphApi.fetchConnections(objectId, "photos", Photo.class, getPagingParameters(pagedListParameters));
+		return graphApi.fetchConnections(objectId, "photos", Photo.class, getPagingParameters(pagedListParameters), PHOTO_FIELDS);
 	}
 	
 	public Photo getPhoto(String photoId) {
@@ -175,4 +175,7 @@ class MediaTemplate implements MediaOperations {
 		data.add("tag_uid", userId);
 		graphApi.publish(videoId, "tags", data);
 	}
+	
+	private static final String PHOTO_FIELDS = "id,album,backdated_time,backdated_time_granularity,created_time,from,height,icon,images,link,name,page_story_id,place,picture,source,tags,updated_time,width";
+	private static final String ALBUM_FIELDS = "id,can_upload,count,cover_photo{" + PHOTO_FIELDS + "},created_time,from,link,name,privacy,type,updated_time,likes,comments,backdated_time";
 }
