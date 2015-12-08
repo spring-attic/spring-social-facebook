@@ -142,6 +142,11 @@ public class User extends FacebookObject implements Serializable {
 		return id;
 	}
 	
+	/**
+	 * The user's address
+	 * @return the user's address.
+	 * @deprecated Facebook no longer supports the address field in user profiles. Will return null for newer versions of the Graph API.
+	 */
 	public Location getAddress() {
 		return address;
 	}
