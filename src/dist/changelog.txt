@@ -1,6 +1,72 @@
+Spring Social Facebook 2.0.3 (December 8, 2015)
+===============================================
+Improvements
+  * Allow profile image dimensions to be specified manually.
+    (SOCIALFB-146)
+
+Bug fixes
+  * Change video upload limits from int to long. (SOCIALFB-198)
+
+Spring Social Facebook 2.0.2 (August 19, 2015)
+==============================================
+Bug fixes
+  * Fix MappingInstantiationException for no default constructor
+    in Reference object. (GitHub pull request #153)
+  * Fix NullPointerException in FacebookErrorHandler. (GitHub
+    pull request #165)
+  * Fix issue with deserializing null values for primitive fields.
+    (SOCIALFB-189)
+  * Fix authentication failure due to unrecognized fields in
+    WorkEntry.Project object and only fetch necessary fields for
+    ConnectionValues. (GitHub issue #159 and pull requests #158, #160)
+
+Improvements
+  * Remove deprecated 'location' field in Event test JSON files.
+    (GitHub pull request #156)
+
+Misc
+  * Use the latest version of Spring IO plugin (GitHub pull request #164)
+
+Spring Social Facebook 2.0.1 (April 27, 2015)
+=============================================
+Bug Fixes
+  * Fix references to FacebookProfile in reference documentation. (SOCIALFB-183)
+  * Fix broken FacebookAdapterTest to properly test for user profile
+    link.
+  * Fix JSON parsing error for FriendTemplate.getTaggableFriends().
+    (GitHub issue #146, pull request #149)
+  * Fix profile URL for non-app-scoped user IDs (GitHub issue #150, pull
+    request #151)
+
+Improvements
+  * Make PagedListUtils public.
+
+Spring Social Facebook 2.0.0 (April 15, 2015)
+=============================================
+ See changelogs in JIRA:
+  * https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10607&version=14994
+  * https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10607&version=14864
+  * https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10607&version=14643
+
+Spring Social Facebook 1.1.1 (May 1, 2014)
+==========================================
+Bug Fixes
+  * Fix snapshot dependency for Spring Social to depend on 1.1.0.RELEASE.
+  * Remove bogus .javajava files from build artifacts.
+
+Spring Social Facebook 1.1.0 (April 23, 2014)
+=============================================
+ See changelogs in JIRA:
+  * https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10607&version=12742
+  * https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10607&version=14172
+  * https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10607&version=14171
+  * https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10607&version=13804
+  * https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10607&version=12756
+  * https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10607&version=12338
+
 Spring Social Facebook 1.1.0.RC1 (September 2, 2013)
 ====================================================
-Improvments
+Improvements
   * Added a catch-all getExtraData() method to all Facebook model
     types to capture any data returned from Facebook that is otherwise
     unmapped to known properties. (SOCIALFB-125)
@@ -75,7 +141,7 @@ Bug Fixes
   * Handle HTTP 404 from Graph API by throwing ResourceNotFoundException
     (SOCIALFB-42)
   * Handle error where Facebook says that status is duplicate or similar
-    to a recent post to Twitter by throwing DuplicateStatusException 
+    to a recent post to Twitter by throwing DuplicateStatusException
     (SOCIALFB-57)
   * Fixed handling of errors to throw an InsufficientPermissionException
     when an OperationNotPermittedException was being thrown. (SOCIALFB-80)
@@ -129,7 +195,7 @@ Compatibility notes:
 Improvements
   * Support July 2013 Breaking Changes in Facebook's Graph API. (SOCIALFB-116)
   * Add several missing properties to Page object. (SOCIALFB-122)
-  * Change FriendOperations.getFriendProfiles() to return all friends. 
+  * Change FriendOperations.getFriendProfiles() to return all friends.
     (SOCIALFB-105)
 
 Bug Fixes
@@ -146,7 +212,7 @@ Bug Fixes
   * Deserialize the likesCount property of Comment as being sent from
     Facebook as either "likes" or "like_count" to reflect changes in
     the Facebook API to be applied September 5, 2012. (SOCIALFB-93)
-  
+
 Miscellaneous
   * Deprecated the picture property of Page, Post, and Video classes; to
     be replaced in Spring Social Facebook 1.1.0. (SOCIALFB-92)
@@ -198,7 +264,7 @@ Improvements
 Spring Social Facebook 1.0.0 RC2 (July 26, 2011)
 ================================================
 Improvements
-  * Changed GraphApi.fetchConnections() to more intuitively work with 
+  * Changed GraphApi.fetchConnections() to more intuitively work with
     list element type rather than a list wrapper. (SOCIALFB-9)
   * Handle duplicate status errors from Facebook by thrown a
     DuplicateStatusException. (SOCIALFB-12)
