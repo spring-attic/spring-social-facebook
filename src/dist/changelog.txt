@@ -6,6 +6,8 @@ Improvements
 
 Bug fixes
   * Change video upload limits from int to long. (SOCIALFB-198)
+  * Remove `address` field from fields fetched for User and
+    deprecate the getAddress() method. (GitHub Issue #172)
 
 Spring Social Facebook 2.0.2 (August 19, 2015)
 ==============================================
