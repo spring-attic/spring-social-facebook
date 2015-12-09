@@ -16,7 +16,9 @@
 package org.springframework.social.facebook.api.impl.json;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,10 +31,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 public class MessageTagMapDeserializer extends JsonDeserializer<Map<Integer,List<MessageTag>>> {
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public Map<Integer,List<MessageTag>> deserialize(JsonParser jp, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
@@ -42,8 +45,16 @@ public class MessageTagMapDeserializer extends JsonDeserializer<Map<Integer,List
 		if (jp.hasCurrentToken()) {
 			JsonNode dataNode = jp.readValueAs(JsonNode.class);
 			if (dataNode != null) {
-				return (Map<Integer,List<MessageTag>>) mapper.reader(new TypeReference<Map<Integer,List<MessageTag>>>() {}).readValue(dataNode);
-			}
+				if(dataNode.getNodeType().equals(JsonNodeType.OBJECT)) { // OLD STYLE, SUPPORTED IN GRAPH API 2.3
+					return (Map<Integer,List<MessageTag>>) mapper.reader(new TypeReference<Map<Integer,List<MessageTag>>>() {}).readValue(dataNode);
+				} else if (dataNode.getNodeType().equals(JsonNodeType.ARRAY)) { // NEW STYLE 2.4/2.5-ish
+					List<MessageTag> tagList = (List<MessageTag>) mapper.reader(new TypeReference<List<MessageTag>>() {}).readValue(dataNode);
+					Map<Integer, List<MessageTag>> messageTagMap = new HashMap<Integer, List<MessageTag>>();
+					for (MessageTag messageTag : tagList) {
+						messageTagMap.put(messageTag.getOffset(), Arrays.asList(messageTag));
+					}
+				}
+			} 
 		}
 		
 		return Collections.emptyMap();

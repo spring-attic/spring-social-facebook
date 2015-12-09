@@ -29,8 +29,21 @@ public class TestUserTemplate extends AbstractFacebookOperations implements Test
 	
 	private RestTemplate restTemplate;
 
+	private GraphApi graphApi;
+
+	/**
+	 * @deprecated Construct with a GraphApi, RestTemplate, and appId instead.
+	 * @param restTemplate the RestTemplate
+	 * @param appId the app ID
+	 */
+	@Deprecated
 	public TestUserTemplate(RestTemplate restTemplate, String appId) {
+		this(null, restTemplate, appId);
+	}
+	
+	public TestUserTemplate(GraphApi graphApi, RestTemplate restTemplate, String appId) {
 		super(false);
+		this.graphApi = graphApi;
 		this.restTemplate = restTemplate;
 		this.appId = appId;
 	}
@@ -50,17 +63,17 @@ public class TestUserTemplate extends AbstractFacebookOperations implements Test
 			request.set("permissions", permissions);
 		}
 
-		return restTemplate.postForObject(GraphApi.GRAPH_API_URL + "{appId}/accounts/test-users", request, TestUser.class, appId);
+		return restTemplate.postForObject(graphApi.getBaseGraphApiUrl() + "{appId}/accounts/test-users", request, TestUser.class, appId);
 	}
 	
 	public void sendConfirmFriends(TestUser testUser1, TestUser testUser2) {
 		RestOperations userRest = new FacebookTemplate(testUser1.getAccessToken()).restOperations();
 		
-		userRest.postForObject(GraphApi.GRAPH_API_URL + "{testUserId1}/friends/{testUserId2}", "", String.class, testUser1.getId(), testUser2.getId());
+		userRest.postForObject(graphApi.getBaseGraphApiUrl() + "{testUserId1}/friends/{testUserId2}", "", String.class, testUser1.getId(), testUser2.getId());
 	}
 	
 	public void deleteTestUser(String testUserId) {
-		restTemplate.delete(GraphApi.GRAPH_API_URL + "{testUserId}", testUserId);
+		restTemplate.delete(graphApi.getBaseGraphApiUrl() + "{testUserId}", testUserId);
 	}
 	
 }

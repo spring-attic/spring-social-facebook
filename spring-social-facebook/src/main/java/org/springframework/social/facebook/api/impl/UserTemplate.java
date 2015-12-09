@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.ImageType;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Permission;
 import org.springframework.social.facebook.api.PlaceTag;
 import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.UserIdForApp;
 import org.springframework.social.facebook.api.UserOperations;
 import org.springframework.util.LinkedMultiValueMap;
@@ -78,7 +78,7 @@ class UserTemplate implements UserOperations {
 	}
 
 	public List<Permission> getUserPermissions() {
-		JsonNode responseNode = restTemplate.getForObject(GraphApi.GRAPH_API_URL + "me/permissions", JsonNode.class);
+		JsonNode responseNode = restTemplate.getForObject(graphApi.getBaseGraphApiUrl() + "me/permissions", JsonNode.class);
 		return deserializePermissionsNodeToList(responseNode);
 	}
 	

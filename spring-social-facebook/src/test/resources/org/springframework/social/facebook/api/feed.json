@@ -19,17 +19,14 @@
                 "id":"100001387295207"
             },
             "message":"Just trying something",
-            "message_tags": {
-              "18": [
+            "message_tags": [
                 {
                   "id": "328988200473814", 
                   "name": "Star Wars", 
                   "type": "page", 
                   "offset": 18, 
                   "length": 25
-                }
-              ], 
-              "78": [
+                },
                 {
                   "id": "100484820802", 
                   "name": "iTunes", 
@@ -37,8 +34,7 @@
                   "offset": 78, 
                   "length": 6
                 }
-              ]
-            },
+              ],
             "properties": [
               {
                 "name": "By",

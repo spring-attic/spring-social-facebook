@@ -24,11 +24,14 @@ import org.mockito.Mockito;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
 import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.UserOperations;
 
 public class FacebookAdapterTest {
+
+	private static final String API_VERSION = "2.5";
+
+	private static final String GRAPH_API_URL = "https://graph.facebook.com/" + API_VERSION + "/";
 
 	private FacebookAdapter apiAdapter = new FacebookAdapter();
 	
@@ -38,6 +41,7 @@ public class FacebookAdapterTest {
 	public void fetchProfile() {		
 		UserOperations userOperations = Mockito.mock(UserOperations.class);
 		Mockito.when(facebook.userOperations()).thenReturn(userOperations);
+		Mockito.when(facebook.getBaseGraphApiUrl()).thenReturn(GRAPH_API_URL);
 		Mockito.when(userOperations.getUserProfile()).thenReturn(new User("12345678", "Craig Walls", "Craig", "Walls", null, null));
 		UserProfile profile = apiAdapter.fetchUserProfile(facebook);
 		assertEquals("Craig Walls", profile.getName());
@@ -54,10 +58,11 @@ public class FacebookAdapterTest {
 		linkField.setAccessible(true);
 		linkField.set(user, "http://www.facebook.com/975041837");
 		Mockito.when(facebook.fetchObject("me", User.class, "id", "name", "link")).thenReturn(user);
+		Mockito.when(facebook.getBaseGraphApiUrl()).thenReturn(GRAPH_API_URL);
 		TestConnectionValues connectionValues = new TestConnectionValues();
 		apiAdapter.setConnectionValues(facebook, connectionValues);
 		assertEquals("Craig Walls", connectionValues.getDisplayName());
-		assertEquals(GraphApi.GRAPH_API_URL + "12345678/picture", connectionValues.getImageUrl());
+		assertEquals(GRAPH_API_URL + "12345678/picture", connectionValues.getImageUrl());
 		assertEquals("http://www.facebook.com/975041837", connectionValues.getProfileUrl());
 		assertEquals("12345678", connectionValues.getProviderUserId());
 	}

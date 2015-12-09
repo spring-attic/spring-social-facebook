@@ -87,7 +87,7 @@ class MediaTemplate implements MediaOperations {
 	}
 	
 	public PagedList<Photo> getPhotos(String objectId, PagingParameters pagedListParameters) {
-		return graphApi.fetchConnections(objectId, "photos", Photo.class, getPagingParameters(pagedListParameters));
+		return graphApi.fetchConnections(objectId, "photos", Photo.class, getPagingParameters(pagedListParameters), ALL_PHOTO_FIELDS);
 	}
 	
 	public Photo getPhoto(String photoId) {
@@ -175,4 +175,9 @@ class MediaTemplate implements MediaOperations {
 		data.add("tag_uid", userId);
 		graphApi.publish(videoId, "tags", data);
 	}
+	
+	static final String[] ALL_PHOTO_FIELDS = {
+			"id", "album", "backdated_time", "backdated_time_granularity", "created_time", "from", "height", "picture",
+			"source", "link", "icon", "images", "name", "page_story_id", "place,updated_time", "tags"
+	};
 }

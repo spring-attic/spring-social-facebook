@@ -15,11 +15,10 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import static org.springframework.social.facebook.api.GraphApi.*;
-
 import java.util.ArrayList;
 
 import org.springframework.social.facebook.api.CountedList;
+import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.social.facebook.api.SocialContextOperations;
 import org.springframework.social.support.URIBuilder;
@@ -34,10 +33,22 @@ class SocialContextTemplate implements SocialContextOperations {
 	
 	private final RestOperations rest;
 
+	private GraphApi graphApi;
+	
+	/**
+	 * @deprecated Construct with GraphApi and RestOperations instead. Kept for backward compatibility only.
+	 * @param rest a RestOperations
+	 */
+	@Deprecated
 	public SocialContextTemplate(RestOperations rest) {
 		this.rest = rest;
 	}
-	
+
+	public SocialContextTemplate(GraphApi graphApi, RestOperations rest) {
+		this.graphApi = graphApi;
+		this.rest = rest;
+	}
+
 	public CountedList<Reference> getMutualFriends(String userId) {
 		return getSocialContext(userId, "mutual_friends", LIMIT);
 	}
@@ -104,7 +115,7 @@ class SocialContextTemplate implements SocialContextOperations {
 	
 	private CountedList<Reference> getSocialContext(String userId, String context, int limit) {
 		URIBuilder uriBuilder = URIBuilder
-				.fromUri(GRAPH_API_URL + userId)
+				.fromUri(graphApi.getBaseGraphApiUrl() + userId)
 				.queryParam("fields", "context.fields(" + context + ".limit(" + limit + "))");
 		JsonNode responseNode = rest.getForObject(uriBuilder.build(), JsonNode.class);
 		JsonNode contextNode = responseNode.get("context").get(context);

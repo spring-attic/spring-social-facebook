@@ -27,6 +27,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.social.facebook.api.Photo.TimeGranularity;
+import org.springframework.util.StringUtils;
 
 public class MediaTemplateTest extends AbstractFacebookApiTest {
 
@@ -82,7 +83,8 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getPhotos() {
-		mockServer.expect(requestTo(fbUrl("10151447271460580/photos?offset=0&limit=25")))
+		String allPhotoFields = StringUtils.arrayToCommaDelimitedString(ALL_PHOTO_FIELDS).replace(",", "%2C");
+		mockServer.expect(requestTo(fbUrl("10151447271460580/photos?offset=0&limit=25&fields=" + allPhotoFields)))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("photos"), MediaType.APPLICATION_JSON));
@@ -348,5 +350,10 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-29T20:45:20+0000"), video.getUpdatedTime());
 		assertSingleVideo(videos.get(1));
 	}
+
+	static final String[] ALL_PHOTO_FIELDS = {
+			"id", "album", "backdated_time", "backdated_time_granularity", "created_time", "from", "height", "picture",
+			"source", "link", "icon", "images", "name", "page_story_id", "place,updated_time", "tags"
+	};
 
 }

@@ -35,6 +35,7 @@ import org.springframework.social.facebook.api.PostData;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -70,7 +71,7 @@ class FeedTemplate implements FeedOperations {
 	}
 		
 	public PagedList<Post> getFeed(String ownerId, PagingParameters pagedListParameters) {
-		JsonNode responseNode = fetchConnectionList(GraphApi.GRAPH_API_URL + ownerId + "/feed", pagedListParameters);
+		JsonNode responseNode = fetchConnectionList(graphApi.getBaseGraphApiUrl() + ownerId + "/feed", pagedListParameters);
 		return deserializeList(responseNode, null, Post.class);
 	}
 
@@ -79,7 +80,7 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public PagedList<Post> getHomeFeed(PagingParameters pagedListParameters) {
-		JsonNode responseNode = fetchConnectionList(GraphApi.GRAPH_API_URL + "me/home", pagedListParameters);
+		JsonNode responseNode = fetchConnectionList(graphApi.getBaseGraphApiUrl() + "me/home", pagedListParameters);
 		return deserializeList(responseNode, null, Post.class);
 	}
 
@@ -96,7 +97,7 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public PagedList<Post> getStatuses(String userId, PagingParameters pagedListParameters) {
-		JsonNode responseNode = fetchConnectionList(GraphApi.GRAPH_API_URL + userId + "/statuses", pagedListParameters);
+		JsonNode responseNode = fetchConnectionList(graphApi.getBaseGraphApiUrl() + userId + "/statuses", pagedListParameters);
 		return deserializeList(responseNode, "status", Post.class);
 	}
 
@@ -113,7 +114,7 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public PagedList<Post> getLinks(String ownerId, PagingParameters pagedListParameters) {
-		JsonNode responseNode = fetchConnectionList(GraphApi.GRAPH_API_URL + ownerId + "/links", pagedListParameters);
+		JsonNode responseNode = fetchConnectionList(graphApi.getBaseGraphApiUrl() + ownerId + "/links", pagedListParameters);
 		return deserializeList(responseNode, "link", Post.class);
 	}
 
@@ -130,7 +131,7 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public PagedList<Post> getPosts(String ownerId, PagingParameters pagedListParameters) {
-		JsonNode responseNode = fetchConnectionList(GraphApi.GRAPH_API_URL + ownerId + "/posts", pagedListParameters);
+		JsonNode responseNode = fetchConnectionList(graphApi.getBaseGraphApiUrl() + ownerId + "/posts", pagedListParameters);
 		return deserializeList(responseNode, null, Post.class);
 	}
 
@@ -147,12 +148,12 @@ class FeedTemplate implements FeedOperations {
 	}
 	
 	public PagedList<Post> getTagged(String ownerId, PagingParameters pagedListParameters) {
-		JsonNode responseNode = fetchConnectionList(GraphApi.GRAPH_API_URL + ownerId + "/tagged", pagedListParameters);
+		JsonNode responseNode = fetchConnectionList(graphApi.getBaseGraphApiUrl() + ownerId + "/tagged", pagedListParameters);
 		return deserializeList(responseNode, null, Post.class);
 	}
 
 	public Post getPost(String entryId) {
-		ObjectNode responseNode = (ObjectNode) restTemplate.getForObject(GraphApi.GRAPH_API_URL + entryId, JsonNode.class);
+		ObjectNode responseNode = (ObjectNode) restTemplate.getForObject(graphApi.getBaseGraphApiUrl() + entryId, JsonNode.class);
 		return deserializePost(null, Post.class, responseNode);
 	}
 
@@ -207,6 +208,7 @@ class FeedTemplate implements FeedOperations {
 	private JsonNode fetchConnectionList(String baseUri, PagingParameters pagedListParameters) {
 		URIBuilder uriBuilder = URIBuilder.fromUri(baseUri);
 		uriBuilder = appendPagedListParameters(pagedListParameters, uriBuilder);
+		uriBuilder.queryParam("fields", StringUtils.arrayToCommaDelimitedString(ALL_POST_FIELDS));
 		URI uri = uriBuilder.build();
 		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
 		return responseNode;
@@ -279,5 +281,12 @@ class FeedTemplate implements FeedOperations {
 		}
 		return uriBuilder;
 	}
+	
+	
+	private static final String[] ALL_POST_FIELDS = {
+			"id", "actions", "admin_creator", "application", "caption", "created_time", "description", "from", "icon",
+			"is_hidden", "is_published", "link", "message", "message_tags", "name", "object_id", "picture", "place", 
+			"privacy", "properties", "source", "status_type", "story", "to", "type", "updated_time", "with_tags", "shares"
+	};
 
 }

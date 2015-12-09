@@ -108,6 +108,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 
 	private String applicationNamespace;
 
+	private String apiVersion = "2.5";
+	
 	/**
 	 * Create a new instance of FacebookTemplate.
 	 * This constructor creates the FacebookTemplate using a given access token.
@@ -132,6 +134,15 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	public void setRequestFactory(ClientHttpRequestFactory requestFactory) {
 		// Wrap the request factory with a BufferingClientHttpRequestFactory so that the error handler can do repeat reads on the response.getBody()
 		super.setRequestFactory(ClientHttpRequestFactorySelector.bufferRequests(requestFactory));
+	}
+	
+	/**
+	 * Set the Graph API version (e.g., "2.5"). If set to null, the version will be left out of the request URLs to the
+	 * Graph API.
+	 * @param apiVersion the API version. Default is "2.5".
+	 */
+	public void setApiVersion(String apiVersion) {
+		this.apiVersion = apiVersion;
 	}
 
 	public AchievementOperations achievementOperations() {
@@ -196,7 +207,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	// low-level Graph API operations
 	public <T> T fetchObject(String objectId, Class<T> type) {
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId).build();
+		URI uri = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId).build();
 		return getRestTemplate().getForObject(uri, type);
 	}
 
@@ -210,7 +221,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 
 	public <T> T fetchObject(String objectId, Class<T> type, MultiValueMap<String, String> queryParameters) {
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId).queryParams(queryParameters).build();
+		URI uri = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId).queryParams(queryParameters).build();
 		return getRestTemplate().getForObject(uri, type);
 	}
 
@@ -225,14 +236,14 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 
 	public <T> PagedList<T> fetchConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters) {
 		String connectionPath = connectionType != null && connectionType.length() > 0 ? "/" + connectionType : "";
-		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).queryParams(queryParameters);
+		URIBuilder uriBuilder = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId + connectionPath).queryParams(queryParameters);
 		JsonNode jsonNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
 		return pagify(type, jsonNode);
 	}
 
 	public <T> PagedList<T> fetchPagedConnections(String objectId, String connectionType, Class<T> type, MultiValueMap<String, String> queryParameters) {
 		String connectionPath = connectionType != null && connectionType.length() > 0 ? "/" + connectionType : "";
-		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).queryParams(queryParameters);
+		URIBuilder uriBuilder = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId + connectionPath).queryParams(queryParameters);
 		JsonNode jsonNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
 		return pagify(type, jsonNode);
 	}
@@ -265,6 +276,13 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		
 		return new PagedList<T>(data, previousPage, nextPage, totalCount);
 	}
+	
+	public String getBaseGraphApiUrl() {
+		if (apiVersion != null) {
+			return "https://graph.facebook.com/v" + apiVersion + "/";
+		}
+		return "https://graph.facebook.com/";
+	}
 
 	public byte[] fetchImage(String objectId, String connectionType, ImageType type) {
 		return fetchImage(objectId, connectionType, type, null, null);
@@ -275,7 +293,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 
 	private byte[] fetchImage(String objectId, String connectionType, ImageType type, Integer width, Integer height) {
-		URIBuilder uriBuilder = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType);
+		URIBuilder uriBuilder = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId + "/" + connectionType);
 		if (type != null) {
 		  uriBuilder.queryParam("type", type.toString().toLowerCase());
 		}
@@ -297,7 +315,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	@SuppressWarnings("unchecked")
 	public String publish(String objectId, String connectionType, MultiValueMap<String, Object> data) {
 		MultiValueMap<String, Object> requestData = new LinkedMultiValueMap<String, Object>(data);
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType).build();
+		URI uri = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId + "/" + connectionType).build();
 		Map<String, Object> response = getRestTemplate().postForObject(uri, requestData, Map.class);
 		return (String) response.get("id");
 	}
@@ -308,27 +326,27 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	
 	public void post(String objectId, String connectionType, MultiValueMap<String, Object> data) {
 		String connectionPath = connectionType != null ? "/" + connectionType : "";
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + connectionPath).build();
+		URI uri = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId + connectionPath).build();
 		getRestTemplate().postForObject(uri, new LinkedMultiValueMap<String, Object>(data), String.class);
 	}
 	
 	public void delete(String objectId) {
 		LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
 		deleteRequest.set("method", "delete");
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId).build();
+		URI uri = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId).build();
 		getRestTemplate().postForObject(uri, deleteRequest, String.class);
 	}
 	
 	public void delete(String objectId, String connectionType) {
 		LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
 		deleteRequest.set("method", "delete");
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType).build();
+		URI uri = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId + "/" + connectionType).build();
 		getRestTemplate().postForObject(uri, deleteRequest, String.class);
 	}
 	
 	public void delete(String objectId, String connectionType, MultiValueMap<String, String> data) {
 		data.set("method", "delete");
-		URI uri = URIBuilder.fromUri(GRAPH_API_URL + objectId + "/" + connectionType).build();
+		URI uri = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId + "/" + connectionType).build();
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(data, new HttpHeaders());
 		getRestTemplate().exchange(uri, HttpMethod.POST, entity, String.class);
 	}
@@ -372,8 +390,8 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		mediaOperations = new MediaTemplate(this, getRestTemplate());
 		groupOperations = new GroupTemplate(this);
 		pageOperations = new PageTemplate(this);
-		testUserOperations = new TestUserTemplate(getRestTemplate(), appId);
-		socialContextOperations = new SocialContextTemplate(getRestTemplate());
+		testUserOperations = new TestUserTemplate(this, getRestTemplate(), appId);
+		socialContextOperations = new SocialContextTemplate(this, getRestTemplate());
 	}
 	
 	@SuppressWarnings("unchecked")

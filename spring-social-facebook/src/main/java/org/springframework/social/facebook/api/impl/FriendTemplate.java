@@ -77,7 +77,7 @@ class FriendTemplate implements FriendOperations {
 	}
 	
 	public PagedList<String> getFriendIds(String userId) {
-		URI uri = URIBuilder.fromUri(GraphApi.GRAPH_API_URL + userId + "/friends").queryParam("fields", "id").build();
+		URI uri = URIBuilder.fromUri(graphApi.getBaseGraphApiUrl() + userId + "/friends").queryParam("fields", "id").build();
 		JsonNode responseNode = restTemplate.getForObject(uri, JsonNode.class);
 		ArrayNode dataNode = (ArrayNode) responseNode.get("data");
 		List<String> idList = new ArrayList<String>(dataNode.size());

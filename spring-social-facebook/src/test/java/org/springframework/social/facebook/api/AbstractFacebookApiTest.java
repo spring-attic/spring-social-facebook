@@ -63,7 +63,7 @@ public class AbstractFacebookApiTest {
 	}
 	
 	protected String fbUrl(String path) {
-		return GraphApi.GRAPH_API_URL + path;
+		return facebook.getBaseGraphApiUrl() + path;
 	}
 
 	private static final DateFormat FB_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
