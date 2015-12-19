@@ -28,7 +28,11 @@ import org.springframework.social.oauth2.OAuth2Template;
 public class FacebookServiceProvider extends AbstractOAuth2ServiceProvider<Facebook> {
 
 	private String appNamespace;
-	
+
+	private String appSecret;
+
+	private String appId;
+
 	private static final String API_VERSION = "2.5";
 
 	private static final String GRAPH_API_URL = "https://graph.facebook.com/v" + API_VERSION + "/";
@@ -43,6 +47,8 @@ public class FacebookServiceProvider extends AbstractOAuth2ServiceProvider<Faceb
 	public FacebookServiceProvider(String appId, String appSecret, String appNamespace) {
 		super(getOAuth2Template(appId, appSecret));
 		this.appNamespace = appNamespace;
+		this.appSecret = appSecret;
+		this.appId = appId;
 	}
 	
 	private static OAuth2Template getOAuth2Template(String appId, String appSecret) {
@@ -54,7 +60,7 @@ public class FacebookServiceProvider extends AbstractOAuth2ServiceProvider<Faceb
 	}
 
 	public Facebook getApi(String accessToken) {
-		return new FacebookTemplate(accessToken, appNamespace);
+		return new FacebookTemplate(accessToken, appNamespace, appId, appSecret);
 	}
 	
 }
