@@ -44,6 +44,7 @@ public class FacebookAdapterTest {
 		Mockito.when(facebook.getBaseGraphApiUrl()).thenReturn(GRAPH_API_URL);
 		Mockito.when(userOperations.getUserProfile()).thenReturn(new User("12345678", "Craig Walls", "Craig", "Walls", null, null));
 		UserProfile profile = apiAdapter.fetchUserProfile(facebook);
+		assertEquals("12345678", profile.getId());
 		assertEquals("Craig Walls", profile.getName());
 		assertEquals("Craig", profile.getFirstName());
 		assertEquals("Walls", profile.getLastName());
