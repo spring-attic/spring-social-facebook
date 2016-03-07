@@ -41,6 +41,9 @@ abstract class AlbumMixin extends FacebookObjectMixin {
 	@JsonProperty("id")
 	String id;
 	
+	@JsonProperty("backdated_time")
+	Date backdatedTime;
+
 	@JsonProperty("can_upload")
 	boolean canUpload;
 
