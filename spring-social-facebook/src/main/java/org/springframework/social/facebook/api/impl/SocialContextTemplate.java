@@ -118,7 +118,17 @@ class SocialContextTemplate implements SocialContextOperations {
 				.fromUri(graphApi.getBaseGraphApiUrl() + userId)
 				.queryParam("fields", "context.fields(" + context + ".limit(" + limit + "))");
 		JsonNode responseNode = rest.getForObject(uriBuilder.build(), JsonNode.class);
-		JsonNode contextNode = responseNode.get("context").get(context);
+		JsonNode contextRootNode = responseNode.get("context");
+
+		if (contextRootNode == null) {
+			return new CountedList<Reference>(new ArrayList<Reference>(0), 0);
+		}
+
+		JsonNode contextNode = contextRootNode.get(context);
+		if (contextNode == null) {
+			return new CountedList<Reference>(new ArrayList<Reference>(0), 0);
+		}
+
 		ArrayNode dataNode = (ArrayNode) contextNode.get("data");
 		ArrayList<Reference> results = new ArrayList<Reference>(dataNode.size());
 		for (JsonNode itemNode : dataNode) {
