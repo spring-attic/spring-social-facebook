@@ -141,7 +141,16 @@ public interface GraphApi {
 	 * @param data the data to publish to the connection.
 	 */
 	void post(String objectId, String connectionName, MultiValueMap<String, Object> data);
-	
+
+	/**
+	 * Updates data of an object.
+	 * Requires appropriate permission to update to the object connection.
+	 * @param objectId the object ID to update.
+	 * @param data the data to update in the object.
+	 * @return true if update was successful
+	 */
+	boolean update(String objectId, MultiValueMap<String, Object> data);
+
 	/**
 	 * Deletes an object.
 	 * Requires appropriate permission to delete the object.

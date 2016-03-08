@@ -1,0 +1,12 @@
+{
+  "body": "This is the body of the ad creative",
+  "image_hash": "ac67a06abb35a3bef8256c8c9085548e",
+  "image_url": "https://example.com/images/image.png",
+  "name": "Name of the ad creative",
+  "object_url": "http://example.com/objects/object",
+  "run_status": "ACTIVE",
+  "title": "Title of the ad creative",
+  "thumbnail_url": "https://example.com/thumbnails/thuumbnail_url",
+  "object_type": "DOMAIN",
+  "id": "803123456789"
+}

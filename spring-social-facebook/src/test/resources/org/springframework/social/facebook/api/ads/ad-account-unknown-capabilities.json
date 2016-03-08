@@ -1,0 +1,10 @@
+{
+  "capabilities": [
+    "UNKNOWN_CAPABILITY1",
+    "UNKNOWN_CAPABILITY2",
+    "UNKNOWN_CAPABILITY3",
+    "PREMIUM"
+  ],
+  "account_id": 123456789,
+  "id": "act_123456789"
+}

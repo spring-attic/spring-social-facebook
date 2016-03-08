@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "body": "This is the body of the ad creative1",
+      "image_hash": "ac67a06abb35a3bef8256c8c9085548e1",
+      "image_url": "https://example.com/images/image1.png",
+      "name": "Name of the ad creative1",
+      "object_id": "900123456789",
+      "run_status": "ACTIVE",
+      "thumbnail_url": "https://example.com/thumbnails/thuumbnail_url1",
+      "object_type": "PAGE",
+      "id": "801123456789"
+    },
+    {
+      "body": "This is the body of the ad creative2",
+      "image_hash": "ac67a06abb35a3bef8256c8c9085548e2",
+      "image_url": "https://example.com/images/image2.png",
+      "name": "Name of the ad creative2",
+      "object_url": "http://example.com/objects/object",
+      "run_status": "ACTIVE",
+      "title": "Test Ad Creative",
+      "thumbnail_url": "https://example.com/thumbnails/thuumbnail_url2",
+      "object_type": "DOMAIN",
+      "id": "802123456789"
+    },
+    {
+      "name": "This is the body of the ad creative3",
+      "object_story_id": "987654321_123456789",
+      "run_status": "ACTIVE",
+      "thumbnail_url": "https://example.com/thumbnails/thuumbnail_url3",
+      "object_type": "STATUS",
+      "id": "803123456789"
+    }
+  ],
+  "paging": {
+    "cursors": {
+      "before": "NjAyNjU3MzQzNDQ1MA==",
+      "after": "NjAyNDE2Nzg5NjY1MA=="
+    }
+  }
+}

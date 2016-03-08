@@ -17,18 +17,27 @@ package org.springframework.social.facebook.api.impl;
 
 import org.springframework.social.MissingAuthorizationException;
 
-class AbstractFacebookOperations {
+import java.util.Date;
+
+public class AbstractFacebookOperations {
 	
 	private final boolean isAuthorized;
 
 	public AbstractFacebookOperations(boolean isAuthorized) {
 		this.isAuthorized = isAuthorized;
 	}
-	
+
+	public String getAdAccountId(String id) {
+		return "act_" + id;
+	}
+
 	protected void requireAuthorization() {
 		if (!isAuthorized) {
 			throw new MissingAuthorizationException("facebook");
 		}
 	}
-	
+
+	public String getUnixTime(Date date) {
+		return date != null ? String.valueOf(date.getTime() / 1000L) : "";
+	}
 }

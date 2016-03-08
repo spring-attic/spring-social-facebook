@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "id": "123456789",
+      "name": "Account #1",
+      "permissions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7
+      ],
+      "role": 1001
+    },
+    {
+      "id": "987654321",
+      "name": "Account #2",
+      "permissions": [
+        7
+      ],
+      "role": 1003
+    },
+    {
+      "id": "1122334455",
+      "name": "Account #3",
+      "permissions": [
+        2,
+        4
+      ],
+      "role": 1004
+    }
+  ]
+}
