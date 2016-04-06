@@ -138,6 +138,6 @@ class EventTemplate implements EventOperations {
 		return graphApi.fetchConnections(userId, "events/" + status, Invitation.class, parameters);
 	}
 	
-	private static final String[] ALL_FIELDS = { "id", "cover", "description", "end_time", "is_date_only", "name", "owner", 
-		"parent_group", "privacy", "start_time", "ticket_uri", "timezone", "updated_time", "place"};
+	private static final String[] ALL_FIELDS = { "id", "cover", "description", "end_time", "name", "owner",
+		"parent_group", "type", "start_time", "ticket_uri", "timezone", "updated_time", "place"};
 }
