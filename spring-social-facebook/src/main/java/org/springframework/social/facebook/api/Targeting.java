@@ -97,7 +97,7 @@ public class Targeting {
         if(!attributesMap.isEmpty()){
 
             for (Map.Entry<String, String > entry : attributesMap.entrySet()) {
-                privacyBuffer.append(",'"+entry.getKey()+"':'" + entry.getKey() + "'");
+                privacyBuffer.append(",'"+entry.getKey()+"':'" + entry.getValue() + "'");
             }
         }
         privacyBuffer.append("}");
