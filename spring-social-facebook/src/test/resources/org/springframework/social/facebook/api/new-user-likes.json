@@ -5,24 +5,6 @@
       "name": "U2", 
       "category": "Musician/band", 
       "website": "http://www.u2.com http://www.interscope.com/u2 http://www.myspace.com/u2 http://www.imeem.com/u2music",
-      "likes": {
-        "data": [
-          {
-            "name": "Mulch, Sweat, & Shears",
-            "id": "36643253738"
-          },
-          {
-            "name": "Torchy's Tacos",
-            "id": "188620089283"
-          }
-        ],
-        "paging": {
-          "cursors": {
-            "before": "NzA2MjE2MjQyNzI4NjY5",
-            "after": "MTAzMTA2NDI5NzMwMjQ5"
-          }
-        }
-      },
       "created_time": "2012-08-22T21:48:41+0000", 
       "picture": {
         "data": {
@@ -36,24 +18,6 @@
       "name": "Pirates of the Caribbean", 
       "category": "Movie", 
       "description": "Pirates of the Caribbean is a movie about Captain Jack Sparrow.",
-      "likes": {
-        "data": [
-          {
-            "name": "Mulch, Sweat, & Shears",
-            "id": "36643253738"
-          },
-          {
-            "name": "Torchy's Tacos",
-            "id": "188620089283"
-          }
-        ],
-        "paging": {
-          "cursors": {
-            "before": "NzA2MjE2MjQyNzI4NjY5",
-            "after": "MTAzMTA2NDI5NzMwMjQ5"
-          }
-        }
-      },
       "created_time": "2010-05-18T15:18:49+0000", 
       "picture": {
         "data": {
