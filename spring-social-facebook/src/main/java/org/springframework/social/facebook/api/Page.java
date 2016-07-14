@@ -125,7 +125,7 @@ public class Page extends FacebookObject {
 	
 	private boolean isVerified;
 
-	private int funCount;
+	private int fanCount;
 	
 	private String link;
 
@@ -308,8 +308,8 @@ public class Page extends FacebookObject {
 	/**
 	 * @return The number of users who like this page. For Global Brand pages, this count is fall all pages across the brand.
 	 */
-	public int getFunCount() {
-		return funCount;
+	public int getFanCount() {
+		return fanCount;
 	}
 
 	

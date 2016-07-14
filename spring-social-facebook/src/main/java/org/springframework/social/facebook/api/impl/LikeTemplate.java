@@ -143,5 +143,5 @@ class LikeTemplate implements LikeOperations {
 		return graphApi.fetchConnections(userId, "games", Page.class, pagingParameters.toMap(), PAGE_FIELDS);
 	}
 
-	private static final String PAGE_FIELDS = "id,name,category,description,location,website,picture,phone,affiliation,company_overview,fun_count,checkins,cover";
+	private static final String PAGE_FIELDS = "id,name,category,description,location,website,picture,phone,affiliation,company_overview,fan_count,checkins,cover";
 }

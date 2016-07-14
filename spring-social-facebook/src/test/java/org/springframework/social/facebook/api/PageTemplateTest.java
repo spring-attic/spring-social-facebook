@@ -45,7 +45,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("220817147947513", page.getId());
 		assertEquals("Denton Square Donuts", page.getName());
 		assertEquals("https://www.facebook.com/DentonSquareDonuts", page.getLink());
-		assertEquals(3078, page.getFunCount());
+		assertEquals(3078, page.getFanCount());
 		assertEquals("Restaurant/cafe", page.getCategory());
 		assertEquals("www.dsdonuts.com", page.getWebsite());
 		assertEquals("Denton", page.getLocation().getCity());

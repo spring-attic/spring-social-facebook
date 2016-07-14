@@ -135,8 +135,8 @@ abstract class PageMixin extends FacebookObjectMixin {
 	@JsonProperty("is_unclaimed")
 	boolean isUnclaimed;
 
-	@JsonProperty("fun_count")
-	int funCount;
+	@JsonProperty("fan_count")
+	int fanCount;
 	
 	@JsonProperty("link")
 	String link;
