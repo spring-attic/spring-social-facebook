@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,6 +61,8 @@ public class Post extends FacebookObject {
 	private String objectId;
 	
 	private String picture;
+
+	private String full_picture;
 
 	private Page place;
 	
@@ -152,6 +154,10 @@ public class Post extends FacebookObject {
 	
 	public String getPicture() {
 		return picture;
+	}
+
+	public String getFull_picture() {
+		return full_picture;
 	}
 
 	public Page getPlace() {
