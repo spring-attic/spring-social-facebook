@@ -172,6 +172,8 @@ class FeedTemplate implements FeedOperations {
 		map.set("caption", link.getCaption());
 		map.set("description", link.getDescription());
 		map.set("message", message);
+		// Intentionally not adding null checks to the above to preserve backwards compatibility
+		if(link.getPicture() != null) map.set("picture", link.getPicture());
 		return graphApi.publish(ownerId, "feed", map);
 	}
 	
