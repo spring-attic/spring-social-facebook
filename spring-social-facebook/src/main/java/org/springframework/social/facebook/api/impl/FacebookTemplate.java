@@ -257,9 +257,10 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 
 	/**
-	 * Fetchs the next {@link org.springframework.social.facebook.api.PagedList PagedList} of the current one.
+	 * Fetches the next {@link org.springframework.social.facebook.api.PagedList PagedList} of the current one.
 	 * @param page source {@link org.springframework.social.facebook.api.PagedList PagedList} to fetch the next one.
 	 * @param type type of the source {@link org.springframework.social.facebook.api.PagedList PagedList} and the next one.
+	 * @param <T> the type of the source
 	 * @return the next {@link org.springframework.social.facebook.api.PagedList PagedList} of the given one.
 	 * It returns <code>null</code> if the next {@link org.springframework.social.facebook.api.PagedList PagedList} doesn't exist.
 	 */
@@ -277,6 +278,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	 * @param page source {@link org.springframework.social.facebook.api.PagedList PagedList} to fetch the previous one.
 	 * @param type type of the source {@link org.springframework.social.facebook.api.PagedList PagedList} and the previous one.
 	 * @return the previous {@link org.springframework.social.facebook.api.PagedList PagedList} of the given one.
+	 * @param <T> the type of the source
 	 * It returns <code>null</code> if the previous {@link org.springframework.social.facebook.api.PagedList PagedList} doesn't exist.
 	 */
 	public <T> PagedList<T> fetchPreviousPagedConnections(PagedList<T> page, Class<T> type) {
