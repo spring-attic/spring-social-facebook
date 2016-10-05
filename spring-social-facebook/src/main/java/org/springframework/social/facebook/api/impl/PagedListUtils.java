@@ -44,7 +44,7 @@ public class PagedListUtils {
 				offsetString != null ? Integer.valueOf(offsetString) : null,
 				sinceString != null ? Long.valueOf(sinceString) : null, 
 				untilString != null ? Long.valueOf(untilString) : null,
-				after, before, pagingToken);
+				after, before, pagingToken, pageNode);
 	}
 	
 	public static MultiValueMap<String, String> getPagingParameters(PagingParameters pagedListParameters) {
