@@ -33,15 +33,17 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
  */
 public class PagedListTest extends AbstractFacebookApiTest {
 
+	private static final String FIELDS_PARAM = "&fields=id%2Cactions%2Cadmin_creator%2Capplication%2Ccaption%2Ccreated_time%2Cdescription%2Cfrom%2Cicon%2Cis_hidden%2Cis_published%2Clink%2Cmessage%2Cmessage_tags%2Cname%2Cobject_id%2Cpicture%2Cplace%2Cprivacy%2Cproperties%2Csource%2Cstatus_type%2Cstory%2Cto%2Ctype%2Cupdated_time%2Cwith_tags%2Cshares";
+
 	@Test
 	public void getFeedPaged() {
-		mockServer.expect(requestTo(fbUrl("me/feed?limit=2")))
+		mockServer.expect(requestTo(fbUrl("me/feed?limit=2" + FIELDS_PARAM)))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("feedPage1"), MediaType.APPLICATION_JSON));
         final String uriFeeds = "100001387295207/feed?";
 		mockServer.expect(requestTo(fbUrl(uriFeeds +
-				"format=json&limit=2&access_token=fakeToken&__paging_token=fakePage2Token")))
+				"format=json&limit=2&access_token=fakeToken&__paging_token=fakePage2Token" )))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("feedPage2"), MediaType.APPLICATION_JSON));
