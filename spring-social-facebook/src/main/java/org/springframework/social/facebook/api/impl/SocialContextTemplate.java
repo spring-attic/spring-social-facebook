@@ -132,7 +132,8 @@ class SocialContextTemplate implements SocialContextOperations {
 		ArrayNode dataNode = (ArrayNode) contextNode.get("data");
 		ArrayList<Reference> results = new ArrayList<Reference>(dataNode.size());
 		for (JsonNode itemNode : dataNode) {
-			results.add(new Reference(itemNode.get("id").textValue(), itemNode.get("name").textValue()));
+			JsonNode id = itemNode.get("id");
+			results.add(new Reference((id == null) ? null : id.textValue(), itemNode.get("name").textValue()));
 		}
 		
 		Integer totalCount = (contextNode.has("summary") && contextNode.get("summary").has("total_count")) ?
