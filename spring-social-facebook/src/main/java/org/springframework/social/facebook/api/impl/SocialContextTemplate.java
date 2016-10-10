@@ -133,12 +133,28 @@ class SocialContextTemplate implements SocialContextOperations {
 		ArrayList<Reference> results = new ArrayList<Reference>(dataNode.size());
 		for (JsonNode itemNode : dataNode) {
 			JsonNode id = itemNode.get("id");
-			results.add(new Reference((id == null) ? null : id.textValue(), itemNode.get("name").textValue()));
+			Reference reference = new Reference((id == null) ? null : id.textValue(),
+					itemNode.get("name").textValue());
+			addExtraData(itemNode, reference);
+			results.add(reference);
 		}
 		
 		Integer totalCount = (contextNode.has("summary") && contextNode.get("summary").has("total_count")) ?
 				contextNode.get("summary").get("total_count").intValue() : null;
 		
 		return new CountedList<Reference>(results, totalCount);
+	}
+
+	private void addExtraData(JsonNode itemNode, Reference reference) {
+		JsonNode pictureNode = itemNode.get("picture");
+		if (pictureNode != null) {
+			JsonNode dataNode = pictureNode.get("data");
+			if (dataNode != null) {
+				JsonNode urlPictureNode = dataNode.get("url");
+				if (urlPictureNode != null) {
+					reference.getExtraData().put("picture", urlPictureNode.textValue());
+				}
+			}
+		}
 	}
 }
