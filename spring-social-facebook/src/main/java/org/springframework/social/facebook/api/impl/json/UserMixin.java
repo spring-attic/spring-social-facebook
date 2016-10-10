@@ -110,9 +110,6 @@ abstract class UserMixin extends FacebookObjectMixin {
 	@JsonProperty("verified")
 	Boolean verified; 
 	
-	@JsonProperty("bio")
-	String bio;
-	
 	@JsonProperty("birthday")
 	String birthday;
 	
