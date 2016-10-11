@@ -162,7 +162,16 @@ public interface MediaOperations {
 	 * @throws InsufficientPermissionException if the photo is not public and if the user has not granted "user_photos" permission.
 	 */
 	Photo getPhoto(String photoId);
-	
+
+	/**
+	 * Retrieve data for a specified photo - with user defined requested fields
+	 * Requires "user_photos" permission if the photo is not public.
+	 * @param photoId the photo's ID
+	 * @return the requested {@link Photo}
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws InsufficientPermissionException if the photo is not public and if the user has not granted "user_photos" permission.
+	 */
+	Photo getPhotoWithAllFields(String photoId);
 	/**
 	 * Retrieves a photo's image as an array of bytes. Returns the image in Facebook's "normal" type.
 	 * Requires "user_photos" permission if the photo is not public.
