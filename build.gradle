@@ -42,8 +42,8 @@ configure(allprojects - docProjects) {
 
     dependencies {
         testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
-        testCompile "junit:junit-dep:$junitVersion"
-        testCompile "org.mockito:mockito-all:$mockitoVersion"
+        testCompile "junit:junit:$junitVersion"
+        testCompile "org.mockito:mockito-core:$mockitoVersion"
         testCompile "org.springframework:spring-test:$springVersion"
     }
 
