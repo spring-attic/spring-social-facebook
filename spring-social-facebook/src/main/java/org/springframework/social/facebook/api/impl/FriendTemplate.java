@@ -120,6 +120,6 @@ class FriendTemplate implements FriendOperations {
 				"id", "name" ,"picture", "first_name", "last_name", "middle_name");  
 	}
 	
-	private static final String FULL_PROFILE_FIELDS = "id,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,bio,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";
+	private static final String FULL_PROFILE_FIELDS = "id,name,first_name,last_name,gender,locale,education,work,email,third_party_id,link,timezone,updated_time,verified,about,birthday,location,hometown,interested_in,religion,political,quotes,relationship_status,significant_other,website";
 
 }

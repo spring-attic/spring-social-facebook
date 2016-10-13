@@ -28,8 +28,6 @@ public class PageUpdate {
 	
 	private String about;
 	
-	private String bio;
-	
 	private String cover;
 	
 	private String name;
@@ -63,11 +61,6 @@ public class PageUpdate {
 		return this;
 	}
 	
-	public PageUpdate bio(String bio) {
-		this.bio = bio;
-		return this;
-	}
-	
 	public PageUpdate cover(String cover, Integer offsetX, Integer offsetY, Float zoomScaleX, Float zoomScaleY, Float focusX, Float focusY) {
 		this.cover = cover;
 		this.offsetX = offsetX;
@@ -87,7 +80,6 @@ public class PageUpdate {
 	public MultiValueMap<String, Object> toRequestParameters() {
 		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
 		if (about != null) { parameters.add("about", about); }
-		if (bio != null) { parameters.add("bio", bio); }
 		if (cover != null) { parameters.add("cover", cover); }
 		if (name != null) { parameters.add("name", name); }
 		if (offsetX != null) { parameters.add("offset_x", offsetX.toString()); }
