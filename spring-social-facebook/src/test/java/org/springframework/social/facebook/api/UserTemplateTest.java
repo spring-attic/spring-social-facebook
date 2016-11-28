@@ -60,7 +60,6 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2010-08-22T00:01:59+0000"), profile.getUpdatedTime());
 		assertTrue(profile.isVerified());
 		assertEquals("Just some dude", profile.getAbout());
-		assertEquals("I was born at a very early age.", profile.getBio());
 		assertEquals("06/09/1971", profile.getBirthday());
 		assertEquals("111762725508574", profile.getLocation().getId());
 		assertEquals("Dallas, Texas", profile.getLocation().getName());

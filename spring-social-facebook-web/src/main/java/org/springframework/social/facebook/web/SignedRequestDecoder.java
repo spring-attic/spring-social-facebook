@@ -47,7 +47,7 @@ public class SignedRequestDecoder {
 		this.secret = secret;
 		this.objectMapper = new ObjectMapper();
 		this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		this.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+		this.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
 	}
 	
 	/**

@@ -49,8 +49,6 @@ public class Page extends FacebookObject {
 	
 	private Page bestPage;
 	
-	private String bio;
-	
 	private String birthday;
 	
 	private String bookingAgent;
@@ -459,10 +457,6 @@ public class Page extends FacebookObject {
 
 	public String getBandInterests() {
 		return bandInterests;
-	}
-
-	public String getBio() {
-		return bio;
 	}
 
 	public String getBuilt() {
