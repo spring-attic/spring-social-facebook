@@ -191,9 +191,6 @@ abstract class PageMixin extends FacebookObjectMixin {
 	@JsonProperty("band_interests")
 	String bandInterests;
 	
-	@JsonProperty("bio")
-	String bio;
-	
 	@JsonProperty("built")
 	String built;
 	

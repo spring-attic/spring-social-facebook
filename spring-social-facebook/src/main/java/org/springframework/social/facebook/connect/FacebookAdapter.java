@@ -48,7 +48,7 @@ public class FacebookAdapter implements ApiAdapter<Facebook> {
 
 	public UserProfile fetchUserProfile(Facebook facebook) {
 		User profile = facebook.userOperations().getUserProfile();
-		return new UserProfileBuilder().setName(profile.getName()).setFirstName(profile.getFirstName()).setLastName(profile.getLastName()).
+		return new UserProfileBuilder().setId(profile.getId()).setName(profile.getName()).setFirstName(profile.getFirstName()).setLastName(profile.getLastName()).
 			setEmail(profile.getEmail()).build();
 	}
 	

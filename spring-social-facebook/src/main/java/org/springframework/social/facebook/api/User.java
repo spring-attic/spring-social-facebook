@@ -37,8 +37,6 @@ public class User extends FacebookObject implements Serializable {
 	
 	private AgeRange ageRange = AgeRange.UNKNOWN;
 
-	private String bio;
-	
 	private String birthday;
 	
 	private CoverPhoto cover;
@@ -287,15 +285,6 @@ public class User extends FacebookObject implements Serializable {
 		return about;
 	}
 
-	/**
-	 * The user's bio.
-	 * Available only with "user_about_me" permission for the authenticated user.
-	 * @return the user's bio, if available.
-	 */
-	public String getBio() {
-		return bio;
-	}
-	
 	/**
 	 * The user's birthday.
 	 * Available only with "user_birthday" permission for the authentication user permission for the user's friends.

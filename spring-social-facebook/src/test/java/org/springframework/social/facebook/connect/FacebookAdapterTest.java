@@ -29,7 +29,7 @@ import org.springframework.social.facebook.api.UserOperations;
 
 public class FacebookAdapterTest {
 
-	private static final String API_VERSION = "2.5";
+	private static final String API_VERSION = "2.8";
 
 	private static final String GRAPH_API_URL = "https://graph.facebook.com/" + API_VERSION + "/";
 
@@ -44,6 +44,7 @@ public class FacebookAdapterTest {
 		Mockito.when(facebook.getBaseGraphApiUrl()).thenReturn(GRAPH_API_URL);
 		Mockito.when(userOperations.getUserProfile()).thenReturn(new User("12345678", "Craig Walls", "Craig", "Walls", null, null));
 		UserProfile profile = apiAdapter.fetchUserProfile(facebook);
+		assertEquals("12345678", profile.getId());
 		assertEquals("Craig Walls", profile.getName());
 		assertEquals("Craig", profile.getFirstName());
 		assertEquals("Walls", profile.getLastName());

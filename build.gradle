@@ -21,11 +21,18 @@ configure(allprojects - docProjects) {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
     apply plugin: 'javadocHotfix'
+    apply plugin: "maven"
 
     group = 'org.springframework.social'
 
-    sourceCompatibility=1.5
-    targetCompatibility=1.5
+    compileJava {
+        sourceCompatibility=1.7
+        targetCompatibility=1.7
+    }
+    compileTestJava {
+        sourceCompatibility=1.7
+        targetCompatibility=1.7
+    }
 
     [compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint:none']
 
@@ -36,14 +43,14 @@ configure(allprojects - docProjects) {
     }
 
     repositories {
-        maven { url "http://repo.spring.io/libs-snapshot" }
+        maven { url "http://repo.spring.io/libs-milestone" }
         mavenLocal()
     }
 
     dependencies {
         testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
-        testCompile "junit:junit-dep:$junitVersion"
-        testCompile "org.mockito:mockito-all:$mockitoVersion"
+        testCompile "junit:junit:$junitVersion"
+        testCompile "org.mockito:mockito-core:$mockitoVersion"
         testCompile "org.springframework:spring-test:$springVersion"
     }
 
@@ -271,7 +278,7 @@ configure(rootProject) {
 
     task wrapper(type: Wrapper) {
         description = 'Generates gradlew[.bat] scripts'
-        gradleVersion = '1.11'
+        gradleVersion = '3.0'
     }
 
 }

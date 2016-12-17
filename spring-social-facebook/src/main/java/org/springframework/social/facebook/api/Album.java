@@ -26,6 +26,8 @@ public class Album extends FacebookObject {
 
 	private String id;
 	
+	private Date backdatedTime;
+
 	private boolean canUpload;
 
 	private int count;
@@ -56,6 +58,10 @@ public class Album extends FacebookObject {
 		return id;
 	}
 	
+	public Date getBackdatedTime() {
+		return backdatedTime;
+	}
+
 	public boolean canUpload() {
 		return canUpload;
 	}

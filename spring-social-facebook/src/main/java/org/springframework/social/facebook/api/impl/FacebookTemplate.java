@@ -93,7 +93,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 
 	private String applicationNamespace;
 
-	private String apiVersion = "2.5";
+	private String apiVersion = "2.8";
 	
 	/**
 	 * Create a new instance of FacebookTemplate.
@@ -132,9 +132,9 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 	
 	/**
-	 * Set the Graph API version (e.g., "2.5"). If set to null, the version will be left out of the request URLs to the
+	 * Set the Graph API version (e.g., "2.8"). If set to null, the version will be left out of the request URLs to the
 	 * Graph API.
-	 * @param apiVersion the API version. Default is "2.5".
+	 * @param apiVersion the API version. Default is "2.8".
 	 */
 	public void setApiVersion(String apiVersion) {
 		this.apiVersion = apiVersion;
@@ -249,6 +249,40 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 			queryParameters.set("fields", joinedFields);
 		}
 		return fetchPagedConnections(objectId, connectionType, type, queryParameters);
+	}
+
+	/**
+	 * Fetches the next {@link org.springframework.social.facebook.api.PagedList PagedList} of the current one.
+	 * @param page source {@link org.springframework.social.facebook.api.PagedList PagedList} to fetch the next one.
+	 * @param type type of the source {@link org.springframework.social.facebook.api.PagedList PagedList} and the next one.
+	 * @param <T> the type of the source
+	 * @return the next {@link org.springframework.social.facebook.api.PagedList PagedList} of the given one.
+	 * It returns <code>null</code> if the next {@link org.springframework.social.facebook.api.PagedList PagedList} doesn't exist.
+	 */
+	public <T> PagedList<T> fetchNextPagedConnections(PagedList<T> page, Class<T> type) {
+		if (null != page && null != page.getNextPage() && !"".equals(page.getNextPage().getFullUrl().trim())) {
+			URIBuilder uriBuilder = URIBuilder.fromUri(page.getNextPage().getFullUrl());
+			JsonNode jsonNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
+			return pagify(type, jsonNode);
+		}
+		return null;
+	}
+
+	/**
+	 * Fetchs the previous {@link org.springframework.social.facebook.api.PagedList PagedList} of the current one.
+	 * @param page source {@link org.springframework.social.facebook.api.PagedList PagedList} to fetch the previous one.
+	 * @param type type of the source {@link org.springframework.social.facebook.api.PagedList PagedList} and the previous one.
+	 * @return the previous {@link org.springframework.social.facebook.api.PagedList PagedList} of the given one.
+	 * @param <T> the type of the source
+	 * It returns <code>null</code> if the previous {@link org.springframework.social.facebook.api.PagedList PagedList} doesn't exist.
+	 */
+	public <T> PagedList<T> fetchPreviousPagedConnections(PagedList<T> page, Class<T> type) {
+		if (null != page && null != page.getPreviousPage() && !"".equals(page.getPreviousPage().getFullUrl().trim())) {
+			URIBuilder uriBuilder = URIBuilder.fromUri(page.getPreviousPage().getFullUrl());
+			JsonNode jsonNode = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
+			return pagify(type, jsonNode);
+		}
+		return null;
 	}
 	
 	private <T> PagedList<T> pagify(Class<T> type, JsonNode jsonNode) {
