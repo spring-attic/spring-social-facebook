@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,23 +23,24 @@ import java.util.Set;
 
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 
 public class StubUsersConnectionRepository implements UsersConnectionRepository {
-	
+
 	private final List<String> userIdsToReturn;
-	
+
 	private ConnectionRepository connectionRepository;
-	
+
 	public StubUsersConnectionRepository() {
 		userIdsToReturn = emptyList();
 		connectionRepository = new StubConnectionRepository();
 	}
-	
+
 	public StubUsersConnectionRepository(List<String> userIdsToReturn) {
 		this.userIdsToReturn = userIdsToReturn;
 	}
-	
+
 	public List<String> findUserIdsWithConnection(Connection<?> connection) {
 		return userIdsToReturn;
 	}
@@ -52,6 +53,10 @@ public class StubUsersConnectionRepository implements UsersConnectionRepository 
 
 	public ConnectionRepository createConnectionRepository(String userId) {
 		return connectionRepository;
+	}
+
+	public void setConnectionSignUp(ConnectionSignUp connectionSignUp) {
+
 	}
 
 }
