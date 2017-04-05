@@ -61,12 +61,18 @@ class UserTemplate implements UserOperations {
 		return getUserProfileImage(userId, ImageType.NORMAL);
 	}
 
+	public String getUserProfileImageUrl(String userId) { return getUserProfileImageUrl(userId, null, null);}
+
 	public byte[] getUserProfileImage(ImageType imageType) {
 		return getUserProfileImage("me", imageType);
 	}
 	
 	public byte[] getUserProfileImage(String userId, ImageType imageType) {
 		return graphApi.fetchImage(userId, "picture", imageType);
+	}
+
+	public String getUserProfileImageUrl(String userId, Integer width, Integer height) {
+		return graphApi.fetchImageUrl(userId, width, height);
 	}
 
 	public byte[] getUserProfileImage(Integer width, Integer height) {
