@@ -20,6 +20,7 @@ import org.springframework.social.DuplicateStatusException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.RateLimitExceededException;
+import org.springframework.util.MultiValueMap;
 
 /**
  * Interface defining operations that can be performed on a Facebook feed.
@@ -99,6 +100,23 @@ public interface FeedOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	Post getPost(String entryId);
+
+	/**
+	 *  Retrieve a single post with meta data
+	 * @param entryId the entry ID
+	 * @return the requested {@link Post}
+	 * @throws ApiException if there is an error while communicating with Facebook.
+     */
+	Post getPostWithMeta(String entryId);
+
+	/**
+	 *  Retrieve a single post with meta data
+	 * @param entryId the entry ID
+	 * @param params the extended URI paramas
+	 * @return the requested {@link Post}
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	Post getPostWithMeta(String entryId, MultiValueMap<String, String> params);
 	
 	/**
 	 * Retrieves the status entries from the authenticated user's feed.

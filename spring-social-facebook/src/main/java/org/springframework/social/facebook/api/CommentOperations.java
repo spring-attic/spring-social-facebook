@@ -18,6 +18,7 @@ package org.springframework.social.facebook.api;
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
+import org.springframework.util.MultiValueMap;
 
 
 /**
@@ -42,6 +43,15 @@ public interface CommentOperations {
 	 * @throws ApiException if there is an error while communicating with Facebook.
 	 */
 	PagedList<Comment> getComments(String objectId, PagingParameters pagedListParameters);
+
+	/**
+	 * Retrieves comments for a given object.
+	 * @param objectId the ID of the object
+	 * @param params the parameters defining the bounds of the list to return.
+	 * @return a list of {@link Comment}s for the specified object
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 */
+	PagedList<Comment> getComments(String objectId, MultiValueMap<String, String> params);
 
 	/**
 	 * Retrieves a single comment
