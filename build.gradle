@@ -43,6 +43,7 @@ configure(allprojects - docProjects) {
     }
 
     repositories {
+        maven { url "http://repo.spring.io/libs-snapshot" }
         maven { url "http://repo.spring.io/libs-milestone" }
         mavenLocal()
     }
