@@ -39,7 +39,7 @@ class ReferenceListDeserializer extends JsonDeserializer<List<Reference>> {
 		if (jp.hasCurrentToken()) {
 			JsonNode dataNode = (JsonNode) jp.readValueAs(JsonNode.class).get("data");
 			if (dataNode != null) {
-				return (List<Reference>) mapper.reader(new TypeReference<List<Reference>>() {}).readValue(dataNode);
+				return (List<Reference>) mapper.readerFor(new TypeReference<List<Reference>>() {}).readValue(dataNode);
 			}
 		}
 		

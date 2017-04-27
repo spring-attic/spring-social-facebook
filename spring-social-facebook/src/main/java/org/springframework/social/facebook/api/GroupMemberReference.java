@@ -22,6 +22,8 @@ package org.springframework.social.facebook.api;
  */
 public class GroupMemberReference extends Reference {
 	
+	private static final long serialVersionUID = 1L;
+
 	private final boolean administrator;
 
 	public GroupMemberReference(String id, String name, boolean administrator) {

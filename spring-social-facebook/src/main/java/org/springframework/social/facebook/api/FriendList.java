@@ -17,6 +17,8 @@ package org.springframework.social.facebook.api;
 
 public class FriendList extends Reference {
 
+	private static final long serialVersionUID = 1L;
+
 	private final String listType;
 
 	public FriendList(String id, String name, String listType) {

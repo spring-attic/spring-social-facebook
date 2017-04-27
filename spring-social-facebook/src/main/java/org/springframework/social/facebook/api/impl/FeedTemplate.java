@@ -240,7 +240,7 @@ class FeedTemplate implements FeedOperations {
 			// be null when trying to deserialize the type property.
 			node.put("postType", postType); // used for polymorphic deserialization
 			node.put("type", postType); // used to set Post's type property
-			return objectMapper.reader(type).readValue(node.toString()); // TODO: EXTREMELY HACKY--TEMPORARY UNTIL I FIGURE OUT HOW JACKSON 2 DOES THIS
+			return objectMapper.readerFor(type).readValue(node.toString()); // TODO: EXTREMELY HACKY--TEMPORARY UNTIL I FIGURE OUT HOW JACKSON 2 DOES THIS
 		} catch (IOException shouldntHappen) {
 			throw new UncategorizedApiException("facebook", "Error deserializing " + postType + " post", shouldntHappen);
 		}

@@ -432,7 +432,7 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	private <T> List<T> deserializeDataList(JsonNode jsonNode, final Class<T> elementType) {
 		try {
 			CollectionType listType = TypeFactory.defaultInstance().constructCollectionType(List.class, elementType);
-			return (List<T>) objectMapper.reader(listType).readValue(jsonNode.toString()); // TODO: EXTREMELY HACKY--TEMPORARY UNTIL I FIGURE OUT HOW JACKSON 2 DOES THIS
+			return (List<T>) objectMapper.readerFor(listType).readValue(jsonNode.toString()); // TODO: EXTREMELY HACKY--TEMPORARY UNTIL I FIGURE OUT HOW JACKSON 2 DOES THIS
 		} catch (IOException e) {
 			throw new UncategorizedApiException("facebook", "Error deserializing data from Facebook: " + e.getMessage(), e);
 		}

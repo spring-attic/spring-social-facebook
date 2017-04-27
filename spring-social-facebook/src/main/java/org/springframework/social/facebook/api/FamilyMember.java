@@ -17,6 +17,8 @@ package org.springframework.social.facebook.api;
 
 public class FamilyMember extends Reference {
 
+	private static final long serialVersionUID = 1L;
+
 	private final String relationship;
 
 	public FamilyMember(String id, String name, String relationship) {

@@ -37,7 +37,7 @@ class TagListDeserializer extends JsonDeserializer<List<Tag>> {
 		jp.setCodec(mapper);
 		if(jp.hasCurrentToken()) {
 			JsonNode dataNode = (JsonNode) jp.readValueAs(JsonNode.class).get("data");
-			return (List<Tag>) mapper.reader(new TypeReference<List<Tag>>() {}).readValue(dataNode);
+			return (List<Tag>) mapper.readerFor(new TypeReference<List<Tag>>() {}).readValue(dataNode);
 		}
 		
 		return null;

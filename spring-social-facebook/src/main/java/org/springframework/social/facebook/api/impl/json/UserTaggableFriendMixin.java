@@ -53,7 +53,7 @@ abstract class UserTaggableFriendMixin extends FacebookObject {
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.registerModule(new FacebookModule());
 			JsonNode dataNode = (JsonNode) jp.readValueAs(JsonNode.class).get("data");
-			return (ProfilePictureSource) mapper.reader(ProfilePictureSource.class).readValue(dataNode);
+			return (ProfilePictureSource) mapper.readerFor(ProfilePictureSource.class).readValue(dataNode);
 		}
 	}
 
