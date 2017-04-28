@@ -26,12 +26,12 @@ configure(allprojects - docProjects) {
     group = 'org.springframework.social'
 
     compileJava {
-        sourceCompatibility=1.7
-        targetCompatibility=1.7
+        sourceCompatibility=1.8
+        targetCompatibility=1.8
     }
     compileTestJava {
-        sourceCompatibility=1.7
-        targetCompatibility=1.7
+        sourceCompatibility=1.8
+        targetCompatibility=1.8
     }
 
     [compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint:none']
@@ -72,7 +72,7 @@ configure(allprojects - docProjects) {
         // up being duplicated in the classpath entry. For example a dependency on "spring-social-facebook"
         // would have a path of "/spring-social-facebook-spring-social-facebook".
         // The following lines set the path properly in that case.
-        classpath.entries.findAll { entry -> 
+        classpath.entries.findAll { entry ->
             if (entry.path.equals("/" + rootProject.name + "-" + rootProject.name)) {
                 entry.path = "/" + rootProject.name;
             }
@@ -221,7 +221,7 @@ configure(rootProject) {
 
     dependencies { // for integration tests
     }
-    
+
     task api(type: Javadoc) {
         group = "Documentation"
         description = "Generates aggregated Javadoc API documentation."
@@ -275,7 +275,7 @@ configure(rootProject) {
         archives dist
         archives project(':docs').docsZip
         archives project(':docs').schemaZip
-    }    
+    }
 
     task wrapper(type: Wrapper) {
         description = 'Generates gradlew[.bat] scripts'
