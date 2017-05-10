@@ -30,7 +30,6 @@ project('manual') {
               'spring-social-facebook-version' : project.version,
               'spring-social-version' : springSocialVersion,
               'spring-version' : springVersion,
-              'spring-security-version' : springSecurityCryptoVersion,
               'jacksonVersion' : jacksonVersion,
               revnumber : project.version
           ]

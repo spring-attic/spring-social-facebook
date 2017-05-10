@@ -19,12 +19,11 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Map;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.springframework.security.crypto.codec.Base64;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,7 +95,7 @@ public class SignedRequestDecoder {
 	}
 
 	private byte[] base64DecodeToBytes(String in) {
-		return Base64.decode(padForBase64(in.replace('_', '/').replace('-', '+')).getBytes());
+		return Base64.getDecoder().decode(padForBase64(in.replace('_', '/').replace('-', '+')).getBytes());
 	}
 
 	private String base64DecodeToString(String in) {

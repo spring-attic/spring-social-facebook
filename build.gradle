@@ -203,7 +203,6 @@ project('spring-social-facebook-web') {
         compile ("org.springframework:spring-webmvc:$springVersion")
         compile ("org.springframework.social:spring-social-core:$springSocialVersion", optional)
         compile project(':spring-social-facebook', optional)
-        compile ("org.springframework.security:spring-security-crypto:$springSecurityCryptoVersion", optional)
         compile ("com.fasterxml.jackson.core:jackson-core:$jacksonVersion", optional)
         compile ("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion", optional)
         compile ("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion", optional)

@@ -76,10 +76,10 @@ dependencies.
 
 [[]]
 == Configuring Facebook Connectivity
-Spring Social's `ConnectController` works with one or more provider-specific `ConnectionFactory` instances to exchange authorization details with the provider and to create connections. 
+Spring Social's `ConnectController` works with one or more provider-specific `ConnectionFactory` instances to exchange authorization details with the provider and to create connections.
 Spring Social Facebook provides `FacebookConnectionFactory`, a `ConnectionFactory` for creating connections with Facebook.
 
-So that `ConnectController` can find `FacebookConnectionFactory`, it must be registered with a `ConnectionFactoryRegistry`. 
+So that `ConnectController` can find `FacebookConnectionFactory`, it must be registered with a `ConnectionFactoryRegistry`.
 The following configuration class uses Spring Social's Java configuration support to register a `ConnectionFactory` for Facebook:
 
 ```java
@@ -89,7 +89,7 @@ public class SocialConfig implements SocialConfigurer {
     @Override
     public void addConnectionFactories(ConnectionFactoryConfigurer cfConfig, Environment env) {
         cfConfig.addConnectionFactory(new FacebookConnectionFactory(
-            env.getProperty("facebook.clientId"), 
+            env.getProperty("facebook.clientId"),
             env.getProperty("facebook.clientSecret")));
     }
 
@@ -105,19 +105,19 @@ Optionally, you may also configure `FacebookConnectionFactory` in XML.
 Using Spring Social Facebook's XML configuration namespace:
 
 ```xml
-<facebook:config app-id="${facebook.clientId}" 
-                 app-secret="${facebook.clientSecret}" 
+<facebook:config app-id="${facebook.clientId}"
+                 app-secret="${facebook.clientSecret}"
                  app-namespace="socialshowcase" />
 ```
 
-This is roughly equivalent to the Java-based configuration of `ConnectionFactoryRegistry` shown before. 
+This is roughly equivalent to the Java-based configuration of `ConnectionFactoryRegistry` shown before.
 As in the Java-based configuration, the application's client ID and secret are externalized (shown here as property placeholders).
 
 Refer to
 http://docs.spring.io/spring-social/site/docs/1.1.0.RC1/reference/htmlsingle/index.html#connecting[Spring Social's reference documentation] for complete details on configuring `ConnectController` and its dependencies.
 
 == Facebook API Binding
-Spring Social Facebook's `Facebook` interface and its implementation, `FacebookTemplate` provide the operations needed to interact with Facebook on behalf of a user. 
+Spring Social Facebook's `Facebook` interface and its implementation, `FacebookTemplate` provide the operations needed to interact with Facebook on behalf of a user.
 Creating an instance of `FacebookTemplate` is as simple as constructing it by passing in an authorized access token to the constructor:
 
 ```java
@@ -136,7 +136,7 @@ The application namespace is required for working with any of Facebook's OpenGra
 If you won't be using any OpenGraph operations, then you can use the simpler constructor that only requires an access token.
 
 If you are using Spring Social's
-http://docs.spring.io/spring-social/site/docs/1.1.0.RC1/reference/htmlsingle/index.html#connectFramework[service provider framework], you can get an instance of `Facebook` from a `Connection`. 
+http://docs.spring.io/spring-social/site/docs/1.1.0.RC1/reference/htmlsingle/index.html#connectFramework[service provider framework], you can get an instance of `Facebook` from a `Connection`.
 For example, the following snippet calls `getApi()` on a `Connection` to retrieve a `Facebook` instance:
 
 ```java
@@ -144,44 +144,44 @@ Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Fac
 Facebook facebook = connection != null ? connection.getApi() : null;
 ```
 
-Here, `ConnectionRepository` is being asked for the primary connection that the current user has with Facebook. 
-If a connection to Facebook is found, a call to `getApi()` retrieves a Facebook instance that is configured with the connection details received when the connection was first established. 
+Here, `ConnectionRepository` is being asked for the primary connection that the current user has with Facebook.
+If a connection to Facebook is found, a call to `getApi()` retrieves a Facebook instance that is configured with the connection details received when the connection was first established.
 If there is no connection, then no `Facebook` instance can be obtained.
 
-With a `Facebook` in hand, there are several ways you can use it to interact with Facebook on behalf of the user. 
+With a `Facebook` in hand, there are several ways you can use it to interact with Facebook on behalf of the user.
 Spring Social's Facebook API binding is divided into 13 sub-APIs exposes through the methods of the `Facebook` interface:
 
 ```java
 public interface Facebook extends GraphApi, ApiBinding {
-  
+
   AchievementOperations achievementOperations();
 
   CommentOperations commentOperations();
 
   EventOperations eventOperations();
-  
+
   FeedOperations feedOperations();
 
   FriendOperations friendOperations();
-  
+
   GroupOperations groupOperations();
 
   LikeOperations likeOperations();
-  
+
   MediaOperations mediaOperations();
-  
+
   OpenGraphOperations openGraphOperations();
-  
+
   PageOperations pageOperations();
-  
+
   SocialContextOperations socialContextOperations();
-  
+
   TestUserOperations testUserOperations();
-  
+
   UserOperations userOperations();
-  
+
   RestOperations restOperations();
-  
+
   String getApplicationNamespace();
 
 }
@@ -212,7 +212,7 @@ The sub-API interfaces returned from Facebook's methods are described in <<table
 
 Notice that in addition to the 13 sub-APIs, `Facebook`'s `restOperations()` method will return a `RestOperations` (e.g., a `RestTemplate`) that is instrumented to place an OAuth `Authorization` header for the provided access token on any request it sends.
 
-The following sections will give an overview of common tasks that can be performed via `Facebook` and its sub-APIs. 
+The following sections will give an overview of common tasks that can be performed via `Facebook` and its sub-APIs.
 For complete details on all of the operations available, refer to the JavaDoc.
 
 [[]]
@@ -223,9 +223,9 @@ You can retrieve the authenticated user's Facebook profile data using the `Faceb
 User profile = facebook.userOperations().getUserProfile();
 ```
 
-The `User` object will contain basic profile information about the authenticating user, including their first and last name and their Facebook ID. 
-Depending on what authorization scope has been granted to the application, it may also include additional details about the user such as their email address, birthday, hometown, and religious and political affiliations. 
-For example, `getBirthday()` will return the current user's birthday if the application has been granted "user_birthday" permission; null otherwise. 
+The `User` object will contain basic profile information about the authenticating user, including their first and last name and their Facebook ID.
+Depending on what authorization scope has been granted to the application, it may also include additional details about the user such as their email address, birthday, hometown, and religious and political affiliations.
+For example, `getBirthday()` will return the current user's birthday if the application has been granted "user_birthday" permission; null otherwise.
 Consult the JavaDoc for `User` for details on which permissions are required for each property.
 
 You can also ask for a Facebook profile for a specific Facebook user (not necessarily the authenticated user) by passing a user ID (or Facebook alias) to `getUserProfile()`:
@@ -237,14 +237,14 @@ User profile = facebook.userOperations().getUserProfile("4");
 
 [[]]
 === Getting a user's Facebook friends
-An essential feature of Facebook and other social networks is creating a network of friends or contacts. 
+An essential feature of Facebook and other social networks is creating a network of friends or contacts.
 You can access the user's list of Facebook friends by calling the `getFriendIds()` method from `FriendOperations`:
 
 ```java
 List<String> friendIds = facebook.friendOperations().getFriendIds();
 ```
 
-This returns a list of Facebook IDs belonging to the current user's list of friends who are also using the same application. 
+This returns a list of Facebook IDs belonging to the current user's list of friends who are also using the same application.
 This is just a list of String IDs, so to retrieve an individual user's profile data, you can turn around and call `getUserProfile()`, passing in one of those IDs to retrieve the profile data for an individual user:
 
 ```java
@@ -288,9 +288,9 @@ facebook.feedOperations().updateStatus("I'm trying out Spring Social!");
 If you'd like to attach a link to the status message, you can do so by passing a `PostData` to the `post()` method:
 
 ```java
-FacebookLink link = new FacebookLink("http://www.springsource.org/spring-social", 
-        "Spring Social", 
-        "The Spring Social Project", 
+FacebookLink link = new FacebookLink("http://www.springsource.org/spring-social",
+        "Spring Social",
+        "The Spring Social Project",
         "Spring Social is an extension to Spring to enable applications to connect with service providers.");
 facebook.feedOperations().post("I'm trying out Spring Social!", link);
 facebook.feedOperations().post(new PostData("me").message("I'm trying out Spring Social!")
@@ -300,12 +300,12 @@ facebook.feedOperations().post(new PostData("me").message("I'm trying out Spring
 When calling the `link()` method on a `PostData` object, the first parameter is the link's URL, the second parameter is a picture to associate with the link (overriding any picture that Facebook would find from the page at the URL given), the third parameter is the name of the link, the fourth
 parameter is a caption, and the fifth is a description of the link.
 
-If you want to read posts from a user's feed, `FeedOperations` has several methods to choose from. 
-The `getFeed()` method retrieves recent posts to a user's wall. 
+If you want to read posts from a user's feed, `FeedOperations` has several methods to choose from.
+The `getFeed()` method retrieves recent posts to a user's wall.
 When called with no parameters, it retrieves posts from the authenticating user's wall:
 
 ```java
 List<Post> feed = facebook.feedOperations().getFeed();
 ```
 
-The `getFeed()` method returns a list of `Post` objects. 
+The `getFeed()` method returns a list of `Post` objects.
