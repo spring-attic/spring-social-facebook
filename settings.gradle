@@ -16,9 +16,9 @@
 
 rootProject.name = 'spring-social-facebook'
 
-include 'docs', 'docs:manual'
+/*include 'docs', 'docs:manual'
 def docs = findProject(':docs')
-docs.buildFileName = 'docs.gradle'
+docs.buildFileName = 'docs.gradle'*/
 
 include 'spring-social-facebook'
 include 'spring-social-facebook-web'
