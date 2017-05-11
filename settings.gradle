@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-rootProject.name = 'spring-social-facebook-root'
+rootProject.name = 'spring-social-facebook'
 
 include 'docs', 'docs:manual'
 def docs = findProject(':docs')
