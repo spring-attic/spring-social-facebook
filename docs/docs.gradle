@@ -85,7 +85,7 @@ assemble.dependsOn = [apidocs, 'manual:asciidoctor']
 task docsZip(type: Zip) {
     dependsOn docs
     group = 'Distribution'
-    baseName = rootProject.name
+    baseName = rootProject.name + "-build"
     classifier = 'docs'
     description = "Builds -${classifier} archive containing api and reference " +
         "for deployment at static.springframework.org/spring-social/site/docs."

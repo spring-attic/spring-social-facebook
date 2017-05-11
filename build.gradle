@@ -255,7 +255,7 @@ configure(rootProject) {
         evaluationDependsOn(':docs')
         evaluationDependsOn(':docs:manual')
 
-        def zipRootDir = "${project.name}-build-$version"
+        def zipRootDir = "${project.name}-$version"
         into(zipRootDir) {
             from(rootDir) {
                 include '*.txt'
