@@ -15,40 +15,19 @@
  */
 package org.springframework.social.facebook.api.impl;
 
-import static org.springframework.social.facebook.api.impl.PagedListUtils.*;
-
-import java.io.IOException;
-import java.net.URI;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.UncategorizedApiException;
-import org.springframework.social.facebook.api.AchievementOperations;
-import org.springframework.social.facebook.api.CommentOperations;
-import org.springframework.social.facebook.api.EventOperations;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.FeedOperations;
-import org.springframework.social.facebook.api.FriendOperations;
-import org.springframework.social.facebook.api.GroupOperations;
-import org.springframework.social.facebook.api.ImageType;
-import org.springframework.social.facebook.api.LikeOperations;
-import org.springframework.social.facebook.api.MediaOperations;
-import org.springframework.social.facebook.api.OpenGraphOperations;
-import org.springframework.social.facebook.api.PageOperations;
-import org.springframework.social.facebook.api.PagedList;
-import org.springframework.social.facebook.api.PagingParameters;
-import org.springframework.social.facebook.api.SocialContextOperations;
-import org.springframework.social.facebook.api.TestUserOperations;
-import org.springframework.social.facebook.api.UserOperations;
+import org.springframework.social.facebook.api.*;
 import org.springframework.social.facebook.api.impl.json.FacebookModule;
+import org.springframework.social.facebook.security.FacebookAppSecretProofInterceptor;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.OAuth2Version;
 import org.springframework.social.support.ClientHttpRequestFactorySelector;
@@ -58,10 +37,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+import java.io.IOException;
+import java.net.URI;
+import java.util.List;
+import java.util.Map;
+
+import static org.springframework.social.facebook.api.impl.PagedListUtils.getPagedListParameters;
 
 /**
  * <p>This is the central class for interacting with Facebook.</p>
@@ -77,7 +58,11 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebook {
 
 	private String appId;
-	
+
+	private String appSecret;
+
+	private String accessToken;
+
 	private AchievementOperations achievementOperations;
 	
 	private UserOperations userOperations;
@@ -124,10 +109,20 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 	}
 	
 	public FacebookTemplate(String accessToken, String applicationNamespace, String appId) {
+		this(accessToken, applicationNamespace, appId, null);
+	}
+
+	public FacebookTemplate(String accessToken, String applicationNamespace, String appId, String appSecret) {
 		super(accessToken);
+		this.appSecret = appSecret;
+		this.accessToken = accessToken;
 		this.applicationNamespace = applicationNamespace;
 		this.appId = appId;
 		initialize();
+
+		if (appSecret != null) {
+			setAppSecretInterceptor(getRestTemplate());
+		}
 	}
 	
 	@Override
@@ -396,6 +391,12 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		restTemplate.setErrorHandler(new FacebookErrorHandler());
 	}
 
+	private void setAppSecretInterceptor(RestTemplate restTemplate) {
+		List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
+		interceptors.add(new FacebookAppSecretProofInterceptor(accessToken, appSecret));
+		restTemplate.setInterceptors(interceptors);
+	}
+
 	@Override
 	protected MappingJackson2HttpMessageConverter getJsonMessageConverter() {
 		MappingJackson2HttpMessageConverter converter = super.getJsonMessageConverter();
@@ -448,5 +449,5 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		}
 		return builder.toString();
 	}
-	
+
 }
