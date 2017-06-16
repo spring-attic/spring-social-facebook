@@ -82,6 +82,7 @@ public class PostData {
 	 */
 	public PostData link(String linkUrl, String picture, String name, String caption, String description) {
 		this.linkUrl = linkUrl;
+		this.picture = picture;
 		this.name = name;
 		this.caption = caption;
 		this.description = description;
