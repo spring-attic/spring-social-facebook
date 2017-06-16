@@ -223,6 +223,20 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		mockServer.verify();
 	}
 
+	@Test
+	public void postMessage_withTargetAudience() throws Exception {
+		expectFetchAccounts();
+		String requestBody = "message=Hello+Facebook+World&targeting=%7B%27value%27%3A+%27CUSTOM%27%2C%27countries%27%3A%27PE%27%7D&access_token=pageAccessToken";
+		mockServer.expect(requestTo(fbUrl("987654321/feed")))
+				.andExpect(method(POST))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+				.andExpect(content().string(requestBody))
+				.andRespond(withSuccess("{\"id\":\"123456_78901234\"}", MediaType.APPLICATION_JSON));
+
+		assertEquals("123456_78901234", facebook.pageOperations().post(new PagePostData("987654321").message("Hello Facebook World").targeting(new Targeting().countries("PE"))));
+		mockServer.verify();
+	}
+
 	@Test(expected = PageAdministrationException.class)
 	public void postLink_notAdmin() throws Exception {
 		expectFetchAccounts();

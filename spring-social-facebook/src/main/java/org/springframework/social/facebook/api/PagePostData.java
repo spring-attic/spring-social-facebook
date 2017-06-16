@@ -44,6 +44,8 @@ public class PagePostData {
 	private String placeId;
 	
 	private String picture;
+
+	private Targeting targeting;
 	
 	/**
 	 * Creates a new {@link PagePostData}.
@@ -91,7 +93,7 @@ public class PagePostData {
 		this.placeId = placeId;
 		return this;
 	}
-	
+
 	/**
 	 * @param tags One or more Facebook user IDs to tag in the post. Will be ignored unless a place is specified.
 	 * @return the PagePostData object for additional configuration
@@ -101,6 +103,18 @@ public class PagePostData {
 		return this;
 	}
 
+
+	/**
+	 * @param targeting allow to set a specific target audience to the post. Will be ignored unless a place is specified.
+	 * @return the PagePostData object for additional configuration
+	 */
+	public PagePostData targeting(Targeting targeting) {
+		this.targeting = targeting;
+		return this;
+	}
+
+
+
 	public MultiValueMap<String, Object> toRequestParameters() {
 		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
 		if (message != null) { parameters.add("message", message); }
@@ -109,6 +123,8 @@ public class PagePostData {
 		if (caption != null) { parameters.add("caption", caption); }
 		if (description != null) { parameters.add("description", description); }
 		if (picture != null) { parameters.add("picture", picture); }
+
+		if (targeting != null) {parameters.add("targeting", targeting.toString());}
 		if (placeId != null) { 
 			parameters.add("place", placeId);
 			// tags are only allowed if a place is given
