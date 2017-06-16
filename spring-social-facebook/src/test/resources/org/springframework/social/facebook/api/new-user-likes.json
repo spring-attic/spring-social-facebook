@@ -4,8 +4,8 @@
       "id": "5678046685", 
       "name": "U2", 
       "category": "Musician/band", 
-      "website": "http://www.u2.com http://www.interscope.com/u2 http://www.myspace.com/u2 http://www.imeem.com/u2music", 
-      "likes": 12974013, 
+      "website": "http://www.u2.com http://www.interscope.com/u2 http://www.myspace.com/u2 http://www.imeem.com/u2music",
+      "fan_count": 12974013,
       "created_time": "2012-08-22T21:48:41+0000", 
       "picture": {
         "data": {
@@ -18,8 +18,8 @@
       "id": "113294925350820", 
       "name": "Pirates of the Caribbean", 
       "category": "Movie", 
-      "description": "Pirates of the Caribbean is a movie about Captain Jack Sparrow.", 
-      "likes": 2106819, 
+      "description": "Pirates of the Caribbean is a movie about Captain Jack Sparrow.",
+      "fan_count": 2106819,
       "created_time": "2010-05-18T15:18:49+0000", 
       "picture": {
         "data": {
@@ -33,8 +33,8 @@
       "name": "Freebirds World Burrito", 
       "category": "Food/beverages", 
       "description": "We do what's right for the burrito! Be sure to also Follow us on Twitter for deals, fun and more: http://twitter.com/FREEBIRDS_WB  ", 
-      "website": "http://www.freebirds.com/", 
-      "likes": 111599, 
+      "website": "http://www.freebirds.com/",
+      "fan_count": 111599,
       "created_time": "2010-03-12T03:24:35+0000", 
       "picture": {
         "data": {

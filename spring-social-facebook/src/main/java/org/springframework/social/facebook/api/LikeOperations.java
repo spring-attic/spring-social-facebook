@@ -27,7 +27,8 @@ import org.springframework.social.MissingAuthorizationException;
 public interface LikeOperations {
 
 	/**
-	 * Retrieves a list of references to users who have liked the specified object.
+	 * If object ID is an Album, Checkin, Comment, Note, Photo, Post, or Video then retrieves list of references to users who have liked the specified object.
+	 * If object ID is a Page or User then retrieves list of references liked by the specified object.
 	 * Limited to 25 references. 
 	 * Pass the {@link PagingParameters} returned from {@link PagedList#getNextPage()} into {@link #getLikes(String, PagingParameters)} to get the next page.
 	 * @param objectId the object ID (an Album, Checkin, Comment, Note, Photo, Post, or Video).
@@ -38,7 +39,8 @@ public interface LikeOperations {
 	PagedList<Reference> getLikes(String objectId);
 
 	/**
-	 * Retrieves a page of references to users who have liked the specified object.
+	 * If object ID is an Album, Checkin, Comment, Note, Photo, Post, or Video then retrieves list of references to users who have liked the specified object.
+	 * If object ID is a Page or User then retrieves list of references liked by the specified object.
 	 * @param objectId the object ID (an Album, Checkin, Comment, Note, Photo, Post, or Video).
 	 * @param pagingParameters the paging parameters for fetching a specific page of references.
 	 * @return a list of {@link Reference} objects for the users who have liked the object.
