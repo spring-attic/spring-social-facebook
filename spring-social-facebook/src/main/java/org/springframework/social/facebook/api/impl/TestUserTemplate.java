@@ -15,8 +15,13 @@
  */
 package org.springframework.social.facebook.api.impl;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.social.facebook.api.GraphApi;
 import org.springframework.social.facebook.api.TestUser;
+import org.springframework.social.facebook.api.TestUserList;
 import org.springframework.social.facebook.api.TestUserOperations;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -64,6 +69,12 @@ public class TestUserTemplate extends AbstractFacebookOperations implements Test
 		}
 
 		return restTemplate.postForObject(graphApi.getBaseGraphApiUrl() + "{appId}/accounts/test-users", request, TestUser.class, appId);
+	}
+
+	@Override
+	public List<TestUser> getTestUsers() {
+		TestUserList users = restTemplate.getForObject(graphApi.getBaseGraphApiUrl() + "{appId}/accounts/test-users", TestUserList.class, appId);
+		return Optional.ofNullable(users).map(TestUserList::getTestUsers).orElse(Collections.emptyList());
 	}
 	
 	public void sendConfirmFriends(TestUser testUser1, TestUser testUser2) {

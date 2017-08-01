@@ -15,18 +15,30 @@
  */
 package org.springframework.social.facebook.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface TestUserOperations {
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-	TestUser createTestUser(boolean installed, String permissions);
-	
-	TestUser createTestUser(boolean installed, String permissions, String name);
+/**
+ * @author vmotolyzhenko
+ */
+public class TestUserList extends FacebookObject {
+    @JsonProperty("data")
+    private List<TestUser> testUsers = new ArrayList<>();
 
-	List<TestUser> getTestUsers();
-	
-	void sendConfirmFriends(TestUser user1, TestUser user2);
-	
-	void deleteTestUser(String testUserId);
+    public List<TestUser> getTestUsers() {
+        return testUsers;
+    }
 
+    public void setTestUsers(List<TestUser> testUsers) {
+        this.testUsers = testUsers;
+    }
+
+    @Override
+    @JsonAnySetter
+    protected void add(String key, Object value) {
+        super.add(key, value);
+    }
 }

@@ -15,13 +15,20 @@
  */
 package org.springframework.social.facebook.api;
 
-import static org.junit.Assert.*;
-import static org.springframework.http.HttpMethod.*;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
+import java.util.List;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 /**
  * @author Craig Walls
@@ -47,6 +54,22 @@ public class TestUserTemplateTest extends AbstractFacebookApiTest {
 	}
 	
 	// id, email, password, access_token, login_url
-	
+
+	@Test
+	public void get_test_user_list() throws Exception {
+		String responseBody = "{\"data\":[{\"id\":\"101234413904069\",\"login_url\":\"LOGIN_URL\",\"access_token\":\"ACCESS_TOKEN\"}],\"paging\":{\"cursors\":{\"before\":\"MTAxMjM0NDEzOTA0MDY5\",\"after\":\"MTA1MDE2MjcwMTg3ODMz\"}}}";
+		mockServer.expect(requestTo(fbUrl("APP_ID/accounts/test-users")))
+				  .andExpect(method(GET))
+				  .andExpect(header("Authorization", "OAuth someAccessToken"))
+				  .andRespond(withSuccess(responseBody, MediaType.APPLICATION_JSON));
+
+		List<TestUser> testUserList = facebook.testUserOperations().getTestUsers();
+		assertTrue(testUserList.size() == 1);
+		TestUser testUser= testUserList.get(0);
+		assertEquals("101234413904069", testUser.getId());
+		assertEquals("ACCESS_TOKEN", testUser.getAccessToken());
+		assertEquals("LOGIN_URL", testUser.getLoginUrl());
+		mockServer.verify();
+	}
 
 }
