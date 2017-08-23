@@ -59,9 +59,8 @@ public interface FeedOperations {
 	PagedList<Post> getFeed(String ownerId);
 
 	/**
-	 * Retrieves recent feed entries for a given user. 
+	 * Retrieves recent feed entries for a given user.
 	 * Requires "read_stream" permission to read non-public posts.
-	 * Returns up to the most recent 25 posts.
 	 * @param ownerId the Facebook ID or alias for the owner (user, group, event, page, etc) of the feed.
 	 * @param pagedListParameters the parameters defining the bounds of the list to return.
 	 * @return a list of {@link Post}s for the specified user. 
