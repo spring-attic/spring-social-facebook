@@ -29,7 +29,7 @@ import org.springframework.social.facebook.api.UserOperations;
 
 public class FacebookAdapterTest {
 
-	private static final String API_VERSION = "2.8";
+	private static final String API_VERSION = Facebook.DEFAULT_API_VERSION;
 
 	private static final String GRAPH_API_URL = "https://graph.facebook.com/" + API_VERSION + "/";
 

@@ -131,7 +131,7 @@ public class CanvasSignInController {
 					String clientId = (String) model.get("clientId");
 					String canvasPage = (String) model.get("canvasPage");
 					String scope = (String) model.get("scope");
-					String redirectUrl = "https://www.facebook.com/v2.8/dialog/oauth?client_id=" + clientId + "&redirect_uri=" + canvasPage;
+					String redirectUrl = "https://www.facebook.com/v" + Facebook.DEFAULT_API_VERSION + "/dialog/oauth?client_id=" + clientId + "&redirect_uri=" + canvasPage;
 					if (scope != null) {
 						redirectUrl += "&scope=" + formEncode(scope);
 					}
