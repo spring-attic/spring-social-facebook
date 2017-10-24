@@ -33,7 +33,8 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getAlbums() {
-		mockServer.expect(requestTo(fbUrl("me/albums?offset=0&limit=25")))
+		String allAlbumFields = StringUtils.arrayToCommaDelimitedString(ALL_ALBUM_FIELDS).replace(",", "%2C");
+		mockServer.expect(requestTo(fbUrl("me/albums?offset=0&limit=25&fields=" + allAlbumFields)))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("albums"), MediaType.APPLICATION_JSON));
@@ -43,7 +44,8 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 
 	@Test
 	public void getAlbums_forSpecificUser() {
-		mockServer.expect(requestTo(fbUrl("192837465/albums?offset=0&limit=25")))
+		String allAlbumFields = StringUtils.arrayToCommaDelimitedString(ALL_ALBUM_FIELDS).replace(",", "%2C");
+		mockServer.expect(requestTo(fbUrl("192837465/albums?offset=0&limit=25&fields=" + allAlbumFields)))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("albums"), MediaType.APPLICATION_JSON));
@@ -350,6 +352,11 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(toDate("2011-03-29T20:45:20+0000"), video.getUpdatedTime());
 		assertSingleVideo(videos.get(1));
 	}
+
+	static final String[] ALL_ALBUM_FIELDS = {
+			"id", "can_upload", "count", "cover_photo", "created_time", "description", "from", "link", "location",
+			"name", "place", "privacy", "type", "updated_time"
+	};
 
 	static final String[] ALL_PHOTO_FIELDS = {
 			"id", "album", "backdated_time", "backdated_time_granularity", "created_time", "from", "height", "picture",
