@@ -212,6 +212,17 @@ project('spring-social-facebook-web') {
     }
 }
 
+project("spring-social-facebook-autoconfigure") {
+    description = "Spring Social Facebook Auto-Configuration"
+    dependencies {
+      compile project(":spring-social-facebook")
+      compile("org.springframework.social:spring-social-autoconfigure:$springSocialVersion")
+      compile("org.springframework.boot:spring-boot-autoconfigure:$springBootVersion")
+      testCompile("org.springframework.boot:spring-boot-test:$springBootVersion")
+      testCompile("org.assertj:assertj-core:1.0.0")
+    }
+}
+
 configure(rootProject) {
     description = 'Spring Social Facebook'
 
