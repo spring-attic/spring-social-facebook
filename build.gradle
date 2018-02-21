@@ -319,25 +319,22 @@ task updateRootDocs << {
 }
 
 gitPublish {
-    // where to publish to (repo must exist)
+	delete "$buildDir/gitPublish/"
+ 
+	// where to publish to (repo must exist)
     repoUri = 'https://github.com/ORCID/spring-social-facebook.git'
     
     // branch will be created if it doesn't exist
     branch = 'mvn-repo'
 
     // generally, you don't need to touch this
-    repoDir = file("$buildDir/gitPublish") // defaults to $buildDir/gitPublish
+    repoDir = file("$buildDir/gitPublish") 
 
     // what to publish, this is a standard CopySpec
     contents {
         from coreModuleProjects.collect {project -> project.libsDir }
-		into 'artifacts/'		
-    }
-
-    // what to keep in the existing branch (include=keep)
-    preserve {
-        include '*.*'
-    }
+		into 'artifacts/'
+    }    
 
     // message used when committing changes
     commitMessage = 'Publish artifacts'
