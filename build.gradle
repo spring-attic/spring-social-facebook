@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         maven { url 'http://repo.spring.io/plugins-release' }
+		jcenter()
     }
     dependencies {
         classpath 'org.springframework.build.gradle:docbook-reference-plugin:0.2.8'
@@ -8,6 +9,7 @@ buildscript {
         classpath('org.asciidoctor:asciidoctor-gradle-plugin:0.7.0')
         classpath('org.asciidoctor:asciidoctor-java-integration:0.1.4.preview.1')
         classpath 'io.spring.gradle:spring-io-plugin:0.0.6.RELEASE'
+		classpath 'org.ajoberstar:gradle-git-publish:0.3.2'
     }
 }
 
@@ -22,6 +24,7 @@ configure(allprojects - docProjects) {
     apply plugin: 'idea'
     apply plugin: 'javadocHotfix'
     apply plugin: "maven"
+	apply plugin: 'org.ajoberstar.git-publish'
 
     group = 'org.springframework.social'
 
@@ -313,6 +316,31 @@ task updateRootDocs << {
         include 'license.txt'
         rename { filename -> 'LICENSE' }
     }
+}
+
+gitPublish {
+    // where to publish to (repo must exist)
+    repoUri = 'https://github.com/ORCID/spring-social-facebook.git'
+    
+    // branch will be created if it doesn't exist
+    branch = 'mvn-repo'
+
+    // generally, you don't need to touch this
+    repoDir = file("$buildDir/gitPublish") // defaults to $buildDir/gitPublish
+
+    // what to publish, this is a standard CopySpec
+    contents {
+        from coreModuleProjects.collect {project -> project.libsDir }
+		into 'artifacts/'		
+    }
+
+    // what to keep in the existing branch (include=keep)
+    preserve {
+        include '*.*'
+    }
+
+    // message used when committing changes
+    commitMessage = 'Publish artifacts'
 }
 
 build.dependsOn('updateRootDocs')
