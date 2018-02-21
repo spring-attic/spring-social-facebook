@@ -1,3 +1,5 @@
+This is a fork of https://github.com/spring-projects/spring-social-facebook turned into a maven repo specifically for the purpose of keeping at least the login functionality working with the Facebook Graph API 2.10
+
 =========================== Spring Social Facebook ===========================
 To check out the project and build from source, do the following:
 
