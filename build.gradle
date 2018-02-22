@@ -332,8 +332,15 @@ gitPublish {
 
     // what to publish, this is a standard CopySpec
     contents {					
-		from 'spring-social-facebook/build/libs'
-		into 'org/springframework/social/spring-social-facebook/'					
+		into ('org/springframework/social/spring-social-facebook/' + project.version) {
+			from 'spring-social-facebook/build/libs'
+		}		
+		into ('org/springframework/social/spring-social-facebook-web/' + project.version) {
+			from 'spring-social-facebook-web/build/libs'
+		}
+		into ('org/springframework/social/spring-social-facebook-autoconfigure/' + project.version) {
+			from 'spring-social-facebook-autoconfigure/build/libs'
+		}		
 	}    
 
     // message used when committing changes
