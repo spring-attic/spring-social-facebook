@@ -331,10 +331,10 @@ gitPublish {
     repoDir = file("$buildDir/gitPublish") 
 
     // what to publish, this is a standard CopySpec
-    contents {
-        from coreModuleProjects.collect {project -> project.libsDir }
-		into 'artifacts/'
-    }    
+    contents {					
+		from 'spring-social-facebook/build/libs'
+		into 'org/springframework/social/spring-social-facebook/'					
+	}    
 
     // message used when committing changes
     commitMessage = 'Publish artifacts'
