@@ -28,7 +28,7 @@ import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class EventTemplate implements EventOperations {
+public class EventTemplate implements EventOperations {
 			
 	private final GraphApi graphApi;
 

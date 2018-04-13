@@ -42,7 +42,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class FeedTemplate implements FeedOperations {
+public class FeedTemplate implements FeedOperations {
 
 	private static final PagingParameters FIRST_PAGE = new PagingParameters(25, null, null, null);
 

@@ -37,7 +37,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-class FriendTemplate implements FriendOperations {
+public class FriendTemplate implements FriendOperations {
 	
 	private final GraphApi graphApi;
 

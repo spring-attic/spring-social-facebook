@@ -32,7 +32,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-class MediaTemplate implements MediaOperations {
+public class MediaTemplate implements MediaOperations {
 
 	private final GraphApi graphApi;
 	

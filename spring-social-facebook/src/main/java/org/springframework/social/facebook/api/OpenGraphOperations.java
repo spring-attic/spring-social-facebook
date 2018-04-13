@@ -26,7 +26,7 @@ import org.springframework.util.MultiValueMap;
  */
 public interface OpenGraphOperations {
 	
-	static final ActionMetadata EMPTY_ACTION_METADATA = new ActionMetadata();
+    ActionMetadata EMPTY_ACTION_METADATA = new ActionMetadata();
 
 	/**
 	 * @return Operations for working with built-in general OpenGraph actions such as "og.like" and "og.follow".

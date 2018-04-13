@@ -27,7 +27,7 @@ import org.springframework.web.client.RestOperations;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-class SocialContextTemplate implements SocialContextOperations {
+public class SocialContextTemplate implements SocialContextOperations {
 
 	private static final int LIMIT = 25;
 	

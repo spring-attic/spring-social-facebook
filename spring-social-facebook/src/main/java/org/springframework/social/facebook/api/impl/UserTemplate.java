@@ -34,10 +34,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-class UserTemplate implements UserOperations {
+public class UserTemplate implements UserOperations {
 
 	private final GraphApi graphApi;
-	
+
 	private final RestTemplate restTemplate;
 
 	public UserTemplate(GraphApi graphApi, RestTemplate restTemplate) {
@@ -50,7 +50,7 @@ class UserTemplate implements UserOperations {
 	}
 
 	public User getUserProfile(String facebookId) {
-		return graphApi.fetchObject(facebookId, User.class, PROFILE_FIELDS);
+		return graphApi.fetchObject(facebookId, User.class, ProfileData.PROFILE_FIELDS);
 	}
 	
 	public byte[] getUserProfileImage() {
