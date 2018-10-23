@@ -45,6 +45,17 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(5, feed.size());
 		assertFeedEntries(feed);
 	}
+	
+	@Test
+	public void getFeed_withPagedListParameters_offset() {
+		mockServer.expect(requestTo(fbUrl("me/feed?limit=25&offset=10&fields=" + ALL_POST_FIELDS_STR)))
+				.andExpect(method(GET))
+				.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("feed"), MediaType.APPLICATION_JSON));
+		List<Post> feed = facebook.feedOperations().getFeed(new PagingParameters(25, 10, null, null));
+		assertEquals(5, feed.size());
+		assertFeedEntries(feed);
+	}
 
 	@Test
 	public void getFeed_withPagedListParameters_since() {

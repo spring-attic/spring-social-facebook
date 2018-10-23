@@ -266,6 +266,9 @@ class FeedTemplate implements FeedOperations {
 		if (pagedListParameters.getLimit() != null) {
 			uriBuilder = uriBuilder.queryParam("limit", String.valueOf(pagedListParameters.getLimit()));
 		}
+		if (pagedListParameters.getOffset() != null) {
+			uriBuilder = uriBuilder.queryParam("offset", String.valueOf(pagedListParameters.getOffset()));
+		}
 		if (pagedListParameters.getSince() != null) {
 			uriBuilder = uriBuilder.queryParam("since", String.valueOf(pagedListParameters.getSince()));
 		}
