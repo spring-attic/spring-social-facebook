@@ -138,12 +138,12 @@
                 "name": "Art Names",
                 "id": "100001387295207"
             },
-            "picture": "http://platform.ak.fbcdn.net/www/app_full_proxy.php?app=145634995501895&v=1&size=p&cksum=002a69449b3040185e0582140bbe41c3&src=http\u00253A\u00252F\u00252Fwww.habuma.com\u00252Flogo.gif",
+            "picture": "https://platform.ak.fbcdn.net/www/app_full_proxy.php?app=145634995501895&v=1&size=p&cksum=002a69449b3040185e0582140bbe41c3&src=http\u00253A\u00252F\u00252Fwww.habuma.com\u00252Flogo.gif",
             "link": "http://www.habuma.com/",
             "source": "http://www.habuma.com/fb/test.swf",
             "name": "Habuma.com",
             "caption": "www.habuma.com",
-            "icon": "http://photos-h.ak.fbcdn.net/photos-ak-snc1/v27562/11/145634995501895/app_2_145634995501895_3466.gif",
+            "icon": "https://photos-h.ak.fbcdn.net/photos-ak-snc1/v27562/11/145634995501895/app_2_145634995501895_3466.gif",
             "type": "swf",
             "application":
             {
@@ -172,7 +172,7 @@
             "source": "http://www.habuma.com/fb/test.mp3",
             "name": "Habuma.com",
             "caption": "www.habuma.com",
-            "icon": "http://photos-h.ak.fbcdn.net/photos-ak-snc1/v27562/11/145634995501895/app_2_145634995501895_3466.gif",
+            "icon": "https://photos-h.ak.fbcdn.net/photos-ak-snc1/v27562/11/145634995501895/app_2_145634995501895_3466.gif",
             "type": "music",
             "application":
             {

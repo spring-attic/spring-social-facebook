@@ -57,14 +57,14 @@ public class FacebookAdapterTest {
 		User user = new User("12345678", "Craig Walls", "Craig", "Walls", null, null);
 		Field linkField = user.getClass().getDeclaredField("link");
 		linkField.setAccessible(true);
-		linkField.set(user, "http://www.facebook.com/975041837");
+		linkField.set(user, "https://www.facebook.com/975041837");
 		Mockito.when(facebook.fetchObject("me", User.class, "id", "name", "link")).thenReturn(user);
 		Mockito.when(facebook.getBaseGraphApiUrl()).thenReturn(GRAPH_API_URL);
 		TestConnectionValues connectionValues = new TestConnectionValues();
 		apiAdapter.setConnectionValues(facebook, connectionValues);
 		assertEquals("Craig Walls", connectionValues.getDisplayName());
 		assertEquals(GRAPH_API_URL + "12345678/picture", connectionValues.getImageUrl());
-		assertEquals("http://www.facebook.com/975041837", connectionValues.getProfileUrl());
+		assertEquals("https://www.facebook.com/975041837", connectionValues.getProfileUrl());
 		assertEquals("12345678", connectionValues.getProviderUserId());
 	}
 
