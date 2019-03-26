@@ -491,11 +491,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(2, feed.size());
 		assertEquals(PostType.LINK, feed.get(0).getType());
 		assertEquals("125736073702566", feed.get(0).getId());
-		assertEquals("Warning about Facebook Phishing: See http://www.facebook.com/group.php?gid=9874388706", feed.get(0).getMessage());
+		assertEquals("Warning about Facebook Phishing: See https://www.facebook.com/group.php?gid=9874388706", feed.get(0).getMessage());
 		assertEquals("738140579", feed.get(0).getFrom().getId());
 		assertEquals("Craig Walls", feed.get(0).getFrom().getName());
-		assertEquals("http://profile.ak.fbcdn.net/hprofile-ak-snc4/50255_9874388706_6623_n.jpg", feed.get(0).getPicture());
-		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yD/r/aS8ecmYRys0.gif", feed.get(0).getIcon());
+		assertEquals("https://profile.ak.fbcdn.net/hprofile-ak-snc4/50255_9874388706_6623_n.jpg", feed.get(0).getPicture());
+		assertEquals("https://static.ak.fbcdn.net/rsrc.php/v1/yD/r/aS8ecmYRys0.gif", feed.get(0).getIcon());
 		assertEquals("Facebook Phishing Scam Awareness", feed.get(0).getName());
 		assertNull(feed.get(0).getDescription());
 		assertNull(feed.get(0).getLink()); // sometimes links are in the message
@@ -504,11 +504,11 @@ public class FeedTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Hey, let's go buy some furniture from the guy who's off his meds.", feed.get(1).getMessage());
 		assertEquals("738140579", feed.get(1).getFrom().getId());
 		assertEquals("Craig Walls", feed.get(1).getFrom().getName());
-		assertEquals("http://i.ytimg.com/vi/QSLT2N-Ome8/2.jpg", feed.get(1).getPicture());
-		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yD/r/aS8ecmYRys0.gif", feed.get(1).getIcon());
+		assertEquals("https://i.ytimg.com/vi/QSLT2N-Ome8/2.jpg", feed.get(1).getPicture());
+		assertEquals("https://static.ak.fbcdn.net/rsrc.php/v1/yD/r/aS8ecmYRys0.gif", feed.get(1).getIcon());
 		assertEquals("Competition Beatdown Fail", feed.get(1).getName());
 		assertEquals("What was this guy thinking?", feed.get(1).getDescription());
-		assertEquals("http://www.youtube.com/watch?v=QSLT2N-Ome8", feed.get(1).getLink());
+		assertEquals("https://www.youtube.com/watch?v=QSLT2N-Ome8", feed.get(1).getLink());
 	}
 
 	private void assertStatuses(List<Post> statuses) {

@@ -87,7 +87,7 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		Page page = facebook.pageOperations().getPage("140372495981006");
 		assertEquals("140372495981006", page.getId());
 		assertEquals("Greenhouse", page.getName());
-		assertEquals("http://www.facebook.com/apps/application.php?id=140372495981006", page.getLink());
+		assertEquals("https://www.facebook.com/apps/application.php?id=140372495981006", page.getLink());
 		assertEquals("The social destination for Spring application developers.", page.getDescription());
 		assertTrue(page.canPost());
 		assertEquals(0, page.getTalkingAboutCount());
