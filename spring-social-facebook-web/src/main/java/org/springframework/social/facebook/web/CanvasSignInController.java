@@ -68,7 +68,7 @@ public class CanvasSignInController {
 	
 	private String postSignInUrl = "/";
 	
-	private String postDeclineUrl = "http://www.facebook.com";
+	private String postDeclineUrl = "https://www.facebook.com";
 
 	private String scope;
 
@@ -94,7 +94,7 @@ public class CanvasSignInController {
 	 * The URL or path to redirect to if a user declines authorization.
 	 * The redirect will happen in the top-level window. 
 	 * If you want the redirect to happen in the canvas iframe, then override the {@link #postDeclineView()} method to return a different implementation of {@link View}.
-	 * @param postDeclineUrl the url to redirect to after a user declines authorization. Defaults to "http://www.facebook.com".
+	 * @param postDeclineUrl the url to redirect to after a user declines authorization. Defaults to "https://www.facebook.com".
 	 */
 	public void setPostDeclineUrl(String postDeclineUrl) {
 		this.postDeclineUrl = postDeclineUrl;
