@@ -101,7 +101,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("share", attachment.getType());
 		assertEquals("Some title text", attachment.getTitle());
 		assertEquals("203272_269965", attachment.getTarget().getId());
-		assertEquals("http://l.facebook.com/l.php?u=http%3A%2F%2Fsomeurl.com", attachment.getTarget().getUrl());
+		assertEquals("https://l.facebook.com/l.php?u=http%3A%2F%2Fsomeurl.com", attachment.getTarget().getUrl());
 		assertEquals("http://someurl.com", attachment.getUrl());
 		assertEquals(500, attachment.getMedia().getImage().getHeight());
 		assertEquals(200, attachment.getMedia().getImage().getWidth());
