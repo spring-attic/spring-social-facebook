@@ -2,12 +2,12 @@
 Craig Walls; Keith Donald; Roy Clarkson
 
 The Spring Social Facebook project is an extension to
-http://www.springframework.org/spring-social[Spring Social] that enables
+https://www.springframework.org/spring-social[Spring Social] that enables
 integration with Facebook.
 
 == Introduction
 With over 700 million users (and growing),
-http://www.facebook.com[Facebook] is the largest online social network.
+https://www.facebook.com[Facebook] is the largest online social network.
 While bringing together friends and family, Facebook also offers a rich
 platform on which to develop applications.
 
@@ -69,7 +69,7 @@ than Spring Social. Consequently, Spring Social's version may differ
 from that of Spring Social Facebook.
 
 Consult
-http://docs.spring.io/spring-social/docs/1.0.x/reference/html/overview.html#overview-howtoget[Spring
+https://docs.spring.io/spring-social/docs/1.0.x/reference/html/overview.html#overview-howtoget[Spring
 Social's reference documentation] for more information on Spring Social
 dependencies.
 
@@ -114,7 +114,7 @@ This is roughly equivalent to the Java-based configuration of `ConnectionFactory
 As in the Java-based configuration, the application's client ID and secret are externalized (shown here as property placeholders).
 
 Refer to
-http://docs.spring.io/spring-social/site/docs/1.1.0.RC1/reference/htmlsingle/index.html#connecting[Spring Social's reference documentation] for complete details on configuring `ConnectController` and its dependencies.
+https://docs.spring.io/spring-social/site/docs/1.1.0.RC1/reference/htmlsingle/index.html#connecting[Spring Social's reference documentation] for complete details on configuring `ConnectController` and its dependencies.
 
 == Facebook API Binding
 Spring Social Facebook's `Facebook` interface and its implementation, `FacebookTemplate` provide the operations needed to interact with Facebook on behalf of a user.
@@ -136,7 +136,7 @@ The application namespace is required for working with any of Facebook's OpenGra
 If you won't be using any OpenGraph operations, then you can use the simpler constructor that only requires an access token.
 
 If you are using Spring Social's
-http://docs.spring.io/spring-social/site/docs/1.1.0.RC1/reference/htmlsingle/index.html#connectFramework[service provider framework], you can get an instance of `Facebook` from a `Connection`.
+https://docs.spring.io/spring-social/site/docs/1.1.0.RC1/reference/htmlsingle/index.html#connectFramework[service provider framework], you can get an instance of `Facebook` from a `Connection`.
 For example, the following snippet calls `getApi()` on a `Connection` to retrieve a `Facebook` instance:
 
 ```java
@@ -288,13 +288,13 @@ facebook.feedOperations().updateStatus("I'm trying out Spring Social!");
 If you'd like to attach a link to the status message, you can do so by passing a `PostData` to the `post()` method:
 
 ```java
-FacebookLink link = new FacebookLink("http://www.springsource.org/spring-social",
+FacebookLink link = new FacebookLink("https://www.springsource.org/spring-social",
         "Spring Social",
         "The Spring Social Project",
         "Spring Social is an extension to Spring to enable applications to connect with service providers.");
 facebook.feedOperations().post("I'm trying out Spring Social!", link);
 facebook.feedOperations().post(new PostData("me").message("I'm trying out Spring Social!")
-    .link("http://www.springsource.org/spring-social", null, "Spring Social", "The Spring Social Project", "Spring Social is an extension to Spring to enable applications to connect with service providers."));
+    .link("https://www.springsource.org/spring-social", null, "Spring Social", "The Spring Social Project", "Spring Social is an extension to Spring to enable applications to connect with service providers."));
 ```
 
 When calling the `link()` method on a `PostData` object, the first parameter is the link's URL, the second parameter is a picture to associate with the link (overriding any picture that Facebook would find from the page at the URL given), the third parameter is the name of the link, the fourth

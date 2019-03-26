@@ -48,7 +48,7 @@ public class FacebookInitTag extends TagSupport {
 			if (pageContext.getRequest().isSecure()) {
 				pageContext.getOut().append("<script src='https://connect.facebook.net/en_US/all.js'></script>");
 			} else {
-				pageContext.getOut().append("<script src='http://connect.facebook.net/en_US/all.js'></script>");
+				pageContext.getOut().append("<script src='https://connect.facebook.net/en_US/all.js'></script>");
 			}
 			pageContext.getOut().append("<div id='fb-root'></div>");
 			pageContext.getOut().append("<script type='text/javascript'>");
