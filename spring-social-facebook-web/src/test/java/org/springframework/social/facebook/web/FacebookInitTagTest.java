@@ -48,7 +48,7 @@ public class FacebookInitTagTest {
 		assertEquals(TagSupport.SKIP_BODY, tag.doStartTag());
 		assertEquals(TagSupport.EVAL_PAGE, tag.doEndTag());
 		assertEquals(
-			"<script src='http://connect.facebook.net/en_US/all.js'></script><div id='fb-root'></div>" +
+			"<script src='https://connect.facebook.net/en_US/all.js'></script><div id='fb-root'></div>" +
 			"<script type='text/javascript'>FB.init({appId: 'test-id', status: true, cookie: true, xfbml: true});</script>",
 			response.getContentAsString());
 	}

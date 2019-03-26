@@ -54,7 +54,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		User profile = facebook.userOperations().getUserProfile();
 		assertBasicProfileData(profile, true);
 		assertEquals("cwalls@vmware.com", profile.getEmail());
-		assertEquals("http://www.facebook.com/habuma", profile.getLink());
+		assertEquals("https://www.facebook.com/habuma", profile.getLink());
 		assertEquals("xyz123abc987", profile.getThirdPartyId());
 		assertEquals(Float.valueOf(-6), profile.getTimezone());  // should be -6 ???
 		assertEquals(toDate("2010-08-22T00:01:59+0000"), profile.getUpdatedTime());

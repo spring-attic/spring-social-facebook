@@ -42,7 +42,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("738140579", group.getOwner().getId());
 		assertEquals("Craig Walls", group.getOwner().getName());
 		assertEquals(Group.Privacy.SECRET, group.getPrivacy());
-		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yN/r/IPw3LB5BsPK.png", group.getIcon());
+		assertEquals("https://static.ak.fbcdn.net/rsrc.php/v1/yN/r/IPw3LB5BsPK.png", group.getIcon());
 		assertEquals(toDate("2011-03-30T19:24:59+0000"), group.getUpdatedTime());
 		assertEquals("213106022036379@groups.facebook.com", group.getEmail());
 	}
@@ -114,7 +114,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("108286519250791@groups.facebook.com", results.get(0).getEmail());
 		assertEquals("680947045", results.get(0).getOwner().getId());
 		assertEquals("Javed Mandary", results.get(0).getOwner().getName());
-		assertEquals("http://b.static.ak.fbcdn.net/rsrc.php/v1/y_/r/CbwcMZjMUbR.png", results.get(0).getIcon());
+		assertEquals("https://b.static.ak.fbcdn.net/rsrc.php/v1/y_/r/CbwcMZjMUbR.png", results.get(0).getIcon());
 		assertEquals(Group.Privacy.OPEN, results.get(0).getPrivacy());
 		assertEquals(toDate("2011-03-05T10:01:31+0000"), results.get(0).getUpdatedTime());
 		assertEquals("120726277961844", results.get(1).getId());
@@ -123,7 +123,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertNull(results.get(1).getEmail());
 		assertEquals("25500170", results.get(1).getOwner().getId());
 		assertEquals("Kate Clark", results.get(1).getOwner().getName());
-		assertEquals("http://b.static.ak.fbcdn.net/rsrc.php/v1/y_/r/CbwcMZjMUbR.png", results.get(1).getIcon());
+		assertEquals("https://b.static.ak.fbcdn.net/rsrc.php/v1/y_/r/CbwcMZjMUbR.png", results.get(1).getIcon());
 		assertEquals(Group.Privacy.OPEN, results.get(1).getPrivacy());
 		assertEquals(toDate("2010-05-20T21:46:07+0000"), results.get(1).getUpdatedTime());
 		assertEquals("114934361850206", results.get(2).getId());
@@ -132,7 +132,7 @@ public class GroupTemplateTest extends AbstractFacebookApiTest {
 		assertNull(results.get(2).getEmail());
 		assertEquals("709242026", results.get(2).getOwner().getId());
 		assertEquals("Jay Logelin", results.get(2).getOwner().getName());
-		assertEquals("http://b.static.ak.fbcdn.net/rsrc.php/v1/y_/r/CbwcMZjMUbR.png", results.get(2).getIcon());
+		assertEquals("https://b.static.ak.fbcdn.net/rsrc.php/v1/y_/r/CbwcMZjMUbR.png", results.get(2).getIcon());
 		assertEquals(Group.Privacy.OPEN, results.get(2).getPrivacy());
 		assertEquals(toDate("2010-04-01T01:16:44+0000"), results.get(2).getUpdatedTime());
 	}	
