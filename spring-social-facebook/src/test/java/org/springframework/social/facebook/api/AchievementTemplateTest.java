@@ -64,7 +64,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement"))
 			.andRespond(withSuccess(jsonResource("id-only"), MediaType.APPLICATION_JSON));
 		
-		String achievementId = facebook.achievementOperations().postAchievement("http://example.com/achievement");
+		String achievementId = facebook.achievementOperations().postAchievement("https://example.com/achievement");
 		assertEquals("297875170268724", achievementId);
 		mockServer.verify();
 	}
@@ -76,7 +76,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth " + ACCESS_TOKEN))
 			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement&method=delete"))
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
-		facebook.achievementOperations().removeAchievement("http://example.com/achievement");
+		facebook.achievementOperations().removeAchievement("https://example.com/achievement");
 		mockServer.verify();
 	}
 
@@ -117,7 +117,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement&display_order=2"))
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
 		
-		appFacebook.achievementOperations().createAchievementType("http://example.com/achievement", 2);
+		appFacebook.achievementOperations().createAchievementType("https://example.com/achievement", 2);
 		appFacebookMockServer.verify();
 	}
 
@@ -128,7 +128,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth " + APP_ACCESS_TOKEN))
 			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement&method=delete"))
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
-		appFacebook.achievementOperations().removeAchievementType("http://example.com/achievement");
+		appFacebook.achievementOperations().removeAchievementType("https://example.com/achievement");
 		appFacebookMockServer.verify();
 	}
 	

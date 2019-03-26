@@ -41,7 +41,7 @@ public class OpenGraphTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(content().string("thing=http%3A%2F%2Fwww.springsource.org%2Fspringsocial"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("id-only"), MediaType.APPLICATION_JSON));
-		assertEquals("297875170268724", facebook.openGraphOperations().publishAction("ding", "thing", "http://www.springsource.org/springsocial"));
+		assertEquals("297875170268724", facebook.openGraphOperations().publishAction("ding", "thing", "https://www.springsource.org/springsocial"));
 	}
 
 }
