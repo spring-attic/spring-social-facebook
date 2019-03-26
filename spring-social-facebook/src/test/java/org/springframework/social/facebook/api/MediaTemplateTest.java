@@ -261,10 +261,10 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertNull(video.getTags().get(0).getY());
 		assertEquals("Just a test screen recording", video.getName());
 		assertEquals("Nothing special...just for testing purposes.", video.getDescription());
-		assertEquals("http://vthumb.ak.fbcdn.net/hvthumb-ak-ash2/158179_161500167239559_161500020572907_64114_872_t.jpg", video.getPicture());
-		assertEquals("<object width=\"400\" height=\"250\" ><param name=\"allowfullscreen\" value=\"true\" /><param name=\"movie\" value=\"http://www.facebook.com/v/161500020572907\" /><embed src=\"http://www.facebook.com/v/161500020572907\" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" width=\"400\" height=\"250\"></embed></object>", video.getEmbedHtml());
-		assertEquals("http://b.static.ak.fbcdn.net/rsrc.php/v1/yD/r/DggDhA4z4tO.gif", video.getIcon());
-		assertEquals("http://video.ak.fbcdn.net/cfs-ak-snc6/80396/785/161500020572907_43024.mp4?oh=2d01ac0ffce931fecb8987ae02837fc6&oe=4D94E600&__gda__=1301603840_718156f2f2c257ebd7714b3b0ba5164e", video.getSource());
+		assertEquals("https://vthumb.ak.fbcdn.net/hvthumb-ak-ash2/158179_161500167239559_161500020572907_64114_872_t.jpg", video.getPicture());
+		assertEquals("<object width=\"400\" height=\"250\" ><param name=\"allowfullscreen\" value=\"true\" /><param name=\"movie\" value=\"https://www.facebook.com/v/161500020572907\" /><embed src=\"https://www.facebook.com/v/161500020572907\" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" width=\"400\" height=\"250\"></embed></object>", video.getEmbedHtml());
+		assertEquals("https://b.static.ak.fbcdn.net/rsrc.php/v1/yD/r/DggDhA4z4tO.gif", video.getIcon());
+		assertEquals("https://video.ak.fbcdn.net/cfs-ak-snc6/80396/785/161500020572907_43024.mp4?oh=2d01ac0ffce931fecb8987ae02837fc6&oe=4D94E600&__gda__=1301603840_718156f2f2c257ebd7714b3b0ba5164e", video.getSource());
 		assertEquals(toDate("2011-03-29T20:25:55+0000"), video.getCreatedTime());
 		assertEquals(toDate("2011-03-29T20:25:55+0000"), video.getUpdatedTime());
 	}
@@ -280,10 +280,10 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals((Integer) 47, photo.getTags().get(0).getX());
 		assertEquals((Integer) 24, photo.getTags().get(0).getY());
 		assertEquals(8, photo.getImages().size());
-		assertEquals("http://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_s.jpg", photo.getPicture());
-		assertEquals("http://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_n.jpg", photo.getSource());
-		assertEquals("http://www.facebook.com/photo.php?pid=17698198&id=738140579", photo.getLink());
-		assertEquals("http://static.ak.fbcdn.net/rsrc.php/v1/yz/r/StEh3RhPvjl.gif", photo.getIcon());
+		assertEquals("https://photos-e.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_s.jpg", photo.getPicture());
+		assertEquals("https://a5.sphotos.ak.fbcdn.net/hphotos-ak-snc6/200110_10150447271355580_738140579_17698198_7684115_n.jpg", photo.getSource());
+		assertEquals("https://www.facebook.com/photo.php?pid=17698198&id=738140579", photo.getLink());
+		assertEquals("https://static.ak.fbcdn.net/rsrc.php/v1/yz/r/StEh3RhPvjl.gif", photo.getIcon());
 		assertEquals(toDate("2011-03-24T21:36:06+0000"), photo.getCreatedTime());
 		assertEquals(toDate("2011-03-24T21:37:43+0000"), photo.getUpdatedTime());
 		assertEquals(toDate("2011-03-24T21:36:06+0000"), photo.getBackdatedTime());
@@ -296,7 +296,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("10150694228040580", albums.get(1).getId());
 		assertEquals("738140579", albums.get(1).getFrom().getId());
 		assertEquals("Craig Walls", albums.get(1).getFrom().getName());
-		assertEquals("http://www.facebook.com/album.php?aid=526031&id=738140579", albums.get(1).getLink());
+		assertEquals("https://www.facebook.com/album.php?aid=526031&id=738140579", albums.get(1).getLink());
 		assertEquals("Profile Pictures", albums.get(1).getName());
 		assertNull(albums.get(1).getDescription());
 		assertNull(albums.get(1).getLocation());
@@ -309,7 +309,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("247501695549", albums.get(2).getId());
 		assertEquals("738140579", albums.get(2).getFrom().getId());
 		assertEquals("Craig Walls", albums.get(2).getFrom().getName());
-		assertEquals("http://www.facebook.com/album.php?aid=290408&id=738140579", albums.get(2).getLink());
+		assertEquals("https://www.facebook.com/album.php?aid=290408&id=738140579", albums.get(2).getLink());
 		assertEquals("Photos on the go", albums.get(2).getName());
 		assertNull(albums.get(2).getDescription());
 		assertNull(albums.get(2).getLocation());
@@ -324,7 +324,7 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("10151447271460580", album.getId());
 		assertEquals("738140579", album.getFrom().getId());
 		assertEquals("Craig Walls", album.getFrom().getName());
-		assertEquals("http://www.facebook.com/album.php?aid=620722&id=738140579", album.getLink());
+		assertEquals("https://www.facebook.com/album.php?aid=620722&id=738140579", album.getLink());
 		assertEquals("Early Broncos", album.getName());
 		assertEquals("10151447371355580", album.getCoverPhoto());
 		assertNull(album.getDescription());
@@ -342,10 +342,10 @@ public class MediaTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("161503963905846", video.getId());
 		assertEquals("100001387295207", video.getFrom().getId());
 		assertEquals("Art Names", video.getFrom().getName());
-		assertEquals("http://vthumb.ak.fbcdn.net/hvthumb-ak-ash2/50903_161504077239168_161503963905846_21174_1003_t.jpg", video.getPicture());
-		assertEquals("<object width=\"400\" height=\"250\" ><param name=\"allowfullscreen\" value=\"true\" /><param name=\"movie\" value=\"http://www.facebook.com/v/161503963905846\" /><embed src=\"http://www.facebook.com/v/161503963905846\" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" width=\"400\" height=\"250\"></embed></object>", video.getEmbedHtml());
-		assertEquals("http://b.static.ak.fbcdn.net/rsrc.php/v1/yD/r/DggDhA4z4tO.gif", video.getIcon());
-		assertEquals("http://video.ak.fbcdn.net/cfs-ak-snc6/82226/704/161503963905846_41386.mp4?oh=131db79e0842f1c57940aa274b82d8fe&oe=4D95D900&__gda__=1301666048_11e66cf124ce537194b3f7b6ab86b579", video.getSource());
+		assertEquals("https://vthumb.ak.fbcdn.net/hvthumb-ak-ash2/50903_161504077239168_161503963905846_21174_1003_t.jpg", video.getPicture());
+		assertEquals("<object width=\"400\" height=\"250\" ><param name=\"allowfullscreen\" value=\"true\" /><param name=\"movie\" value=\"https://www.facebook.com/v/161503963905846\" /><embed src=\"https://www.facebook.com/v/161503963905846\" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" width=\"400\" height=\"250\"></embed></object>", video.getEmbedHtml());
+		assertEquals("https://b.static.ak.fbcdn.net/rsrc.php/v1/yD/r/DggDhA4z4tO.gif", video.getIcon());
+		assertEquals("https://video.ak.fbcdn.net/cfs-ak-snc6/82226/704/161503963905846_41386.mp4?oh=131db79e0842f1c57940aa274b82d8fe&oe=4D95D900&__gda__=1301666048_11e66cf124ce537194b3f7b6ab86b579", video.getSource());
 		assertEquals(toDate("2011-03-29T20:45:20+0000"), video.getCreatedTime());
 		assertEquals(toDate("2011-03-29T20:45:20+0000"), video.getUpdatedTime());
 		assertSingleVideo(videos.get(1));
