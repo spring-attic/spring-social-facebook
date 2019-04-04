@@ -17,14 +17,14 @@
             "image": [
                 {
                     "height": 1517,
-                    "url": "http://www.habuma.com/fb/foundwaldo.jpg",
+                    "url": "https://www.habuma.com/fb/foundwaldo.jpg",
                     "width": 827
                 }
             ],
             "title": "Found Waldo",
             "type": "game.achievement",
             "updated_time": "2014-05-29T17:23:36+0000",
-            "url": "http://www.habuma.com/fb/foundwaldo.html"
+            "url": "https://www.habuma.com/fb/foundwaldo.html"
         },
         {
             "application": {
@@ -43,14 +43,14 @@
             "image": [
                 {
                     "height": 1517,
-                    "url": "http://www.habuma.com/fb/tiedshoes.jpg",
+                    "url": "https://www.habuma.com/fb/tiedshoes.jpg",
                     "width": 827
                 }
             ],
             "title": "Tied shoes",
             "type": "game.achievement",
             "updated_time": "2014-05-29T17:30:47+0000",
-            "url": "http://www.habuma.com/fb/tiedshoes.html"
+            "url": "https://www.habuma.com/fb/tiedshoes.html"
         }
     ]
 }

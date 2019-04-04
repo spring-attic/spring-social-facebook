@@ -160,7 +160,7 @@
         "name":"Raymie Walls",
         "id":"533477039"
    },
-   "website":"http://www.habuma.com",
+   "website":"https://www.habuma.com",
    "gender": "male",
    "email": "cwalls\u0040vmware.com",
    "timezone": -6,
@@ -171,7 +171,7 @@
 	],
    "paging": {
       "next": "https://graph.facebook.com/v2.3/1255689239/friends?limit=25&offset=25&__after_id=enc_AdCT6WOXITvyG4Eyez7xvw0SjoDHMKspZBotK4rlsiZCmufw419aT8Ff4lWofDrfqHsPkZD"
-   }, 
+   },
    "summary": {
       "total_count": 477
    }

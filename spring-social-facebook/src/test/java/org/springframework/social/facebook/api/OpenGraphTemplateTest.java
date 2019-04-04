@@ -28,17 +28,17 @@ import org.springframework.social.facebook.api.impl.FacebookTemplate;
  * @author Craig Walls
  */
 public class OpenGraphTemplateTest extends AbstractFacebookApiTest {
-	
+
 	@Override
 	protected FacebookTemplate createFacebookTemplate() {
 		return new FacebookTemplate("someAccessToken", "socialshowcase");
 	}
-	
+
 	@Test
 	public void publishAction() {
 		mockServer.expect(requestTo(fbUrl("me/socialshowcase:ding")))
 			.andExpect(method(POST))
-			.andExpect(content().string("thing=http%3A%2F%2Fwww.springsource.org%2Fspringsocial"))
+			.andExpect(content().string("thing=https%3A%2F%2Fwww.springsource.org%2Fspringsocial"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("id-only"), MediaType.APPLICATION_JSON));
 		assertEquals("297875170268724", facebook.openGraphOperations().publishAction("ding", "thing", "https://www.springsource.org/springsocial"));

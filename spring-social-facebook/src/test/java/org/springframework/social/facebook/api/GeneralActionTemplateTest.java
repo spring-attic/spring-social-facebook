@@ -29,11 +29,11 @@ public class GeneralActionTemplateTest extends AbstractFacebookApiTest {
 	public void like() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/og.likes")))
 			.andExpect(method(POST))
-			.andExpect(content().string("object=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
+			.andExpect(content().string("object=https%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\": \"123456789080\"}", MediaType.APPLICATION_JSON));
-		
-		String actionId = facebook.openGraphOperations().generalActions().like("http://samples.ogp.me/226075010839791");
+
+		String actionId = facebook.openGraphOperations().generalActions().like("https://samples.ogp.me/226075010839791");
 		assertEquals("123456789080", actionId);
 	}
 
@@ -41,11 +41,11 @@ public class GeneralActionTemplateTest extends AbstractFacebookApiTest {
 	public void like_withPrivacy() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/og.likes")))
 			.andExpect(method(POST))
-			.andExpect(content().string("privacy=%7B%22value%22%3A%22SELF%22%7D&object=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
+			.andExpect(content().string("privacy=%7B%22value%22%3A%22SELF%22%7D&object=https%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\": \"123456789080\"}", MediaType.APPLICATION_JSON));
-		
-		String actionId = facebook.openGraphOperations().generalActions().like("http://samples.ogp.me/226075010839791", new ActionMetadata().privacy("SELF"));
+
+		String actionId = facebook.openGraphOperations().generalActions().like("https://samples.ogp.me/226075010839791", new ActionMetadata().privacy("SELF"));
 		assertEquals("123456789080", actionId);
 	}
 
@@ -53,12 +53,12 @@ public class GeneralActionTemplateTest extends AbstractFacebookApiTest {
 	public void follow() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/og.follows")))
 			.andExpect(method(POST))
-			.andExpect(content().string("profile=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
+			.andExpect(content().string("profile=https%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\": \"123456789080\"}", MediaType.APPLICATION_JSON));
-		
-		String actionId = facebook.openGraphOperations().generalActions().follow("http://samples.ogp.me/226075010839791");
+
+		String actionId = facebook.openGraphOperations().generalActions().follow("https://samples.ogp.me/226075010839791");
 		assertEquals("123456789080", actionId);
 	}
-	
+
 }

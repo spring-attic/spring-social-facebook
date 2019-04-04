@@ -29,14 +29,14 @@ import org.springframework.http.MediaType;
  * @author Craig Walls
  */
 public class CommentTemplateTest extends AbstractFacebookApiTest {
-	
+
 	@Test
 	public void getComments() throws Exception {
 		mockServer.expect(requestTo(fbUrl("123456/comments?offset=0&limit=25")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("comments"), MediaType.APPLICATION_JSON));
-		
+
 		List<Comment> comments = facebook.commentOperations().getComments("123456");
 		assertEquals(2, comments.size());
 		Comment comment1 = comments.get(0);
@@ -55,7 +55,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("comments"), MediaType.APPLICATION_JSON));
-		
+
 		List<Comment> comments = facebook.commentOperations().getComments("123456", new PagingParameters(100, 75, null, null));
 		assertEquals(2, comments.size());
 		Comment comment1 = comments.get(0);
@@ -79,7 +79,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(90, (int) comment2.getLikeCount());
 		assertEquals(0, comment2.getMessageTags().size());
 	}
-	
+
 	@Test
 	public void getComment() {
 		mockServer.expect(requestTo(fbUrl("1533260333_122829644452184_587062?fields=id%2Cattachment%2Ccan_comment%2Ccan_remove%2Ccomment_count%2Ccreated_time%2Cfrom%2Clike_count%2Cmessage%2Cparent%2Cuser_likes")))
@@ -101,14 +101,14 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("share", attachment.getType());
 		assertEquals("Some title text", attachment.getTitle());
 		assertEquals("203272_269965", attachment.getTarget().getId());
-		assertEquals("https://l.facebook.com/l.php?u=http%3A%2F%2Fsomeurl.com", attachment.getTarget().getUrl());
-		assertEquals("http://someurl.com", attachment.getUrl());
+		assertEquals("https://l.facebook.com/l.php?u=https%3A%2F%2Fsomeurl.com", attachment.getTarget().getUrl());
+		assertEquals("https://someurl.com", attachment.getUrl());
 		assertEquals(500, attachment.getMedia().getImage().getHeight());
 		assertEquals(200, attachment.getMedia().getImage().getWidth());
-		assertEquals("http://someurl.com/image.png", attachment.getMedia().getImage().getSource());
+		assertEquals("https://someurl.com/image.png", attachment.getMedia().getImage().getSource());
 		assertEquals(1, comment.getMessageTags().size());
 	}
-	
+
 	@Test
 	public void addComment() {
 		mockServer.expect(requestTo(fbUrl("123456/comments")))
@@ -118,7 +118,7 @@ public class CommentTemplateTest extends AbstractFacebookApiTest {
 			.andRespond(withSuccess("{\"id\":\"123456_543210\"}", MediaType.APPLICATION_JSON));
 		assertEquals("123456_543210", facebook.commentOperations().addComment("123456", "Cool beans"));
 	}
-	
+
 	@Test
 	public void deleteComment() {
 		mockServer.expect(requestTo(fbUrl("1533260333_122829644452184_587062")))

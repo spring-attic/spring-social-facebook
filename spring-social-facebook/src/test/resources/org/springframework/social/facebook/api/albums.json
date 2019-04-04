@@ -10,7 +10,7 @@
             },
             "name":"Early Broncos",
             "location":"Somewhere",
-            "link":"http:\/\/www.facebook.com\/album.php?aid=620722&id=738140579",
+            "link":"https:\/\/www.facebook.com\/album.php?aid=620722&id=738140579",
             "cover_photo":"10151447371355580",
             "privacy":"custom",
             "count":1,
@@ -26,7 +26,7 @@
                 "id":"738140579"
             },
             "name":"Profile Pictures",
-            "link":"http:\/\/www.facebook.com\/album.php?aid=526031&id=738140579",
+            "link":"https:\/\/www.facebook.com\/album.php?aid=526031&id=738140579",
             "privacy":"friends-of-friends",
             "count":5,
             "type":"profile",
@@ -40,7 +40,7 @@
                 "id":"738140579"
             },
             "name":"Photos on the go",
-            "link":"http:\/\/www.facebook.com\/album.php?aid=290408&id=738140579",
+            "link":"https:\/\/www.facebook.com\/album.php?aid=290408&id=738140579",
             "cover_photo":"247501695549",
             "privacy":"everyone",
             "count":3,
@@ -55,4 +55,3 @@
         "next":"https:\/\/graph.facebook.com\/habuma\/albums?limit=25&until=1187152145"
     }
 }
-

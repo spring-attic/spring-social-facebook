@@ -29,11 +29,11 @@ public class MusicActionsTemplateTest extends AbstractFacebookApiTest {
 	public void listenToSong() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/music.listens")))
 			.andExpect(method(POST))
-			.andExpect(content().string("song=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
+			.andExpect(content().string("song=https%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\": \"123456789080\"}", MediaType.APPLICATION_JSON));
-		
-		String actionId = facebook.openGraphOperations().musicActions().listenToSong("http://samples.ogp.me/226075010839791");
+
+		String actionId = facebook.openGraphOperations().musicActions().listenToSong("https://samples.ogp.me/226075010839791");
 		assertEquals("123456789080", actionId);
 	}
 
@@ -41,23 +41,23 @@ public class MusicActionsTemplateTest extends AbstractFacebookApiTest {
 	public void listenToAlbum() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/music.listens")))
 			.andExpect(method(POST))
-			.andExpect(content().string("album=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
+			.andExpect(content().string("album=https%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\": \"123456789080\"}", MediaType.APPLICATION_JSON));
-		
-		String actionId = facebook.openGraphOperations().musicActions().listenToAlbum("http://samples.ogp.me/226075010839791");
+
+		String actionId = facebook.openGraphOperations().musicActions().listenToAlbum("https://samples.ogp.me/226075010839791");
 		assertEquals("123456789080", actionId);
 	}
-	
+
 	@Test
 	public void listenToRadioStation() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/music.listens")))
 			.andExpect(method(POST))
-			.andExpect(content().string("radio_station=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
+			.andExpect(content().string("radio_station=https%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\": \"123456789080\"}", MediaType.APPLICATION_JSON));
-		
-		String actionId = facebook.openGraphOperations().musicActions().listenToRadioStation("http://samples.ogp.me/226075010839791");
+
+		String actionId = facebook.openGraphOperations().musicActions().listenToRadioStation("https://samples.ogp.me/226075010839791");
 		assertEquals("123456789080", actionId);
 	}
 
@@ -65,23 +65,23 @@ public class MusicActionsTemplateTest extends AbstractFacebookApiTest {
 	public void listenToMusician() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/music.listens")))
 			.andExpect(method(POST))
-			.andExpect(content().string("musician=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
+			.andExpect(content().string("musician=https%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\": \"123456789080\"}", MediaType.APPLICATION_JSON));
-		
-		String actionId = facebook.openGraphOperations().musicActions().listenToMusician("http://samples.ogp.me/226075010839791");
+
+		String actionId = facebook.openGraphOperations().musicActions().listenToMusician("https://samples.ogp.me/226075010839791");
 		assertEquals("123456789080", actionId);
 	}
-	
+
 	@Test
 	public void listenToPlaylist() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/music.listens")))
 			.andExpect(method(POST))
-			.andExpect(content().string("playlist=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
+			.andExpect(content().string("playlist=https%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\": \"123456789080\"}", MediaType.APPLICATION_JSON));
-		
-		String actionId = facebook.openGraphOperations().musicActions().listenToPlaylist("http://samples.ogp.me/226075010839791");
+
+		String actionId = facebook.openGraphOperations().musicActions().listenToPlaylist("https://samples.ogp.me/226075010839791");
 		assertEquals("123456789080", actionId);
 	}
 
@@ -89,11 +89,11 @@ public class MusicActionsTemplateTest extends AbstractFacebookApiTest {
 	public void createPlaylist() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/music.playlists")))
 			.andExpect(method(POST))
-			.andExpect(content().string("playlist=http%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
+			.andExpect(content().string("playlist=https%3A%2F%2Fsamples.ogp.me%2F226075010839791"))
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess("{\"id\": \"123456789080\"}", MediaType.APPLICATION_JSON));
-		
-		String actionId = facebook.openGraphOperations().musicActions().createPlaylist("http://samples.ogp.me/226075010839791");
+
+		String actionId = facebook.openGraphOperations().musicActions().createPlaylist("https://samples.ogp.me/226075010839791");
 		assertEquals("123456789080", actionId);
 	}
 

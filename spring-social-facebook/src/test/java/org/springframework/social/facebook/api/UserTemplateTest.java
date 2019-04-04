@@ -35,7 +35,7 @@ import org.springframework.http.MediaType;
 public class UserTemplateTest extends AbstractFacebookApiTest {
 
 	private static String PROFILE_FIELDS;
-	
+
 	static {
 		StringBuilder builder = new StringBuilder(UserOperations.PROFILE_FIELDS[0]);
 		for (int i=1; i < UserOperations.PROFILE_FIELDS.length; i++) {
@@ -43,7 +43,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		}
 		PROFILE_FIELDS = builder.toString();
 	}
-	
+
 	@Test
 	public void getUserProfile_currentUser() {
 		mockServer.expect(requestTo(fbUrl("me?fields=" + PROFILE_FIELDS)))
@@ -71,7 +71,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Married", profile.getRelationshipStatus());
 		assertEquals("533477039", profile.getSignificantOther().getId());
 		assertEquals("Raymie Walls", profile.getSignificantOther().getName());
-		assertEquals("http://www.habuma.com", profile.getWebsite());
+		assertEquals("https://www.habuma.com", profile.getWebsite());
 		assertEquals(3, profile.getInspirationalPeople().size());
 		assertEquals("121966051173827", profile.getInspirationalPeople().get(0).getId());
 		assertEquals("Homer Simpson", profile.getInspirationalPeople().get(0).getName());
@@ -101,7 +101,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertWorkHistory(profile.getWork());
 		assertEducationHistory(profile.getEducation());
 	}
-	
+
 	@Test
 	public void getUserProfile_specificUserByUserId() {
 		mockServer.expect(requestTo(fbUrl("123456789?fields=" + PROFILE_FIELDS)))
@@ -123,7 +123,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertBasicProfileData(profile, false);
 	}
-	
+
 	@Test
 	public void getUserProfile_specificUserByUserId_withRealTimezone() {
 		mockServer.expect(requestTo(fbUrl("123456789?fields=" + PROFILE_FIELDS)))
@@ -133,16 +133,16 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 
 		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertBasicProfileData(profile, true);
-		assertEquals(Float.valueOf("-4.5"), profile.getTimezone()); 
+		assertEquals(Float.valueOf("-4.5"), profile.getTimezone());
 	}
-	
+
 	@Test
 	public void getUserProfile_withAgeRange_13_17() {
 		mockServer.expect(requestTo(fbUrl("123456789?fields=" + PROFILE_FIELDS)))
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-13-17"), MediaType.APPLICATION_JSON));
-		
+
 		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.AGE_13_17, profile.getAgeRange());
 		assertEquals(13, profile.getAgeRange().getMin().intValue());
@@ -155,7 +155,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-18-20"), MediaType.APPLICATION_JSON));
-		
+
 		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.AGE_18_20, profile.getAgeRange());
 		assertEquals(18, profile.getAgeRange().getMin().intValue());
@@ -168,7 +168,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-21-plus"), MediaType.APPLICATION_JSON));
-		
+
 		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.AGE_21_PLUS, profile.getAgeRange());
 		assertEquals(21, profile.getAgeRange().getMin().intValue());
@@ -181,7 +181,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile-with-age-range-unknown"), MediaType.APPLICATION_JSON));
-		
+
 		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.UNKNOWN, profile.getAgeRange());
 		assertEquals(33, profile.getAgeRange().getMin().intValue());
@@ -194,7 +194,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 				.andExpect(method(GET))
 				.andExpect(header("Authorization", "OAuth someAccessToken"))
 				.andRespond(withSuccess(jsonResource("minimal-profile"), MediaType.APPLICATION_JSON));
-		
+
 		User profile = facebook.userOperations().getUserProfile("123456789");
 		assertEquals(AgeRange.UNKNOWN, profile.getAgeRange());
 		assertNull(profile.getAgeRange().getMin());
@@ -211,7 +211,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		// TODO: Fix mock server handle binary data so we can test contents (or at least size) of image data.
 		mockServer.verify();
 	}
-	
+
 	@Test
 	public void getUserProfileImage_specificUserByUserId() {
 		mockServer.expect(requestTo(fbUrl("1234567/picture?type=normal")))
@@ -222,7 +222,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		// TODO: Fix mock server handle binary data so we can test contents (or at least size) of image data.
 		mockServer.verify();
 	}
-	
+
 	@Test
 	public void getUserProfileImage_specificUserAndType() {
 		mockServer.expect(requestTo(fbUrl("1234567/picture?type=large")))
@@ -233,7 +233,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		// TODO: Fix mock server handle binary data so we can test contents (or at least size) of image data.
 		mockServer.verify();
 	}
-	
+
 	@Test
 	public void getUserPermissions() {
 		mockServer.expect(requestTo(fbUrl("me/permissions")))
@@ -241,8 +241,8 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("user-permissions"), MediaType.APPLICATION_JSON));
 		List<Permission> permissions = facebook.userOperations().getUserPermissions();
-		
-		
+
+
 		Map<String, String> expectedPermissions = new HashMap<String, String>();
 		expectedPermissions.put("user_photos", "granted");
 		expectedPermissions.put("user_location", "declined");
@@ -254,7 +254,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 			assertEquals(expectedPermissions.get(permission.getName()), permission.getStatus());
 		}
 	}
-	
+
 	@Test
 	public void getIdsForBusiness() {
 		mockServer.expect(requestTo(fbUrl("me/ids_for_business")))
@@ -262,7 +262,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(header("Authorization", "OAuth someAccessToken"))
 			.andRespond(withSuccess(jsonResource("ids_for_business"), MediaType.APPLICATION_JSON));
 		List<UserIdForApp> idsForBusiness = facebook.userOperations().getIdsForBusiness();
-		
+
 		assertEquals(2, idsForBusiness.size());
 		assertEquals("123456", idsForBusiness.get(0).getId());
 		assertEquals("APP1", idsForBusiness.get(0).getApp().getId());
@@ -271,7 +271,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("APP2", idsForBusiness.get(1).getApp().getId());
 		assertEquals("App two", idsForBusiness.get(1).getApp().getName());
 	}
-	
+
 	@Test
 	public void getTaggedPlaces() {
 		mockServer.expect(requestTo(fbUrl("me/tagged_places")))
@@ -303,7 +303,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals(-81.548863, placeTag.getPlace().getLocation().getLongitude(), 0.001);
 		assertEquals("Disney's Art of Animation Resort", placeTag.getPlace().getName());
 	}
-	
+
 	@Test
 	public void search() {
 		mockServer.expect(requestTo(fbUrl("search?q=Michael+Scott&type=user")))
@@ -319,7 +319,7 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("1184963857", results.get(2).getId());
 		assertEquals("Michael Scott", results.get(2).getName());
 	}
-	
+
 	private void assertBasicProfileData(User profile, boolean withMiddleName) {
 		assertEquals("123456789", profile.getId());
 		assertEquals("Michael", profile.getFirstName());

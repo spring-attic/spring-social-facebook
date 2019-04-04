@@ -13,26 +13,26 @@
     "user_likes": true,
     "message_tags": [
       {
-        "id": "17540", 
-        "name": "Luke Skywalker", 
-        "type": "user", 
-        "offset": 5, 
+        "id": "17540",
+        "name": "Luke Skywalker",
+        "type": "user",
+        "offset": 5,
         "length": 16
       }
-    ], 
+    ],
     "attachment": {
-      "description": "Some description text", 
-      "type": "share", 
-      "title": "Some title text", 
+      "description": "Some description text",
+      "type": "share",
+      "title": "Some title text",
       "target": {
-        "id": "203272_269965", 
-        "url": "https://l.facebook.com/l.php?u=http%3A%2F%2Fsomeurl.com"
-      }, 
-      "url": "http://someurl.com", 
+        "id": "203272_269965",
+        "url": "https://l.facebook.com/l.php?u=https%3A%2F%2Fsomeurl.com"
+      },
+      "url": "https://someurl.com",
       "media": {
         "image": {
-          "height": 500, 
-          "src": "http://someurl.com/image.png", 
+          "height": 500,
+          "src": "https://someurl.com/image.png",
           "width": 200
         }
       }

@@ -39,17 +39,17 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo(fbUrl("1403783649909361")))
 			.andExpect(method(GET))
 			.andRespond(withSuccess(jsonResource("achievement"), MediaType.APPLICATION_JSON));
-		
+
 		Achievement achievement = facebook.achievementOperations().getAchievement("1403783649909361");
 		assertFoundWaldoAchievement(achievement);
 	}
-	
+
 	@Test
 	public void getAchievements() throws Exception {
 		mockServer.expect(requestTo(fbUrl("me/achievements")))
 			.andExpect(method(GET))
 			.andRespond(withSuccess(jsonResource("achievements"), MediaType.APPLICATION_JSON));
-		
+
 		List<Achievement> achievements = facebook.achievementOperations().getAchievements();
 		assertEquals(2, achievements.size());
 		assertFoundWaldoAchievement(achievements.get(0));
@@ -61,9 +61,9 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo(fbUrl("me/achievements")))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth " + ACCESS_TOKEN))
-			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement"))
+			.andExpect(content().string("achievement=https%3A%2F%2Fexample.com%2Fachievement"))
 			.andRespond(withSuccess(jsonResource("id-only"), MediaType.APPLICATION_JSON));
-		
+
 		String achievementId = facebook.achievementOperations().postAchievement("https://example.com/achievement");
 		assertEquals("297875170268724", achievementId);
 		mockServer.verify();
@@ -74,24 +74,24 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 		mockServer.expect(requestTo(fbUrl("me/achievements")))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth " + ACCESS_TOKEN))
-			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement&method=delete"))
+			.andExpect(content().string("achievement=https%3A%2F%2Fexample.com%2Fachievement&method=delete"))
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
 		facebook.achievementOperations().removeAchievement("https://example.com/achievement");
 		mockServer.verify();
 	}
 
-	
+
 	//
 	// Application-level achievement type operations
 	//
-	
+
 	@Test
 	public void getAchievementTypes() throws Exception {
 		appFacebookMockServer.expect(requestTo(fbUrl("app/achievements")))
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth " + APP_ACCESS_TOKEN))
 			.andRespond(withSuccess(jsonResource("achievement-types"), MediaType.APPLICATION_JSON));
-	
+
 		List<AchievementType> achievementTypes = appFacebook.achievementOperations().getAchievementTypes();
 		assertEquals(2, achievementTypes.size());
 		assertWaldoAchievement(achievementTypes.get(0), null);
@@ -104,19 +104,19 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 			.andExpect(method(GET))
 			.andExpect(header("Authorization", "OAuth " + APP_ACCESS_TOKEN))
 			.andRespond(withSuccess(jsonResource("achievement-type"), MediaType.APPLICATION_JSON));
-	
+
 		AchievementType achievementType = appFacebook.achievementOperations().getAchievementType("651053301631017");
 		assertWaldoAchievement(achievementType, "2014-05-29T17:23:36+0000");
 	}
-	
+
 	@Test
 	public void createAchievementType() throws Exception {
 		appFacebookMockServer.expect(requestTo(fbUrl("app/achievements")))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth " + APP_ACCESS_TOKEN))
-			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement&display_order=2"))
+			.andExpect(content().string("achievement=https%3A%2F%2Fexample.com%2Fachievement&display_order=2"))
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
-		
+
 		appFacebook.achievementOperations().createAchievementType("https://example.com/achievement", 2);
 		appFacebookMockServer.verify();
 	}
@@ -126,16 +126,16 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 		appFacebookMockServer.expect(requestTo(fbUrl("app/achievements")))
 			.andExpect(method(POST))
 			.andExpect(header("Authorization", "OAuth " + APP_ACCESS_TOKEN))
-			.andExpect(content().string("achievement=http%3A%2F%2Fexample.com%2Fachievement&method=delete"))
+			.andExpect(content().string("achievement=https%3A%2F%2Fexample.com%2Fachievement&method=delete"))
 			.andRespond(withSuccess("true", MediaType.APPLICATION_JSON));
 		appFacebook.achievementOperations().removeAchievementType("https://example.com/achievement");
 		appFacebookMockServer.verify();
 	}
-	
-	
-	
+
+
+
 	// private helpers
-	
+
 	private void assertFoundWaldoAchievement(Achievement achievement) {
 		assertEquals("1403833783237681", achievement.getId());
 		assertEquals("248041811986157", achievement.getApplication().getId());
@@ -144,7 +144,7 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("651053301631017", achievement.getAchievementType().getId());
 		assertEquals("Found Waldo", achievement.getAchievementType().getTitle());
 		assertEquals("game.achievement", achievement.getAchievementType().getType());
-		assertEquals("http://www.habuma.com/fb/foundwaldo.html", achievement.getAchievementType().getUrl());
+		assertEquals("https://www.habuma.com/fb/foundwaldo.html", achievement.getAchievementType().getUrl());
 		assertEquals(0, achievement.getImportance());
 		assertEquals("1401275846826808", achievement.getFrom().getId());
 		assertEquals("Carol Amhccbahibha Zuckersky", achievement.getFrom().getName());
@@ -160,14 +160,14 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("891536160872086", achievement.getAchievementType().getId());
 		assertEquals("Tied shoes", achievement.getAchievementType().getTitle());
 		assertEquals("game.achievement", achievement.getAchievementType().getType());
-		assertEquals("http://www.habuma.com/fb/tiedshoes.html", achievement.getAchievementType().getUrl());
+		assertEquals("https://www.habuma.com/fb/tiedshoes.html", achievement.getAchievementType().getUrl());
 		assertEquals(1, achievement.getImportance());
 		assertEquals("1401275846826808", achievement.getFrom().getId());
 		assertEquals("Carol Amhccbahibha Zuckersky", achievement.getFrom().getName());
 		assertEquals(toDate("2014-06-02T14:35:45+0000"), achievement.getPublishTime());
 		assertEquals("games.achieves", achievement.getType());
 	}
-	
+
 	private void assertWaldoAchievement(AchievementType achievementType, String createdTime) {
 		assertEquals("248041811986157", achievementType.getApplication().getId());
 		assertEquals("Spring Social Game", achievementType.getApplication().getName());
@@ -179,16 +179,16 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 		}
 		assertEquals("He's sneaky in red and white stripes and hiding in crowds, but you found him!", achievementType.getDescription());
 		assertEquals("651053301631017", achievementType.getId());
-		assertEquals("http://www.habuma.com/fb/foundwaldo.jpg", achievementType.getImage().getUrl());
+		assertEquals("https://www.habuma.com/fb/foundwaldo.jpg", achievementType.getImage().getUrl());
 		assertEquals(1517, achievementType.getImage().getHeight());
 		assertEquals(827, achievementType.getImage().getWidth());
 		assertEquals(50, achievementType.getPoints());
 		assertEquals("Found Waldo", achievementType.getTitle());
 		assertEquals("game.achievement", achievementType.getType());
 		assertEquals(toDate("2014-05-29T17:23:36+0000"), achievementType.getUpdatedTime());
-		assertEquals("http://www.habuma.com/fb/foundwaldo.html", achievementType.getUrl());
+		assertEquals("https://www.habuma.com/fb/foundwaldo.html", achievementType.getUrl());
 	}
-	
+
 	private void assertTiedShoesAchievement(AchievementType achievementType) {
 		assertEquals("248041811986157", achievementType.getApplication().getId());
 		assertEquals("Spring Social Game", achievementType.getApplication().getName());
@@ -196,13 +196,13 @@ public class AchievementTemplateTest extends AbstractFacebookApiTest {
 		assertNull(achievementType.getCreatedTime());
 		assertEquals("You're not losing your sneakers. Not again!", achievementType.getDescription());
 		assertEquals("891536160872086", achievementType.getId());
-		assertEquals("http://www.habuma.com/fb/tiedshoes.jpg", achievementType.getImage().getUrl());
+		assertEquals("https://www.habuma.com/fb/tiedshoes.jpg", achievementType.getImage().getUrl());
 		assertEquals(1517, achievementType.getImage().getHeight());
 		assertEquals(827, achievementType.getImage().getWidth());
 		assertEquals(10, achievementType.getPoints());
 		assertEquals("Tied shoes", achievementType.getTitle());
 		assertEquals("game.achievement", achievementType.getType());
 		assertEquals(toDate("2014-05-29T17:30:47+0000"), achievementType.getUpdatedTime());
-		assertEquals("http://www.habuma.com/fb/tiedshoes.html", achievementType.getUrl());
+		assertEquals("https://www.habuma.com/fb/tiedshoes.html", achievementType.getUrl());
 	}
 }

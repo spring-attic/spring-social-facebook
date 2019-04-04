@@ -32,14 +32,14 @@ import org.springframework.social.facebook.api.impl.FacebookTemplate;
 public class FeedOperationsITests extends FacebookITest implements ITestCredentials {
 
 	private static final Logger logger = Logger.getLogger(FeedOperationsITests.class.getName());
-	
+
 	private TestUser testUser1;
 	private TestUser testUser2;
 	private FeedOperations feedOps1;
 	private FeedOperations feedOps2;
 	private FacebookTemplate facebook1;
 	private FacebookTemplate facebook2;
-	
+
 	public FeedOperationsITests() {
 		super(APP_ID, APP_SECRET);
 	}
@@ -53,13 +53,13 @@ public class FeedOperationsITests extends FacebookITest implements ITestCredenti
 		facebook2 = new FacebookTemplate(testUser2.getAccessToken());
 		facebook1.testUserOperations().sendConfirmFriends(testUser1, testUser2);
 		facebook2.testUserOperations().sendConfirmFriends(testUser2, testUser1);
-		
+
 		feedOps1 = facebook1.feedOperations();
 		feedOps2 = facebook2.feedOperations();
-		
+
 		logger.info("CREATED TEST USERS: " + testUser1.getId() + " , " + testUser2.getId());
 	}
-	
+
 
 	@Test
 	public  void statusTests() {
@@ -68,7 +68,7 @@ public class FeedOperationsITests extends FacebookITest implements ITestCredenti
 		String fullPostId = feedOps1.updateStatus("Hello");
 		String postId = extractPostId(fullPostId);
 		logger.info("CREATED POST: " + fullPostId + "  (" + postId + ")");
-		
+
 		statuses = feedOps1.getStatuses();
 		assertEquals(1, statuses.size());
 		Post post = statuses.get(0);
@@ -91,30 +91,30 @@ public class FeedOperationsITests extends FacebookITest implements ITestCredenti
 		String statusId = feedOps1.updateStatus("Hello");
 		feed = feedOps1.getFeed();
 		assertEquals(2, feed.size());
-		
-		String linkId = feedOps1.postLink("Here's a link", new FacebookLink("http://test.org", "NAME", "CAPTION", "DESCRIPTION"));
+
+		String linkId = feedOps1.postLink("Here's a link", new FacebookLink("https://test.org", "NAME", "CAPTION", "DESCRIPTION"));
 		feed = feedOps1.getFeed();
 		assertEquals(3, feed.size());
-		
+
 		PagedList<Post> links = feedOps1.getLinks();
 		assertEquals(1, links.size());
 		assertEquals(extractPostId(linkId), links.get(0).getId());
-		
+
 		PagedList<Post> statuses = feedOps1.getStatuses();
 		assertEquals(2, statuses.size());
 		statusId = extractPostId(statusId);
 		// the status is never consistently the first or second, so just assert that it is one of the two statuses.
 		assertTrue(statusId.equals(statuses.get(0).getId()) || statusId.equals(statuses.get(1).getId()));
-		
+
 		PagedList<Post> posts = feedOps1.getPosts();
 		assertEquals(3, posts.size());
-		
+
 		PagedList<Post> homeFeed = feedOps1.getHomeFeed();
 		assertEquals(2, homeFeed.size());
 		assertEquals("Here's a link", homeFeed.get(0).getMessage());
 		assertEquals("Hello", homeFeed.get(1).getMessage());
 	}
-	
+
 	@Test
 	public void tagTests() throws Exception {
 		// tag a user in a post
@@ -132,7 +132,7 @@ public class FeedOperationsITests extends FacebookITest implements ITestCredenti
 //		assertEquals("Hiya!", tagged.get(0).getMessage());
 //		assertEquals(testUser2.getId(), tagged.get(0).getFrom().getId());
 	}
-	
+
 	@Test
 	public void checkinTests() throws Exception {
 		PagedList<Post> checkins = feedOps1.getCheckins();
@@ -144,7 +144,7 @@ public class FeedOperationsITests extends FacebookITest implements ITestCredenti
 		assertEquals("Yo!", checkins.get(0).getMessage());
 		assertEquals("111625055543961", checkins.get(0).getPlace().getId());
 	}
-	
+
 	private String extractPostId(String fullPostId) {
 		// The full post ID is the post ID prefixed by "{user-id}_"...strip off the prefix.
 		return fullPostId.substring(testUser1.getId().length() + 1);

@@ -5,11 +5,11 @@
             "id":"100001387295207_160065090716400",
             "actions": [
               {
-                "name": "Comment", 
+                "name": "Comment",
                 "link": "https://www.facebook.com/73579/posts/160065090716400"
-              }, 
+              },
               {
-                "name": "Like", 
+                "name": "Like",
                 "link": "https://www.facebook.com/73579/posts/160065090716400"
               }
             ],
@@ -21,17 +21,17 @@
             "message":"Just trying something",
             "message_tags": [
                 {
-                  "id": "328988200473814", 
-                  "name": "Star Wars", 
-                  "type": "page", 
-                  "offset": 18, 
+                  "id": "328988200473814",
+                  "name": "Star Wars",
+                  "type": "page",
+                  "offset": 18,
                   "length": 25
                 },
                 {
-                  "id": "100484820802", 
-                  "name": "iTunes", 
-                  "type": "page", 
-                  "offset": 78, 
+                  "id": "100484820802",
+                  "name": "iTunes",
+                  "type": "page",
+                  "offset": 78,
                   "length": 6
                 }
               ],
@@ -45,7 +45,7 @@
                 "name": "Length",
                 "text": "1:23"
               }
-            ], 
+            ],
             "type":"status",
             "created_time":"2011-03-23T15:40:17+0000",
             "updated_time":"2011-03-23T15:40:17+0000",
@@ -57,11 +57,11 @@
             "id":"100001387295207_160064384049804",
             "actions": [
               {
-                "name": "Comment", 
+                "name": "Comment",
                 "link": "https://www.facebook.com/73579/posts/160064384049804"
-              }, 
+              },
               {
-                "name": "Like", 
+                "name": "Like",
                 "link": "https://www.facebook.com/73579/posts/160064384049804"
               }
             ],
@@ -71,9 +71,9 @@
                 "id":"100001387295207"
             },
             "message":"Check out my ride",
-            "picture":"http:\/\/photos-h.ak.fbcdn.net\/hphotos-ak-snc6\/190347_160064377383138_100001387295207_359279_4058069_s.jpg",
-            "link":"http:\/\/www.facebook.com\/photo.php?fbid=160064377383138&set=a.160064047383171.34994.100001387295207",
-            "icon":"http:\/\/b.static.ak.fbcdn.net\/rsrc.php\/v1\/yz\/r\/StEh3RhPvjk.gif",
+            "picture":"https:\/\/photos-h.ak.fbcdn.net\/hphotos-ak-snc6\/190347_160064377383138_100001387295207_359279_4058069_s.jpg",
+            "link":"https:\/\/www.facebook.com\/photo.php?fbid=160064377383138&set=a.160064047383171.34994.100001387295207",
+            "icon":"https:\/\/b.static.ak.fbcdn.net\/rsrc.php\/v1\/yz\/r\/StEh3RhPvjk.gif",
             "type":"photo",
 	         "actions": [
 	            {
@@ -96,11 +96,11 @@
             "id":"100001387295207_153453231377586",
             "actions": [
               {
-                "name": "Comment", 
+                "name": "Comment",
                 "link": "https://www.facebook.com/73579/posts/153453231377586"
-              }, 
+              },
               {
-                "name": "Like", 
+                "name": "Like",
                 "link": "https://www.facebook.com/73579/posts/153453231377586"
               }
             ],
@@ -126,11 +126,11 @@
             "id": "100001387295207_189394164450159",
             "actions": [
               {
-                "name": "Comment", 
+                "name": "Comment",
                 "link": "https://www.facebook.com/73579/posts/189394164450159"
-              }, 
+              },
               {
-                "name": "Like", 
+                "name": "Like",
                 "link": "https://www.facebook.com/73579/posts/189394164450159"
               }
             ],
@@ -139,8 +139,8 @@
                 "id": "100001387295207"
             },
             "picture": "https://platform.ak.fbcdn.net/www/app_full_proxy.php?app=145634995501895&v=1&size=p&cksum=002a69449b3040185e0582140bbe41c3&src=http\u00253A\u00252F\u00252Fwww.habuma.com\u00252Flogo.gif",
-            "link": "http://www.habuma.com/",
-            "source": "http://www.habuma.com/fb/test.swf",
+            "link": "https://www.habuma.com/",
+            "source": "https://www.habuma.com/fb/test.swf",
             "name": "Habuma.com",
             "caption": "www.habuma.com",
             "icon": "https://photos-h.ak.fbcdn.net/photos-ak-snc1/v27562/11/145634995501895/app_2_145634995501895_3466.gif",
@@ -157,11 +157,11 @@
             "id": "100001387295207_189396471116595",
             "actions": [
               {
-                "name": "Comment", 
+                "name": "Comment",
                 "link": "https://www.facebook.com/73579/posts/189396471116595"
-              }, 
+              },
               {
-                "name": "Like", 
+                "name": "Like",
                 "link": "https://www.facebook.com/73579/posts/189396471116595"
               }
             ],
@@ -169,7 +169,7 @@
                 "name": "Art Names",
                 "id": "100001387295207"
             },
-            "source": "http://www.habuma.com/fb/test.mp3",
+            "source": "https://www.habuma.com/fb/test.mp3",
             "name": "Habuma.com",
             "caption": "www.habuma.com",
             "icon": "https://photos-h.ak.fbcdn.net/photos-ak-snc1/v27562/11/145634995501895/app_2_145634995501895_3466.gif",
@@ -192,4 +192,3 @@
         "next":"https:\/\/graph.facebook.com\/me\/feed?limit=25&until=1294351475"
     }
 }
-

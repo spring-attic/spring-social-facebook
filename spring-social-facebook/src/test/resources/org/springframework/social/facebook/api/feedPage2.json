@@ -5,11 +5,11 @@
             "id":"100001387295207_153453231377586",
             "actions": [
               {
-                "name": "Comment", 
+                "name": "Comment",
                 "link": "https://www.facebook.com/73579/posts/153453231377586"
-              }, 
+              },
               {
-                "name": "Like", 
+                "name": "Like",
                 "link": "https://www.facebook.com/73579/posts/153453231377586"
               }
             ],
@@ -35,11 +35,11 @@
             "id": "100001387295207_189394164450159",
             "actions": [
               {
-                "name": "Comment", 
+                "name": "Comment",
                 "link": "https://www.facebook.com/73579/posts/189394164450159"
-              }, 
+              },
               {
-                "name": "Like", 
+                "name": "Like",
                 "link": "https://www.facebook.com/73579/posts/189394164450159"
               }
             ],
@@ -48,8 +48,8 @@
                 "id": "100001387295207"
             },
             "picture": "https://platform.ak.fbcdn.net/www/app_full_proxy.php?app=145634995501895&v=1&size=p&cksum=002a69449b3040185e0582140bbe41c3&src=http\u00253A\u00252F\u00252Fwww.habuma.com\u00252Flogo.gif",
-            "link": "http://www.habuma.com/",
-            "source": "http://www.habuma.com/fb/test.swf",
+            "link": "https://www.habuma.com/",
+            "source": "https://www.habuma.com/fb/test.swf",
             "name": "Habuma.com",
             "caption": "www.habuma.com",
             "icon": "https://photos-h.ak.fbcdn.net/photos-ak-snc1/v27562/11/145634995501895/app_2_145634995501895_3466.gif",
@@ -69,4 +69,3 @@
       "next":"https:\/\/graph.facebook.com\/v2.10\/100001387295207\/feed?format=json&limit=2&access_token=fakeToken&__paging_token=fakePage3Token"
     }
 }
-
