@@ -148,6 +148,19 @@ public class PageTemplateTest extends AbstractFacebookApiTest {
 		assertEquals("Page", accounts.get(1).getCategory());
 		assertEquals("page2AccessToken", accounts.get(1).getAccessToken());
 	}
+	
+	@Test
+	public void getLocations(){
+		mockServer.expect(requestTo("https://graph.facebook.com/214112095464587/locations"))
+			.andExpect(method(GET))
+			.andExpect(header("Authorization", "OAuth someAccessToken"))
+			.andRespond(withSuccess(jsonResource("place-page-locations"), MediaType.APPLICATION_JSON));
+			
+		PagedList<Account> locations = facebook.pageOperations().getLocations("214112095464587");
+		assertTrue(locations.size() == 5);
+		Account page = locations.get(0);
+		assertEquals("251118525076385", page.getId());
+	}
 
 	@Test
 	public void getAccount() {

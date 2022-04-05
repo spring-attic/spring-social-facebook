@@ -1,0 +1,55 @@
+  {
+    "category": "Local business", 
+    "category_list": [
+      {
+        "id": "176139629103647", 
+        "name": "Dance Club"
+      }
+    ], 
+    "name": "Booooooooof Miramichi", 
+    "id": "251118525076385"
+  }, 
+  {
+    "category": "Arts/entertainment/nightlife", 
+    "category_list": [
+      {
+        "id": "176139629103647", 
+        "name": "Dance Club"
+      }
+    ], 
+    "name": "Booooooooof Moncton", 
+    "id": "578747338900172"
+  }, 
+  {
+    "category": "Arts/entertainment/nightlife", 
+    "category_list": [
+      {
+        "id": "176139629103647", 
+        "name": "Dance Club"
+      }
+    ], 
+    "name": "Booooooooof Halifax", 
+    "id": "223991034461281"
+  }, 
+  {
+    "category": "Arts/entertainment/nightlife", 
+    "category_list": [
+      {
+        "id": "176139629103647", 
+        "name": "Dance Club"
+      }
+    ], 
+    "name": "Booooooooof Saint John", 
+    "id": "432790206855954"
+  }, 
+  {
+    "category": "Arts/entertainment/nightlife", 
+    "category_list": [
+      {
+        "id": "176139629103647", 
+        "name": "Dance Club"
+      }
+    ], 
+    "name": "Booooooooof Fredericton", 
+    "id": "1384040068504197"
+  }

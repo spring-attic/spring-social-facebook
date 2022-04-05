@@ -61,6 +61,21 @@ public interface PageOperations {
 	PagedList<Account> getAccounts();
 	
 	/**
+	 * Retrieves a list of Account objects for the location pages given a parent page.
+	 * Requires "manage_pages" permission.
+	 * @param pageId the parent page Id
+	 */
+	PagedList<Account> getLocations(String pageId);
+	
+	/**
+	 * Retrieves a list of Account objects for the location pages that the authenticated user is an administrator given a parent page id.
+	 * Requires "manage_pages" permission.
+	 * @param pageId the parent page Id
+	 * @param queryParameters parameters to be included in the request. 
+	 */
+	PagedList<Account> getLocations(String pageId, MultiValueMap<String, String> queryParameters);
+	
+	/**
 	 * Posts a message to a page's feed as a page administrator.
 	 * Requires that the application is granted "manage_pages" permission and that the authenticated user be an administrator of the page.
 	 * To post to the page's feed as the authenticated user, use {@link FeedOperations#post(String, String)} instead.

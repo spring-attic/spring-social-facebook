@@ -60,6 +60,18 @@ class PageTemplate implements PageOperations {
 	public PagedList<Account> getAccounts() {
 		return graphApi.fetchConnections("me", "accounts", Account.class);
 	}
+	
+	public PagedList<Account> getLocations(String pageId)
+	{
+		requireAuthorization();
+		return graphApi.fetchConnections(pageId, "locations", Account.class);
+	}
+	
+	public PagedList<Account> getLocations(String pageId, MultiValueMap<String, String> queryParameters)
+	{
+		requireAuthorization();
+		return graphApi.fetchConnections(pageId, "locations", Account.class, queryParameters);
+	}
 
 	public String post(String pageId, String message) {
 		return post(new PagePostData(pageId).message(message));
