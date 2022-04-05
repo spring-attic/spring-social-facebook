@@ -48,7 +48,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Graph API, interpreting them into appropriate exceptions.
  * @author Craig Walls
  */
-class FacebookErrorHandler extends DefaultResponseErrorHandler {
+public class FacebookErrorHandler extends DefaultResponseErrorHandler {
 
 	private static final String FACEBOOK_PROVIDER_ID = "facebook";
 	private final static Log logger = LogFactory.getLog(FacebookErrorHandler.class);

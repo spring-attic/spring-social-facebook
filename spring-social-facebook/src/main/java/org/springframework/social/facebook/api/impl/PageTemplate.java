@@ -33,7 +33,7 @@ import org.springframework.social.facebook.api.PagedList;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class PageTemplate implements PageOperations {
+public class PageTemplate implements PageOperations {
 
 	private final GraphApi graphApi;
 	

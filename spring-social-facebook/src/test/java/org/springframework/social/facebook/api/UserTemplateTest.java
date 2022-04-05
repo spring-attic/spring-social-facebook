@@ -17,6 +17,7 @@ package org.springframework.social.facebook.api;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.*;
+import org.springframework.social.facebook.api.impl.ProfileData;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
@@ -37,9 +38,9 @@ public class UserTemplateTest extends AbstractFacebookApiTest {
 	private static String PROFILE_FIELDS;
 
 	static {
-		StringBuilder builder = new StringBuilder(UserOperations.PROFILE_FIELDS[0]);
-		for (int i=1; i < UserOperations.PROFILE_FIELDS.length; i++) {
-			builder.append("%2C").append(UserOperations.PROFILE_FIELDS[i]);
+		StringBuilder builder = new StringBuilder(ProfileData.PROFILE_FIELDS[0]);
+		for (int i=1; i < ProfileData.PROFILE_FIELDS.length; i++) {
+			builder.append("%2C").append(ProfileData.PROFILE_FIELDS[i]);
 		}
 		PROFILE_FIELDS = builder.toString();
 	}

@@ -26,7 +26,7 @@ import org.springframework.social.facebook.api.VideoActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-class OpenGraphTemplate implements OpenGraphOperations {
+public class OpenGraphTemplate implements OpenGraphOperations {
 	
 	private GraphApi graphApi;
 	

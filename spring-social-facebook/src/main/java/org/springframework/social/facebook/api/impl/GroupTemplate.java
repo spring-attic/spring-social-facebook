@@ -26,7 +26,7 @@ import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.util.MultiValueMap;
 
-class GroupTemplate implements GroupOperations {
+public class GroupTemplate implements GroupOperations {
 	
 	private final GraphApi graphApi;
 
