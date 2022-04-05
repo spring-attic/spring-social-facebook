@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -287,7 +287,7 @@ class FeedTemplate implements FeedOperations {
 	
 	private static final String[] ALL_POST_FIELDS = {
 			"id", "actions", "admin_creator", "application", "caption", "created_time", "description", "from", "icon",
-			"is_hidden", "is_published", "link", "message", "message_tags", "name", "object_id", "picture", "place", 
+			"is_hidden", "is_published", "link", "message", "message_tags", "name", "object_id", "picture", "full_picture", "place",
 			"privacy", "properties", "source", "status_type", "story", "to", "type", "updated_time", "with_tags", "shares"
 	};
 
