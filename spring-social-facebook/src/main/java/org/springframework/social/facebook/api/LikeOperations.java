@@ -18,6 +18,7 @@ package org.springframework.social.facebook.api;
 import org.springframework.social.ApiException;
 import org.springframework.social.InsufficientPermissionException;
 import org.springframework.social.MissingAuthorizationException;
+import org.springframework.util.MultiValueMap;
 
 
 /**
@@ -48,6 +49,16 @@ public interface LikeOperations {
 	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
 	 */
 	PagedList<Reference> getLikes(String objectId, PagingParameters pagingParameters);
+
+	/**
+	 * Retrieves a page of references to users who have liked the specified object.
+	 * @param objectId the object ID (an Album, Checkin, Comment, Note, Photo, Post, or Video).
+	 * @param params the paging parameters for fetching a specific page of references.
+	 * @return a list of {@link Reference} objects for the users who have liked the object.
+	 * @throws ApiException if there is an error while communicating with Facebook.
+	 * @throws MissingAuthorizationException if FacebookTemplate was not created with an access token.
+     */
+	PagedList<Reference> getLikes(String objectId, MultiValueMap<String, String> params);
 
 	/**
 	 * Retrieves a list of pages that the authenticated user has liked.

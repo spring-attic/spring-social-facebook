@@ -41,6 +41,10 @@ class CommentTemplate implements CommentOperations {
 		return graphApi.fetchConnections(objectId, "comments", Comment.class, getPagingParameters(pagedListParameters));
 	}
 
+	public PagedList<Comment> getComments(String objectId, MultiValueMap<String, String> params) {
+		return graphApi.fetchConnections(objectId, "comments", Comment.class, params);
+	}
+
 	public Comment getComment(String commentId) {
 		return graphApi.fetchObject(commentId, Comment.class, ALL_FIELDS);
 	}

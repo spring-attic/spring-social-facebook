@@ -157,6 +157,17 @@ class FeedTemplate implements FeedOperations {
 		return deserializePost(null, Post.class, responseNode);
 	}
 
+	public Post getPostWithMeta(String entryId) {
+		ObjectNode responseNode = (ObjectNode) restTemplate.getForObject(graphApi.getBaseGraphApiUrl() + entryId + "?metadata=true", JsonNode.class);
+		return deserializePost(null, Post.class, responseNode);
+	}
+
+	public Post getPostWithMeta(String entryId, MultiValueMap<String, String> queryParameters) {
+		URIBuilder uriBuilder = URIBuilder.fromUri(graphApi.getBaseGraphApiUrl() + entryId).queryParams(queryParameters);
+		ObjectNode responseNode = (ObjectNode) restTemplate.getForObject(uriBuilder.build(), JsonNode.class);
+		return deserializePost(null, Post.class, responseNode);
+	}
+
 	public String updateStatus(String message) {
 		return post("me", message);
 	}

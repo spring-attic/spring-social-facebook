@@ -22,6 +22,9 @@ import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.PagingParameters;
 import org.springframework.social.facebook.api.Reference;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import java.util.Map;
 
 class LikeTemplate implements LikeOperations {
 
@@ -45,6 +48,10 @@ class LikeTemplate implements LikeOperations {
 
 	public PagedList<Reference> getLikes(String objectId, PagingParameters pagingParameters) {
 		return graphApi.fetchConnections(objectId, "likes", Reference.class, pagingParameters.toMap());
+	}
+
+	public PagedList<Reference> getLikes(String objectId, MultiValueMap<String, String> params) {
+		return graphApi.fetchConnections(objectId, "likes", Reference.class, params);
 	}
 
 	public PagedList<Page> getPagesLiked() {

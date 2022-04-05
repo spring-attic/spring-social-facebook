@@ -75,6 +75,15 @@ public interface UserOperations {
 	byte[] getUserProfileImage(String userId, ImageType imageType);
 
 	/**
+	 * Get the user profile image url
+	 * @param userId the facebook user ID
+	 * @param width desired width of image (optional)
+	 * @param height desired height of image (optional)
+	 * @return Url of profile image
+	 */
+	String getUserProfileImageUrl(String userId, Integer width, Integer height);
+
+	/**
 	 * Retrieves the user's profile image. When height and width are both used,
 	 * the image will be scaled as close to the dimensions as possible and then
 	 * cropped down.

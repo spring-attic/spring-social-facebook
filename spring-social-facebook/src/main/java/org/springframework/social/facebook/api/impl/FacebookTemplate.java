@@ -321,6 +321,22 @@ public class FacebookTemplate extends AbstractOAuth2ApiBinding implements Facebo
 		return fetchImage(objectId, connectionType, null, width, height);
 	}
 
+	public String fetchImageUrl(String objectId, Integer width, Integer height) {
+		URIBuilder uriBuilder = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId + "/picture");
+		if (width != null) {
+			uriBuilder.queryParam("width", width.toString());
+		}
+		if (height != null) {
+			uriBuilder.queryParam("height", height.toString());
+		}
+		try {
+			JsonNode response = getRestTemplate().getForObject(uriBuilder.build(), JsonNode.class);
+			return response.get("data").get("url").asText();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private byte[] fetchImage(String objectId, String connectionType, ImageType type, Integer width, Integer height) {
 		URIBuilder uriBuilder = URIBuilder.fromUri(getBaseGraphApiUrl() + objectId + "/" + connectionType);
 		if (type != null) {
